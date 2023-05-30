@@ -13,15 +13,26 @@ const placeholderString = {
   summary: `프로젝트 요약을 입력하세요.\n\n온/오프라인으로 달리기 모임을 만들고 찾을 수 있는 앱을 기획 중입니다. 현재 기획자 1명, 백엔드 개발자 1명 있고, 함께 하실 디자이너와 프론트 개발자를 찾고 있어요!`,
   introduce: `프로젝트 소개를 입력하세요.`,
 };
-const objectiveRadioButton = ['포트폴리오/직무 역량 강화', '창업/수익 창출', '재미/네트워킹'];
-const timeRadioButton = ['매주 4시간 이하', '매주 4-10시간', '메주 10시간 이상'];
 
-function PostWritingForm() {
+const goalRadioButton = ['포트폴리오/직무 역량 강화', '창업/수익 창출', '재미/네트워킹'];
+const timeRadioButton = ['매주 4시간 이하', '매주 4-10시간', '매주 10시간 이상'];
+
+function ProjecttWritingForm() {
   const [post, setPost] = useState<Post>({
     title: '',
     summary: '',
     introduce: '',
   });
+
+  const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
+  const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
+
+  const handleGoalRadioChange = (value: string) => {
+    setSelectedGoalRadioValue(value); // 선택되지 않은 값이라면 선택
+  };
+  const handleTimeRadioChange = (value: string) => {
+    setSelectedTimeRadioValue(value); // 선택되지 않은 값이라면 선택
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -55,7 +66,7 @@ function PostWritingForm() {
               value={post.title}
               onChange={handleChange}
               placeholder={placeholderString.title}
-            ></input>
+            />
             {post.title}
           </div>
 
@@ -100,24 +111,29 @@ function PostWritingForm() {
           </div>
 
           <div>
-            <h2 className="objective">목적</h2>
+            <h2 className="goal">목적</h2>
             <div className="radio">
-              <label>
-                <input type="radio"></input>
-                <label htmlFor="objectiveOption1">포트폴리오/직무 역량 강화</label>
-              </label>
-              <label>
-                <input type="radio" id="objectiveOption1"></input>
-                <label htmlFor="objectiveOption1">포트폴리오/직무 역량 강화</label>
-              </label>
-              <div>
-                <input type="radio" id="objectiveOption2"></input>
-                <label htmlFor="objectiveOption2">창업/수익 창출</label>
-              </div>
-              <div>
-                <input type="radio" id="objectiveOption3"></input>
-                <label htmlFor="objectiveOption3">재미/네트워킹</label>
-              </div>
+              <RadioButton
+                label={goalRadioButton[0]}
+                value="goalOption1"
+                name="goalOption1"
+                checked={selectedGoalRadioValue === 'goalOption1'}
+                onChange={handleGoalRadioChange}
+              ></RadioButton>
+              <RadioButton
+                label={goalRadioButton[1]}
+                value="goalOption2"
+                name="goalOption2"
+                checked={selectedGoalRadioValue === 'goalOption2'}
+                onChange={handleGoalRadioChange}
+              ></RadioButton>
+              <RadioButton
+                label={goalRadioButton[2]}
+                value="goalOption3"
+                name="goalOption3"
+                checked={selectedGoalRadioValue === 'goalOption3'}
+                onChange={handleGoalRadioChange}
+              ></RadioButton>
             </div>
           </div>
 
@@ -130,18 +146,27 @@ function PostWritingForm() {
               </div>
             </div>
             <div>
-              <div className="radio">
-                <input type="radio" id="timeOption1"></input>
-                <label htmlFor="timeOption1">매주 4시간 이하</label>
-              </div>
-              <div>
-                <input type="radio" id="timeOption2"></input>
-                <label htmlFor="timeOption2">매주 4-10시간</label>
-              </div>
-              <div>
-                <input type="radio" id="timeOption2"></input>
-                <label htmlFor="timeOption2">매주 10시간 이상</label>
-              </div>
+              <RadioButton
+                label={timeRadioButton[0]}
+                value="timeOption1"
+                name="timeOption1"
+                checked={selectedTimeRadioValue === 'timeOption1'}
+                onChange={handleTimeRadioChange}
+              ></RadioButton>
+              <RadioButton
+                label={timeRadioButton[1]}
+                value="timeOption2"
+                name="timeOption2"
+                checked={selectedTimeRadioValue === 'timeOption2'}
+                onChange={handleTimeRadioChange}
+              ></RadioButton>
+              <RadioButton
+                label={timeRadioButton[2]}
+                value="timeOption3"
+                name="timeOption3"
+                checked={selectedTimeRadioValue === 'timeOption3'}
+                onChange={handleTimeRadioChange}
+              ></RadioButton>
             </div>
           </div>
 
@@ -158,10 +183,14 @@ function PostWritingForm() {
               {post.introduce}
             </div>
           </div>
+
+          <div>
+            <h2>기술 스택</h2>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default PostWritingForm;
+export default ProjecttWritingForm;

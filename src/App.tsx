@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import PostWritingForm from './components/PostWritingForm/PostWritingForm';
+import ProjecttWritingForm from './components/ProjectWritingForm/ProjectWritingForm';
 import ProjectList from './pages/ProjectList';
 import styles from './index.module.scss';
 
@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<ProjectList />} />
           <Route path="*" element={<Navigate to="/" />} />
           {/* 게시글 생성(type=study/side-project) */}
-          <Route path="/create" element={<PostWritingForm />} />
+          <Route path="/create" element={<ProjecttWritingForm />} />
           {/* 게시글 확인 */}
           {/* <Route path="/project/:id" element={} /> */}
           {/* 유저관련 */}
