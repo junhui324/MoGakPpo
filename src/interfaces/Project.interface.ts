@@ -4,8 +4,12 @@ interface Project {
   project_recruitment_status: string;
   project_title: string;
   project_summary: string;
-  project_recruitment_roles: string[];
-  project_required_stacks: string[];
+  project_recruitment_roles: {
+    roleList: string[];
+  };
+  project_required_stacks: {
+    stackList: string[];
+  };
   project_goal: string;
   project_participation_time: string;
   project_introduction: string;
@@ -30,4 +34,17 @@ export type TypeProjectList = Pick<
   | 'project_comments_count'
   | 'project_views_count'
   | 'project_created_at'
+>;
+
+export type TypeProjectPost = Pick<
+  Project,
+  | 'project_type'
+  | 'project_recruitment_status'
+  | 'project_title'
+  | 'project_summary'
+  | 'project_recruitment_roles'
+  | 'project_required_stacks'
+  | 'project_goal'
+  | 'project_participation_time'
+  | 'project_introduction'
 >;

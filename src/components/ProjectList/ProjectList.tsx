@@ -41,7 +41,7 @@ function ProjectList() {
             <span className={styles.status}>{recruitmentStatus}</span>
             <p className={styles.title}>{title}</p>
             <p className={styles.summary}>{summary}</p>
-            <ul className={styles.roleContainer}>
+            {/* <ul className={styles.roleContainer}>
               {recruitmentRoles.map((role, index) => (
                 <li key={index}>{role}</li>
               ))}
@@ -50,7 +50,7 @@ function ProjectList() {
               {requiredStacks.map((stack, index) => (
                 <li key={index}>{stack}</li>
               ))}
-            </ul>
+            </ul> */}
             <span className={styles.goal}>{goal}</span>
             <span className={styles.participationTime}>{participationTime}</span>
             <span className={styles.bookmarkCount}>{bookmarkCount}</span>

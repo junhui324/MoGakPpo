@@ -1,60 +1,97 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
-
-interface Post {
-  title: string;
-  summary: string;
-  introduce: string;
-}
+import Editor from '../Editor/Editor';
+import { TypeProjectPost } from '@/interfaces/Project.interface';
+import styles from './ProjectWritingForm.module.scss';
 
 const placeholderString = {
   title: `제목을 입력하세요.`,
   summary: `프로젝트 요약을 입력하세요.\n\n온/오프라인으로 달리기 모임을 만들고 찾을 수 있는 앱을 기획 중입니다. 현재 기획자 1명, 백엔드 개발자 1명 있고, 함께 하실 디자이너와 프론트 개발자를 찾고 있어요!`,
   introduce: `프로젝트 소개를 입력하세요.`,
 };
-
 const goalRadioButton = ['포트폴리오/직무 역량 강화', '창업/수익 창출', '재미/네트워킹'];
 const timeRadioButton = ['매주 4시간 이하', '매주 4-10시간', '매주 10시간 이상'];
 
 function ProjecttWritingForm() {
-  const [post, setPost] = useState<Post>({
-    title: '',
-    summary: '',
-    introduce: '',
+  const [project, setProject] = useState<TypeProjectPost>({
+    project_type: '',
+    project_recruitment_status: '모집중',
+    project_title: '',
+    project_summary: '',
+    project_recruitment_roles: { roleList: [] as string[] },
+    project_required_stacks: { stackList: [] as string[] },
+    project_goal: '',
+    project_participation_time: '',
+    project_introduction: '',
   });
-
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
 
-  const handleGoalRadioChange = (value: string) => {
-    setSelectedGoalRadioValue(value); // 선택되지 않은 값이라면 선택
-  };
-  const handleTimeRadioChange = (value: string) => {
-    setSelectedTimeRadioValue(value); // 선택되지 않은 값이라면 선택
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleProjectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setPost((prevPost) => ({
-      ...prevPost,
+    setProject((prevProject) => ({
+      ...prevProject,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // 게시물 데이터를 서버에 전송하거나 필요한 처리를 수행합니다.
-    console.log(post);
-    // 게시물 작성 후 초기화
-    setPost({ title: '', summary: '', introduce: '' });
+  const handleGoalRadioChange = (value: string) => {
+    setSelectedGoalRadioValue(value);
+    setProject((prevProject) => ({
+      ...prevProject,
+      project_goal: value,
+    }));
+  };
+  const handleTimeRadioChange = (value: string) => {
+    setSelectedTimeRadioValue(value);
+    setProject((prevProject) => ({
+      ...prevProject,
+      project_participation_time: value,
+    }));
   };
 
+  const handleCheckboxChange = (value: string) => {
+    setProject((prevProject) => {
+      const isSelected = prevProject.project_recruitment_roles.roleList.includes(value);
+
+      if (isSelected) {
+        return {
+          ...prevProject,
+          project_recruitment_roles: {
+            ...prevProject.project_recruitment_roles,
+            roleList: prevProject.project_recruitment_roles.roleList.filter(
+              (role) => role !== value
+            ),
+          },
+        };
+      } else {
+        return {
+          ...prevProject,
+          project_recruitment_roles: {
+            ...prevProject.project_recruitment_roles,
+            roleList: [...prevProject.project_recruitment_roles.roleList, value],
+          },
+        };
+      }
+    });
+  };
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // 게시물 데이터를 서버에 전송하거나 필요한 처리를 수행합니다.
+  //   console.log(post);
+  //   // 게시물 작성 후 초기화
+  //   setPost({ title: '', summary: '', introduce: '' });
+  // };
+
+  console.log(project);
+
   return (
-    <div>
+    <div className={styles.container}>
       <nav></nav>
       <div className="mainForm">
-        <div className="postWriteForm">
+        <div className="projectWriteForm">
           <div className="title">
             <div className="type">
               <p>사이드 프로젝트</p>
@@ -62,12 +99,12 @@ function ProjecttWritingForm() {
             <input
               className="titleTextarea"
               type="text"
-              name="title"
-              value={post.title}
-              onChange={handleChange}
+              name="project_title"
+              value={project.project_title}
+              onChange={handleProjectChange}
               placeholder={placeholderString.title}
             />
-            {post.title}
+            {project.project_title}
           </div>
 
           <div>
@@ -75,12 +112,12 @@ function ProjecttWritingForm() {
             <div className="summaryBox">
               <textarea
                 className="summaryTextarea"
-                name="summary"
-                value={post.summary}
-                onChange={handleChange}
+                name="project_summary"
+                value={project.project_summary}
+                onChange={handleProjectChange}
                 placeholder={placeholderString.summary}
               ></textarea>
-              {post.summary}
+              {project.project_summary}
             </div>
           </div>
 
@@ -88,24 +125,44 @@ function ProjecttWritingForm() {
             <h2 className="role">모집 역할</h2>
             <div className="checkbox">
               <div>
-                <input type="checkbox" id="engineeringFrontend"></input>
+                <input
+                  type="checkbox"
+                  id="engineeringFrontend"
+                  onChange={() => handleCheckboxChange('프론트엔드')}
+                ></input>
                 <label htmlFor="engineeringFrontend">프론트엔드</label>
               </div>
               <div>
-                <input type="checkbox" id="engineeringBackend"></input>
+                <input
+                  type="checkbox"
+                  id="engineeringBackend"
+                  onChange={() => handleCheckboxChange('백엔드')}
+                ></input>
                 <label htmlFor="engineeringBackend">백엔드</label>
               </div>
               <div>
-                <input type="checkbox" id="design"></input>
+                <input
+                  type="checkbox"
+                  id="design"
+                  onChange={() => handleCheckboxChange('디자인')}
+                ></input>
                 <label htmlFor="design">디자인</label>
               </div>
               <div>
-                <input type="checkbox" id="pm"></input>
+                <input
+                  type="checkbox"
+                  id="pm"
+                  onChange={() => handleCheckboxChange('기획')}
+                ></input>
                 <label htmlFor="pm">기획</label>
               </div>
               <div>
-                <input type="checkbox" id="other"></input>
-                <label htmlFor="other">디자인</label>
+                <input
+                  type="checkbox"
+                  id="other"
+                  onChange={() => handleCheckboxChange('기타')}
+                ></input>
+                <label htmlFor="other">기타</label>
               </div>
             </div>
           </div>
@@ -115,23 +172,23 @@ function ProjecttWritingForm() {
             <div className="radio">
               <RadioButton
                 label={goalRadioButton[0]}
-                value="goalOption1"
+                value={goalRadioButton[0]}
                 name="goalOption1"
-                checked={selectedGoalRadioValue === 'goalOption1'}
+                checked={selectedGoalRadioValue === goalRadioButton[0]}
                 onChange={handleGoalRadioChange}
               ></RadioButton>
               <RadioButton
                 label={goalRadioButton[1]}
-                value="goalOption2"
+                value={goalRadioButton[1]}
                 name="goalOption2"
-                checked={selectedGoalRadioValue === 'goalOption2'}
+                checked={selectedGoalRadioValue === goalRadioButton[1]}
                 onChange={handleGoalRadioChange}
               ></RadioButton>
               <RadioButton
                 label={goalRadioButton[2]}
-                value="goalOption3"
+                value={goalRadioButton[2]}
                 name="goalOption3"
-                checked={selectedGoalRadioValue === 'goalOption3'}
+                checked={selectedGoalRadioValue === goalRadioButton[2]}
                 onChange={handleGoalRadioChange}
               ></RadioButton>
             </div>
@@ -148,23 +205,23 @@ function ProjecttWritingForm() {
             <div>
               <RadioButton
                 label={timeRadioButton[0]}
-                value="timeOption1"
+                value={timeRadioButton[0]}
                 name="timeOption1"
-                checked={selectedTimeRadioValue === 'timeOption1'}
+                checked={selectedTimeRadioValue === timeRadioButton[0]}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
               <RadioButton
                 label={timeRadioButton[1]}
-                value="timeOption2"
+                value={timeRadioButton[1]}
                 name="timeOption2"
-                checked={selectedTimeRadioValue === 'timeOption2'}
+                checked={selectedTimeRadioValue === timeRadioButton[1]}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
               <RadioButton
                 label={timeRadioButton[2]}
-                value="timeOption3"
+                value={timeRadioButton[2]}
                 name="timeOption3"
-                checked={selectedTimeRadioValue === 'timeOption3'}
+                checked={selectedTimeRadioValue === timeRadioButton[2]}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
             </div>
@@ -175,12 +232,12 @@ function ProjecttWritingForm() {
             <div>
               <textarea
                 className="introduceTextarea"
-                name="introduce"
-                value={post.introduce}
-                onChange={handleChange}
+                name="project_introduction"
+                value={project.project_introduction}
+                onChange={handleProjectChange}
                 placeholder={placeholderString.introduce}
               ></textarea>
-              {post.introduce}
+              {project.project_introduction}
             </div>
           </div>
 
