@@ -9,6 +9,7 @@ const placeholderString = {
   title: `제목을 입력하세요.`,
   summary: `프로젝트 요약을 입력하세요.\n\n온/오프라인으로 달리기 모임을 만들고 찾을 수 있는 앱을 기획 중입니다. 현재 기획자 1명, 백엔드 개발자 1명 있고, 함께 하실 디자이너와 프론트 개발자를 찾고 있어요!`,
   introduce: `프로젝트 소개를 입력하세요.`,
+  stack: `기술 스택을 입력하세요.`,
 };
 const goalRadioButton = ['포트폴리오/직무 역량 강화', '창업/수익 창출', '재미/네트워킹'];
 const timeRadioButton = ['매주 4시간 이하', '매주 4-10시간', '매주 10시간 이상'];
@@ -106,14 +107,14 @@ function ProjecttWritingForm() {
   return (
     <div className={styles.container}>
       <nav></nav>
-      <div className="mainForm">
+      <div className={styles.mainForm}>
         <div className="projectWriteForm">
-          <div className="title">
-            <div className="type">
+          <div className={styles.title}>
+            <div className={styles.type}>
               <p>사이드 프로젝트</p>
             </div>
             <input
-              className="titleTextarea"
+              className={styles.titleTextarea}
               type="text"
               name="project_title"
               value={project.project_title}
@@ -124,10 +125,10 @@ function ProjecttWritingForm() {
           </div>
 
           <div>
-            <h2 className="summary">요약</h2>
-            <div className="summaryBox">
+            <h2 className={styles.summary}>요약</h2>
+            <div className={styles.summaryBox}>
               <textarea
-                className="summaryTextarea"
+                className={styles.summaryTextarea}
                 name="project_summary"
                 value={project.project_summary}
                 onChange={handleProjectChange}
@@ -138,8 +139,8 @@ function ProjecttWritingForm() {
           </div>
 
           <div>
-            <h2 className="role">모집 역할</h2>
-            <div className="checkbox">
+            <h2 className={styles.role}>모집 역할</h2>
+            <div className={styles.checkbox}>
               <div>
                 <input
                   type="checkbox"
@@ -184,8 +185,8 @@ function ProjecttWritingForm() {
           </div>
 
           <div>
-            <h2 className="goal">목적</h2>
-            <div className="radio">
+            <h2 className={styles.goal}>목적</h2>
+            <div className={styles.radioBox}>
               <RadioButton
                 label={goalRadioButton[0]}
                 value={goalRadioButton[0]}
@@ -212,13 +213,13 @@ function ProjecttWritingForm() {
 
           <div>
             <div>
-              <h2>참여 시간 (선택)</h2>
+              <h2 className={styles.time}>참여 시간 (선택)</h2>
               <div>
                 <span>추후 아이콘으로 바꾸기</span>
                 <p className="arrowBox">매주 프로젝트에 쓸 수 있는 시간</p>
               </div>
             </div>
-            <div>
+            <div className={styles.radioBox}>
               <RadioButton
                 label={timeRadioButton[0]}
                 value={timeRadioButton[0]}
@@ -244,7 +245,7 @@ function ProjecttWritingForm() {
           </div>
 
           <div>
-            <h2>소개</h2>
+            <h2 className={styles.introduction}>소개</h2>
             <div>
               <textarea
                 className="introduceTextarea"
@@ -261,12 +262,13 @@ function ProjecttWritingForm() {
             <h2>기술 스택</h2>
             <div>
               <input
+                className={styles.stack}
                 type="text"
                 name="stackInputValue"
                 value={stackInputValue}
                 onChange={(e) => setStackInputValue(e.target.value)}
                 onKeyUp={handleStackInputKeyPress}
-                placeholder="기술 스택을 입력하세요."
+                placeholder={placeholderString.stack}
               />
               <ul>
                 {project.project_required_stacks.stackList.map((stack, index) => (
