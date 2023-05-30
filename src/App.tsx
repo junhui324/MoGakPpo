@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Comment from './components/Comment';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         {/* <Route path="/create/:type" element={} /> */}
         {/* 게시글 확인 */}
         {/* <Route path="/project/:id" element={} /> */}
+        <Route path="/project/comment" element={<Comment />} />
         {/* 유저관련 */}
         {/* <Route path="/login" element={}/> */}
         {/* <Route path="/register" element={}/> */}
