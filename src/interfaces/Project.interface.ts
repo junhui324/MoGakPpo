@@ -22,12 +22,11 @@ export type TypeProjectList = Pick<
   | 'project_recruitment_status'
   | 'project_title'
   | 'project_summary'
-  | 'project_recruitment_roles'
-  | 'project_required_stacks'
   | 'project_goal'
-  | 'project_participation_time'
   | 'project_bookmark_count'
   | 'project_comments_count'
   | 'project_views_count'
   | 'project_created_at'
->;
+  | 'project_recruitment_roles'
+> &
+  Pick<Project, 'project_required_stacks' | 'project_participation_time'>;

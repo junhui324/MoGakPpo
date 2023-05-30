@@ -37,27 +37,66 @@ function ProjectList() {
         } = project;
         return (
           <li key={project_id} className={styles.listContainer}>
-            <span className={styles.type}>{type}</span>
-            <span className={styles.status}>{recruitmentStatus}</span>
-            <p className={styles.title}>{title}</p>
+            <div>
+              <div>
+                <span className={styles.type}>{type}</span>
+                <span className={styles.goal}>{goal}</span>
+              </div>
+              {participationTime && (
+                <span className={styles.participationTime}>{participationTime}</span>
+              )}
+            </div>
+            <div>
+              <span
+                className={`${styles.status} ${
+                  recruitmentStatus === '모집 중'
+                    ? styles.recruiting
+                    : recruitmentStatus === '모집 완료'
+                    ? styles.done
+                    : ''
+                }`}
+              >
+                {recruitmentStatus}
+              </span>
+              <p className={styles.title}>{title}</p>
+            </div>
             <p className={styles.summary}>{summary}</p>
             <ul className={styles.roleContainer}>
               {recruitmentRoles.map((role, index) => (
                 <li key={index}>{role}</li>
               ))}
             </ul>
-            <ul className={styles.stacksContainer}>
-              {requiredStacks.map((stack, index) => (
-                <li key={index}>{stack}</li>
-              ))}
-            </ul>
-            <span className={styles.goal}>{goal}</span>
-            <span className={styles.participationTime}>{participationTime}</span>
-            <ul>
-              <li className={styles.bookmarkCount}>{bookmarkCount}</li>
-              <li className={styles.commentsCount}>{commentsCount}</li>
-              <li className={styles.viewsCount}>{viewsCount}</li>
-            </ul>
+            {requiredStacks && (
+              <ul className={styles.stacksContainer}>
+                <span>기술스택</span>
+                {requiredStacks.map((stack, index) => (
+                  <li key={index}>{stack}</li>
+                ))}
+              </ul>
+            )}
+
+            {(bookmarkCount > 0 || commentsCount > 0 || viewsCount > 0) && (
+              <ul className={styles.countContainer}>
+                {bookmarkCount > 0 ? (
+                  <li>
+                    <span>북마크</span>
+                    <span className={styles.bookmarkCount}>{bookmarkCount}</span>
+                  </li>
+                ) : undefined}
+                {commentsCount > 0 ? (
+                  <li>
+                    <span>코멘트</span>
+                    <span className={styles.commentsCount}>{commentsCount}</span>
+                  </li>
+                ) : undefined}
+                {viewsCount > 0 ? (
+                  <li>
+                    <span>조회수</span>
+                    <span className={styles.viewsCount}>{viewsCount}</span>
+                  </li>
+                ) : undefined}
+              </ul>
+            )}
           </li>
         );
       })}
