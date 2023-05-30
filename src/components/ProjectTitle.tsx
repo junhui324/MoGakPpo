@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function ProjectTitle({ projectId }: { projectId: string }) {
+  const [studyData, setStudyData] = useState(null);
+
+  useEffect(() => {
+    // 프로젝트 데이터 로딩
+    fetch('../../mock/data.json')
+      .then((response) => response.json())
+      .then(setStudyData);
+  }, []);
+
+  if (!studyData) {
+  }
   return (
     <div>
       {/* 카테고리 구분*/}
