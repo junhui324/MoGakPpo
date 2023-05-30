@@ -1,7 +1,7 @@
 import React from 'react';
 import './reset.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Comment from './components/Comment';
+import Comment from './components/Comment/Comment';
 import Main from './pages/Main';
 import styles from './index.module.scss';
 
