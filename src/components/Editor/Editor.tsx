@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-
-interface EditorProps {
-  content: string;
-}
+import { EditorProps } from '@/interfaces/Editor.interface';
 
 function Editor({ content }: EditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
