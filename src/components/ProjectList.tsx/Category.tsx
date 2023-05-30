@@ -1,4 +1,4 @@
-function category() {
+function Category() {
   const categories = ['전체', '프론트엔드', '백엔드', '디자인', '기획', '기타'];
   return (
     <ul>
@@ -9,4 +9,4 @@ function category() {
   );
 }
 
-export default category;
+export default Category;

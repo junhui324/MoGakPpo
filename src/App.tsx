@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Comment from './components/Comment';
-import ProjectList from './pages/ProjectList';
+import Main from './pages/Main';
 import styles from './index.module.scss';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       <div className={styles.container}>
         <Routes>
           {/* 메인 게시글 리스트*/}
-          <Route path="/" element={<ProjectList />} />
+          <Route path="/" element={<Main />} />
           <Route path="*" element={<Navigate to="/" />} />
           {/* 게시글 생성(type=study/side-project) */}
           {/* <Route path="/create/:type" element={} /> */}
