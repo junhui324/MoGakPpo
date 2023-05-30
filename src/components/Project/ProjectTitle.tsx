@@ -29,7 +29,6 @@ export default function ProjectTitle({ projectId }: { projectId: string }) {
         <div>{'날짜'}</div>
         <div>{'조회수'}</div>
         <div>{'댓글수'}</div>
-        <div>{'북마크수'}</div>
       </div>
     </div>
   );
