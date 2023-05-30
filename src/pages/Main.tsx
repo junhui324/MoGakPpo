@@ -1,5 +1,5 @@
-import Category from '../components/ProjectList.tsx/Category';
-import ProjectList from '../components/ProjectList.tsx/ProjectList';
+import Category from '../components/ProjectList/Category';
+import ProjectList from '../components/ProjectList/ProjectList';
 
 function Main() {
   return (
