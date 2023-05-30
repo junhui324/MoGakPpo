@@ -3,11 +3,12 @@ import './reset.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './pages/Main/Main';
 import styles from './index.module.scss';
+import Header from './components/Header/Header';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="header">사이드 프로젝트 구인 플랫폼</div>
+      <Header />
       <div className={styles.container}>
         <Routes>
           {/* 메인 게시글 리스트*/}

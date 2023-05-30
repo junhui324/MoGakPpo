@@ -1,14 +1,17 @@
+@import '/src/variables.scss';
+
 .container {
   position: sticky;
-  top: 0px;
-  padding: 16px 0 16px 0;
+  top: $header-height;
+  padding: 32px 0 12px 0;
   background-color: #ffffff;
+  box-shadow: 0 15px 10px #ffffff;
   form {
     width: 100%;
     input {
       width: 40%;
       height: 36px;
-      padding: 0 16px 0 16px;
+      padding: 4px 18px 4px 18px;
       font-size: 16px;
       border-radius: 30px;
       border: 1px solid #e8e8e8;
