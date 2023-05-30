@@ -28,6 +28,14 @@ export default function Comment() {
       setUser(res.data.user_info[0]);
     });
   }, []);
+  const loggedInUserInput = () => {
+    return (
+      <div className={styles.loggedInInput}>
+        <img src={user.user_img} alt="profile" />
+        <input type="text" placeholder={`${user.user_name}님, 댓글을 작성해보세요.`} />
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -35,7 +43,11 @@ export default function Comment() {
         <h3>
           댓글 <strong>{comments.length}</strong>
         </h3>
-        <input type="text" placeholder="댓글을 작성해보세요." readOnly />
+        {user.length !== 0 ? (
+          loggedInUserInput()
+        ) : (
+          <input type="text" placeholder="댓글을 작성해보세요." readOnly />
+        )}
       </div>
       <ul className={styles.commentList}>
         {comments.map((comment) => {

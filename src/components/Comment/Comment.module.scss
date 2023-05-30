@@ -1,6 +1,9 @@
 .inputArea {
   margin: 0 auto;
   width: 686px;
+  h3 {
+    font-size: 18px;
+  }
   strong {
     color: #6636da;
   }
@@ -14,6 +17,16 @@
   }
   input:focus {
     outline-style: none;
+  }
+  .loggedInInput {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 100px;
+    }
   }
 }
 
@@ -41,6 +54,8 @@
       }
       p {
         color: gray;
+        font-size: 13px;
+        margin-top: 8px;
       }
       .subHeader {
         flex-direction: column;
