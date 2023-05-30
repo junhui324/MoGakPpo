@@ -1,6 +1,21 @@
+import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
+import axios from 'axios';
 
-export default function () {
+interface CommentType {
+  comment_id: number;
+  comment_created_at: string;
+  comment_content: string;
+}
+
+export default function Comment() {
+  const [comments, setComments] = useState<CommentType[]>([]);
+  useEffect(() => {
+    axios.get('http://localhost:3000/mock/data.json').then((res) => {
+      setComments(res.data.comment);
+    });
+  }, []);
+  console.log(comments);
   return (
     <div>
       <div className={styles.inputArea}>
@@ -9,14 +24,16 @@ export default function () {
         </h3>
         <input type="text" placeholder="댓글을 작성해보세요." readOnly />
       </div>
-      <div className={styles.commentArea}>
-        <div className={styles.userInfo}>
-          <img src="#" alt="profile" />
-          <p>차차미</p>
-          <p>2023.05.30 13:15</p>
-        </div>
-        <p className={styles.comment}>안녕하세요, 참여하고싶습니다😀</p>
-      </div>
+      <ul className={styles.commentList}>
+        {comments.map((comment) => {
+          return (
+            <li key={comment.comment_id} className={styles.userInfo}>
+              <p>{comment.comment_created_at}</p>
+              <p>{comment.comment_content}</p>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
