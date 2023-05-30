@@ -1,0 +1,47 @@
+[
+  {
+    "project_id": 1,
+    "user_id": 1,
+    "project_category": "백엔드",
+    "project_type": "사이드 프로젝트",
+    "project_recruitment_status": "Open",
+    "project_title": "Web Development project Group",
+    "project_summary": "Join us to learn and collaborate on web development projects.",
+    "project_recruitment_roles": ["Frontend", "Backend"],
+    "project_required_stacks": ["HTML", "CSS", "JavaScript"],
+    "project_goal": "직무 역량 강화",
+    "project_participation_time": "매주 2시간",
+    "project_likes": 10,
+    "project_created_at": "2023-05-01"
+  },
+  {
+    "project_id": 2,
+    "user_id": 2,
+    "project_category": "프론트엔드",
+    "project_type": "개인 프로젝트",
+    "project_recruitment_status": "Closed",
+    "project_title": "React UI Library",
+    "project_summary": "Build a reusable UI library using React components.",
+    "project_recruitment_roles": ["Frontend"],
+    "project_required_stacks": ["React", "CSS"],
+    "project_goal": "재사용 가능한 UI 컴포넌트 개발",
+    "project_participation_time": "유동적",
+    "project_likes": 25,
+    "project_created_at": "2023-05-15"
+  },
+  {
+    "project_id": 3,
+    "user_id": 3,
+    "project_category": "데이터 분석",
+    "project_type": "팀 프로젝트",
+    "project_recruitment_status": "Open",
+    "project_title": "Customer Segmentation Analysis",
+    "project_summary": "Perform customer segmentation analysis using machine learning techniques.",
+    "project_recruitment_roles": ["Data Analyst", "Machine Learning Engineer"],
+    "project_required_stacks": ["Python", "Pandas", "Scikit-learn"],
+    "project_goal": "고객 세그먼트 파악 및 타깃 마케팅",
+    "project_participation_time": "매주 4시간",
+    "project_likes": 15,
+    "project_created_at": "2023-05-20"
+  }
+]
