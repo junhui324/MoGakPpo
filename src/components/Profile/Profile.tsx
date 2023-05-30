@@ -31,7 +31,7 @@ function Profile() {
         <div className={styles.career}>{user?.user_career_goal}</div>
         <div className={styles.stacks}>
           {user?.user_stacks.map((stack, index) => {
-            return <div key={`${stack}-${index}`}>{stack}</div>
+            return <div className={styles.stack} key={`${stack}-${index}`}>{stack}</div>
           })}
         </div>
       </div>

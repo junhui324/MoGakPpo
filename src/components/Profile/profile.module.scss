@@ -1,4 +1,4 @@
-$button-color: #6636DA;
+$main-color: #6636DA;
 $intro-color: #64748B;
 
 .profileContainer {
@@ -24,9 +24,9 @@ $intro-color: #64748B;
       height: 50px;
       font-size: 18px;
       font-weight: 600;
-      border: 1.6px solid $button-color;
+      border: 1.6px solid $main-color;
       border-radius: 4px;
-      color: $button-color;
+      color: $main-color;
       background-color: white;
       cursor: pointer;
     }
@@ -54,9 +54,24 @@ $intro-color: #64748B;
     .stacks {
       display: flex;
       margin-bottom: 1.2rem;
-
-      & > * {
+      
+      .stack {
+        position: relative;
         margin-right: 1rem;
+        padding: 6px;
+        color: $main-color;
+      }
+
+      .stack::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $main-color;
+        opacity: 0.2;
+        border-radius: 4px;
       }
     }
   }
