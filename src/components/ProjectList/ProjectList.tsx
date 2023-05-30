@@ -79,19 +79,19 @@ function ProjectList() {
               <ul className={styles.countContainer}>
                 {bookmarkCount > 0 ? (
                   <li>
-                    <span>북마크</span>
+                    <span>📌</span>
                     <span className={styles.bookmarkCount}>{bookmarkCount}</span>
                   </li>
                 ) : undefined}
                 {commentsCount > 0 ? (
                   <li>
-                    <span>코멘트</span>
+                    <span>💬</span>
                     <span className={styles.commentsCount}>{commentsCount}</span>
                   </li>
                 ) : undefined}
                 {viewsCount > 0 ? (
                   <li>
-                    <span>조회수</span>
+                    <span>👀</span>
                     <span className={styles.viewsCount}>{viewsCount}</span>
                   </li>
                 ) : undefined}
