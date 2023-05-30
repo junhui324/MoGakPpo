@@ -14,7 +14,9 @@
 📦public
  ┗ 📜index.html
  📦src
+ ┣ 📂apis
  ┣ 📂components
+ ┣ 📂hooks
  ┣ 📂pages
  ┣ 📂store
  ┣ 📂utils
