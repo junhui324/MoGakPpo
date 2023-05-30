@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import PostWritingForm from './components/PostWritingForm/PostWritingForm';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         {/* <Route path="/" element={} /> */}
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
         {/* 게시글 생성(type=study/side-project) */}
-        {/* <Route path="/create/:type" element={} /> */}
+        {/* <Route path="/create/:type" element={<PostWritingForm />} /> */}
+        <Route path="/create" element={<PostWritingForm />} />
         {/* 게시글 확인 */}
         {/* <Route path="/project/:id" element={} /> */}
         {/* 유저관련 */}
