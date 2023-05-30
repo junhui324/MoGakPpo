@@ -1,7 +1,5 @@
 interface Project {
   project_id: number;
-  user_id: number;
-  project_category: string;
   project_type: string;
   project_recruitment_status: string;
   project_title: string;
@@ -11,16 +9,15 @@ interface Project {
   project_goal: string;
   project_participation_time: string;
   project_introduction: string;
-  project_likes: number;
-  project_views: number;
+  project_bookmark_count: number;
+  project_comments_count: number;
+  project_views_count: number;
   project_created_at: string;
 }
 
 export type TypeProjectList = Pick<
   Project,
   | 'project_id'
-  | 'user_id'
-  | 'project_category'
   | 'project_type'
   | 'project_recruitment_status'
   | 'project_title'
@@ -29,6 +26,8 @@ export type TypeProjectList = Pick<
   | 'project_required_stacks'
   | 'project_goal'
   | 'project_participation_time'
-  | 'project_likes'
+  | 'project_bookmark_count'
+  | 'project_comments_count'
+  | 'project_views_count'
   | 'project_created_at'
 >;
