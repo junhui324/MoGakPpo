@@ -1,11 +1,46 @@
-{
-  "project_type": "프로젝트",
-  "recruitment_status": "모집 중",
-  "title": "음식에 진심인 분을 찾습니다.",
-  "summary": "프론트엔드 개발자 분을 찾습니다!",
-  "recruitment_role": ["프론트엔드"],
-  "required_stacks": ["TypeScript", "React"],
-  "goal": "포트폴리오",
-  "participation_time": "매주 4-5시간",
-  "created_at": "2023-05-30 13:30:22"
-}
+[
+  {
+    "project_type": "프로젝트",
+    "recruitment_status": "모집 중",
+    "title": "음식에 진심인 분을 찾습니다.",
+    "summary": "프론트엔드 개발자 분을 찾습니다!",
+    "recruitment_role": ["프론트엔드"],
+    "required_stacks": ["TypeScript", "React"],
+    "goal": "포트폴리오",
+    "participation_time": "매주 4-5시간",
+    "created_at": "2023-05-30 13:30:22"
+  },
+  {
+    "project_type": "스터디",
+    "recruitment_status": "모집 중",
+    "title": "포티폴리오용 앱개발 스터디",
+    "summary": "안녕하세요. PM을 꿈꾸는 초보 기획자입니다.\n 포폴용 프로젝트를 진행하기 위해 팀원을 모집 중에 있습니다.",
+    "recruitment_role": ["프론트엔드"],
+    "required_stacks": ["TypeScript", "React"],
+    "goal": "포트폴리오",
+    "participation_time": "매주 4-5시간",
+    "created_at": "2023-05-30 12:30:22"
+  },
+  {
+    "project_type": "프로젝트",
+    "recruitment_status": "모집 중",
+    "title": "음식에 진심인 분을 찾습니다.",
+    "summary": "프론트엔드 개발자 분을 찾습니다!",
+    "recruitment_role": ["프론트엔드"],
+    "required_stacks": ["TypeScript", "React"],
+    "goal": "포트폴리오",
+    "participation_time": "매주 4-5시간",
+    "created_at": "2023-05-30 11:30:22"
+  },
+  {
+    "project_type": "프로젝트",
+    "recruitment_status": "모집 중",
+    "title": "음식에 진심인 분을 찾습니다.",
+    "summary": "프론트엔드 개발자 분을 찾습니다!",
+    "recruitment_role": ["프론트엔드"],
+    "required_stacks": ["TypeScript", "React"],
+    "goal": "포트폴리오",
+    "participation_time": "매주 4-5시간",
+    "created_at": "2023-05-01 10:30:22"
+  }
+]
