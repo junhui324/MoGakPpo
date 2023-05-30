@@ -16,7 +16,7 @@
   },
   {
     "project_id": 2,
-    "project_type": "개인 프로젝트",
+    "project_type": "사이드 프로젝트",
     "project_recruitment_status": "모집 완료",
     "project_title": "React UI Library",
     "project_summary": "Build a reusable UI library using React components.",
@@ -31,7 +31,7 @@
   },
   {
     "project_id": 3,
-    "project_type": "팀 프로젝트",
+    "project_type": "스터디",
     "project_recruitment_status": "모집 중",
     "project_title": "Customer Segmentation Analysis",
     "project_summary": "Perform customer segmentation analysis using machine learning techniques.",

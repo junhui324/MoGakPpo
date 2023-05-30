@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getProjectList } from '../../apis/project';
+import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import styles from './ProjectList.module.scss';
 
@@ -8,7 +8,7 @@ function ProjectList() {
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
-        const projectList = await getProjectList();
+        const projectList = await getProjects();
         setProjectList(projectList);
       } catch (error) {
         console.error(error);
