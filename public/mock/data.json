@@ -1,0 +1,92 @@
+{
+  "user": [
+    {
+      "user_id": 1,
+      "user_email": "user1@example.com",
+      "user_name": "John Doe",
+      "user_password": "password1",
+      "user_career_goal": "Software Developer",
+      "user_stacks": ["Python", "JavaScript", "React"],
+      "user_introduction": "Passionate developer with experience in web development.",
+      "user_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
+    },
+    {
+      "user_id": 2,
+      "user_email": "user2@example.com",
+      "user_name": "Jane Smith",
+      "user_password": "password2",
+      "user_career_goal": "Data Scientist",
+      "user_stacks": ["Python", "R", "Machine Learning"],
+      "user_introduction": "Data enthusiast with a focus on machine learning.",
+      "user_img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKBH5DbCnCmwQCpcjv__106JSjG3U2oVNZRw&usqp=CAU"
+    }
+  ],
+  "study": [
+    {
+      "study_id": 1,
+      "user_id": 1,
+      "study_category": "백엔드",
+      "study_project_type": "프로젝트",
+      "study_recruitment_status": "Open",
+      "study_title": "Web Development Study Group",
+      "study_summary": "Join us to learn and collaborate on web development projects.",
+      "study_recruitment_role": "Backend",
+      "study_required_stacks": ["HTML", "CSS", "JavaScript"],
+      "study_goal": "직무 역량 강화",
+      "study_participation_time": "2 hours per week",
+      "study_introduction": "We are a study group focused on web development. All skill levels are welcome!",
+      "study_img": "https://example.com/study1.jpg",
+      "study_likes": 10,
+      "study_views": 50,
+      "study_created_at": "2023-05-01"
+    },
+    {
+      "study_id": 2,
+      "user_id": 2,
+      "study_category": "프론트엔드",
+      "study_project_type": "스터디",
+      "study_recruitment_status": "Closed",
+      "study_title": "Machine Learning Study Group",
+      "study_summary": "Let's explore the fascinating world of machine learning together.",
+      "study_recruitment_role": "Frontend",
+      "study_required_stacks": ["Python", "R", "Statistics"],
+      "study_goal": "포트폴리오",
+      "study_participation_time": "4 hours per week",
+      "study_introduction": "Our study group focuses on applying machine learning techniques to real-world problems.",
+      "study_img": "https://example.com/study2.jpg",
+      "study_likes": 5,
+      "study_views": 30,
+      "study_created_at": "2023-04-15"
+    }
+  ],
+  "comment": [
+    {
+      "comment_id": 1,
+      "study_id": 1,
+      "user_id": 2,
+      "comment_content": "This study group looks interesting. I would like to join!",
+      "comment_created_at": "2023-05-10 13:08:13"
+    },
+    {
+      "comment_id": 2,
+      "study_id": 2,
+      "user_id": 1,
+      "comment_content": "I have some experience in machine learning. Can I participate?",
+      "comment_created_at": "2023-05-12 15:21:41"
+    }
+  ],
+  "bookmark": [
+    {
+      "bookmark_id": 1,
+      "study_id": 1,
+      "user_id": 2,
+      "bookmark_count": 3
+    },
+    {
+      "bookmark_id": 2,
+      "study_id": 2,
+      "user_id": 1,
+      "bookmark_count": 5
+    }
+  ]
+}
