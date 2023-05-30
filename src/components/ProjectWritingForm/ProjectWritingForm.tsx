@@ -27,6 +27,7 @@ function ProjecttWritingForm() {
   });
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
+  const [stackInputValue, setStackInputValue] = useState<string>('');
 
   const handleProjectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -77,9 +78,24 @@ function ProjecttWritingForm() {
     });
   };
 
+  const handleStackInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+      if (stackInputValue.trim() !== '') {
+        setProject((prevProject) => ({
+          ...prevProject,
+          project_required_stacks: {
+            stackList: [...prevProject.project_required_stacks.stackList, stackInputValue.trim()],
+          },
+        }));
+        setStackInputValue('');
+      }
+    }
+  };
+
   // const handleSubmit = (e: React.FormEvent) => {
   //   e.preventDefault();
-  //   // 게시물 데이터를 서버에 전송하거나 필요한 처리를 수행합니다.
+  //   // 게시물 데이터를 서버에 전송하거나 필요한 처리를 수행
   //   console.log(post);
   //   // 게시물 작성 후 초기화
   //   setPost({ title: '', summary: '', introduce: '' });
@@ -243,6 +259,21 @@ function ProjecttWritingForm() {
 
           <div>
             <h2>기술 스택</h2>
+            <div>
+              <input
+                type="text"
+                name="stackInputValue"
+                value={stackInputValue}
+                onChange={(e) => setStackInputValue(e.target.value)}
+                onKeyUp={handleStackInputKeyPress}
+                placeholder="기술 스택을 입력하세요."
+              />
+              <ul>
+                {project.project_required_stacks.stackList.map((stack, index) => (
+                  <li key={index}>{stack}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
