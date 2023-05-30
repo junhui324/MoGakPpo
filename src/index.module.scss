@@ -1,5 +1,10 @@
 .container {
   margin: 0 auto;
   max-width: 1024px;
-  border: 1px solid rgb(234, 234, 234);
+  // border: 1px solid rgb(234, 234, 234);
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }

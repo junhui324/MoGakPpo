@@ -42,15 +42,15 @@ export default function Comment() {
         {comments.map((comment) => {
           const { userName, userImg } = getUserInfo(comment.comment_id);
           return (
-            <li key={comment.comment_id} className={styles.userInfo}>
-              <div className={styles.commentHeader}>
+            <li key={comment.comment_id} className={styles.comment}>
+              <div className={styles.header}>
                 <img src={userImg} alt="profile" />
-                <div className={styles.commentSubHeader}>
-                  <p>{userName}</p>
+                <div className={styles.subHeader}>
+                  <h3>{userName}</h3>
                   <p>{comment.comment_created_at}</p>
                 </div>
               </div>
-              <p className={styles.comment}>{comment.comment_content}</p>
+              <p className={styles.content}>{comment.comment_content}</p>
             </li>
           );
         })}
