@@ -1,34 +1,33 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
-
+/**to-do
+ * api호출 Fetcher 사용하기
+ * interface 및 type 외부폴더로 옮기기
+ */
 interface CommentType {
   user_id: number;
   comment_id: number;
   comment_created_at: string;
   comment_content: string;
+  commenter_img: string;
+  commenter_name: string;
 }
 interface UserType {
-  user_id: number;
   user_name: string;
   user_img: string;
 }
 
 export default function Comment() {
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [users, setUsers] = useState<UserType[]>([]);
+  const [user, setUser] = useState<UserType[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/mock/data.json').then((res) => {
-      setComments(res.data.comment);
-      setUsers(res.data.user);
+    axios.get('http://localhost:3000/mock/projects/project.json').then((res) => {
+      setComments(res.data.project_comments);
+      setUser(res.data.user_info[0]);
     });
   }, []);
-
-  const getUserInfo = (userId: number) => {
-    const user = users.find((user) => user.user_id === userId);
-    return { userName: user?.user_name, userImg: user?.user_img };
-  };
 
   return (
     <div>
@@ -40,13 +39,12 @@ export default function Comment() {
       </div>
       <ul className={styles.commentList}>
         {comments.map((comment) => {
-          const { userName, userImg } = getUserInfo(comment.comment_id);
           return (
             <li key={comment.comment_id} className={styles.comment}>
               <div className={styles.header}>
-                <img src={userImg} alt="profile" />
+                <img src={comment.commenter_img} alt="profile" />
                 <div className={styles.subHeader}>
-                  <h3>{userName}</h3>
+                  <h3>{comment.commenter_name}</h3>
                   <p>{comment.comment_created_at}</p>
                 </div>
               </div>
