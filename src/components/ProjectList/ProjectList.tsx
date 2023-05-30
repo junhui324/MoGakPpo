@@ -53,7 +53,11 @@ function ProjectList() {
             </ul>
             <span className={styles.goal}>{goal}</span>
             <span className={styles.participationTime}>{participationTime}</span>
-            <span className={styles.bookmarkCount}>{bookmarkCount}</span>
+            <ul>
+              <li className={styles.bookmarkCount}>{bookmarkCount}</li>
+              <li className={styles.commentsCount}>{commentsCount}</li>
+              <li className={styles.viewsCount}>{viewsCount}</li>
+            </ul>
           </li>
         );
       })}
