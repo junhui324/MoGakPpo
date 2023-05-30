@@ -1,0 +1,11 @@
+{
+  "project_type": "프로젝트",
+  "recruitment_status": "모집 중",
+  "title": "음식에 진심인 분을 찾습니다.",
+  "summary": "프론트엔드 개발자 분을 찾습니다!",
+  "recruitment_role": ["프론트엔드"],
+  "required_stacks": ["TypeScript", "React"],
+  "goal": "포트폴리오",
+  "participation_time": "매주 4-5시간",
+  "created_at": "2023-05-30 13:30:22"
+}
