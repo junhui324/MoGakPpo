@@ -1,5 +1,11 @@
+import Category from '../components/ProjectList.tsx/Category';
+
 function ProjectList() {
-  return <></>;
+  return (
+    <>
+      <Category />
+    </>
+  );
 }
 
 export default ProjectList;
