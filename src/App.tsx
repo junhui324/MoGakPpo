@@ -1,4 +1,5 @@
 import React from 'react';
+import './reset.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './pages/Main';
 import styles from './index.module.scss';
