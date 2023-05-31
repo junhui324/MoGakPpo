@@ -1,14 +1,14 @@
 import styles from './tab.module.scss';
 
 interface TypeTab {
+  tabs: string[];
   currTab: string;
   onClick: (currTab: string) => void;
 }
 
-function Tab({ currTab, onClick }: TypeTab) {
-  const tabs = ['게시글', '댓글', '북마크'];
+function Tab({ tabs, currTab, onClick }: TypeTab) {
   return (
-    <div className={styles.tabContainer}>
+    <div className={styles.container}>
       {tabs.map((tab, index) => {
         const isActive = currTab === tab;
         const activeTab = isActive ? `${styles.active}` : '';
