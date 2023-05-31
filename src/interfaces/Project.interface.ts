@@ -1,11 +1,3 @@
-interface Comment {
-  comment_id: number;
-  commenter_name: string;
-  commenter_img: string;
-  comment_content: string;
-  comment_created_at: string;
-}
-
 interface Project {
   project_id: number;
   author_id: number;
