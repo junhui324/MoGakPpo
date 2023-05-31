@@ -1,0 +1,70 @@
+@import '/src/variables.scss';
+$input-border-color: #94A3B8;
+
+.container {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 1.4rem 0;
+  }
+
+  .stackContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+
+    .stackWrapper {
+      display: flex;
+      flex-direction: row;
+      background-color: $main-color;
+      border-radius: 100px;
+      color: white;
+      margin: 0 0.6rem 0.6rem 0;
+  
+      .selectedStack {
+        padding: 0.4rem 0 0.4rem 0.6rem;
+        word-break: keep-all;
+      }
+
+      .duplicateStack {
+        padding: 0.4rem 0.6rem;
+        word-break: keep-all;
+        border: 1.4px solid $main-color;
+        border-radius: 100px;
+        cursor: pointer;
+      }
+      
+      .uniqueStack {
+        padding: 0.4rem 0.6rem;
+        word-break: keep-all;
+        color: $main-color;
+        background-color: white;
+        border: 1.4px solid $main-color;
+        border-radius: 100px;
+        cursor: pointer;
+      }
+
+      .deleteButton {
+        border: none;
+        background-color: $main-color;
+        color: white;
+        cursor: pointer;
+        border-radius: 100px;
+        width: 30px;
+      }
+    }
+  }
+  
+  .input {
+    border: 1px solid $input-border-color;
+    border-radius: 6px;
+    outline: none;
+    height: 45px;
+    padding-left: 1rem;
+  }
+}

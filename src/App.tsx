@@ -10,6 +10,7 @@ import Mypage from './pages/MyPage';
 import styles from './index.module.scss';
 import Login from './pages/Login';
 import Password from './pages/FindPassword';
+import Stack from './components/Stack';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/user/editpw" element={<Password />} />
           {/* <Route path="/user/delete" element={}/> */}
           <Route path="/user/mypage" element={<Mypage />} />
+          <Route path="/stack" element={<Stack />} />
         </Routes>
       </div>
     </BrowserRouter>
