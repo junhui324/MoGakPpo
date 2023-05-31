@@ -9,8 +9,9 @@ const userToken = '';
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [user, setUser] = useState<TypeUser | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isInputClicked, setIsInputClicked] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Comment() {
     axios.get('http://localhost:3000/mock/project/comment.json').then((res) => {
       setComments(res.data);
     });
-  }, []);
+  }, [isUpdated]);
   useEffect(() => {
     axios.get('http://localhost:3000/mock/user.json').then((res) => {
       setUser(res.data);
@@ -44,10 +45,18 @@ export default function Comment() {
   };
   //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
   const loggedInUserInputClicked = () => {
-    const handleSubmitButtonClick = () => {
-      axios.post('http://localhost:3000/mock/projects/1.json', {
-        comment_content: inputValue,
-      });
+    const handleSubmitButtonClick = async () => {
+      //todo-commenter id필요->userid와 대조하여 본인이 작성한 댓글 로직 처리
+      try {
+        const response = await axios.post('http://localhost:3000/mock/projects/1.json', {
+          comment_content: inputValue,
+        });
+        if (response.status === 200) {
+          setIsUpdated(!isUpdated);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
     return (
       <>
