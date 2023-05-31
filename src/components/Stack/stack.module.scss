@@ -82,7 +82,7 @@ $suggestion-color: #f1f3f5;
   
   .suggestionContainer {
     max-height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .suggestion {
       font-size: 12px;

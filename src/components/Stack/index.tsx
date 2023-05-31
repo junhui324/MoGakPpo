@@ -86,7 +86,7 @@ function Stack() {
         <RiSearchLine 
           className={styles.searchButton}
         />
-        {suggestions.length > 0 && (
+        {suggestions.length > 0 && searchWord.trim().length > 0 && (
           <ul className={styles.suggestionContainer}>
             {suggestions.map((suggestion, index) => (
               <li 
