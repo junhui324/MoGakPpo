@@ -32,8 +32,8 @@ function Project() {
     try {
       const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
       setProjectData(data);
-    } catch (error) {
-      alert(error);
+    } catch (loadingError) {
+      setError('데이터 로딩 실패');
     } finally {
       setIsLoading(false);
     }
