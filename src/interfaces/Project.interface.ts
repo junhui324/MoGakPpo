@@ -84,3 +84,16 @@ export type TypeProjectAuthor = Pick<
 export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks'>;
 
 export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitment_status'>;
+
+export type TypeProjectPost = Pick<
+  Project,
+  | 'project_type'
+  | 'project_recruitment_status'
+  | 'project_title'
+  | 'project_summary'
+  | 'project_recruitment_roles'
+  | 'project_required_stacks'
+  | 'project_goal'
+  | 'project_participation_time'
+  | 'project_introduction'
+>;

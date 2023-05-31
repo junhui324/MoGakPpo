@@ -1,0 +1,75 @@
+@mixin subtitle {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1024px;
+  border: 1px solid rgb(234, 234, 234);
+}
+
+.mainForm {
+  margin: 20px;
+}
+
+.type {
+  display: flex;
+  width: 85px;
+  height: 20px;
+  background-color: #eef2ed;
+
+  p {
+    font-size: 11px;
+  }
+}
+
+.titleTextarea {
+  font-size: 2rem;
+  height: 58px;
+  border-style: none;
+  margin-bottom: 20px;
+}
+
+.summaryBox {
+  .summaryTextarea {
+    width: 100%;
+    height: 200px;
+    box-sizing: border-box;
+    border-style: none;
+    font-size: 16px;
+    resize: none;
+  }
+}
+
+.checkbox {
+  margin-bottom: 40px;
+  div {
+    display: inline;
+    padding: 5px;
+  }
+}
+
+.radioBox {
+  margin-bottom: 40px;
+}
+
+h2 {
+  @include subtitle;
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  box-sizing: border-box;
+  border-style: none;
+  font-size: 16px;
+  resize: none;
+}
+
+.stack {
+  border: 2px solid rgb(234, 234, 234);
+  width: 200px;
+  height: 40px;
+}
