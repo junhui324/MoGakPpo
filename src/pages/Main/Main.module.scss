@@ -1,13 +1,13 @@
 @import '/src/variables.scss';
 
 .container {
-  margin-top: $header-height;
   display: grid;
   grid-template-columns: 1fr 2fr;
   .leftContainer {
     div {
       position: sticky;
-      top: $header-height + 36px;
+      top: $header-height;
+      padding-top: 30px;
       display: flex;
       flex-direction: column;
       gap: 32px;

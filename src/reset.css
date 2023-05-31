@@ -1,3 +1,8 @@
+#root {
+  display: flex;
+  justify-content: center;
+}
+
 html,
 body,
 div,
