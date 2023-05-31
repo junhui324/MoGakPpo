@@ -3,7 +3,7 @@ import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
-import ProjectPostButton from '../../components/ProjectList/ProjectPostButton';
+import ProjectPostButton from '../../components/common/ProjectPostButton';
 import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './Main.module.scss';
 

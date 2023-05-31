@@ -9,6 +9,7 @@ ul {
     padding: 24px 24px 24px 24px;
     border: 1px solid #e8e8e8;
     border-radius: 16px;
+    cursor: pointer;
 
     div:nth-child(1) {
       display: flex;
@@ -49,6 +50,9 @@ ul {
         font-weight: 400;
         color: #d0d8de;
       }
+      .title {
+        line-height: 1.6rem;
+      }
       .newTag {
         margin-left: 8px;
         align-self: center;
@@ -59,6 +63,7 @@ ul {
 
     .summary {
       font-size: 18px;
+      line-height: 1.6rem;
     }
 
     .roleContainer {
@@ -66,9 +71,11 @@ ul {
       li {
         margin-right: 8px;
         padding: 8px 16px 8px 16px;
-        color: rgb(255, 255, 255);
-        // border: 1px solid rgb(148 163 184);
-        background-color: #7f54e3;
+        border: 1px solid $main-color;
+        background-color: unset;
+        color: $main-color;
+        // color: rgb(255, 255, 255);
+        // background-color: #7f54e3;
         border-radius: 30px;
       }
     }
@@ -82,7 +89,7 @@ ul {
         margin-left: 8px;
         margin-right: 8px;
         content: '|';
-        color: #a7b1b9;
+        color: #b9aba7;
       }
       li::after {
         margin-left: 8px;

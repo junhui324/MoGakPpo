@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
-import { getProjects } from '../../apis/Fetcher';
+import { useNavigate } from 'react-router-dom';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import styles from './ProjectList.module.scss';
+import ROUTES from '../../constants/Routes';
 
 type TypeProjectListProps = { projectList: TypeProjectList[] };
 function ProjectList({ projectList }: TypeProjectListProps) {
+  const navigate = useNavigate();
   const isNewProject = (createdAt: string) => {
     const threeDaysAgo = new Date();
     threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
@@ -17,7 +18,7 @@ function ProjectList({ projectList }: TypeProjectListProps) {
       {projectList &&
         projectList.map((project) => {
           const {
-            project_id,
+            project_id: projectId,
             project_type: type,
             project_recruitment_status: recruitmentStatus,
             project_title: title,
@@ -32,7 +33,13 @@ function ProjectList({ projectList }: TypeProjectListProps) {
             project_created_at: createdAt,
           } = project;
           return (
-            <li key={project_id} className={styles.listContainer}>
+            <li
+              key={projectId}
+              className={styles.listContainer}
+              onClick={() => {
+                navigate(ROUTES.PROJECT.replace(':id', projectId.toString()));
+              }}
+            >
               <div>
                 <div>
                   <span className={styles.type}>{type}</span>

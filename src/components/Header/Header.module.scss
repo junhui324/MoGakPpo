@@ -1,6 +1,8 @@
 @import '/src/variables.scss';
 
 .container {
+  display: flex;
+  justify-content: center;
   position: fixed;
   top: 0;
   z-index: 999;
@@ -10,8 +12,8 @@
   background-color: rgb(255, 255, 255);
   .contentsContainer {
     align-items: center;
-    margin: 0 auto;
-    max-width: 1224px;
+    margin: 0 16px;
+    width: 1224px;
     height: 100%;
     display: flex;
     justify-content: space-between;
@@ -22,16 +24,57 @@
       gap: 8px;
 
       .logo {
+        cursor: pointer;
         font-size: 28px;
         font-weight: 800;
       }
     }
     .rightContainer {
-      button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .notLoggedIn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        button {
+          text-align: center;
+          padding: 0 8px;
+          display: flex;
+          border: none;
+          font-size: 15px;
+          color: #252525;
+          cursor: pointer;
+          background-color: unset;
+        }
+        button:first-child {
+          margin-right: 6px;
+        }
+        span {
+          color: #cfcfcf;
+        }
+        button:last-child {
+          margin-left: 6px;
+        }
+      }
+      .userButton {
+        text-align: center;
+        padding: 0 8px;
+        display: flex;
         border: none;
-        font-size: 18px;
+        color: #252525;
         cursor: pointer;
         background-color: unset;
+        svg {
+          border: 2px solid $main-color;
+          border-radius: 50%;
+          font-size: 40px;
+          color: #87929c;
+          align-self: center;
+        }
+      }
+      button {
+        margin-left: 16px;
       }
     }
   }
