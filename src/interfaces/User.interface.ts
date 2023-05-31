@@ -9,14 +9,12 @@ interface User {
   user_img: string;
 }
 
-export type TypeUser = Pick<
-  User, 
+export type TypeUserProfile = Pick<
+  User,
   | 'user_id'
-  | 'user_email'
   | 'user_name'
-  | 'user_password'
   | 'user_career_goal'
   | 'user_stacks'
   | 'user_introduction'
   | 'user_img'
->;
+>
