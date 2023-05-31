@@ -8,6 +8,8 @@ const userToken = '';
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [user, setUser] = useState<TypeUserInfo | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isInputClicked, setIsInputClicked] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const location = useLocation();
 
@@ -18,48 +20,65 @@ export default function Comment() {
     });
   }, []);
 
-  const handleSubmitButtonClick = () => {
-    axios.post('http://localhost:3000/mock/projects/1.json', {
-      comment_content: inputValue,
-    });
-  };
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(() => event.target.value);
-  };
-
   //로그인 한 유저일 경우 렌더링되는 인풋영역
   const loggedInUserInput = () => {
     return (
-      <div className={styles.loggedInInput}>
-        <img src={user?.user_img} alt="profile" />
-        <input
-          type="text"
-          placeholder={`${user?.user_name}님, 댓글을 작성해보세요.`}
-          value={inputValue}
-          onChange={handleInputChange}
-        />
+      <>
+        <div className={styles.loggedInInput}>
+          <img src={user?.user_img} alt="profile" />
+          <input
+            type="text"
+            placeholder={`${user?.user_name}님, 댓글을 작성해보세요.`}
+            readOnly
+            onClick={() => setIsInputClicked(!isInputClicked)}
+          />
+        </div>
+      </>
+    );
+  };
+  //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
+  const loggedInUserInputClicked = () => {
+    const handleSubmitButtonClick = () => {
+      axios.post('http://localhost:3000/mock/projects/1.json', {
+        comment_content: inputValue,
+      });
+    };
+    return (
+      <>
+        <input type="text" placeholder="2차구현-에디터로 변경하기" />
         <button type="submit" onClick={handleSubmitButtonClick}>
           등록
         </button>
-      </div>
+        <button onClick={() => setIsInputClicked(!isInputClicked)}>취소</button>
+      </>
     );
   };
   //로그인 하지 않은 유저일 경우 인풋영역
   const loggedOutUserInput = () => {
     return (
-      <Link to={'/login'} state={{ returnPath: location.pathname }}>
-        <input type="text" placeholder="댓글을 작성해보세요." readOnly />
-      </Link>
+      <>
+        <Link to={'/login'} state={{ returnPath: location.pathname }}>
+          <input type="text" placeholder="댓글을 작성해보세요." readOnly />
+        </Link>
+      </>
     );
   };
 
+  let inputComponent;
+  if (!isLoggedIn) {
+    inputComponent = loggedOutUserInput();
+  } else if (isLoggedIn && !isInputClicked) {
+    inputComponent = loggedInUserInput();
+  } else if (isLoggedIn && isInputClicked) {
+    inputComponent = loggedInUserInputClicked();
+  }
   return (
     <div>
       <div className={styles.inputArea}>
         <h3>
           댓글 <strong>{comments.length}</strong>
         </h3>
-        {user ? loggedInUserInput() : loggedOutUserInput()}
+        {inputComponent}
       </div>
       <ul className={styles.commentList}>
         {comments.map((comment) => {
