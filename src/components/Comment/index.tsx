@@ -2,26 +2,12 @@ import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
-/**to-do
- * api호출 Fetcher 사용하기
- * interface 및 type 외부폴더로 옮기기
- */
-interface CommentType {
-  user_id: number;
-  comment_id: number;
-  comment_created_at: string;
-  comment_content: string;
-  commenter_img: string;
-  commenter_name: string;
-}
-interface UserType {
-  user_name: string;
-  user_img: string;
-}
+import { TypeComment, TypeUserInfo } from '../../interfaces/Project.interface';
+
 const userToken = '';
 export default function Comment() {
-  const [comments, setComments] = useState<CommentType[]>([]);
-  const [user, setUser] = useState<UserType>({} as UserType);
+  const [comments, setComments] = useState<TypeComment[]>([]);
+  const [user, setUser] = useState<TypeUserInfo | null>(null);
   const [inputValue, setInputValue] = useState('');
   const location = useLocation();
 
@@ -44,10 +30,10 @@ export default function Comment() {
   const loggedInUserInput = () => {
     return (
       <div className={styles.loggedInInput}>
-        <img src={user.user_img} alt="profile" />
+        <img src={user?.user_img} alt="profile" />
         <input
           type="text"
-          placeholder={`${user.user_name}님, 댓글을 작성해보세요.`}
+          placeholder={`${user?.user_name}님, 댓글을 작성해보세요.`}
           value={inputValue}
           onChange={handleInputChange}
         />
