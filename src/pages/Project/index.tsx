@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 // component
-import ProjectTitle from '../components/Project/ProjectTitle';
-import ProjectBody from '../components/Project/ProjectBody';
-import ProjectAuthorProfile from '../components/Project/ProjectAuthorProfile';
-import ProjectBookmarkBlock from '../components/Project/ProjectBookmarkBlock';
-import ProjectModifyBlock from '../components/Project/ProjectModifyBlock';
+import ProjectTitle from '../../components/Project/ProjectTitle';
+import ProjectBody from '../../components/Project/ProjectBody';
+import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
+import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
+import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
 // data 관련
-import * as Fetcher from '../apis/Fetcher';
-import * as ProjectType from '../interfaces/Project.interface';
+import * as Fetcher from '../../apis/Fetcher';
+import * as ProjectType from '../../interfaces/Project.interface';
 
 function Project() {
   // params 확인

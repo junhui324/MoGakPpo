@@ -2,14 +2,14 @@ import React from 'react';
 import './reset.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectWritingForm from './components/ProjectWritingForm/ProjectWritingForm';
-import Main from './pages/Main/Main';
+import Main from './pages/Main';
 import Comment from './components/Comment/Comment';
 import Header from './components/Header/Header';
 import Project from './pages/Project';
 import Mypage from './pages/Mypage';
 import styles from './index.module.scss';
-import Login from './pages/login';
-import Password from './pages/password';
+import Login from './pages/Login';
+import Password from './pages/FindPassword';
 
 function App() {
   return (
@@ -26,9 +26,9 @@ function App() {
           <Route path="/project/:id" element={<Project />} />
           <Route path="/project/comment" element={<Comment />} />
           {/* 유저관련 */}
-          <Route path="/login" element={<Login />}/>
+          <Route path="/login" element={<Login />} />
           {/* <Route path="/register" element={}/> */}
-          <Route path="/user/editPw" element={<Password />}/>
+          <Route path="/user/editpw" element={<Password />} />
           {/* <Route path="/user/delete" element={}/> */}
           <Route path="/user/mypage" element={<Mypage />} />
         </Routes>
