@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './profile.module.scss';
-import { TypeUser } from '../../interfaces/User.interface';
-import { getUser } from '../../apis/user';
+import { TypeUserProfile } from '../../interfaces/User.interface';
+import { getUserProfile } from '../../apis/Fetcher';
 
 function Profile() {
-  const [user, setUser] = useState<TypeUser>();
+  const [user, setUser] = useState<TypeUserProfile>();
 
   const getUserData = async () => {
     try {
-      const userList = await getUser();
+      const userList = await getUserProfile();
       setUser(userList);
     } catch (error) {
       console.error(error);

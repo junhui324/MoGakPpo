@@ -3,6 +3,7 @@
 
 import * as Api from './Api';
 import * as ProjectType from '../interfaces/Project.interface';
+import * as UserType from '../interfaces/User.interface';
 
 const domain = `/mock`;
 
