@@ -6,8 +6,9 @@ type TypeModalBasicProps = {
   setModalOpen: (newValue: boolean) => void;
   children: React.ReactNode;
   closeButton?: boolean;
+  fullScreen?: boolean;
 };
-function ModalBasic({ setModalOpen, children, closeButton }: TypeModalBasicProps) {
+function ModalBasic({ setModalOpen, children, closeButton, fullScreen }: TypeModalBasicProps) {
   // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
   const closeModal = () => {
     setModalOpen(false);
@@ -38,15 +39,24 @@ function ModalBasic({ setModalOpen, children, closeButton }: TypeModalBasicProps
   });
 
   return (
-    // 모달창을 useRef로 잡아준다.
-    <div ref={modalRef} className={styles.container}>
-      {closeButton && (
-        <button className={styles.close} onClick={closeModal}>
-          <AiOutlineCloseCircle size={24} />
-        </button>
-      )}
-      <div>{children}</div>
-    </div>
+    <>
+      <div className={`${styles.container} ${fullScreen && styles.wideContainer}`}>
+        <div className={`${fullScreen && styles.overlay}`}></div>
+        <div
+          ref={modalRef}
+          className={`${styles.contentsContainer} ${fullScreen && styles.fullScreen}`}
+        >
+          {closeButton && (
+            <div className={styles.closeContainer}>
+              <button className={styles.close} onClick={closeModal}>
+                <AiOutlineCloseCircle size={24} />
+              </button>
+            </div>
+          )}
+          {children}
+        </div>{' '}
+      </div>
+    </>
   );
 }
 export default ModalBasic;

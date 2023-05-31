@@ -1,4 +1,6 @@
 .postButton {
+  position: relative;
+  z-index: 1;
   align-self: flex-start;
   padding: 12px 16px 12px 16px;
   font-size: 16px;

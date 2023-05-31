@@ -24,7 +24,7 @@ function Main() {
   return (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
-        <div>
+        <div className={styles.leftContentContainer}>
           <Category />
           <ProjectPostButton />
         </div>

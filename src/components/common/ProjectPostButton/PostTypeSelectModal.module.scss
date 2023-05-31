@@ -1,0 +1,22 @@
+@import '/src/variables.scss';
+.ulContainer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px 18px;
+  p {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid $container-border-color;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
