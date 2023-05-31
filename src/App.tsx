@@ -3,10 +3,11 @@ import './reset.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectWritingForm from './components/ProjectWritingForm/ProjectWritingForm';
 import Main from './pages/Main/Main';
-import styles from './index.module.scss';
+import Comment from './components/Comment/Comment';
 import Header from './components/Header/Header';
 import Project from './pages/Project';
 import Mypage from './pages/Mypage';
+import styles from './index.module.scss';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/create/:type" element={<ProjectWritingForm />} />
           {/* 게시글 확인 */}
           <Route path="/project/:id" element={<Project />} />
+          <Route path="/project/comment" element={<Comment />} />
           {/* 유저관련 */}
           {/* <Route path="/login" element={}/> */}
           {/* <Route path="/register" element={}/> */}
