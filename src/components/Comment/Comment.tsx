@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 /**to-do
  * api호출 Fetcher 사용하기
  * interface 및 type 외부폴더로 옮기기
@@ -17,10 +18,11 @@ interface UserType {
   user_name: string;
   user_img: string;
 }
-
+const userToken = '';
 export default function Comment() {
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [user, setUser] = useState<UserType[]>([]);
+  const [user, setUser] = useState<UserType>({} as UserType);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:3000/mock/projects/project.json').then((res) => {
@@ -28,11 +30,33 @@ export default function Comment() {
       setUser(res.data.user_info[0]);
     });
   }, []);
+
+  const handleSubmitButtonClick = () => {
+    axios.post(
+      'http://localhost:3000/mock/projects/project.json',
+      {
+        comment_content: inputValue,
+      },
+      { token: userToken }
+    );
+  };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(() => event.target.value);
+  };
+
   const loggedInUserInput = () => {
     return (
       <div className={styles.loggedInInput}>
         <img src={user.user_img} alt="profile" />
-        <input type="text" placeholder={`${user.user_name}님, 댓글을 작성해보세요.`} />
+        <input
+          type="text"
+          placeholder={`${user.user_name}님, 댓글을 작성해보세요.`}
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <button type="submit" onClick={handleSubmitButtonClick}>
+          등록하기
+        </button>
       </div>
     );
   };
@@ -43,10 +67,12 @@ export default function Comment() {
         <h3>
           댓글 <strong>{comments.length}</strong>
         </h3>
-        {user.length !== 0 ? (
+        {!user ? (
           loggedInUserInput()
         ) : (
-          <input type="text" placeholder="댓글을 작성해보세요." readOnly />
+          <Link to="/login">
+            <input type="text" placeholder="댓글을 작성해보세요." readOnly />
+          </Link>
         )}
       </div>
       <ul className={styles.commentList}>
