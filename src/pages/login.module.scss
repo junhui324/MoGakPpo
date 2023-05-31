@@ -1,0 +1,182 @@
+.container{
+  width:766px;
+  height:806px;
+  margin:auto auto;
+}
+
+.component{
+  width:352px;
+  height:597px;
+  padding-top:60px;
+  padding-left:16px;
+  padding-right:16px;
+  padding-bottom:48px;
+  margin: 0 191px;
+  background-color: white;
+  display:flex;
+  flex-direction: column;
+}
+
+.title{
+  width:352px;
+  height:48px; 
+  text-align:center;
+  font-size:28px;
+  font-weight:700;
+  color:black;
+}
+
+.input{
+  height:48px;
+  padding:11px;
+}
+
+.label{
+  height:21px;
+  padding-left:11px;
+  font-weight:700;
+  font-size:14px;
+}
+
+.form{
+  margin-top:48px;
+}
+
+input[type=email]{
+  width:328px;
+  height:42px;
+  margin:0 auto;
+  border-radius:5px;
+  border:1px solid gray;
+  padding:3px;
+
+  &:hover{
+    border:1px solid pink;
+  }
+
+  &:focus{
+    outline:none;
+  }
+}
+
+input[type=password]{
+  width:328px;
+  height:42px;
+  margin:0 auto;
+  border-radius:5px;
+  border:1px solid gray;
+  padding:3px;
+
+  &:hover{
+    border:1px solid pink;
+  }
+
+  &:focus{
+    outline:none;
+  }
+}
+
+.emptyWarning{
+  height:21px;
+  color:red;
+  font-size:11px;
+  font-weight:500;
+  padding-left: 11px;
+}
+
+.submit{
+  width:352px;
+  height:47px;
+  padding:11px;
+  font-weight:400;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+}
+
+.submitButton{
+  width:337px;
+  height:47px;
+  background-color: orange;
+  border:0;
+  border-radius:5px;
+  font-size:medium;
+  font-weight:500;
+  color:white;
+
+  &:hover{
+    border:3px solid orange;
+  }
+}
+
+.hrContainer{
+  margin:0 auto;
+}
+
+.hr{
+  width:100%;
+  border: none;
+  border-top: 1px gray solid;
+  color: #fff;
+  height: 1px;
+}
+
+.kakaoContainer{
+  padding:11px;
+}
+
+.kakaoLogin{
+  width:337px;
+  height:47px;
+  background-color: yellow;
+  border:0;
+  border-radius:5px;
+  font-size:medium;
+  font-weight:500;
+  color:black;
+  
+  &:hover{
+    border:3px solid orange;
+  }
+}
+
+.menu{
+  width:352px;
+  height:597px;
+  padding-top:60px;
+  padding-right:16px;
+  padding-bottom:48px;
+  font-size:13px;
+  text-align: center;  
+}
+
+
+.registerContainer{
+  font-weight:600;
+}
+.register{
+  padding-left:5px;
+  color:purple;
+  text-decoration: underline;
+}
+
+.menuLine{
+  padding-top:42px;
+  font-size: 11px;
+  font-weight:600;
+}
+
+.call{
+  padding:0 8px;
+}
+
+.forget{
+  padding:0 8px;
+}
+
+.link{
+  text-decoration: none;
+  color:black;
+
+}

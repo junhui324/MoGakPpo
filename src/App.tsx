@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectList from './pages/ProjectList';
 import styles from './index.module.scss';
+import Login from './pages/login';
+import Password from './pages/password';
 
 function App() {
   return (
@@ -17,9 +19,9 @@ function App() {
           {/* 게시글 확인 */}
           {/* <Route path="/project/:id" element={} /> */}
           {/* 유저관련 */}
-          {/* <Route path="/login" element={}/> */}
+          <Route path="/login" element={<Login />}/>
           {/* <Route path="/register" element={}/> */}
-          {/* <Route path="/user/editPw" element={}/> */}
+          <Route path="/user/editPw" element={<Password />}/>
           {/* <Route path="/user/delete" element={}/> */}
           {/* <Route path="/user/mypage" element={}/> */}
         </Routes>
