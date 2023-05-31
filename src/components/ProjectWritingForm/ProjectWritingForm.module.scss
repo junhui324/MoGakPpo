@@ -1,3 +1,5 @@
+@import '/src/variables.scss';
+
 @mixin subtitle {
   font-weight: bold;
   font-size: 20px;
@@ -18,8 +20,11 @@
   display: flex;
   width: 85px;
   height: 20px;
-  background-color: #eef2ed;
+  background-color: $main-color;
   text-align: center;
+  color: white;
+  justify-content: center;
+  align-items: center;
 
   p {
     font-size: 11px;
@@ -51,10 +56,18 @@
     display: inline;
     padding: 5px;
   }
+  input,
+  progress {
+    accent-color: $main-color;
+  }
 }
 
 .radioBox {
   margin-bottom: 40px;
+  input,
+  progress {
+    accent-color: $main-color;
+  }
 }
 
 h2 {
@@ -71,7 +84,7 @@ textarea {
 }
 
 .stack {
-  border: 2px solid rgb(234, 234, 234);
+  border: 2px solid $main-color;
   width: 200px;
   height: 40px;
 }
@@ -102,10 +115,11 @@ textarea {
 
   .arrowBox {
     visibility: hidden;
-    width: 220px;
+    width: 190px;
     max-width: 220px;
+    font-size: 14px;
     padding: 8px;
-    background-color: #000;
+    background-color: $main-color;
     color: #fff;
     text-align: center;
     border-radius: 5px;
@@ -124,7 +138,7 @@ textarea {
     margin-left: -8px;
     border-width: 8px;
     border-style: solid;
-    border-color: #000 transparent transparent transparent;
+    border-color: $main-color transparent transparent transparent;
   }
 }
 

@@ -23,4 +23,10 @@ async function postProject(
   return await Api.post(domain, ``, data);
 }
 
-export { getProject, getProjects, postProject };
+// stack 전체 데이터 불러오기
+async function getStackList(): Promise<ProjectType.TypeStacks> {
+  const params = `/stack.json`;
+  return await Api.get(domain, params, false);
+}
+
+export { getProject, getProjects, postProject, getStackList };

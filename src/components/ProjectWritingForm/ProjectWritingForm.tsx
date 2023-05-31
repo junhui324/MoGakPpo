@@ -7,6 +7,7 @@ import styles from './ProjectWritingForm.module.scss';
 import { projectTypeString, placeholderString, goalRadioButton, timeRadioButton } from './constant';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import * as Fetcher from '../../apis/Fetcher';
+import Stack from '../Stack';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -105,27 +106,19 @@ function ProjectWritingForm() {
   const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
     //await Fetcher.postProject(project);
-    console.log(project);
+    console.log('json으로 보기:', JSON.stringify(project));
   };
 
   //버튼 클릭 시, 기술스택 input 비활성화 및 미정 저장
   const handleButtonClick = () => {
     setIsStackInputDisabled(!isStackInputDisabled);
-    if (isStackInputDisabled) {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_required_stacks: {
-          stackList: [''],
-        },
-      }));
-    } else {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_required_stacks: {
-          stackList: ['미정'],
-        },
-      }));
-    }
+    const updatedStackList = isStackInputDisabled ? [] : ['미정'];
+    setProject((prevProject) => ({
+      ...prevProject,
+      project_required_stacks: {
+        stackList: updatedStackList,
+      },
+    }));
   };
 
   console.log(project);
@@ -266,6 +259,13 @@ function ProjectWritingForm() {
                 checked={selectedTimeRadioValue === timeRadioButton.more}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
+              <RadioButton
+                label={timeRadioButton.etc}
+                value={timeRadioButton.etc}
+                name="timeOption4"
+                checked={selectedTimeRadioValue === timeRadioButton.etc}
+                onChange={handleTimeRadioChange}
+              ></RadioButton>
             </div>
           </div>
 
@@ -309,6 +309,8 @@ function ProjectWritingForm() {
           <div>
             <button onClick={handleSubmitButton}>작성 완료</button>
           </div>
+
+          <Stack></Stack>
         </div>
       </div>
     </div>

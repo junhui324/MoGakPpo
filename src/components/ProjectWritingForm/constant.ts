@@ -13,6 +13,7 @@ const timeRadioButton = {
   less: '매주 4시간 이하',
   middle: '매주 4-10시간',
   more: '매주 10시간 이상',
+  etc: '기타',
 };
 
 const projectTypeString = new Map<string, string>([

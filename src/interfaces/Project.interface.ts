@@ -99,3 +99,5 @@ export type TypeProjectPost = Pick<
   | 'project_introduction'
   | 'project_img'
 >;
+
+export type TypeStacks = Pick<Project, 'project_required_stacks'>;
