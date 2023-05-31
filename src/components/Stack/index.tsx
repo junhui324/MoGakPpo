@@ -10,8 +10,8 @@ function Stack() {
 
   const getStackData = async () => {
     try {
-      const data = await getStackList() as unknown as { stacks: string[]};
-      setStacks(data.stacks);
+      const data = await getStackList() as unknown as { stackList: string[]};
+      setStacks(data.stackList);
     } catch (error) {
       console.error('스택을 가져오지 못했어요');
     }
