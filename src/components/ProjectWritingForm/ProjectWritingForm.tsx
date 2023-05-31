@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Editor from '../Editor/Editor';
@@ -13,6 +13,10 @@ const placeholderString = {
 };
 const goalRadioButton = ['포트폴리오/직무 역량 강화', '창업/수익 창출', '재미/네트워킹'];
 const timeRadioButton = ['매주 4시간 이하', '매주 4-10시간', '매주 10시간 이상'];
+const projectTypeString = new Map<string, string>([
+  ['project', '사이드 프로젝트'],
+  ['study', '스터디/모임'],
+]);
 
 function ProjecttWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -29,6 +33,22 @@ function ProjecttWritingForm() {
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const [stackInputValue, setStackInputValue] = useState<string>('');
+  const { type } = useParams<string>();
+  console.log(type);
+
+  useEffect(() => {
+    if (type === 'project') {
+      setProject((prevProject) => ({
+        ...prevProject,
+        project_type: '사이드 프로젝트',
+      }));
+    } else if (type === 'study') {
+      setProject((prevProject) => ({
+        ...prevProject,
+        project_type: '스터디/모임',
+      }));
+    }
+  }, []);
 
   const handleProjectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -111,7 +131,7 @@ function ProjecttWritingForm() {
         <div className="projectWriteForm">
           <div className={styles.title}>
             <div className={styles.type}>
-              <p>사이드 프로젝트</p>
+              <p>{project.project_type}</p>
             </div>
             <input
               className={styles.titleTextarea}
@@ -121,7 +141,6 @@ function ProjecttWritingForm() {
               onChange={handleProjectChange}
               placeholder={placeholderString.title}
             />
-            {project.project_title}
           </div>
 
           <div>
@@ -134,7 +153,6 @@ function ProjecttWritingForm() {
                 onChange={handleProjectChange}
                 placeholder={placeholderString.summary}
               ></textarea>
-              {project.project_summary}
             </div>
           </div>
 
@@ -254,7 +272,6 @@ function ProjecttWritingForm() {
                 onChange={handleProjectChange}
                 placeholder={placeholderString.introduce}
               ></textarea>
-              {project.project_introduction}
             </div>
           </div>
 

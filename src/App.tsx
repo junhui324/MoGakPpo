@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="*" element={<Navigate to="/" />} />
           {/* 게시글 생성(type=study/side-project) */}
-          <Route path="/create" element={<ProjecttWritingForm />} />
+          <Route path="/create/:type" element={<ProjecttWritingForm />} />
           {/* 게시글 확인 */}
           {/* <Route path="/project/:id" element={} /> */}
           {/* 유저관련 */}
