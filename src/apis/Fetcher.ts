@@ -25,4 +25,10 @@ async function getUserProfile(): Promise<UserType.TypeUserProfile> {
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects, getUserProfile };
+// stack 전체 데이터 불러오기
+async function getStackList(): Promise<ProjectType.TypeStacks> {
+  const params = `/stack.json`;
+  return await Api.get(domain, params, false);
+}
+
+export { getProject, getProjects, getUserProfile, getStackList };
