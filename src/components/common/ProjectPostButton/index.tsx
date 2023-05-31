@@ -2,7 +2,6 @@ import styles from './ProjectPostButton.module.scss';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../../constants/Routes';
 import { useState } from 'react';
-import ModalBasic from '../Modal/ModalBasic';
 import PostTypeSelectModal from './PostTypeSelectModal';
 
 function ProjectPostButton() {
