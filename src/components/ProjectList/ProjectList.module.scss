@@ -1,3 +1,5 @@
+@import '/src/variables.scss';
+
 ul {
   .listContainer {
     display: flex;
@@ -15,14 +17,14 @@ ul {
         margin-right: 8px;
         padding: 4px 6px 4px 6px;
         color: rgb(148 163 184);
-        font-size: 16px;
+        font-size: 14px;
         border-radius: 4px;
         background-color: rgb(241 245 249);
       }
       .goal {
         padding: 4px 6px 4px 6px;
         color: rgb(148 163 184);
-        font-size: 16px;
+        font-size: 14px;
         border-radius: 4px;
         background-color: rgb(241 245 249);
       }
@@ -33,9 +35,9 @@ ul {
     div:nth-child(2) {
       display: flex;
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 550;
       .status.recruiting {
-        color: #6636da;
+        color: $green;
       }
       .status.done {
         color: #95a4b0;
@@ -46,6 +48,12 @@ ul {
         content: '|';
         font-weight: 400;
         color: #d0d8de;
+      }
+      .newTag {
+        margin-left: 8px;
+        align-self: center;
+        font-size: 14px;
+        color: $blue;
       }
     }
 
@@ -88,7 +96,7 @@ ul {
 
     .countContainer {
       display: flex;
-      font-size: 16px;
+      font-size: 14px;
       color: rgb(168, 180, 197);
       li {
         span:nth-child(1) {
