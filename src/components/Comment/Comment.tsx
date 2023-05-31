@@ -25,14 +25,14 @@ export default function Comment() {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3000/mock/projects/project.json').then((res) => {
-      setComments(res.data.project_comments);
-      setUser(res.data.user_info[0]);
+    axios.get('http://localhost:3000/mock/projects/1.json').then((res) => {
+      setComments(res.data.project_comments.commentList);
+      setUser(res.data.user_info);
     });
   }, []);
 
   const handleSubmitButtonClick = () => {
-    axios.post('http://localhost:3000/mock/projects/project.json', {
+    axios.post('http://localhost:3000/mock/projects/1.json', {
       comment_content: inputValue,
     });
   };
@@ -51,7 +51,7 @@ export default function Comment() {
           onChange={handleInputChange}
         />
         <button type="submit" onClick={handleSubmitButtonClick}>
-          등록하기
+          등록
         </button>
       </div>
     );
@@ -63,7 +63,7 @@ export default function Comment() {
         <h3>
           댓글 <strong>{comments.length}</strong>
         </h3>
-        {!user ? (
+        {user ? (
           loggedInUserInput()
         ) : (
           <Link to="/login">
