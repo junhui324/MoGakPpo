@@ -1,5 +1,6 @@
 @import '/src/variables.scss';
 $input-border-color: #94A3B8;
+$suggestion-color: #f1f3f5;
 
 .container {
   width: 500px;
@@ -66,5 +67,16 @@ $input-border-color: #94A3B8;
     outline: none;
     height: 45px;
     padding-left: 1rem;
+  }
+
+  .suggestionContainer {
+    max-height: 200px;
+    overflow-y: scroll;
+
+    .suggestion {
+      padding: 1rem;
+      background-color: $suggestion-color;
+      border-bottom: 1px solid rgba($input-border-color, 0.3);
+    }
   }
 }
