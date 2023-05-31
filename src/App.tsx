@@ -5,7 +5,7 @@ import Main from './pages/Main';
 import Comment from './components/Comment/Comment';
 import Header from './components/Header/Header';
 import Project from './pages/Project';
-import Mypage from './pages/MyPage';
+import Mypage from './pages/Mypage';
 import styles from './index.module.scss';
 import Login from './pages/Login';
 import Password from './pages/FindPassword';
