@@ -1,8 +1,108 @@
 ul {
   .listContainer {
+    display: flex;
     margin-bottom: 32px;
-    padding: 16px;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 24px 24px 24px 24px;
     border: 1px solid #e8e8e8;
     border-radius: 16px;
+
+    div:nth-child(1) {
+      display: flex;
+      justify-content: space-between;
+      .type {
+        margin-right: 8px;
+        padding: 4px 6px 4px 6px;
+        color: rgb(148 163 184);
+        font-size: 16px;
+        border-radius: 4px;
+        background-color: rgb(241 245 249);
+      }
+      .goal {
+        padding: 4px 6px 4px 6px;
+        color: rgb(148 163 184);
+        font-size: 16px;
+        border-radius: 4px;
+        background-color: rgb(241 245 249);
+      }
+      .participationTime {
+        color: rgb(148 163 184);
+      }
+    }
+    div:nth-child(2) {
+      display: flex;
+      font-size: 24px;
+      font-weight: 600;
+      .status.recruiting {
+        color: #6636da;
+      }
+      .status.done {
+        color: #95a4b0;
+      }
+      .status::after {
+        margin-left: 8px;
+        margin-right: 8px;
+        content: '|';
+        font-weight: 400;
+        color: #d0d8de;
+      }
+    }
+
+    .summary {
+      font-size: 18px;
+    }
+
+    .roleContainer {
+      display: flex;
+      li {
+        margin-right: 8px;
+        padding: 8px 16px 8px 16px;
+        color: rgb(255, 255, 255);
+        // border: 1px solid rgb(148 163 184);
+        background-color: #7f54e3;
+        border-radius: 30px;
+      }
+    }
+
+    .stacksContainer {
+      display: flex;
+      font-size: 16px;
+      color: rgb(130, 141, 157);
+      font-weight: 500;
+      span::after {
+        margin-left: 8px;
+        margin-right: 8px;
+        content: '|';
+        color: #a7b1b9;
+      }
+      li::after {
+        margin-left: 8px;
+        margin-right: 8px;
+        content: '/';
+      }
+      li:last-child::after {
+        content: none;
+      }
+    }
+
+    .countContainer {
+      display: flex;
+      font-size: 16px;
+      color: rgb(168, 180, 197);
+      li {
+        span:nth-child(1) {
+          margin-right: 4px;
+        }
+      }
+      li::after {
+        margin-left: 4px;
+        margin-right: 4px;
+        content: '·';
+      }
+      li:last-child::after {
+        content: none;
+      }
+    }
   }
 }

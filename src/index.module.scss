@@ -1,5 +1,12 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import '/src/variables.scss';
+
+*,
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
 .container {
-  margin: 0 auto;
+  margin-top: $header-height;
   max-width: 1024px;
-  border: 1px solid rgb(234, 234, 234);
 }

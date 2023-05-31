@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Editor from '../Editor/Editor';
-import { TypeProjectPost } from '@/interfaces/Project.interface';
+import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 
 const placeholderString = {
