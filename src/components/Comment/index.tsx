@@ -27,6 +27,7 @@ export default function Comment() {
     setInputValue(() => event.target.value);
   };
 
+  //로그인 한 유저일 경우 렌더링되는 인풋영역
   const loggedInUserInput = () => {
     return (
       <div className={styles.loggedInInput}>
@@ -43,6 +44,14 @@ export default function Comment() {
       </div>
     );
   };
+  //로그인 하지 않은 유저일 경우 인풋영역
+  const loggedOutUserInput = () => {
+    return (
+      <Link to={'/login'} state={{ returnPath: location.pathname }}>
+        <input type="text" placeholder="댓글을 작성해보세요." readOnly />
+      </Link>
+    );
+  };
 
   return (
     <div>
@@ -50,13 +59,7 @@ export default function Comment() {
         <h3>
           댓글 <strong>{comments.length}</strong>
         </h3>
-        {user ? (
-          loggedInUserInput()
-        ) : (
-          <Link to={'/login'} state={{ returnPath: location.pathname }}>
-            <input type="text" placeholder="댓글을 작성해보세요." readOnly />
-          </Link>
-        )}
+        {user ? loggedInUserInput() : loggedOutUserInput()}
       </div>
       <ul className={styles.commentList}>
         {comments.map((comment) => {
