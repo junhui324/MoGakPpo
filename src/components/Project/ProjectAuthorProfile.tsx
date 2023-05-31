@@ -7,11 +7,21 @@ export default function ProjectAuthorProfile({
 }: {
   authorData: TypeProjectAuthor | null;
 }) {
-  return (
-    <div>
-      <img src="https://example.com/" alt="사용자 프로필" />
-      <div>{'사용자 닉네임'}</div>
-      <div>{'사용자 소개'}</div>
-    </div>
-  );
+  if (authorData) {
+    return (
+      <div>
+        <div>
+          <img src={authorData.author_img} alt="사용자 프로필" />
+        </div>
+        <div>
+          <p>{authorData.author_name}</p>
+        </div>
+        <div>
+          <p>{authorData.author_introduction}</p>
+        </div>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }

@@ -14,13 +14,13 @@ import {
   TbClock,
 } from 'react-icons/tb';
 
-const LOGO_SIZE = 32;
-const LOGO_DEFAULT_COLOR = '#D3D3D3';
+const LOGO_SIZE: number = 32;
+const LOGO_DEFAULT_COLOR: string = '#D3D3D3';
 
 // 역할 : 프론트엔드, 백엔드 로고
 function RoleIcon({ role }: { role: string }) {
   // 스타일 정보
-  const LOGO_COLOR = {
+  const LOGO_COLOR: { [key: string]: string } = {
     FRONTEND: '#D291FF',
     BACKEND: '#FFDAA5',
   };
@@ -38,7 +38,7 @@ function RoleIcon({ role }: { role: string }) {
 // 스택 : HTML, CSS, JS 로고
 function StackIcon({ stack }: { stack: string }) {
   // 스타일 정보
-  const LOGO_COLOR = {
+  const LOGO_COLOR: { [key: string]: string } = {
     HTML: '#FFA382',
     CSS: '#9AC6E8',
     JS: '#FFF4A7',
@@ -58,6 +58,12 @@ function StackIcon({ stack }: { stack: string }) {
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (bodyData) {
+    const participationTimeString: { [key: string]: string } = {
+      '4': '매주 4시간 이하',
+      '4-10': '매주 4-5시간',
+      '10': '매주 10시간 이상',
+    };
+
     return (
       <div>
         <h3>요약</h3>
@@ -70,7 +76,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
                 <div>
                   <RoleIcon role={role} />
                 </div>
-                <div>{role}</div>
+                <div>
+                  <p>{role}</p>
+                </div>
               </>
             );
           })}
@@ -83,7 +91,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
                 <div>
                   <StackIcon stack={stack} />
                 </div>
-                <div>{stack}</div>
+                <div>
+                  <p>{stack}</p>
+                </div>
               </>
             );
           })}
@@ -93,17 +103,23 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
           <div>
             <TbFlagFilled size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />
           </div>
-          <div>{bodyData.project_goal}</div>
+          <div>
+            <p>{bodyData.project_goal}</p>
+          </div>
         </div>
         <h3>참여 시간</h3>
         <div>
           <div>
             <TbClock size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />
           </div>
-          <div>{bodyData.project_participation_time}</div>
+          <div>
+            <p>{participationTimeString[bodyData.project_participation_time]}</p>
+          </div>
         </div>
         <h3>소개</h3>
-        <div>{bodyData.project_introduction}</div>
+        <div>
+          <p>{bodyData.project_introduction}</p>
+        </div>
       </div>
     );
   } else {

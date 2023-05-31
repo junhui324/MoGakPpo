@@ -26,7 +26,7 @@ interface Project {
   project_participation_time: string;
   project_introduction: string;
   project_bookmarks: {
-    bookmarkList: { user_name: string; user_img: number[] };
+    bookmarkList: Array<{ user_name: string; user_img: number[] }>;
   };
   project_bookmark_count: number;
   project_views: number;
