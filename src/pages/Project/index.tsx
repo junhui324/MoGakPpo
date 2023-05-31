@@ -10,6 +10,8 @@ import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
 // data 관련
 import * as Fetcher from '../../apis/Fetcher';
 import * as ProjectType from '../../interfaces/Project.interface';
+// 스타일
+import styles from './Project.module.scss';
 
 function Project() {
   // params 확인
@@ -98,17 +100,17 @@ function Project() {
   }, [projectData]);
 
   return projectData ? (
-    <>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.leftContainer}>
         <ProjectTitle titleData={titleData} />
         <ProjectBody bodyData={bodyData} />
       </div>
-      <div>
+      <div className={styles.rightContainer}>
         <ProjectAuthorProfile authorData={authorData} />
         <ProjectBookmarkBlock bookmarksData={bookmarksData} />
         <ProjectModifyBlock modifyData={modifyData} />
       </div>
-    </>
+    </div>
   ) : (
     <>
       <div>{isLoading ? '로딩중입니다.' : error}</div>

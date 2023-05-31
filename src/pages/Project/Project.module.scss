@@ -1,0 +1,23 @@
+@import '/src/variables.scss';
+
+.container {
+  display: flex;
+  margin-top: $header-height;
+
+  .leftContainer {
+    padding: 32px;
+  }
+  .rightContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 32px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+}
