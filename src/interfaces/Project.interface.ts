@@ -103,7 +103,4 @@ export type TypeComment = Pick<
   'comment_id' | 'commenter_name' | 'commenter_img' | 'comment_content' | 'comment_created_at'
 >;
 
-export type TypeUserInfo = Pick<Project, 'user_info'> & {
-  user_name: string;
-  user_img: string;
-};
+export type TypeUserInfo = Project['user_info'];
