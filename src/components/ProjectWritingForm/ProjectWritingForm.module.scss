@@ -19,9 +19,11 @@
   width: 85px;
   height: 20px;
   background-color: #eef2ed;
+  text-align: center;
 
   p {
     font-size: 11px;
+    text-align: center;
   }
 }
 
@@ -72,4 +74,68 @@ textarea {
   border: 2px solid rgb(234, 234, 234);
   width: 200px;
   height: 40px;
+}
+
+.timeBox {
+  display: flex;
+
+  .time {
+    margin-right: 5px;
+  }
+}
+
+/*여기서부터 말풍선 css*/
+
+.speechBubble {
+  position: relative;
+  display: inline-block;
+
+  .svg {
+    width: 20px;
+    height: 20px;
+
+    &:hover + .arrowBox {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .arrowBox {
+    visibility: hidden;
+    width: 220px;
+    max-width: 220px;
+    padding: 8px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .arrowBox::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

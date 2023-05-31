@@ -17,4 +17,10 @@ async function getProjects(): Promise<ProjectType.TypeProjectList[]> {
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects };
+async function postProject(
+  data: ProjectType.TypeProjectPost
+): Promise<ProjectType.TypeProjectPost> {
+  return await Api.post(domain, ``, data);
+}
+
+export { getProject, getProjects, postProject };

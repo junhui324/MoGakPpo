@@ -4,24 +4,14 @@ import RadioButton from './RadioButton';
 import Editor from '../Editor/Editor';
 import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
-
-const placeholderString = {
-  title: `제목을 입력하세요.`,
-  summary: `프로젝트 요약을 입력하세요.\n\n온/오프라인으로 달리기 모임을 만들고 찾을 수 있는 앱을 기획 중입니다. 현재 기획자 1명, 백엔드 개발자 1명 있고, 함께 하실 디자이너와 프론트 개발자를 찾고 있어요!`,
-  introduce: `프로젝트 소개를 입력하세요.`,
-  stack: `기술 스택을 입력하세요.`,
-};
-const goalRadioButton = ['포트폴리오/직무 역량 강화', '창업/수익 창출', '재미/네트워킹'];
-const timeRadioButton = ['매주 4시간 이하', '매주 4-10시간', '매주 10시간 이상'];
-const projectTypeString = new Map<string, string>([
-  ['project', '사이드 프로젝트'],
-  ['study', '스터디/모임'],
-]);
+import { projectTypeString, placeholderString, goalRadioButton, timeRadioButton } from './constant';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import * as Fetcher from '../../apis/Fetcher';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
     project_type: '',
-    project_recruitment_status: '모집중',
+    project_recruitment_status: null,
     project_title: '',
     project_summary: '',
     project_recruitment_roles: { roleList: [] as string[] },
@@ -29,23 +19,20 @@ function ProjectWritingForm() {
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
+    project_img: null,
   });
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const [stackInputValue, setStackInputValue] = useState<string>('');
-  const { type } = useParams<string>();
-  console.log(type);
+  const [isStackInputDisabled, setIsStackInputDisabled] = useState(false);
+  const { type } = useParams();
 
   useEffect(() => {
-    if (type === 'project') {
+    const projectTypeValue = projectTypeString.get(type!);
+    if (projectTypeValue) {
       setProject((prevProject) => ({
         ...prevProject,
-        project_type: '사이드 프로젝트',
-      }));
-    } else if (type === 'study') {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_type: '스터디/모임',
+        project_type: projectTypeValue,
       }));
     }
   }, []);
@@ -114,13 +101,32 @@ function ProjectWritingForm() {
     }
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   // 게시물 데이터를 서버에 전송하거나 필요한 처리를 수행
-  //   console.log(post);
-  //   // 게시물 작성 후 초기화
-  //   setPost({ title: '', summary: '', introduce: '' });
-  // };
+  //전송 버튼을 누르면 백엔드에 데이터 전송
+  const handleSubmitButton = (e: React.FormEvent) => {
+    e.preventDefault();
+    //await Fetcher.postProject(project);
+    console.log(project);
+  };
+
+  //버튼 클릭 시, 기술스택 input 비활성화 및 미정 저장
+  const handleButtonClick = () => {
+    setIsStackInputDisabled(!isStackInputDisabled);
+    if (isStackInputDisabled) {
+      setProject((prevProject) => ({
+        ...prevProject,
+        project_required_stacks: {
+          stackList: [''],
+        },
+      }));
+    } else {
+      setProject((prevProject) => ({
+        ...prevProject,
+        project_required_stacks: {
+          stackList: ['미정'],
+        },
+      }));
+    }
+  };
 
   console.log(project);
 
@@ -128,7 +134,7 @@ function ProjectWritingForm() {
     <div className={styles.container}>
       <nav></nav>
       <div className={styles.mainForm}>
-        <div className="projectWriteForm">
+        <div className={styles.projectWriteForm}>
           <div className={styles.title}>
             <div className={styles.type}>
               <p>{project.project_type}</p>
@@ -206,57 +212,58 @@ function ProjectWritingForm() {
             <h2 className={styles.goal}>목적</h2>
             <div className={styles.radioBox}>
               <RadioButton
-                label={goalRadioButton[0]}
-                value={goalRadioButton[0]}
+                label={goalRadioButton.portfolio}
+                value={goalRadioButton.portfolio}
                 name="goalOption1"
-                checked={selectedGoalRadioValue === goalRadioButton[0]}
+                checked={selectedGoalRadioValue === goalRadioButton.portfolio}
                 onChange={handleGoalRadioChange}
               ></RadioButton>
               <RadioButton
-                label={goalRadioButton[1]}
-                value={goalRadioButton[1]}
+                label={goalRadioButton.founded}
+                value={goalRadioButton.founded}
                 name="goalOption2"
-                checked={selectedGoalRadioValue === goalRadioButton[1]}
+                checked={selectedGoalRadioValue === goalRadioButton.founded}
                 onChange={handleGoalRadioChange}
               ></RadioButton>
               <RadioButton
-                label={goalRadioButton[2]}
-                value={goalRadioButton[2]}
+                label={goalRadioButton.fun}
+                value={goalRadioButton.fun}
                 name="goalOption3"
-                checked={selectedGoalRadioValue === goalRadioButton[2]}
+                checked={selectedGoalRadioValue === goalRadioButton.fun}
                 onChange={handleGoalRadioChange}
               ></RadioButton>
             </div>
           </div>
 
           <div>
-            <div>
-              <h2 className={styles.time}>참여 시간 (선택)</h2>
-              <div>
-                <span>추후 아이콘으로 바꾸기</span>
-                <p className="arrowBox">매주 프로젝트에 쓸 수 있는 시간</p>
+            <div className={styles.timeBox}>
+              <h2 className={styles.time}>참여 시간</h2>
+              <div className={styles.speechBubble}>
+                <AiOutlineInfoCircle className={styles.svg} />
+                <div className={styles.arrowBox}>매주 프로젝트에 쓸 수 있는 시간</div>
               </div>
             </div>
+
             <div className={styles.radioBox}>
               <RadioButton
-                label={timeRadioButton[0]}
-                value={timeRadioButton[0]}
+                label={timeRadioButton.less}
+                value={timeRadioButton.less}
                 name="timeOption1"
-                checked={selectedTimeRadioValue === timeRadioButton[0]}
+                checked={selectedTimeRadioValue === timeRadioButton.less}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
               <RadioButton
-                label={timeRadioButton[1]}
-                value={timeRadioButton[1]}
+                label={timeRadioButton.middle}
+                value={timeRadioButton.middle}
                 name="timeOption2"
-                checked={selectedTimeRadioValue === timeRadioButton[1]}
+                checked={selectedTimeRadioValue === timeRadioButton.middle}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
               <RadioButton
-                label={timeRadioButton[2]}
-                value={timeRadioButton[2]}
+                label={timeRadioButton.more}
+                value={timeRadioButton.more}
                 name="timeOption3"
-                checked={selectedTimeRadioValue === timeRadioButton[2]}
+                checked={selectedTimeRadioValue === timeRadioButton.more}
                 onChange={handleTimeRadioChange}
               ></RadioButton>
             </div>
@@ -286,13 +293,21 @@ function ProjectWritingForm() {
                 onChange={(e) => setStackInputValue(e.target.value)}
                 onKeyUp={handleStackInputKeyPress}
                 placeholder={placeholderString.stack}
+                disabled={isStackInputDisabled}
               />
               <ul>
                 {project.project_required_stacks.stackList.map((stack, index) => (
                   <li key={index}>{stack}</li>
                 ))}
               </ul>
+              <button onClick={handleButtonClick}>
+                {isStackInputDisabled ? '기술 스택이 아직 미정이에요.' : '기술 스택을 입력하세요'}
+              </button>
             </div>
+          </div>
+
+          <div>
+            <button onClick={handleSubmitButton}>작성 완료</button>
           </div>
         </div>
       </div>
