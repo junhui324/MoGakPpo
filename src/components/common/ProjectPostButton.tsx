@@ -8,7 +8,7 @@ function ProjectPostButton() {
     <button
       className={styles.postButton}
       onClick={() => {
-        navigate(ROUTES.CREATE.replace(':type', 'study'));
+        navigate(`${ROUTES.CREATE}study`);
       }}
     >
       ✏️ 모집글 작성하기

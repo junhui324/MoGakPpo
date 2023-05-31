@@ -37,7 +37,7 @@ function ProjectList({ projectList }: TypeProjectListProps) {
               key={projectId}
               className={styles.listContainer}
               onClick={() => {
-                navigate(ROUTES.PROJECT.replace(':id', projectId.toString()));
+                navigate(`${ROUTES.PROJECT}${projectId}`);
               }}
             >
               <div>

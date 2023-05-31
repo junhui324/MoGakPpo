@@ -22,9 +22,9 @@ function App() {
           <Route path={ROUTES.MAIN} element={<Main />} />
           <Route path="*" element={<Navigate to="/" />} />
           {/* 게시글 생성(type=study/side-project) */}
-          <Route path={ROUTES.CREATE} element={<ProjectWritingForm />} />
+          <Route path={`${ROUTES.CREATE}:type`} element={<ProjectWritingForm />} />
           {/* 게시글 확인 */}
-          <Route path={ROUTES.PROJECT} element={<Project />} />
+          <Route path={`${ROUTES.PROJECT}:id`} element={<Project />} />
           <Route path="/project/comment" element={<Comment />} />
           {/* 유저관련 */}
           <Route path={ROUTES.LOGIN} element={<Login />} />
