@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -14,8 +14,9 @@ import * as ProjectType from '../../interfaces/Project.interface';
 import styles from './Project.module.scss';
 
 function Project() {
-  // params 확인
+  // 라우터 관련
   const params: { [key: string]: string | undefined } = useParams();
+  const navigate = useNavigate();
 
   // 게시글 데이터
   const projectId: number = params.id ? Number(params.id) : 0;
@@ -35,7 +36,9 @@ function Project() {
       const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
       setProjectData(data);
     } catch (loadingError) {
-      setError('데이터 로딩 실패');
+      alert('올바르지 않은 주소입니다.');
+      // 경로 나중에 상수로 바꿀 필요 있음
+      navigate('/');
     } finally {
       setIsLoading(false);
     }

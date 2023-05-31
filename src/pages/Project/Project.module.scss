@@ -5,19 +5,21 @@
   margin-top: $header-height;
 
   .leftContainer {
+    width: 70%;
     padding: 32px;
   }
   .rightContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
-    padding: 32px;
+    width: 30%;
+    padding: 48px 32px;
   }
 }
 @media (max-width: 768px) {
   .container {
     flex-direction: column-reverse;
+    align-items: center;
   }
 }

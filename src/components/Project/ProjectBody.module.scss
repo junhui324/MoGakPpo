@@ -1,0 +1,45 @@
+.container {
+  div {
+    div .logoCircle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-right: 6px;
+      width: 36px;
+      height: 36px;
+      border-radius: 32px;
+
+      background-color: #f5f5f5;
+    }
+    .logoLine {
+      display: flex;
+      align-items: center;
+
+      .logoBlock {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-right: 16px;
+      }
+      .logoText {
+        font-size: 16px;
+      }
+    }
+
+    .paragraphTitle {
+      font-size: 18px;
+      font-weight: 600;
+
+      margin: 40px 0;
+    }
+
+    .paragraph {
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+}
+@media (max-width: 768px) {
+}

@@ -2,59 +2,9 @@ import React from 'react';
 
 // 타입
 import { TypeProjectBody } from '../../interfaces/Project.interface';
-
-// 아이콘
-import { RiComputerLine, RiCodeView } from 'react-icons/ri';
-import { FiServer } from 'react-icons/fi';
-import {
-  TbBrandCss3,
-  TbBrandHtml5,
-  TbBrandJavascript,
-  TbFlagFilled,
-  TbClock,
-} from 'react-icons/tb';
-
-const LOGO_SIZE: number = 32;
-const LOGO_DEFAULT_COLOR: string = '#D3D3D3';
-
-// 역할 : 프론트엔드, 백엔드 로고
-function RoleIcon({ role }: { role: string }) {
-  // 스타일 정보
-  const LOGO_COLOR: { [key: string]: string } = {
-    FRONTEND: '#D291FF',
-    BACKEND: '#FFDAA5',
-  };
-
-  switch (role) {
-    case '프론트엔드':
-      return <RiComputerLine size={LOGO_SIZE} color={LOGO_COLOR.FRONTEND} />;
-    case '백엔드':
-      return <FiServer size={LOGO_SIZE} color={LOGO_COLOR.BACKEND} />;
-    default:
-      return <></>;
-  }
-}
-
-// 스택 : HTML, CSS, JS 로고
-function StackIcon({ stack }: { stack: string }) {
-  // 스타일 정보
-  const LOGO_COLOR: { [key: string]: string } = {
-    HTML: '#FFA382',
-    CSS: '#9AC6E8',
-    JS: '#FFF4A7',
-  };
-
-  switch (stack) {
-    case 'HTML':
-      return <TbBrandHtml5 size={LOGO_SIZE} color={LOGO_COLOR.HTML} />;
-    case 'CSS':
-      return <TbBrandCss3 size={LOGO_SIZE} color={LOGO_COLOR.CSS} />;
-    case 'JavaScript':
-      return <TbBrandJavascript size={LOGO_SIZE} color={LOGO_COLOR.JS} />;
-    default:
-      return <RiCodeView size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />;
-  }
-}
+// 스타일 관련
+import { RoleIcon, StackIcon, TargetIcon, ClockIcon } from './ProjectBodyLogo';
+import styles from './ProjectBody.module.scss';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (bodyData) {
@@ -65,60 +15,75 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
     };
 
     return (
-      <div>
-        <h3>요약</h3>
-        <div>{bodyData.project_summary}</div>
-        <h3>모집역할</h3>
+      <div className={styles.container}>
+        {/* 요약 */}
         <div>
-          {bodyData.project_recruitment_roles.roleList.map((role) => {
-            return (
-              <>
-                <div>
-                  <RoleIcon role={role} />
-                </div>
-                <div>
-                  <p>{role}</p>
-                </div>
-              </>
-            );
-          })}
+          <div className={styles.paragraphTitle}>요약</div>
+          <div className={styles.paragraph}>{bodyData.project_summary}</div>
         </div>
-        <h3>필수 기술 스택</h3>
+
+        {/* 모집 역할 */}
         <div>
-          {bodyData.project_required_stacks.stackList.map((stack) => {
-            return (
-              <>
-                <div>
-                  <StackIcon stack={stack} />
+          <div className={styles.paragraphTitle}>모집 역할</div>
+          <div className={styles.logoLine}>
+            {bodyData.project_recruitment_roles.roleList.map((role) => {
+              return (
+                <div className={styles.logoBlock}>
+                  <div className={styles.logoCircle}>
+                    <RoleIcon role={role} />
+                  </div>
+                  <p className={styles.logoText}>{role}</p>
                 </div>
-                <div>
-                  <p>{stack}</p>
-                </div>
-              </>
-            );
-          })}
-        </div>
-        <h3>목적</h3>
-        <div>
-          <div>
-            <TbFlagFilled size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />
-          </div>
-          <div>
-            <p>{bodyData.project_goal}</p>
+              );
+            })}
           </div>
         </div>
-        <h3>참여 시간</h3>
+
+        {/* 필수 기술 스택 */}
         <div>
-          <div>
-            <TbClock size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />
-          </div>
-          <div>
-            <p>{participationTimeString[bodyData.project_participation_time]}</p>
+          <div className={styles.paragraphTitle}>필수 기술 스택</div>
+          <div className={styles.logoLine}>
+            {bodyData.project_required_stacks.stackList.map((stack) => {
+              return (
+                <div className={styles.logoBlock}>
+                  <div className={styles.logoCircle}>
+                    <StackIcon stack={stack} />
+                  </div>
+                  <p className={styles.logoText}>{stack}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <h3>소개</h3>
+
+        {/* 목적 */}
         <div>
-          <p>{bodyData.project_introduction}</p>
+          <div className={styles.paragraphTitle}>목적</div>
+          <div className={styles.logoLine}>
+            <div className={styles.logoCircle}>
+              <TargetIcon />
+            </div>
+            <p className={styles.logoText}>{bodyData.project_goal}</p>
+          </div>
+        </div>
+
+        {/* 참여 시간 */}
+        <div>
+          <div className={styles.paragraphTitle}>참여 시간</div>
+          <div className={styles.logoLine}>
+            <div className={styles.logoCircle}>
+              <ClockIcon />
+            </div>
+            <p className={styles.logoText}>
+              {participationTimeString[bodyData.project_participation_time]}
+            </p>
+          </div>
+        </div>
+
+        {/* 소개 */}
+        <div>
+          <div className={styles.paragraphTitle}>소개</div>
+          <div className={styles.paragraph}>{bodyData.project_introduction}</div>
         </div>
       </div>
     );
