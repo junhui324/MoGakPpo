@@ -6,6 +6,7 @@ import Main from './pages/Main/Main';
 import styles from './index.module.scss';
 import Header from './components/Header/Header';
 import Project from './pages/Project';
+import Mypage from './pages/Mypage';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           {/* <Route path="/register" element={}/> */}
           {/* <Route path="/user/editPw" element={}/> */}
           {/* <Route path="/user/delete" element={}/> */}
-          {/* <Route path="/user/mypage" element={}/> */}
+          <Route path="/user/mypage" element={<Mypage />} />
         </Routes>
       </div>
     </BrowserRouter>
