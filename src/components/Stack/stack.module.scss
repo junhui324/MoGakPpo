@@ -8,7 +8,7 @@ $suggestion-color: #f1f3f5;
   flex-direction: column;
   
   .title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     padding: 1.4rem 0;
   }
@@ -26,6 +26,7 @@ $suggestion-color: #f1f3f5;
       border-radius: 100px;
       color: white;
       margin: 0 0.6rem 0.6rem 0;
+      font-size: 12px;
   
       .selectedStack {
         display: flex;
@@ -84,6 +85,7 @@ $suggestion-color: #f1f3f5;
     overflow-y: scroll;
 
     .suggestion {
+      font-size: 12px;
       padding: 1rem;
       background-color: $suggestion-color;
       border-bottom: 1px solid rgba($input-border-color, 0.3);
