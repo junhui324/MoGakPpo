@@ -1,6 +1,12 @@
 import React from 'react';
 
-export default function ProjectModifyBlock({ projectId }: { projectId: string }) {
+import { TypeProjectModify } from '../../interfaces/Project.interface';
+
+export default function ProjectModifyBlock({
+  modifyData,
+}: {
+  modifyData: TypeProjectModify | null;
+}) {
   return (
     <div>
       <div>

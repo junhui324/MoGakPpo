@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default function ProjectBody({ projectId }: { projectId: string }) {
+import { TypeProjectBody } from '../../interfaces/Project.interface';
+
+export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   return (
     <div>
       <h3>요약</h3>

@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { TypeProjectTitle } from '../../interfaces/Project.interface';
 
-export default function ProjectTitle({ projectId }: { projectId: string }) {
-  const [studyData, setStudyData] = useState(null);
-
-  useEffect(() => {
-    // 프로젝트 데이터 로딩
-    fetch('../../mock/data.json')
-      .then((response) => response.json())
-      .then(setStudyData);
-  }, []);
-
-  if (!studyData) {
-  }
-  return (
+export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitle | null }) {
+  return titleData ? (
     <div>
       {/* 카테고리 구분*/}
       <div>
@@ -31,5 +21,5 @@ export default function ProjectTitle({ projectId }: { projectId: string }) {
         <div>{'댓글수'}</div>
       </div>
     </div>
-  );
+  ) : null;
 }

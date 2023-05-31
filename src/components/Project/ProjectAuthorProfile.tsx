@@ -1,6 +1,12 @@
 import React from 'react';
 
-export default function ProjectUserProfile({ projectId }: { projectId: string }) {
+import { TypeProjectAuthor } from '../../interfaces/Project.interface';
+
+export default function ProjectAuthorProfile({
+  authorData,
+}: {
+  authorData: TypeProjectAuthor | null;
+}) {
   return (
     <div>
       <img src="https://example.com/" alt="사용자 프로필" />

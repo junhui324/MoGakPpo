@@ -16,16 +16,24 @@ interface Project {
   project_recruitment_status: string;
   project_title: string;
   project_summary: string;
-  project_recruitment_roles: string[];
-  project_required_stacks: string[];
+  project_recruitment_roles: {
+    roleList: string[];
+  };
+  project_required_stacks: {
+    stackList: string[];
+  };
   project_goal: string;
   project_participation_time: string;
   project_introduction: string;
-  project_bookmarks: number;
+  project_bookmarks: {
+    bookmarkList: { user_name: string; user_img: number[] };
+  };
   project_views: number;
   project_created_at: string;
-  project_comments: Array<Comment>;
-  user_info: Array<{ user_name: string; user_img: string }>;
+  project_comments: {
+    commentList: Array<Comment>;
+  };
+  user_info: { user_name: string; user_img: string };
 }
 
 export type TypeProject = Project;
@@ -39,3 +47,22 @@ export type TypeProjectTitle = Pick<
   | 'project_comments'
   | 'project_views'
 >;
+
+export type TypeProjectBody = Pick<
+  Project,
+  | 'project_summary'
+  | 'project_recruitment_roles'
+  | 'project_required_stacks'
+  | 'project_goal'
+  | 'project_participation_time'
+  | 'project_introduction'
+>;
+
+export type TypeProjectAuthor = Pick<
+  Project,
+  'author_id' | 'author_name' | 'author_introduction' | 'author_img'
+>;
+
+export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks'>;
+
+export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitment_status'>;

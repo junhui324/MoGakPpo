@@ -1,6 +1,12 @@
 import React from 'react';
 
-export default function ProjectBookmarkBlock({ projectId }: { projectId: string }) {
+import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
+
+export default function ProjectBookmarkBlock({
+  bookmarksData,
+}: {
+  bookmarksData: TypeProjectBookmarks | null;
+}) {
   return (
     <div>
       <div>{'북마크 버튼'}</div>
