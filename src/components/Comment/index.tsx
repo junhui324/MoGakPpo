@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 
@@ -9,10 +9,11 @@ const userToken = '';
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [user, setUser] = useState<TypeUser | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:3000/mock/project/comment.json').then((res) => {
@@ -62,9 +63,12 @@ export default function Comment() {
   const loggedOutUserInput = () => {
     return (
       <>
-        <Link to={'/login'} state={{ returnPath: location.pathname }}>
-          <input type="text" placeholder="댓글을 작성해보세요." readOnly />
-        </Link>
+        <input
+          type="text"
+          placeholder="댓글을 작성해보세요."
+          readOnly
+          onClick={() => navigate('/login', { state: { returnPath: location.pathname } })}
+        />
       </>
     );
   };
