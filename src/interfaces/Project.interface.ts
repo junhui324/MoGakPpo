@@ -1,11 +1,3 @@
-interface Comment {
-  comment_id: number;
-  commenter_name: string;
-  commenter_img: string;
-  comment_content: string;
-  comment_created_at: string;
-}
-
 interface Project {
   project_id: number;
   author_id: number;
@@ -97,10 +89,3 @@ export type TypeProjectPost = Pick<
   | 'project_participation_time'
   | 'project_introduction'
 >;
-
-export type TypeComment = Pick<
-  Comment,
-  'comment_id' | 'commenter_name' | 'commenter_img' | 'comment_content' | 'comment_created_at'
->;
-
-export type TypeUserInfo = Project['user_info'];

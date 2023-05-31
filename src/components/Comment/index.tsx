@@ -2,21 +2,26 @@ import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
-import { TypeComment, TypeUserInfo } from '../../interfaces/Project.interface';
+import { TypeComment } from '../../interfaces/Comment.interface';
+import { TypeUser } from '../../interfaces/User.interface';
 
 const userToken = '';
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
-  const [user, setUser] = useState<TypeUserInfo | null>(null);
+  const [user, setUser] = useState<TypeUser | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const location = useLocation();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/mock/projects/1.json').then((res) => {
-      setComments(res.data.project_comments.commentList);
-      setUser(res.data.user_info);
+    axios.get('http://localhost:3000/mock/project/comment.json').then((res) => {
+      setComments(res.data);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get('http://localhost:3000/mock/user.json').then((res) => {
+      setUser(res.data);
     });
   }, []);
 
