@@ -18,7 +18,7 @@ const projectTypeString = new Map<string, string>([
   ['study', '스터디/모임'],
 ]);
 
-function ProjecttWritingForm() {
+function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
     project_type: '',
     project_recruitment_status: '모집중',
@@ -300,4 +300,4 @@ function ProjecttWritingForm() {
   );
 }
 
-export default ProjecttWritingForm;
+export default ProjectWritingForm;
