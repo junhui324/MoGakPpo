@@ -90,6 +90,7 @@ export default function Comment() {
   } else if (isLoggedIn && isInputClicked) {
     inputComponent = loggedInUserInputClicked();
   }
+
   return (
     <div>
       <div className={styles.inputArea}>
@@ -100,6 +101,17 @@ export default function Comment() {
       </div>
       <ul className={styles.commentList}>
         {comments.map((comment) => {
+          //수정, 삭제버튼 이벤트 처리
+          const handleDeleteButtonClick = () => {
+            axios.delete(`http://localhost:3000/mock/projects/1/${comment.comment_id}.json`);
+          };
+          const handleEditButtonClick = () => {
+            //todo - isEditClicked state생성, edit클릭시 input창보이게, 수정버튼->등록/삭제->취소
+            axios.patch('http://localhost:3000/mock/projects/1.json', {
+              comment_id: comment.comment_id,
+              comment_content: comment.comment_content,
+            });
+          };
           return (
             <li key={comment.comment_id} className={styles.comment}>
               <div className={styles.header}>
@@ -110,6 +122,13 @@ export default function Comment() {
                 </div>
               </div>
               <p className={styles.content}>{comment.comment_content}</p>
+              {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
+              {comment.commenter_id === user?.user_id && (
+                <div>
+                  <button onClick={handleEditButtonClick}>수정</button>
+                  <button onClick={handleDeleteButtonClick}>삭제</button>
+                </div>
+              )}
             </li>
           );
         })}
