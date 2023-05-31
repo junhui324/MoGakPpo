@@ -1,0 +1,44 @@
+{
+  "project_id": 1,
+  "author_id": 1,
+  "author_name": "John Doe",
+  "author_introduction": "Passionate developer with experience in web development.",
+  "author_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png",
+  "project_type": "사이드 프로젝트",
+  "project_recruitment_status": "모집중",
+  "project_title": "Web Development project Group",
+  "project_summary": "Join us to learn and collaborate on web development projects.",
+  "project_recruitment_roles": { "roleList": ["프론트엔드", "백엔드"] },
+  "project_required_stacks": { "stackList": ["HTML", "CSS", "JavaScript"] },
+  "project_goal": "직무 역량 강화",
+  "project_participation_time": "매주 2시간",
+  "project_introduction": "We are a project group focused on web development. All skill levels are welcome!",
+  "project_bookmarks": {
+    "bookmarkList": {
+      "user_name": "토끼",
+      "user_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
+    }
+  },
+  "project_views": 50,
+  "project_created_at": "2023-05-01 12:03",
+  "project_comments": [
+    {
+      "comment_id": 1,
+      "commenter_name": "댓쓴이1",
+      "commenter_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png",
+      "comment_content": "This project group looks interesting. I would like to join!",
+      "comment_created_at": "2023-05-10 13:08:13"
+    },
+    {
+      "comment_id": 2,
+      "commenter_name": "댓쓴이2",
+      "commenter_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png",
+      "comment_content": "I have some experience in machine learning. Can I participate?",
+      "comment_created_at": "2023-05-12 15:21:41"
+    }
+  ],
+  "user_info": {
+    "user_name": "로그인한 유저이름",
+    "user_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
+  }
+}

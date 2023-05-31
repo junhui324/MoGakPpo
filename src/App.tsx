@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './pages/Main/Main';
 import styles from './index.module.scss';
 import Header from './components/Header/Header';
+import Project from './pages/Project';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           {/* 게시글 생성(type=study/side-project) */}
           {/* <Route path="/create/:type" element={} /> */}
           {/* 게시글 확인 */}
-          {/* <Route path="/project/:id" element={} /> */}
+          <Route path="/project/:id" element={<Project />} />
           {/* 유저관련 */}
           {/* <Route path="/login" element={}/> */}
           {/* <Route path="/register" element={}/> */}

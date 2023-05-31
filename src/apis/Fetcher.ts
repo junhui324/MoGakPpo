@@ -2,16 +2,17 @@
 // 추천하는 mock 작성 방식은 API주소와 유사하게 작성하는 방법입니다.
 
 import * as Api from './Api';
-import { TypeProjectList } from '../interfaces/Project.interface';
+import * as ProjectType from '../interfaces/Project.interface';
+
 const domain = `/mock`;
 
 // 개별 프로젝트 불러오기
-async function getProject(projectId: number) {
-  const params = `project/${projectId}.json`;
+async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
+  const params = `projects/${projectId}.json`;
   return await Api.get(domain, params, false);
 }
 
-async function getProjects(): Promise<TypeProjectList[]> {
+async function getProjects(): Promise<ProjectType.TypeProjectList[]> {
   const params = `projects.json`;
   return await Api.get(domain, params, false);
 }

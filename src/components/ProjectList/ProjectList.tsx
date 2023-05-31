@@ -32,7 +32,7 @@ function ProjectList() {
           project_participation_time: participationTime,
           project_bookmark_count: bookmarkCount,
           project_comments_count: commentsCount,
-          project_views_count: viewsCount,
+          project_views: viewsCount,
           project_created_at: created_at,
         } = project;
         return (
@@ -62,14 +62,14 @@ function ProjectList() {
             </div>
             <p className={styles.summary}>{summary}</p>
             <ul className={styles.roleContainer}>
-              {recruitmentRoles.map((role, index) => (
+              {recruitmentRoles.roleList.map((role, index) => (
                 <li key={index}>{role}</li>
               ))}
             </ul>
             {requiredStacks && (
               <ul className={styles.stacksContainer}>
                 <span>기술스택</span>
-                {requiredStacks.map((stack, index) => (
+                {requiredStacks.stackList.map((stack, index) => (
                   <li key={index}>{stack}</li>
                 ))}
               </ul>
