@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 /**to-do
  * api호출 Fetcher 사용하기
  * interface 및 type 외부폴더로 옮기기
@@ -23,6 +23,7 @@ export default function Comment() {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [user, setUser] = useState<UserType>({} as UserType);
   const [inputValue, setInputValue] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
     axios.get('http://localhost:3000/mock/projects/1.json').then((res) => {
@@ -66,7 +67,7 @@ export default function Comment() {
         {user ? (
           loggedInUserInput()
         ) : (
-          <Link to="/login">
+          <Link to={'/login'} state={{ returnPath: location.pathname }}>
             <input type="text" placeholder="댓글을 작성해보세요." readOnly />
           </Link>
         )}
