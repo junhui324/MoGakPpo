@@ -124,6 +124,11 @@ $input-border-color: #94A3B8;
       padding: 1rem;
       margin: 1rem 0 2rem 0;
       cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background-color: rgba($main-color, 0.7);
+      }
     }
   }
 }
