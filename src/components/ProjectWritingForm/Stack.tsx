@@ -1,7 +1,7 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import { RiCloseFill, RiSearchLine } from 'react-icons/ri';
 import { getStackList } from '../../apis/Fetcher';
-import styles from './stack.module.scss';
+import styles from '../Stack/stack.module.scss';
 
 interface StackProps {
   setStackList: (stacks: string[]) => void;

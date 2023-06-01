@@ -32,10 +32,10 @@ function App() {
           <Route path={ROUTES.LOGIN} element={<Login />} />
           {/* <Route path="/register" element={}/> */}
           <Route path={ROUTES.EDIT_PASSWORD} element={<Password />} />
-          <Route path="/register" element={<Register />} />
+          <Route path={ROUTES.REGISTER} element={<Register />} />
           {/* <Route path="/user/delete" element={}/> */}
           <Route path={ROUTES.MY_PAGE} element={<Mypage />} />
-          <Route path="/user/update" element={<UpdateUser />} />
+          <Route path={ROUTES.USER_UPDATE} element={<UpdateUser />} />
         </Routes>
       </div>
     </BrowserRouter>

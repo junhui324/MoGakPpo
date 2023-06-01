@@ -6,7 +6,7 @@ import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import * as Fetcher from '../../apis/Fetcher';
-import Stack from '../Stack';
+import Stack from './Stack';
 import {
   PROJECT_TYPE,
   PROJECT_GOAL,
