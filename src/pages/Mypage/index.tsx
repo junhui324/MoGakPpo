@@ -5,7 +5,7 @@ import Posts from './Posts';
 import Comments from './Comments';
 import BookMarks from './BookMarks';
 
-function Mypage() {
+function MyPage() {
   const tabs = ['게시글', '댓글', '북마크'];
   const [currTab, setCurrTab] = useState<string>('게시글');
 
@@ -24,4 +24,4 @@ function Mypage() {
   );
 }
 
-export default Mypage;
+export default MyPage;
