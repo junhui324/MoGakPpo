@@ -12,7 +12,7 @@ import {
   PROJECT_GOAL,
   PROJECT_PARTICIPATION_TIME,
   PROJECT_RECRUITMENT_ROLES,
-} from '../../constant/project';
+} from '../../constants/project';
 import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING } from './constant';
 
 function ProjectWritingForm() {

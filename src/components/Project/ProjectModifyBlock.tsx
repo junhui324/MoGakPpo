@@ -5,7 +5,7 @@ import { TypeProjectModify, TypeProject } from '../../interfaces/Project.interfa
 // 스타일
 import styles from './ProjectModifyBlock.module.scss';
 // 상수
-import { PROJECT_RECRUITMENT_STATUS } from '../constant/project';
+import { PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
 // 문자열 상수
 const RECRUITING = '모집 중';
 const COMPLETE = '모집 완료';

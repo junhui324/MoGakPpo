@@ -16,7 +16,7 @@ import {
 } from 'react-icons/md';
 
 //상수
-import { PROJECT_RECRUITMENT_ROLES } from '../constant/project';
+import { PROJECT_RECRUITMENT_ROLES } from '../../constants/project';
 const LOGO_SIZE: number = 24;
 const LOGO_DEFAULT_COLOR: string = '#D3D3D3';
 

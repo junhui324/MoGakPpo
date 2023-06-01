@@ -5,7 +5,7 @@ import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
 // 스타일
 import styles from './ProjectBookmarkBlock.module.scss';
 // 상수
-import { PROJECT_TYPE } from '../constant/project';
+import { PROJECT_TYPE } from '../../constants/project';
 
 function BookmarkLogo({ className }: { className: string }) {
   return (

@@ -10,7 +10,7 @@ import {
   PROJECT_GOAL,
   PROJECT_PARTICIPATION_TIME,
   PROJECT_RECRUITMENT_ROLES,
-} from '../constant/project';
+} from '../../constants/project';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (bodyData) {

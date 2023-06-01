@@ -4,7 +4,7 @@ import { TypeProjectTitle } from '../../interfaces/Project.interface';
 //스타일
 import styles from './ProjectTitle.module.scss';
 // 상수
-import { PROJECT_TYPE, PROJECT_RECRUITMENT_STATUS } from '../constant/project';
+import { PROJECT_TYPE, PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
 // 날짜 계산 상수
 const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
 const ONE_HOUR_TIME = 60 * 60 * 1000;
