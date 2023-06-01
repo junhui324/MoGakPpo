@@ -4,11 +4,12 @@ import { getStackList } from '../../apis/Fetcher';
 import styles from './stack.module.scss';
 
 interface StackProps {
+  selectedStack: string[];
   setStackList: (stacks: string[]) => void;
 }
 
-function Stack({ setStackList }: StackProps) {
-  const [selected, setSelected] = useState<string[]>([]);
+function Stack({ selectedStack, setStackList }: StackProps) {
+  const [selected, setSelected] = useState<string[]>(selectedStack);
   const [stacks, setStacks] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -57,8 +58,14 @@ function Stack({ setStackList }: StackProps) {
   }, []);
 
   useEffect(() => {
+    if (selectedStack.length > 0) {
+      setSelected(selectedStack); // 이미 선택된 stack이 있다면 추가 함
+    }
+  }, [selectedStack]);
+
+  useEffect(() => {
     setStackList(selected);
-  }, [selected]);
+  }, [selected, selectedStack]);
 
   return (
     <div className={styles.container}>

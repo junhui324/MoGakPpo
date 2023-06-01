@@ -4,7 +4,9 @@ interface User {
   user_name: string;
   user_password: string;
   user_career_goal: string;
-  user_stacks: string[];
+  user_stacks: {
+    stackList: string[];
+  };
   user_introduction: string;
   user_img: string;
 }
@@ -17,4 +19,9 @@ export type TypeUserProfile = Pick<
   | 'user_stacks'
   | 'user_introduction'
   | 'user_img'
+>
+
+export type TypeUserStack = Pick<
+  User,
+  | 'user_stacks'
 >

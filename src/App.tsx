@@ -11,6 +11,7 @@ import styles from './index.module.scss';
 import Login from './pages/Login';
 import Password from './pages/FindPassword';
 import ProjectWriting from './pages/ProjectWriting';
+import UpdateUser from './pages/UpdateUser';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path={ROUTES.EDIT_PASSWORD} element={<Password />} />
           {/* <Route path="/user/delete" element={}/> */}
           <Route path={ROUTES.MY_PAGE} element={<Mypage />} />
+          <Route path="/user/update" element={<UpdateUser />} />
         </Routes>
       </div>
     </BrowserRouter>
