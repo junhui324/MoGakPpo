@@ -58,7 +58,7 @@ function Project() {
             project_recruitment_status: projectData.project_recruitment_status,
             project_title: projectData.project_title,
             project_created_at: projectData.project_created_at,
-            project_comments: projectData.project_comments,
+            project_comments_count: projectData.project_comments_count,
             project_views: projectData.project_views,
           }
         : null;

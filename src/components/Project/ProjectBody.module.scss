@@ -1,3 +1,6 @@
+$large-font-size: 18px;
+$middle-font-size: 16px;
+
 .container {
   div {
     div .logoCircle {
@@ -8,7 +11,7 @@
       margin-right: 6px;
       width: 36px;
       height: 36px;
-      border-radius: 32px;
+      border-radius: 36px;
 
       background-color: #f5f5f5;
     }
@@ -21,25 +24,26 @@
         justify-content: center;
         align-items: center;
 
-        margin-right: 16px;
+        margin-right: $middle-font-size;
       }
       .logoText {
-        font-size: 16px;
+        font-size: $middle-font-size;
       }
     }
 
     .paragraphTitle {
-      font-size: 18px;
+      font-size: $large-font-size;
       font-weight: 600;
 
       margin: 40px 0;
     }
 
     .paragraph {
-      font-size: 16px;
+      font-size: $middle-font-size;
       font-weight: 400;
     }
   }
 }
+
 @media (max-width: 768px) {
 }

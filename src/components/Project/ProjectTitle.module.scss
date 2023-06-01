@@ -1,3 +1,5 @@
+@import '/src/variables.scss';
+
 .container {
   div:nth-child(1) {
     margin-bottom: 20px;
@@ -5,10 +7,10 @@
     .category {
       margin-right: 8px;
       padding: 2px 6px 2px 6px;
-      color: rgb(148 163 184);
+      color: $gray-text-color;
       font-size: 16px;
       border-radius: 4px;
-      background-color: rgb(241 245 249);
+      background-color: $gray-back-color;
     }
   }
 
@@ -44,7 +46,7 @@
   }
 
   div:nth-child(3) {
-    color: rgb(148 163 184);
+    color: $gray-text-color;
   }
 }
 @media (max-width: 768px) {

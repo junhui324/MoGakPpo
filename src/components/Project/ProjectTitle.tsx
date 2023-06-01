@@ -20,7 +20,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
     const passedTime: number = now.getTime() - timestamp;
     const fewDaysAgo: number = Math.floor(passedTime / ONE_DAY_TIME);
     // 댓글 수
-    const commentsCount: number = titleData.project_comments.commentList.length;
+    const commentsCount: number = titleData.project_comments_count;
     // 모집 여부
     const recruitmentStatus = titleData.project_recruitment_status;
 

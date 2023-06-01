@@ -31,11 +31,7 @@ interface Project {
   project_bookmark_count: number;
   project_views: number;
   project_created_at: string;
-  project_comments: {
-    commentList: Array<Comment>;
-  };
   project_comments_count: number;
-  user_info: { user_name: string; user_img: string };
 }
 
 export type TypeProject = Project;
@@ -62,7 +58,7 @@ export type TypeProjectTitle = Pick<
   | 'project_recruitment_status'
   | 'project_title'
   | 'project_created_at'
-  | 'project_comments'
+  | 'project_comments_count'
   | 'project_views'
 >;
 

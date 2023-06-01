@@ -23,26 +23,5 @@
   },
   "project_views": 50,
   "project_created_at": "2023-05-01 12:03",
-  "project_comments": {
-    "commentList": [
-      {
-        "comment_id": 1,
-        "commenter_name": "댓쓴이1",
-        "commenter_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png",
-        "comment_content": "This project group looks interesting. I would like to join!",
-        "comment_created_at": "2023-05-10 13:08:13"
-      },
-      {
-        "comment_id": 2,
-        "commenter_name": "댓쓴이2",
-        "commenter_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png",
-        "comment_content": "I have some experience in machine learning. Can I participate?",
-        "comment_created_at": "2023-05-12 15:21:41"
-      }
-    ]
-  },
-  "user_info": {
-    "user_name": "로그인한 유저이름",
-    "user_img": "https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
-  }
+  "project_comments_count": 2
 }
