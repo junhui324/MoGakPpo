@@ -1,11 +1,3 @@
-interface Comment {
-  comment_id: number;
-  commenter_name: string;
-  commenter_img: string;
-  comment_content: string;
-  comment_created_at: string;
-}
-
 interface Project {
   project_id: number;
   author_id: number;
@@ -77,7 +69,7 @@ export type TypeProjectAuthor = Pick<
   'author_id' | 'author_name' | 'author_introduction' | 'author_img'
 >;
 
-export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks'>;
+export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks' | 'project_type'>;
 
 export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitment_status'>;
 

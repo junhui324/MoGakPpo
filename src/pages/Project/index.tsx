@@ -88,6 +88,7 @@ function Project() {
     setBookmarksData(() => {
       return projectData
         ? {
+            project_type: projectData.project_type,
             project_bookmarks: { bookmarkList: projectData.project_bookmarks.bookmarkList },
           }
         : null;

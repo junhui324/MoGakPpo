@@ -1,0 +1,53 @@
+@import '/src/variables.scss';
+
+.container {
+  box-sizing: border-box;
+
+  width: 300px;
+  margin-top: 16px;
+  border-radius: 6px;
+
+  .bookmarkButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 300px;
+    height: 50px;
+    border-radius: 6px;
+
+    border: $main-color solid 1px;
+    background-color: rgba(255, 255, 255, 0);
+
+    font-size: 18px;
+    color: $main-color;
+
+    margin-bottom: 16px;
+
+    cursor: pointer;
+
+    .bookmarkNot {
+      width: 22px;
+      stroke: $main-color;
+    }
+
+    .bookmarkYes {
+      width: 22px;
+      stroke: $main-color;
+      fill: $main-color;
+    }
+
+    .bookmarkName {
+      padding-bottom: 3px;
+    }
+  }
+
+  .bookmarkText {
+    height: 14px;
+    font-size: 14px;
+    color: rgb(118, 133, 154);
+  }
+}
+
+@media (max-width: 768px) {
+}

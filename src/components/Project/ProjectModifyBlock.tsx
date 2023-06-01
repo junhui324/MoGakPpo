@@ -2,13 +2,26 @@ import React from 'react';
 
 import { TypeProjectModify } from '../../interfaces/Project.interface';
 
-function RecruitmentFinishButton({ recruitmentStatus }: { recruitmentStatus: string }) {
+//스타일
+import styles from './ProjectModifyBlock.module.scss';
+
+function RecruitmentCompleteButton({
+  recruitmentStatus,
+  className,
+}: {
+  recruitmentStatus: string;
+  className: string;
+}) {
   return recruitmentStatus === '모집 중' ? (
-    <button>모집 완료 하기</button>
+    <button className={className}>모집 완료 하기</button>
   ) : recruitmentStatus === '모집 완료' ? (
-    <button disabled={true}>모집 완료</button>
+    <button disabled={true} className={className}>
+      모집 완료
+    </button>
   ) : (
-    <button disabled={true}>ERROR</button>
+    <button disabled={true} className={className}>
+      ERROR
+    </button>
   );
 }
 
@@ -31,19 +44,14 @@ export default function ProjectModifyBlock({
     const recruitmentStatus = modifyData.project_recruitment_status;
 
     return (
-      <div>
+      <div className={styles.container}>
+        <RecruitmentCompleteButton
+          className={styles.recruitmentButton}
+          recruitmentStatus={recruitmentStatus}
+        />
         <div>
-          <div>
-            <RecruitmentFinishButton recruitmentStatus={recruitmentStatus} />
-          </div>
-        </div>
-        <div>
-          <div>
-            <ModifyButton recruitmentStatus={recruitmentStatus} />
-          </div>
-          <div>
-            <button>삭제</button>
-          </div>
+          <ModifyButton recruitmentStatus={recruitmentStatus} />
+          <button>삭제</button>
         </div>
       </div>
     );
