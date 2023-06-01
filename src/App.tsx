@@ -3,7 +3,7 @@ import './reset.css';
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './pages/Main';
-import Comment from './components/Comment/Comment';
+import Comment from './components/Comment';
 import Header from './components/Header/Header';
 import Project from './pages/Project';
 import Mypage from './pages/MyPage';

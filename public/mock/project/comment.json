@@ -1,0 +1,18 @@
+[
+  {
+    "comment_id": 1,
+    "commenter_id": 2,
+    "commenter_name": "김댓쓴",
+    "commenter_img": "https://api.dicebear.com/6.x/pixel-art/svg?seed=1",
+    "comment_content": "참여하고싶어요~~ 스터디 진행방식이 궁금합니다!",
+    "comment_created_at": "2023-05-10 13:08:13"
+  },
+  {
+    "comment_id": 2,
+    "commenter_id": 3,
+    "commenter_name": "이댓쓴",
+    "commenter_img": "https://api.dicebear.com/6.x/pixel-art/svg?seed=2",
+    "comment_content": "안녕하세요! 너무 참여하고 싶은 프로젝트인데 마감이 되어 아쉽습니다. 기회가 된다면 다음 번에 꼭 참여하고 싶습니다 : )",
+    "comment_created_at": "2023-05-12 15:21:41"
+  }
+]
