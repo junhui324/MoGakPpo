@@ -5,7 +5,7 @@ interface Project {
   author_introduction: string;
   author_img: string;
   project_type: string;
-  project_recruitment_status: string | null;
+  project_recruitment_status: string;
   project_title: string;
   project_summary: string;
   project_recruitment_roles: {
