@@ -8,7 +8,7 @@ import { RiAddCircleFill } from 'react-icons/ri';
 function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>();
   const [imageSrc, setImageSrc] = useState(user?.user_img);
-  const [userStack, setUserStack] = useState(user?.user_stacks.stackList);
+  const [userStack, setUserStack] = useState<string[]>(user?.user_stacks.stackList ?? []);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 글자수 제한을 위한 상태관리
@@ -62,6 +62,10 @@ function UpdateUser() {
     }
   };
 
+  const handleSetStackList = (stacks: string[]) => {
+    setUserStack(stacks);
+  };
+
   const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     
@@ -74,11 +78,6 @@ function UpdateUser() {
     try {
       const userList = await getUserProfile();
       setUser(userList);
-      setImageSrc(userList.user_img);
-      setInputName(userList.user_name);
-      setInputIntro(userList.user_introduction);
-      setInputCareer(userList.user_career_goal);
-      setUserStack(userList.user_stacks.stackList);
     } catch (error) {
       console.error(error);
     }
@@ -87,6 +86,16 @@ function UpdateUser() {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setImageSrc(user.user_img);
+      setInputName(user.user_name);
+      setInputIntro(user.user_introduction);
+      setInputCareer(user.user_career_goal);
+      setUserStack(user.user_stacks.stackList);
+    }
+  }, [user]);
 
   return (
     <div className={styles.container}>
@@ -142,7 +151,10 @@ function UpdateUser() {
           />
           <p>{inputCareer.length}/{MAX_CAREER_COUNT}</p>
         </div>
-        <Stack />
+        <Stack 
+          selectedStack={userStack}
+          setStackList={handleSetStackList}
+        />
         <button 
           className={styles.submitButton}
           onClick={handleSumbit}

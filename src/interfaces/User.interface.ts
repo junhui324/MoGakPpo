@@ -20,3 +20,8 @@ export type TypeUserProfile = Pick<
   | 'user_introduction'
   | 'user_img'
 >
+
+export type TypeUserStack = Pick<
+  User,
+  | 'user_stacks'
+>
