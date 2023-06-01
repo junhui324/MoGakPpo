@@ -55,7 +55,7 @@ export default function ProjectModifyBlock({
 }) {
   const handleComplete = () => {
     try {
-      // API 연결을 통해 모집완료 처리가 제대로 되었는지 확인합니다.
+      // API 연결을 통해 모집완료 처리가 제대로 되었는지 확인합니다.(상태코드 200)
 
       // setProjectData를 통해 모집 상태를 최신화시킨 후 렌더링합니다.
       setProjectData((prevProjectData) => {
