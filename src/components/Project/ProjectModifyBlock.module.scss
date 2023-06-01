@@ -1,0 +1,132 @@
+@import '/src/variables.scss';
+
+@mixin button-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 300px;
+  height: 50px;
+  border-radius: 6px;
+
+  border: $main-color solid 1px;
+  background-color: $main-color;
+
+  font-size: 18px;
+  color: #ffffff;
+
+  margin-bottom: 16px;
+
+  cursor: pointer;
+}
+
+.container {
+  box-sizing: border-box;
+
+  width: 300px;
+  margin-top: 16px;
+  padding-top: 16px;
+
+  border-top: 1px solid #d0d8de;
+
+  .recruitingButton {
+    @include button-style;
+
+    cursor: pointer;
+
+    transition-property: background-color, border-color;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+
+    &:hover {
+      background-color: #7e58db;
+      border-color: #7e58db;
+    }
+
+    &:active {
+      background-color: #9878e5;
+      border-color: #9878e5;
+
+      transition: none;
+    }
+  }
+
+  .completeButton {
+    @include button-style;
+
+    border: #cfd9ff solid 1px;
+    background-color: #cfd9ff;
+
+    cursor: default;
+  }
+
+  .modifyContainer {
+    display: flex;
+
+    .modifyButton {
+      @include button-style;
+
+      width: 140px;
+      color: $main-color;
+      border: $main-color solid 1px;
+      background-color: rgb(255, 255, 255, 0);
+
+      transition-property: border-color, color;
+      transition-duration: 0.5s;
+      transition-timing-function: ease;
+
+      &:hover {
+        border-color: #9878e5;
+        color: #9878e5;
+      }
+
+      &:active {
+        border-color: #a5b4ee;
+        color: #a5b4ee;
+
+        transition: none;
+      }
+    }
+
+    .modifyDisableButton {
+      @include button-style;
+
+      width: 140px;
+      color: #cfd9ff;
+      border: #cfd9ff solid 1px;
+      background-color: rgb(255, 255, 255, 0);
+
+      cursor: default;
+    }
+
+    .deleteButton {
+      @include button-style;
+
+      margin-left: 20px;
+      width: 140px;
+      color: #cc0000;
+      border: #cc0000 solid 1px;
+      background-color: rgb(255, 255, 255, 0);
+
+      transition-property: background-color, color;
+      transition-duration: 0.5s;
+      transition-timing-function: ease;
+
+      &:hover {
+        background-color: #cc0000;
+        color: #ffffff;
+      }
+
+      &:active {
+        background-color: #ea3e3e;
+        border-color: #ea3e3e;
+        color: #ffffff;
+
+        transition: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+}

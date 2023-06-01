@@ -16,10 +16,10 @@ function Mypage() {
   return (
     <div>
       <Profile />
-      <Tab tabs={tabs} currTab={currTab} onClick={handleClickTab}/>
-      {currTab === '게시글' && <Posts/> }
-      {currTab === '댓글' && <Comments/> }
-      {currTab === '북마크' && <BookMarks/> }
+      <Tab tabs={tabs} currTab={currTab} onClick={handleClickTab} />
+      {currTab === '게시글' && <Posts />}
+      {currTab === '댓글' && <Comments />}
+      {currTab === '북마크' && <BookMarks />}
     </div>
   );
 }

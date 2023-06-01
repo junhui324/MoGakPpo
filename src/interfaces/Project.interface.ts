@@ -1,11 +1,3 @@
-interface Comment {
-  comment_id: number;
-  commenter_name: string;
-  commenter_img: string;
-  comment_content: string;
-  comment_created_at: string;
-}
-
 interface Project {
   project_id: number;
   author_id: number;
@@ -26,16 +18,12 @@ interface Project {
   project_participation_time: string;
   project_introduction: string;
   project_bookmarks: {
-    bookmarkList: { user_name: string; user_img: number[] };
+    bookmarkList: Array<{ user_name: string; user_img: number[] }>;
   };
   project_bookmark_count: number;
   project_views: number;
   project_created_at: string;
-  project_comments: {
-    commentList: Array<Comment>;
-  };
   project_comments_count: number;
-  user_info: { user_name: string; user_img: string };
 }
 
 export type TypeProject = Project;
@@ -62,7 +50,7 @@ export type TypeProjectTitle = Pick<
   | 'project_recruitment_status'
   | 'project_title'
   | 'project_created_at'
-  | 'project_comments'
+  | 'project_comments_count'
   | 'project_views'
 >;
 
@@ -81,7 +69,7 @@ export type TypeProjectAuthor = Pick<
   'author_id' | 'author_name' | 'author_introduction' | 'author_img'
 >;
 
-export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks'>;
+export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks' | 'project_type'>;
 
 export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitment_status'>;
 
@@ -98,4 +86,6 @@ export type TypeProjectPost = Pick<
   | 'project_introduction'
 >;
 
-export type TypeStacks = Pick<Project, 'project_required_stacks'>
+export type TypeUserPosts = { project: TypeProjectList }[];
+
+export type TypeStacks = Pick<Project, 'project_required_stacks'>;

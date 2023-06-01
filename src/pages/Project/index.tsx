@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -7,13 +7,17 @@ import ProjectBody from '../../components/Project/ProjectBody';
 import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
-// data 관련
+// data
 import * as Fetcher from '../../apis/Fetcher';
+// 타입
 import * as ProjectType from '../../interfaces/Project.interface';
+// 스타일
+import styles from './Project.module.scss';
 
 function Project() {
-  // params 확인
+  // 라우터 관련
   const params: { [key: string]: string | undefined } = useParams();
+  const navigate = useNavigate();
 
   // 게시글 데이터
   const projectId: number = params.id ? Number(params.id) : 0;
@@ -33,7 +37,9 @@ function Project() {
       const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
       setProjectData(data);
     } catch (loadingError) {
-      setError('데이터 로딩 실패');
+      alert('올바르지 않은 주소입니다.');
+      // 경로 나중에 상수로 바꿀 필요 있음
+      navigate('/');
     } finally {
       setIsLoading(false);
     }
@@ -53,7 +59,7 @@ function Project() {
             project_recruitment_status: projectData.project_recruitment_status,
             project_title: projectData.project_title,
             project_created_at: projectData.project_created_at,
-            project_comments: projectData.project_comments,
+            project_comments_count: projectData.project_comments_count,
             project_views: projectData.project_views,
           }
         : null;
@@ -83,6 +89,7 @@ function Project() {
     setBookmarksData(() => {
       return projectData
         ? {
+            project_type: projectData.project_type,
             project_bookmarks: { bookmarkList: projectData.project_bookmarks.bookmarkList },
           }
         : null;
@@ -98,17 +105,18 @@ function Project() {
   }, [projectData]);
 
   return projectData ? (
-    <>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.leftContainer}>
         <ProjectTitle titleData={titleData} />
         <ProjectBody bodyData={bodyData} />
       </div>
-      <div>
+      <div className={styles.rightContainer}>
         <ProjectAuthorProfile authorData={authorData} />
         <ProjectBookmarkBlock bookmarksData={bookmarksData} />
-        <ProjectModifyBlock modifyData={modifyData} />
+        {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
+        <ProjectModifyBlock modifyData={modifyData} setProjectData={setProjectData} />
       </div>
-    </>
+    </div>
   ) : (
     <>
       <div>{isLoading ? '로딩중입니다.' : error}</div>
