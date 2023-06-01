@@ -7,10 +7,11 @@ import Main from './pages/Main';
 import Comment from './components/Comment/Comment';
 import Header from './components/Header/Header';
 import Project from './pages/Project';
-import Mypage from './pages/Mypage';
+import Mypage from './pages/MyPage';
 import styles from './index.module.scss';
 import Login from './pages/Login';
 import Password from './pages/FindPassword';
+import Stack from './components/Stack';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path={ROUTES.EDIT_PASSWORD} element={<Password />} />
           {/* <Route path="/user/delete" element={}/> */}
           <Route path={ROUTES.MY_PAGE} element={<Mypage />} />
+          <Route path="/stack" element={<Stack />} />
         </Routes>
       </div>
     </BrowserRouter>

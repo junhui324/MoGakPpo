@@ -1,0 +1,94 @@
+@import '/src/variables.scss';
+$input-border-color: #94A3B8;
+$suggestion-color: #f1f3f5;
+
+.container {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 1.4rem 0;
+  }
+
+  .stackContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+
+    .stackWrapper {
+      display: flex;
+      flex-direction: row;
+      background-color: $main-color;
+      border-radius: 100px;
+      color: white;
+      margin: 0 0.6rem 0.6rem 0;
+      font-size: 12px;
+  
+      .selectedStack {
+        display: flex;
+        align-items: center;
+        padding: 0.4rem 0 0.4rem 0.6rem;
+        word-break: keep-all;
+
+        .deleteButton {
+          cursor: pointer;
+          padding: 0 0.4rem;
+        }
+      }
+
+      .duplicateStack {
+        padding: 0.4rem 0.6rem;
+        word-break: keep-all;
+        border: 1.4px solid $main-color;
+        border-radius: 100px;
+        cursor: pointer;
+      }
+      
+      .uniqueStack {
+        padding: 0.4rem 0.6rem;
+        word-break: keep-all;
+        color: $main-color;
+        background-color: white;
+        border: 1.4px solid $main-color;
+        border-radius: 100px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .inputContainer {
+    position: relative;
+    
+    .input {
+      width: 96%;
+      border: 1px solid $input-border-color;
+      border-radius: 6px;
+      outline: none;
+      height: 40px;
+      padding-left: 1rem;
+    }
+
+    .searchButton {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+    }
+  }
+  
+  .suggestionContainer {
+    max-height: 200px;
+    overflow-y: auto;
+
+    .suggestion {
+      font-size: 12px;
+      padding: 1rem;
+      background-color: $suggestion-color;
+      border-bottom: 1px solid rgba($input-border-color, 0.3);
+    }
+  }
+}

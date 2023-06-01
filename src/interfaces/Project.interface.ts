@@ -97,3 +97,5 @@ export type TypeProjectPost = Pick<
   | 'project_participation_time'
   | 'project_introduction'
 >;
+
+export type TypeStacks = Pick<Project, 'project_required_stacks'>

@@ -1,0 +1,36 @@
+[
+  {
+    "project": {
+      "project_id": 1,
+      "project_type": "PROJECT",
+      "project_recruitment_status": "RECRUITING",
+      "project_title": "Web Development project Group",
+      "project_summary": "Join us to learn and collaborate on web development projects.",
+      "project_recruitment_roles": { "roleList": ["FRONT", "BACK"] },
+      "project_required_stacks": { "stackList": ["HTML", "CSS", "JavaScript"] },
+      "project_goal": "PORTFOLIO",
+      "project_participation_time": "LESS",
+      "project_bookmark_count": 0,
+      "project_comments_count": 0,
+      "project_views_count": 0,
+      "project_created_at": "2023-05-01 15:21:41"
+    }
+  },
+  {
+    "project": {
+      "project_id": 2,
+      "project_type": "PROJECT",
+      "project_recruitment_status": "RECRUITING",
+      "project_title": "React UI Library",
+      "project_summary": "Build a reusable UI library using React components.",
+      "project_recruitment_roles": { "roleList": ["FRONT", "BACK"] },
+      "project_required_stacks": { "stackList": ["HTML", "CSS", "JavaScript"] },
+      "project_goal": "FOUNDED",
+      "project_participation_time": "MIDDLE",
+      "project_bookmark_count": 10,
+      "project_comments_count": 11,
+      "project_views_count": 50,
+      "project_created_at": "2023-05-15 15:21:41"
+    }
+  }
+]
