@@ -6,6 +6,7 @@ import Stack from "../../components/Stack";
 import styles from './updateUser.module.scss';
 import { RiAddCircleFill } from 'react-icons/ri';
 import ROUTES from '../../constants/Routes';
+import useBeforeUnload from '../../hooks/useBeforeUnload';
 
 function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>();
@@ -106,6 +107,8 @@ function UpdateUser() {
       navigate(`${ROUTES.MY_PAGE}`);
     }
   }
+
+  useBeforeUnload();
 
   useEffect(() => {
     getUserData();
