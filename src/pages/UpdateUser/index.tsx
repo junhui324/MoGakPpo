@@ -1,20 +1,23 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TypeUserProfile } from '../../interfaces/User.interface';
-import { getUserProfile } from '../../apis/Fetcher';
+import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from "../../components/Stack";
 import styles from './updateUser.module.scss';
 import { RiAddCircleFill } from 'react-icons/ri';
+import ROUTES from '../../constants/Routes';
 
 function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>();
   const [imageSrc, setImageSrc] = useState(user?.user_img);
   const [userStack, setUserStack] = useState<string[]>(user?.user_stacks.stackList ?? []);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // 글자수 제한을 위한 상태관리
   const [inputName, setInputName] = useState<string>('');
   const [inputIntro, setInputIntro] = useState<string>('');
   const [inputCareer, setInputCareer] = useState<string>('');
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   const MAX_NAME_COUNT = 50;
   const MAX_INTRO_COUNT = 250;
@@ -66,14 +69,6 @@ function UpdateUser() {
     setUserStack(stacks);
   };
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    
-    if (window.confirm('수정하시겠습니까?')) {
-      console.log('마이페이지로 이동');
-    }
-  }
-
   const getUserData = async () => {
     try {
       const userList = await getUserProfile();
@@ -82,6 +77,30 @@ function UpdateUser() {
       console.error(error);
     }
   };
+
+  const updatedUserData = {
+    user_img: imageSrc || '',
+    user_name: inputName,
+    user_introduction: inputIntro || '',
+    user_career_goal: inputCareer || '',
+    user_stacks: {
+      stackList: userStack || [],
+    },
+  };
+  
+  const handleSumbit = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    
+    if (window.confirm('수정하시겠습니까?')) {
+      try {
+        await updateUserProfile(updatedUserData);
+      } catch (error) {
+        console.log(error);
+      }
+
+      navigate(`${ROUTES.MY_PAGE}`);
+    }
+  }
 
   useEffect(() => {
     getUserData();

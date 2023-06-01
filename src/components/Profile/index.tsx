@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './profile.module.scss';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile } from '../../apis/Fetcher';
+import ROUTES from '../../constants/Routes';
 
 function Profile() {
   const [user, setUser] = useState<TypeUserProfile>();
+  const navigate = useNavigate();
 
   const getUserData = async () => {
     try {
@@ -15,6 +18,10 @@ function Profile() {
     }
   };
 
+  const handleClickEdit = () => {
+    navigate(`${ROUTES.USER_UPDATE}`);
+  }
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -23,7 +30,12 @@ function Profile() {
     <div className={styles.profileContainer}>
       <div className={styles.imageWrapper}>
         <img className={styles.image} src={user?.user_img} alt={user?.user_name}></img>
-        <button className={styles.updateButton}>편집</button>
+        <button 
+          className={styles.updateButton}
+          onClick={handleClickEdit}
+        >
+          편집
+        </button>
       </div>
       <div className={styles.introWrapper}>
         <div className={styles.name}>{user?.user_name}</div>

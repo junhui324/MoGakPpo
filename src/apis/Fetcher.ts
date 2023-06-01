@@ -45,4 +45,13 @@ async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject };
+// 유저 정보 수정하기
+async function updateUserProfile(
+  data: UserType.TypeUserProfile
+) : Promise<UserType.TypeUserProfile> {
+  const params = `/user.json`;
+  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
+  return await Api.put(domain, params, data, false);
+}
+
+export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject, updateUserProfile };
