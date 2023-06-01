@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
+import { getCommentList, postComment } from '../../apis/Fetcher';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -24,14 +25,18 @@ export default function Comment() {
   }, [comments, editingCommentId]);
 
   //댓글 리스트가 업데이트 될 때마다 코멘트 api get요청
+  const getCommentData = async () => {
+    const commentList = await getCommentList();
+    //@ts-ignore
+    setComments(commentList);
+  };
   useEffect(() => {
-    axios.get('http://localhost:3000/mock/project/comment.json').then((res) => {
-      setComments(res.data);
-    });
+    getCommentData();
   }, [isListUpdated]);
 
   //로그인 상태가 바뀔 때 마다 유저 정보 api get요청
   useEffect(() => {
+    //todo - 로컬스토리지의 유저정보로 변경하기
     axios.get('http://localhost:3000/mock/user.json').then((res) => {
       setUser(res.data);
     });
@@ -57,9 +62,12 @@ export default function Comment() {
   const loggedInUserInputClicked = () => {
     const handleSubmitButtonClick = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/mock/projects/1.json', {
+        //@ts-ignore
+        const response = await postComment({
           comment_content: inputValue,
         });
+
+        //@ts-ignore
         if (response.status === 200) {
           setIsListUpdated(!isListUpdated);
         }

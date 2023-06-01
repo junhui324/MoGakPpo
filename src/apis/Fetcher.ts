@@ -4,6 +4,7 @@
 import * as Api from './Api';
 import * as ProjectType from '../interfaces/Project.interface';
 import * as UserType from '../interfaces/User.interface';
+import * as CommentType from '../interfaces/Comment.interface';
 
 const domain = `/mock`;
 
@@ -11,6 +12,24 @@ const domain = `/mock`;
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
   const params = `projects/${projectId}.json`;
   return await Api.get(domain, params, false);
+}
+
+// 코멘트 리스트 불러오기
+async function getCommentList(): Promise<CommentType.TypeComment> {
+  const params = `project/comment.json`;
+  return await Api.get(domain, params, false);
+}
+async function postComment(data: CommentType.TypeComment): Promise<CommentType.TypeComment> {
+  const params = `project/comment.json`;
+  return await Api.post(domain, params, data);
+}
+async function putComment(data: CommentType.TypeComment): Promise<CommentType.TypeComment> {
+  const params = `project/comment.json`;
+  return await Api.put(domain, params, data);
+}
+async function deleteComment(data: CommentType.TypeComment): Promise<CommentType.TypeComment> {
+  const params = `project/comment.json`;
+  return await Api.delete(domain, params, data);
 }
 
 // 모든 프로젝트 리스트 불러오기
@@ -45,4 +64,15 @@ async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject };
+export {
+  getProject,
+  getCommentList,
+  postComment,
+  putComment,
+  deleteComment,
+  getProjects,
+  getUserProfile,
+  getStackList,
+  getUserPosts,
+  postProject,
+};
