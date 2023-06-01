@@ -18,7 +18,6 @@ import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING } from './constant';
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
     project_type: '',
-    project_recruitment_status: null,
     project_title: '',
     project_summary: '',
     project_recruitment_roles: { roleList: [] as string[] },
@@ -126,8 +125,13 @@ function ProjectWritingForm() {
   const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const missingFields = getMissingFields();
+    if (missingFields.length > 0) {
+      alert(`다음 필수 항목이 입력되지 않았습니다: ${missingFields.join(', ')}`);
+      return;
+    }
+
     if (stackList.length === 0) {
-      console.log('stackList 길이가 0이면 미정');
       setProject((prevProject) => ({
         ...prevProject,
         project_required_stacks: {
@@ -139,8 +143,30 @@ function ProjectWritingForm() {
     console.log('json으로 보기:', JSON.stringify(project));
   };
 
-  //console.log(project);
-  //console.log('부모 컴포넌트의 stackList: ', stackList);
+  // 유효성 검사
+  const getMissingFields = () => {
+    const requiredFields: string[] = [
+      'project_title',
+      'project_summary',
+      'project_recruitment_roles',
+      'project_goal',
+      'project_participation_time',
+      'project_introduction',
+    ];
+
+    const missingFields: string[] = [];
+    requiredFields.forEach((field) => {
+      if (field === 'project_recruitment_roles') {
+        const isEmpty = project.project_recruitment_roles.roleList.length;
+        isEmpty === 0 ? missingFields.push(field) : console.log('');
+        // @ts-ignore
+      } else if (!project[field]) {
+        missingFields.push(field);
+      }
+    });
+
+    return missingFields;
+  };
 
   return (
     <div className={styles.container}>
@@ -162,7 +188,9 @@ function ProjectWritingForm() {
           </div>
 
           <div>
-            <h2 className={styles.summary}>요약</h2>
+            <h2 className={styles.summary}>
+              요약<span className={styles.essential}>*</span>
+            </h2>
             <div className={styles.summaryBox}>
               <textarea
                 className={styles.summaryTextarea}
@@ -175,7 +203,9 @@ function ProjectWritingForm() {
           </div>
 
           <div>
-            <h2 className={styles.role}>모집 역할</h2>
+            <h2 className={styles.role}>
+              모집 역할<span className={styles.essential}>*</span>
+            </h2>
             <div className={styles.checkbox}>
               <div>
                 <input
@@ -221,7 +251,9 @@ function ProjectWritingForm() {
           </div>
 
           <div>
-            <h2 className={styles.goal}>목적</h2>
+            <h2 className={styles.goal}>
+              목적<span className={styles.essential}>*</span>
+            </h2>
             <div className={styles.radioBox}>
               <RadioButton
                 label={PROJECT_GOAL.PORTFOLIO}
@@ -249,7 +281,9 @@ function ProjectWritingForm() {
 
           <div>
             <div className={styles.timeBox}>
-              <h2 className={styles.time}>참여 시간</h2>
+              <h2 className={styles.time}>
+                참여 시간<span className={styles.essential}>*</span>
+              </h2>
               <div className={styles.speechBubble}>
                 <AiOutlineInfoCircle className={styles.svg} />
                 <div className={styles.arrowBox}>매주 프로젝트에 쓸 수 있는 시간</div>
@@ -289,7 +323,9 @@ function ProjectWritingForm() {
           </div>
 
           <div>
-            <h2 className={styles.introduction}>소개</h2>
+            <h2 className={styles.introduction}>
+              소개<span className={styles.essential}>*</span>
+            </h2>
             <div>
               <textarea
                 className="introduceTextarea"

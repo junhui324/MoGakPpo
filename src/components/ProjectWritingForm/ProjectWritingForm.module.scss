@@ -1,9 +1,38 @@
 @import '/src/variables.scss';
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 @mixin subtitle {
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 10px;
+}
+
+input {
+  font-weight: 600;
+  padding: 6px;
+  &::placeholder {
+    color: #ccc;
+  }
+}
+
+textarea {
+  font-weight: 500;
+  padding: 6px;
+  margin-top: 6px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 200px;
+  box-sizing: border-box;
+  border-style: none;
+  font-size: 16px;
+  resize: none;
+  &::placeholder {
+    color: #ccc;
+  }
+}
+
+h2 {
+  @include subtitle;
 }
 
 .container {
@@ -28,6 +57,7 @@
 
   p {
     font-size: 11px;
+    font-weight: 600;
     text-align: center;
   }
 }
@@ -36,10 +66,11 @@
   font-size: 2rem;
   height: 58px;
   border-style: none;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .summaryBox {
+  margin-top: 10px;
   .summaryTextarea {
     width: 100%;
     height: 200px;
@@ -50,11 +81,18 @@
   }
 }
 
+.role {
+  margin-bottom: 20px;
+}
 .checkbox {
+  margin-top: 10px;
   margin-bottom: 40px;
   div {
     display: inline;
-    padding: 5px;
+    padding-right: 15px;
+    label {
+      padding-left: 4px;
+    }
   }
   input,
   progress {
@@ -62,25 +100,16 @@
   }
 }
 
+.goal {
+  margin-bottom: 20px;
+}
 .radioBox {
+  margin-top: 10px;
   margin-bottom: 40px;
   input,
   progress {
     accent-color: $main-color;
   }
-}
-
-h2 {
-  @include subtitle;
-}
-
-textarea {
-  width: 100%;
-  height: 200px;
-  box-sizing: border-box;
-  border-style: none;
-  font-size: 16px;
-  resize: none;
 }
 
 .stack {
@@ -95,6 +124,23 @@ textarea {
   .time {
     margin-right: 5px;
   }
+}
+
+.submitButton {
+  width: 120px;
+  height: 40px;
+  margin: 10px 20px 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: $main-color;
+  color: white;
+  border-color: $main-color;
+  border-radius: 8px;
+}
+
+.essential {
+  padding-left: 4px;
+  color: red;
 }
 
 /*여기서부터 말풍선 css*/
@@ -152,16 +198,4 @@ textarea {
   100% {
     opacity: 0;
   }
-}
-
-.submitButton {
-  width: 120px;
-  height: 40px;
-  margin: 10px 20px 10px 0;
-  font-size: 18px;
-  font-weight: 600;
-  background-color: $main-color;
-  color: white;
-  border-color: $main-color;
-  border-radius: 8px;
 }

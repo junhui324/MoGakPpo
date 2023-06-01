@@ -89,7 +89,6 @@ export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitmen
 export type TypeProjectPost = Pick<
   Project,
   | 'project_type'
-  | 'project_recruitment_status'
   | 'project_title'
   | 'project_summary'
   | 'project_recruitment_roles'

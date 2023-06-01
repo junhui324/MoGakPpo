@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './RadioButton.module.scss';
 
 interface RadioButtonProps {
   label: string;
@@ -18,7 +19,7 @@ function RadioButton({ label, value, name, checked, onChange }: RadioButtonProps
   };
 
   return (
-    <label>
+    <label className={styles.radioButton}>
       <input type="radio" value={value} name={name} checked={checked} onChange={handleChange} />
       {label}
     </label>
