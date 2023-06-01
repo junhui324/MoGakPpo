@@ -34,15 +34,21 @@ export type TypeProjectList = Pick<
   | 'project_type'
   | 'project_recruitment_status'
   | 'project_title'
-  | 'project_summary'
   | 'project_goal'
   | 'project_bookmark_count'
   | 'project_comments_count'
   | 'project_views'
   | 'project_created_at'
-  | 'project_recruitment_roles'
 > &
-  Pick<Project, 'project_required_stacks' | 'project_participation_time'>;
+  Partial<
+    Pick<
+      Project,
+      | 'project_required_stacks'
+      | 'project_participation_time'
+      | 'project_summary'
+      | 'project_recruitment_roles'
+    >
+  >;
 
 export type TypeProjectTitle = Pick<
   Project,

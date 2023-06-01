@@ -61,12 +61,14 @@ function Project({ projectData }: projectDataProps) {
         <p className={styles.title}>{title}</p>
         {isNewProject(createdAt) && <span className={styles.newTag}>NEW</span>}
       </div>
-      <p className={styles.summary}>{summary}</p>
-      <ul className={styles.roleContainer}>
-        {recruitmentRoles.roleList.map((role, index) => (
-          <li key={index}>{role}</li>
-        ))}
-      </ul>
+      {summary && <p className={styles.summary}>{summary}</p>}{' '}
+      {recruitmentRoles && (
+        <ul className={styles.roleContainer}>
+          {recruitmentRoles.roleList.map((role, index) => (
+            <li key={index}>{role}</li>
+          ))}
+        </ul>
+      )}
       {requiredStacks && (
         <ul className={styles.stacksContainer}>
           <span>기술스택</span>
@@ -75,7 +77,6 @@ function Project({ projectData }: projectDataProps) {
           ))}
         </ul>
       )}
-
       {(bookmarkCount > 0 || commentsCount > 0 || viewsCount > 0) && (
         <ul className={styles.countContainer}>
           {bookmarkCount > 0 ? (
