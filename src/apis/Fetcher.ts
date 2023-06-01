@@ -19,6 +19,12 @@ async function getProjects(): Promise<ProjectType.TypeProjectList[]> {
   return await Api.get(domain, params, false);
 }
 
+// 카테고리로 프로젝트 리스트 불러오기
+async function getProjectsByCategory(categoryId: string): Promise<ProjectType.TypeProjectList[]> {
+  const params = `projects?cate=${categoryId}.json`;
+  return await Api.get(domain, params, false);
+}
+
 async function postProject(
   data: ProjectType.TypeProjectPost
 ): Promise<ProjectType.TypeProjectPost> {
@@ -45,4 +51,12 @@ async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject };
+export {
+  getProject,
+  getProjects,
+  getUserProfile,
+  getStackList,
+  getUserPosts,
+  postProject,
+  getProjectsByCategory,
+};
