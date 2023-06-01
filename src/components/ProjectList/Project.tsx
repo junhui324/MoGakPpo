@@ -1,3 +1,10 @@
+import {
+  PROJECT_GOAL,
+  PROJECT_PARTICIPATION_TIME,
+  PROJECT_RECRUITMENT_ROLES,
+  PROJECT_RECRUITMENT_STATUS,
+  PROJECT_TYPE,
+} from '../../constants/project';
 import { TypeProjectList } from '@/interfaces/Project.interface';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
@@ -41,22 +48,26 @@ function Project({ projectData }: projectDataProps) {
     >
       <div>
         <div>
-          <span className={styles.type}>{type}</span>
-          <span className={styles.goal}>{goal}</span>
+          <span className={styles.type}>{PROJECT_TYPE[type]}</span>
+          <span className={styles.goal}>{PROJECT_GOAL[goal]}</span>
         </div>
-        {participationTime && <span className={styles.participationTime}>{participationTime}</span>}
+        {participationTime && (
+          <span className={styles.participationTime}>
+            {PROJECT_PARTICIPATION_TIME[participationTime]}
+          </span>
+        )}
       </div>
       <div>
         <span
           className={`${styles.status} ${
-            recruitmentStatus === '모집 중'
+            recruitmentStatus === 'RECRUITING'
               ? styles.recruiting
-              : recruitmentStatus === '모집 완료'
+              : recruitmentStatus === 'COMPLETE'
               ? styles.done
               : ''
           }`}
         >
-          {recruitmentStatus}
+          {PROJECT_RECRUITMENT_STATUS[recruitmentStatus]}
         </span>
         <p className={styles.title}>{title}</p>
         {isNewProject(createdAt) && <span className={styles.newTag}>NEW</span>}
@@ -65,7 +76,7 @@ function Project({ projectData }: projectDataProps) {
       {recruitmentRoles && (
         <ul className={styles.roleContainer}>
           {recruitmentRoles.roleList.map((role, index) => (
-            <li key={index}>{role}</li>
+            <li key={index}>{PROJECT_RECRUITMENT_ROLES[role]}</li>
           ))}
         </ul>
       )}
