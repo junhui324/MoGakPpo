@@ -19,6 +19,12 @@ async function getProjects(): Promise<ProjectType.TypeProjectList[]> {
   return await Api.get(domain, params, false);
 }
 
+async function postProject(
+  data: ProjectType.TypeProjectPost
+): Promise<ProjectType.TypeProjectPost> {
+  return await Api.post(domain, ``, data);
+}
+
 // 유저 프로필 불러오기
 async function getUserProfile(): Promise<UserType.TypeUserProfile> {
   const params = `/user.json`;
@@ -39,4 +45,4 @@ async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects, getUserProfile, getStackList, getUserPosts };
+export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject };

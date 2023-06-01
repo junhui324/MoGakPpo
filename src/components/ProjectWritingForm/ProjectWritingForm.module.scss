@@ -1,7 +1,38 @@
+@import '/src/variables.scss';
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 @mixin subtitle {
   font-weight: bold;
   font-size: 20px;
   margin-bottom: 10px;
+}
+
+input {
+  font-weight: 600;
+  padding: 6px;
+  &::placeholder {
+    color: #ccc;
+  }
+}
+
+textarea {
+  font-weight: 500;
+  padding: 6px;
+  margin-top: 6px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 200px;
+  box-sizing: border-box;
+  border-style: none;
+  font-size: 16px;
+  resize: none;
+  &::placeholder {
+    color: #ccc;
+  }
+}
+
+h2 {
+  @include subtitle;
 }
 
 .container {
@@ -18,10 +49,16 @@
   display: flex;
   width: 85px;
   height: 20px;
-  background-color: #eef2ed;
+  background-color: $main-color;
+  text-align: center;
+  color: white;
+  justify-content: center;
+  align-items: center;
 
   p {
     font-size: 11px;
+    font-weight: 600;
+    text-align: center;
   }
 }
 
@@ -29,10 +66,11 @@
   font-size: 2rem;
   height: 58px;
   border-style: none;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .summaryBox {
+  margin-top: 10px;
   .summaryTextarea {
     width: 100%;
     height: 200px;
@@ -43,33 +81,121 @@
   }
 }
 
+.role {
+  margin-bottom: 20px;
+}
 .checkbox {
+  margin-top: 10px;
   margin-bottom: 40px;
   div {
     display: inline;
-    padding: 5px;
+    padding-right: 15px;
+    label {
+      padding-left: 4px;
+    }
+  }
+  input,
+  progress {
+    accent-color: $main-color;
   }
 }
 
+.goal {
+  margin-bottom: 20px;
+}
 .radioBox {
+  margin-top: 10px;
   margin-bottom: 40px;
-}
-
-h2 {
-  @include subtitle;
-}
-
-textarea {
-  width: 100%;
-  height: 200px;
-  box-sizing: border-box;
-  border-style: none;
-  font-size: 16px;
-  resize: none;
+  input,
+  progress {
+    accent-color: $main-color;
+  }
 }
 
 .stack {
-  border: 2px solid rgb(234, 234, 234);
+  border: 2px solid $main-color;
   width: 200px;
   height: 40px;
+}
+
+.timeBox {
+  display: flex;
+
+  .time {
+    margin-right: 5px;
+  }
+}
+
+.submitButton {
+  width: 120px;
+  height: 40px;
+  margin: 10px 20px 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: $main-color;
+  color: white;
+  border-color: $main-color;
+  border-radius: 8px;
+}
+
+.essential {
+  padding-left: 4px;
+  color: red;
+}
+
+/*여기서부터 말풍선 css*/
+
+.speechBubble {
+  position: relative;
+  display: inline-block;
+
+  .svg {
+    width: 20px;
+    height: 20px;
+
+    &:hover + .arrowBox {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .arrowBox {
+    visibility: hidden;
+    width: 190px;
+    max-width: 220px;
+    font-size: 14px;
+    padding: 8px;
+    background-color: $main-color;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .arrowBox::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: $main-color transparent transparent transparent;
+  }
+}
+
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

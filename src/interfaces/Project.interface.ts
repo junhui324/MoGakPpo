@@ -5,7 +5,7 @@ interface Project {
   author_introduction: string;
   author_img: string;
   project_type: string;
-  project_recruitment_status: string;
+  project_recruitment_status: string | null;
   project_title: string;
   project_summary: string;
   project_recruitment_roles: {
@@ -17,6 +17,7 @@ interface Project {
   project_goal: string;
   project_participation_time: string;
   project_introduction: string;
+  project_img: string | null;
   project_bookmarks: {
     bookmarkList: Array<{ user_name: string; user_img: number[] }>;
   };
@@ -82,7 +83,6 @@ export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitmen
 export type TypeProjectPost = Pick<
   Project,
   | 'project_type'
-  | 'project_recruitment_status'
   | 'project_title'
   | 'project_summary'
   | 'project_recruitment_roles'
@@ -90,6 +90,7 @@ export type TypeProjectPost = Pick<
   | 'project_goal'
   | 'project_participation_time'
   | 'project_introduction'
+  | 'project_img'
 >;
 
 export type TypeUserPosts = { project: TypeProjectList }[];

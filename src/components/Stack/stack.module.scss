@@ -1,12 +1,12 @@
 @import '/src/variables.scss';
-$input-border-color: #94A3B8;
+$input-border-color: #94a3b8;
 $suggestion-color: #f1f3f5;
 
 .container {
   width: 500px;
   display: flex;
   flex-direction: column;
-  
+
   .title {
     font-size: 18px;
     font-weight: 600;
@@ -27,7 +27,7 @@ $suggestion-color: #f1f3f5;
       color: white;
       margin: 0 0.6rem 0.6rem 0;
       font-size: 12px;
-  
+
       .selectedStack {
         display: flex;
         align-items: center;
@@ -47,7 +47,7 @@ $suggestion-color: #f1f3f5;
         border-radius: 100px;
         cursor: pointer;
       }
-      
+
       .uniqueStack {
         padding: 0.4rem 0.6rem;
         word-break: keep-all;
@@ -62,7 +62,7 @@ $suggestion-color: #f1f3f5;
 
   .inputContainer {
     position: relative;
-    
+
     .input {
       width: 96%;
       border: 1px solid $input-border-color;
@@ -79,7 +79,7 @@ $suggestion-color: #f1f3f5;
       cursor: pointer;
     }
   }
-  
+
   .suggestionContainer {
     max-height: 200px;
     overflow-y: auto;
