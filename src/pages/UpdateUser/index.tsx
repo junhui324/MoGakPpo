@@ -11,9 +11,9 @@ function UpdateUser() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 글자수 제한을 위한 상태관리
-  const [inputName, setInputName] = useState<String>('');
-  const [inputIntro, setInputIntro] = useState<String>('');
-  const [inputCareer, setInputCareer] = useState<String>('');
+  const [inputName, setInputName] = useState<string>('');
+  const [inputIntro, setInputIntro] = useState<string>('');
+  const [inputCareer, setInputCareer] = useState<string>('');
 
   const MAX_NAME_COUNT = 50;
   const MAX_INTRO_COUNT = 250;
@@ -38,38 +38,35 @@ function UpdateUser() {
   }
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, 
-    max: number, 
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    max: number,
     title: string
-    ) => {
+  ) => {
+    const { value } = e.target;
+    if (value.length <= max) {
       switch (title) {
         case 'name': {
-          const { value } = e.target;
-          if (value.length <= max) {
-            setInputName(value);
-          }
+          setInputName(value);
           break;
         }
         case 'intro': {
-          const { value } = e.target;
-          if (value.length <= max) {
-            setInputIntro(value);
-          }
+          setInputIntro(value);
           break;
         }
         case 'career': {
-          const { value } = e.target;
-          if (value.length <= max) {
-            setInputCareer(value);
-          }
+          setInputCareer(value);
           break;
         }
       }
-  }
+    }
+  };
 
   const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    console.log('완료 버튼 클릭');
+    
+    if (window.confirm('수정하시겠습니까?')) {
+      console.log('마이페이지로 이동');
+    }
   }
 
   const getUserData = async () => {
@@ -115,7 +112,7 @@ function UpdateUser() {
           <label className={styles.name}>이름</label>
           <input 
             type="text" 
-            defaultValue={user?.user_name}
+            value={inputName}
             placeholder="이름을 입력해 주세요."
             maxLength={MAX_NAME_COUNT}
             onChange={(e) => handleChange(e, MAX_NAME_COUNT, 'name')}
@@ -125,7 +122,7 @@ function UpdateUser() {
         <div className={styles.introContainer}>
           <label>자기소개</label>
           <textarea
-            defaultValue={user?.user_introduction}
+            value={inputIntro}
             placeholder="자기소개를 입력해 주세요."
             maxLength={MAX_INTRO_COUNT}
             onChange={(e) => handleChange(e, MAX_INTRO_COUNT, 'intro')}
@@ -136,7 +133,7 @@ function UpdateUser() {
           <label>원하는 직군</label>
           <input 
             type="text" 
-            defaultValue={user?.user_career_goal}
+            value={inputCareer}
             placeholder="원하는 직군을 입력해 주세요."
             maxLength={MAX_CAREER_COUNT}
             onChange={(e) => handleChange(e, MAX_CAREER_COUNT, 'career')}
