@@ -63,25 +63,30 @@ export default function Comment() {
         if (response.status === 200) {
           setIsListUpdated(!isListUpdated);
         }
+        setIsInputClicked(!isInputClicked);
       } catch (error) {
         console.log(error);
       }
     };
     return (
-      <>
+      <div className={styles.commentInputArea}>
         <textarea
           placeholder="2차구현-에디터로 변경하기"
           value={inputValue}
           onChange={(event) => setInputValue(() => event.target.value)}
         />
-        <button type="submit" onClick={handleSubmitButtonClick}>
-          등록
-        </button>
-        <button onClick={() => setIsInputClicked(!isInputClicked)}>취소</button>
-      </>
+        <div className={styles.buttonContainer}>
+          <button className={styles.defaultButton} type="submit" onClick={handleSubmitButtonClick}>
+            등록
+          </button>
+          <button className={styles.lineButton} onClick={() => setIsInputClicked(!isInputClicked)}>
+            취소
+          </button>
+        </div>
+      </div>
     );
   };
-  //로그인 하지 않은 유저일 경우 인풋영역
+  //로그인 하지 않은 유저일 경우 인풋영역->로그인페이지로 연결됨
   const loggedOutUserInput = () => {
     return (
       <>
@@ -159,14 +164,22 @@ export default function Comment() {
               {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
               {comment.commenter_id !== user?.user_id &&
                 (isEditing ? (
-                  <div>
-                    <button onClick={handleEditSubmitButtonClick}>등록</button>
-                    <button onClick={() => setEditingCommentId(null)}>취소</button>
+                  <div className={styles.buttonContainer}>
+                    <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
+                      등록
+                    </button>
+                    <button className={styles.lineButton} onClick={() => setEditingCommentId(null)}>
+                      취소
+                    </button>
                   </div>
                 ) : (
-                  <div>
-                    <button onClick={handleEditButtonClick}>수정</button>
-                    <button onClick={handleDeleteButtonClick}>삭제</button>
+                  <div className={styles.buttonContainer}>
+                    <button className={styles.defaultButton} onClick={handleEditButtonClick}>
+                      수정
+                    </button>
+                    <button className={styles.lineButton} onClick={handleDeleteButtonClick}>
+                      삭제
+                    </button>
                   </div>
                 ))}
             </li>
