@@ -159,8 +159,7 @@ function ProjectWritingForm() {
       if (field === 'project_recruitment_roles') {
         const isEmpty = project.project_recruitment_roles.roleList.length;
         isEmpty === 0 ? missingFields.push(field) : console.log('');
-        // @ts-ignore
-      } else if (!project[field]) {
+      } else if (!project[field as keyof typeof project]) {
         missingFields.push(field);
       }
     });
