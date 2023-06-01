@@ -31,7 +31,7 @@ function Main() {
       </div>
       <div className={styles.rightContainer}>
         <ProjectSearch />
-        <ProjectList projectList={projectList} />
+        {projectList && <ProjectList projectList={projectList} />}
       </div>
     </div>
   );
