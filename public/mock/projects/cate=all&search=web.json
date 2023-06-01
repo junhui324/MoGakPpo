@@ -1,0 +1,17 @@
+[
+  {
+    "project_id": 2,
+    "project_type": "PROJECT",
+    "project_recruitment_status": "COMPLETE",
+    "project_title": "검색데이터",
+    "project_summary": "Build a reusable UI library using React components.",
+    "project_recruitment_roles": { "roleList": ["FRONT", "BACK"] },
+    "project_required_stacks": { "stackList": ["HTML", "CSS", "JavaScript"] },
+    "project_goal": "FOUNDED",
+    "project_participation_time": "MIDDLE",
+    "project_bookmark_count": 10,
+    "project_comments_count": 11,
+    "project_views_count": 50,
+    "project_created_at": "2023-05-15 15:21:41"
+  }
+]

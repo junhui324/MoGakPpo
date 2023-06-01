@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getProjects, getProjectsByCategory } from '../../apis/Fetcher';
+import { getProjects, getProjectsByCategory, getProjectsByKeyword } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
@@ -9,10 +9,30 @@ import styles from './Main.module.scss';
 
 function Main() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
 
   const handleCategoryClick = (key: string) => {
     setSelectedCategory(key);
+  };
+
+  const handleSearchChange = (keyword: string) => {
+    setSearchKeyword(keyword);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    searchKeyword && getSearchListData();
+    setSearchKeyword('');
+  };
+
+  const getSearchListData = async () => {
+    try {
+      const data = await getProjectsByKeyword(selectedCategory, searchKeyword);
+      setProjectList(data);
+    } catch (error) {
+      console.error('포스팅을 가져오지 못했어요');
+    }
   };
 
   useEffect(() => {
@@ -24,7 +44,7 @@ function Main() {
             : await getProjectsByCategory(selectedCategory);
         setProjectList(projectList);
       } catch (error) {
-        console.error(error);
+        console.error('포스팅을 가져오지 못했어요');
       }
     };
     fetchData();
@@ -39,7 +59,11 @@ function Main() {
         </div>
       </div>
       <div className={styles.rightContainer}>
-        <ProjectSearch />
+        <ProjectSearch
+          handleSubmit={handleSearchSubmit}
+          handleChange={handleSearchChange}
+          value={searchKeyword}
+        />
         {projectList.length > 0 ? (
           <ProjectList projectList={projectList} />
         ) : (

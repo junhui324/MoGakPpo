@@ -25,6 +25,15 @@ async function getProjectsByCategory(categoryId: string): Promise<ProjectType.Ty
   return await Api.get(domain, params, false);
 }
 
+// 검색어로 프로젝트 리스트 불러오기
+async function getProjectsByKeyword(
+  categoryId: string,
+  keyword: string
+): Promise<ProjectType.TypeProjectList[]> {
+  const params = `projects/cate=${categoryId}&search=${keyword}.json`;
+  return await Api.get(domain, params, false);
+}
+
 async function postProject(
   data: ProjectType.TypeProjectPost
 ): Promise<ProjectType.TypeProjectPost> {
@@ -59,4 +68,5 @@ export {
   getUserPosts,
   postProject,
   getProjectsByCategory,
+  getProjectsByKeyword,
 };
