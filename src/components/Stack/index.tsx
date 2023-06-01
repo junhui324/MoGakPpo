@@ -1,4 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react';
+import { RiCloseFill, RiSearchLine } from 'react-icons/ri';
 import { getStackList } from '../../apis/Fetcher';
 import styles from './stack.module.scss';
 
@@ -10,8 +11,8 @@ function Stack() {
 
   const getStackData = async () => {
     try {
-      const data = (await getStackList()) as unknown as { stacks: string[] };
-      setStacks(data.stacks);
+      const data = (await getStackList()) as unknown as { stackList: string[] };
+      setStacks(data.stackList);
     } catch (error) {
       console.error('스택을 가져오지 못했어요');
     }
@@ -58,36 +59,39 @@ function Stack() {
         {selected.map((stack, id) => {
           return (
             <div className={styles.stackWrapper} key={`${stack}-${id}`}>
-              <div className={styles.selectedStack}>{stack}</div>
-              {/* 삭제 svg 넣어야함 */}
-              <button className={styles.deleteButton} onClick={() => handleDelete(stack)}>
-                x
-              </button>
+              <div className={styles.selectedStack}>
+                {stack}
+                <RiCloseFill className={styles.deleteButton} onClick={() => handleDelete(stack)}>
+                  x
+                </RiCloseFill>
+              </div>
             </div>
           );
         })}
       </div>
-      {/* 돋보기 svg 넣어야함 */}
-      <input
-        className={styles.input}
-        type="text"
-        value={searchWord}
-        onChange={handleInputChange}
-        placeholder="기술 스택을 검색해 보세요."
-      />
-      {suggestions.length > 0 && (
-        <ul className={styles.suggestionContainer}>
-          {suggestions.map((suggestion, index) => (
-            <li
-              className={styles.suggestion}
-              key={index}
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className={styles.inputContainer}>
+        <input
+          className={styles.input}
+          type="text"
+          value={searchWord}
+          onChange={handleInputChange}
+          placeholder="기술 스택을 검색해 보세요."
+        />
+        <RiSearchLine className={styles.searchButton} />
+        {suggestions.length > 0 && searchWord.trim().length > 0 && (
+          <ul className={styles.suggestionContainer}>
+            {suggestions.map((suggestion, index) => (
+              <li
+                className={styles.suggestion}
+                key={index}
+                onClick={() => handleSuggestionClick(suggestion)}
+              >
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <div className={styles.title}>전체 기술 스택</div>
       <div className={styles.stackContainer}>
         {stacks.map((stack, id) => {

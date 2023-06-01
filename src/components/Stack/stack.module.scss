@@ -8,7 +8,7 @@ $suggestion-color: #f1f3f5;
   flex-direction: column;
 
   .title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
     padding: 1.4rem 0;
   }
@@ -26,10 +26,18 @@ $suggestion-color: #f1f3f5;
       border-radius: 100px;
       color: white;
       margin: 0 0.6rem 0.6rem 0;
+      font-size: 12px;
 
       .selectedStack {
+        display: flex;
+        align-items: center;
         padding: 0.4rem 0 0.4rem 0.6rem;
         word-break: keep-all;
+
+        .deleteButton {
+          cursor: pointer;
+          padding: 0 0.4rem;
+        }
       }
 
       .duplicateStack {
@@ -49,31 +57,35 @@ $suggestion-color: #f1f3f5;
         border-radius: 100px;
         cursor: pointer;
       }
-
-      .deleteButton {
-        border: none;
-        background-color: $main-color;
-        color: white;
-        cursor: pointer;
-        border-radius: 100px;
-        width: 30px;
-      }
     }
   }
 
-  .input {
-    border: 1px solid $input-border-color;
-    border-radius: 6px;
-    outline: none;
-    height: 45px;
-    padding-left: 1rem;
+  .inputContainer {
+    position: relative;
+
+    .input {
+      width: 96%;
+      border: 1px solid $input-border-color;
+      border-radius: 6px;
+      outline: none;
+      height: 40px;
+      padding-left: 1rem;
+    }
+
+    .searchButton {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+    }
   }
 
   .suggestionContainer {
     max-height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .suggestion {
+      font-size: 12px;
       padding: 1rem;
       background-color: $suggestion-color;
       border-bottom: 1px solid rgba($input-border-color, 0.3);
