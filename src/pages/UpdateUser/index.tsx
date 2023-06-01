@@ -73,6 +73,11 @@ function UpdateUser() {
     try {
       const userList = await getUserProfile();
       setUser(userList);
+      setImageSrc(userList.user_img);
+      setInputName(userList.user_name);
+      setInputIntro(userList.user_introduction);
+      setInputCareer(userList.user_career_goal);
+      setUserStack(userList.user_stacks.stackList);
     } catch (error) {
       console.error(error);
     }
@@ -105,16 +110,6 @@ function UpdateUser() {
   useEffect(() => {
     getUserData();
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      setImageSrc(user.user_img);
-      setInputName(user.user_name);
-      setInputIntro(user.user_introduction);
-      setInputCareer(user.user_career_goal);
-      setUserStack(user.user_stacks.stackList);
-    }
-  }, [user]);
 
   return (
     <div className={styles.container}>
