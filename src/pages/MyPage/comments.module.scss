@@ -1,3 +1,6 @@
+$count-color: #94A3B8;
+$grey: #64748B;
+
 .container {
   border-top: 1px solid rgba(226, 232, 240);
   background-color: rgba(226, 232, 240, 0.3);
@@ -6,12 +9,12 @@
 }
 
 .contentConunt {
-  color: #94A3B8;
+  color: $count-color;
   font-weight: 500;
   padding-left: 0.8rem;
 }
 
-.comments {
+.noComment {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +26,30 @@
   }
 
   .noContent {
-    color: #64748B;
+    color: $grey;
     margin-top: 2rem;
+  }
+}
+
+.comments {
+  margin: 2rem;
+  
+  .commentWrapper {
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    background-color: white;
+    padding: 1.4rem;
+    margin: 2rem 0;
+    cursor: pointer;
+
+    .comment {
+      font-size: 18px;
+      padding-bottom: 0.6rem;
+    }
+  
+    .createdAt {
+      color: $grey;
+      font-weight: 100;
+    }
   }
 }

@@ -4,6 +4,7 @@
 import * as Api from './Api';
 import * as ProjectType from '../interfaces/Project.interface';
 import * as UserType from '../interfaces/User.interface';
+import * as CommentType from '../interfaces/Comment.interface';
 
 const domain = `/mock`;
 
@@ -48,10 +49,17 @@ async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
 // 유저 정보 수정하기
 async function updateUserProfile(
   data: UserType.TypeUserProfile
-) : Promise<UserType.TypeUserProfile> {
+  ) : Promise<UserType.TypeUserProfile> {
   const params = `/user.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.put(domain, params, data, false);
 }
 
-export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject, updateUserProfile };
+// 유저 작성 댓글 불러오기
+async function getUserComments(): Promise<CommentType.TypeUserComments> {
+  const params = `/user/comments.json`;
+  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
+  return await Api.get(domain, params, false);
+}
+
+export { getProject, getProjects, getUserProfile, getStackList, getUserPosts, postProject, updateUserProfile, getUserComments };
