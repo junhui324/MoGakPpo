@@ -59,7 +59,7 @@ input[type=email]{
   }
 }
 
-input[type=password]{
+.password{
   width:328px;
   height:42px;
   margin:0 auto;
@@ -106,7 +106,8 @@ input[type=password]{
   color:white;
 
   &:hover{
-    border:3px solid orange;
+    border:3px solid pink;
+    cursor:pointer;
   }
 }
 
@@ -137,8 +138,10 @@ input[type=password]{
   color:black;
   
   &:hover{
-    border:3px solid orange;
+    border:3px solid pink;
+    cursor:pointer;
   }
+
 }
 
 .menu{

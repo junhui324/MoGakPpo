@@ -13,15 +13,19 @@ interface User {
 
 export type TypeUserProfile = Pick<
   User,
+  'user_id' | 'user_name' | 'user_career_goal' | 'user_stacks' | 'user_introduction' | 'user_img'
+>;
+
+export type TypeUserStack = Pick<User, 'user_stacks'>;
+
+export type TypeUser = Pick<
+  User,
   | 'user_id'
+  | 'user_email'
   | 'user_name'
+  | 'user_password'
   | 'user_career_goal'
   | 'user_stacks'
   | 'user_introduction'
   | 'user_img'
->
-
-export type TypeUserStack = Pick<
-  User,
-  | 'user_stacks'
->
+>;
