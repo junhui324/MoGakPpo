@@ -112,6 +112,7 @@ function Project() {
       <div className={styles.rightContainer}>
         <ProjectAuthorProfile authorData={authorData} />
         <ProjectBookmarkBlock bookmarksData={bookmarksData} />
+        {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
         <ProjectModifyBlock modifyData={modifyData} />
       </div>
     </div>

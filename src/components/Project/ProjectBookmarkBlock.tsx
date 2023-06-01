@@ -4,6 +4,8 @@ import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
 
 // 스타일
 import styles from './ProjectBookmarkBlock.module.scss';
+// 상수
+import { PROJECT_TYPE } from '../constant/project';
 
 function BookmarkLogo({ className }: { className: string }) {
   return (
@@ -59,7 +61,9 @@ export default function ProjectBookmarkBlock({
           )}
         </button>
         <p className={styles.bookmarkText}>
-          {bookmarksCount > 0 ? `${bookmarksCount}명이 북마크한 ${bookmarksData.project_type}` : ''}
+          {bookmarksCount > 0
+            ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
+            : ''}
         </p>
       </div>
     );

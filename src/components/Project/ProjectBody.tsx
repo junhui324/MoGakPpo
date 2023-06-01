@@ -5,15 +5,15 @@ import { TypeProjectBody } from '../../interfaces/Project.interface';
 // 스타일 관련
 import { RoleIcon, StackIcon, TargetIcon, ClockIcon } from './ProjectBodyLogo';
 import styles from './ProjectBody.module.scss';
+// 상수
+import {
+  PROJECT_GOAL,
+  PROJECT_PARTICIPATION_TIME,
+  PROJECT_RECRUITMENT_ROLES,
+} from '../constant/project';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (bodyData) {
-    const participationTimeString: { [key: string]: string } = {
-      '4': '매주 4시간 이하',
-      '4-10': '매주 4-5시간',
-      '10': '매주 10시간 이상',
-    };
-
     return (
       <div className={styles.container}>
         {/* 요약 */}
@@ -30,9 +30,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
               return (
                 <div className={styles.logoBlock}>
                   <div className={styles.logoCircle}>
-                    <RoleIcon role={role} />
+                    <RoleIcon role={PROJECT_RECRUITMENT_ROLES[role]} />
                   </div>
-                  <p className={styles.logoText}>{role}</p>
+                  <p className={styles.logoText}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
                 </div>
               );
             })}
@@ -63,7 +63,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
             <div className={styles.logoCircle}>
               <TargetIcon />
             </div>
-            <p className={styles.logoText}>{bodyData.project_goal}</p>
+            <p className={styles.logoText}>{PROJECT_GOAL[bodyData.project_goal]}</p>
           </div>
         </div>
 
@@ -75,7 +75,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
               <ClockIcon />
             </div>
             <p className={styles.logoText}>
-              {participationTimeString[bodyData.project_participation_time]}
+              {PROJECT_PARTICIPATION_TIME[bodyData.project_participation_time]}
             </p>
           </div>
         </div>

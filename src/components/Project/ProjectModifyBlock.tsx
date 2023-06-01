@@ -2,8 +2,10 @@ import React from 'react';
 
 import { TypeProjectModify } from '../../interfaces/Project.interface';
 
-//스타일
+// 스타일
 import styles from './ProjectModifyBlock.module.scss';
+// 상수
+import { PROJECT_RECRUITMENT_STATUS } from '../constant/project';
 
 function RecruitmentCompleteButton({
   recruitmentStatus,
@@ -41,7 +43,7 @@ export default function ProjectModifyBlock({
   modifyData: TypeProjectModify | null;
 }) {
   if (modifyData) {
-    const recruitmentStatus = modifyData.project_recruitment_status;
+    const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
 
     return (
       <div className={styles.container}>

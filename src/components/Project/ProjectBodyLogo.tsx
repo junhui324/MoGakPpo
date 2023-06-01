@@ -9,7 +9,14 @@ import {
   TbFlagFilled,
   TbClock,
 } from 'react-icons/tb';
+import {
+  MdOutlineDesignServices,
+  MdOutlineIntegrationInstructions,
+  MdEmojiPeople,
+} from 'react-icons/md';
 
+//상수
+import { PROJECT_RECRUITMENT_ROLES } from '../constant/project';
 const LOGO_SIZE: number = 24;
 const LOGO_DEFAULT_COLOR: string = '#D3D3D3';
 
@@ -19,15 +26,21 @@ export function RoleIcon({ role }: { role: string }) {
   const LOGO_COLOR: { [key: string]: string } = {
     FRONTEND: '#D291FF',
     BACKEND: '#FFDAA5',
+    DESIGN: '#FFB6C1',
+    PM: '#87CEEB',
   };
 
   switch (role) {
-    case '프론트엔드':
+    case PROJECT_RECRUITMENT_ROLES.FRONT:
       return <RiComputerLine size={LOGO_SIZE} color={LOGO_COLOR.FRONTEND} />;
-    case '백엔드':
+    case PROJECT_RECRUITMENT_ROLES.BACK:
       return <FiServer size={LOGO_SIZE} color={LOGO_COLOR.BACKEND} />;
+    case PROJECT_RECRUITMENT_ROLES.DESIGN:
+      return <MdOutlineDesignServices size={LOGO_SIZE} color={LOGO_COLOR.DESIGN} />;
+    case PROJECT_RECRUITMENT_ROLES.PM:
+      return <MdOutlineIntegrationInstructions size={LOGO_SIZE} color={LOGO_COLOR.PM} />;
     default:
-      return <></>;
+      return <MdEmojiPeople size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />;
   }
 }
 
