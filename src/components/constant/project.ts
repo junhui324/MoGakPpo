@@ -1,5 +1,5 @@
 export const PROJECT_TYPE: Record<string, string> = {
-  STUDY: '스터디',
+  STUDY: '스터디/모임',
   PROJECT: '사이드 프로젝트',
 };
 

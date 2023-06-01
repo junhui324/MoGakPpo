@@ -36,12 +36,16 @@ export default function ProjectBookmarkBlock({
   }, [bookmarksData]);
 
   const handleBookmark = () => {
-    // 북마크 API와 통신합니다.
+    try {
+      // 북마크 API와 통신합니다.
 
-    // 북마크 API 통신 반환값에 따라 상태를 변경합니다.
-    // 해당코드는 UI구상을 위한 임시코드임
-    setIsBookmark((prev) => !prev);
-    isBookmark ? setBookmarksCount((prev) => prev - 1) : setBookmarksCount((prev) => prev + 1);
+      // 북마크 API 통신 반환값에 따라 상태를 변경합니다.
+      // 해당코드는 UI구상을 위한 임시코드임
+      setIsBookmark((prev) => !prev);
+      isBookmark ? setBookmarksCount((prev) => prev - 1) : setBookmarksCount((prev) => prev + 1);
+    } catch (error) {
+      alert('북마크에 실패했습니다.');
+    }
   };
 
   if (bookmarksData) {

@@ -7,8 +7,9 @@ import ProjectBody from '../../components/Project/ProjectBody';
 import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
-// data 관련
+// data
 import * as Fetcher from '../../apis/Fetcher';
+// 타입
 import * as ProjectType from '../../interfaces/Project.interface';
 // 스타일
 import styles from './Project.module.scss';
@@ -113,7 +114,7 @@ function Project() {
         <ProjectAuthorProfile authorData={authorData} />
         <ProjectBookmarkBlock bookmarksData={bookmarksData} />
         {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
-        <ProjectModifyBlock modifyData={modifyData} />
+        <ProjectModifyBlock modifyData={modifyData} setProjectData={setProjectData} />
       </div>
     </div>
   ) : (
