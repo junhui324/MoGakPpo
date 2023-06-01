@@ -8,6 +8,7 @@ import { RiAddCircleFill } from 'react-icons/ri';
 function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>();
   const [imageSrc, setImageSrc] = useState(user?.user_img);
+  const [userStack, setUserStack] = useState(user?.user_stacks.stackList);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 글자수 제한을 위한 상태관리
@@ -77,6 +78,7 @@ function UpdateUser() {
       setInputName(userList.user_name);
       setInputIntro(userList.user_introduction);
       setInputCareer(userList.user_career_goal);
+      setUserStack(userList.user_stacks.stackList);
     } catch (error) {
       console.error(error);
     }

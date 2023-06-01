@@ -4,7 +4,9 @@ interface User {
   user_name: string;
   user_password: string;
   user_career_goal: string;
-  user_stacks: string[];
+  user_stacks: {
+    stackList: string[];
+  };
   user_introduction: string;
   user_img: string;
 }
