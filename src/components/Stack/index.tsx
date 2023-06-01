@@ -3,7 +3,11 @@ import { RiCloseFill, RiSearchLine } from 'react-icons/ri';
 import { getStackList } from '../../apis/Fetcher';
 import styles from './stack.module.scss';
 
-function Stack() {
+interface StackProps {
+  setStackList: (stacks: string[]) => void;
+}
+
+function Stack({ setStackList }: StackProps) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stacks, setStacks] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
@@ -51,6 +55,10 @@ function Stack() {
   useEffect(() => {
     getStackData();
   }, []);
+
+  useEffect(() => {
+    setStackList(selected);
+  }, [selected]);
 
   return (
     <div className={styles.container}>

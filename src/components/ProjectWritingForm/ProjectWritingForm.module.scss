@@ -153,3 +153,15 @@ textarea {
     opacity: 0;
   }
 }
+
+.submitButton {
+  width: 120px;
+  height: 40px;
+  margin: 10px 20px 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: $main-color;
+  color: white;
+  border-color: $main-color;
+  border-radius: 8px;
+}

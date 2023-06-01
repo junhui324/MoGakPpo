@@ -24,10 +24,17 @@ async function postProject(
   return await Api.post(domain, ``, data);
 }
 
+// 유저 프로필 불러오기
+async function getUserProfile(): Promise<UserType.TypeUserProfile> {
+  const params = `/user.json`;
+  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
+  return await Api.get(domain, params, false);
+}
+
 // stack 전체 데이터 불러오기
 async function getStackList(): Promise<ProjectType.TypeStacks> {
   const params = `/stack.json`;
   return await Api.get(domain, params, false);
 }
 
-export { getProject, getProjects, postProject, getStackList };
+export { getProject, getProjects, postProject, getUserProfile, getStackList };

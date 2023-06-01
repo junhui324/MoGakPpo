@@ -32,7 +32,6 @@ function App() {
           <Route path="/user/editpw" element={<Password />} />
           {/* <Route path="/user/delete" element={}/> */}
           <Route path="/user/mypage" element={<Mypage />} />
-          <Route path="/stack" element={<Stack />} />
         </Routes>
       </div>
     </BrowserRouter>
