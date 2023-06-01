@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getProjects } from '../../apis/Fetcher';
+import { getProjects, getProjectsByCategory } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
@@ -8,30 +8,45 @@ import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './Main.module.scss';
 
 function Main() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
+
+  const handleCategoryClick = (key: string) => {
+    setSelectedCategory(key);
+  };
+
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       try {
-        const projectList = await getProjects();
+        const projectList =
+          selectedCategory === 'all'
+            ? await getProjects()
+            : await getProjectsByCategory(selectedCategory);
         setProjectList(projectList);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, []);
+  }, [selectedCategory]);
 
   return (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.leftContentContainer}>
-          <Category />
+          <Category selectedCategory={selectedCategory} handleClick={handleCategoryClick} />
           <ProjectPostButton />
         </div>
       </div>
       <div className={styles.rightContainer}>
         <ProjectSearch />
-        {projectList && <ProjectList projectList={projectList} />}
+        {projectList.length > 0 ? (
+          <ProjectList projectList={projectList} />
+        ) : (
+          <div className={styles.noneContentContainer}>
+            <p className={styles.noneContent}>게시글이 없습니다 :(</p>
+          </div>
+        )}
       </div>
     </div>
   );

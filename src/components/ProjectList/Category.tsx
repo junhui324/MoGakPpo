@@ -1,23 +1,31 @@
+import { PROJECT_RECRUITMENT_ROLES } from '../../constants/project';
 import { useState } from 'react';
 import styles from './Category.module.scss';
 
-function Category() {
-  const categories = ['전체', '프론트엔드', '백엔드', '디자인', '기획', '기타'];
-  const [selectedCategory, setSelectedCategory] = useState('전체');
+interface CategoryProps {
+  handleClick: (key: string) => void;
+  selectedCategory: string;
+}
+function Category({ handleClick, selectedCategory }: CategoryProps) {
+  const categories = Object.entries(PROJECT_RECRUITMENT_ROLES);
+  categories.unshift(['ALL', '전체']);
+
   return (
     <div className={styles.container}>
       <ul>
         <h2>📂 카테고리</h2>
-        {categories.map((name, index) => {
+        {categories.map(([key, value]) => {
+          const newKey = key.toLowerCase();
+
           return (
             <li
-              className={selectedCategory === name ? styles.selected : undefined}
-              key={index}
+              className={selectedCategory === newKey ? styles.selected : undefined}
+              key={newKey}
               onClick={() => {
-                setSelectedCategory(name);
+                handleClick(newKey);
               }}
             >
-              {name}
+              {value}
             </li>
           );
         })}

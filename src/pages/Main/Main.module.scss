@@ -1,9 +1,15 @@
 @import '/src/variables.scss';
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  min-width: 1024px;
+  display: flex;
+  gap: 20px;
+  justify-content: start;
+  // grid-template-columns: 300px auto;
   .leftContainer {
+    width: 300px;
+    flex: 1;
+    padding-left: 24px;
     .leftContentContainer {
       position: sticky;
       top: $header-height;
@@ -14,9 +20,26 @@
     }
   }
   .rightContainer {
+    padding-right: 24px;
+    flex: 2;
     display: flex;
     flex-direction: column;
     gap: 32px;
+    width: 100%;
+    .noneContentContainer {
+      height: 100%;
+      background-color: rgb(230, 237, 239);
+      display: flex;
+      justify-content: center;
+      border-radius: 12px;
+      .noneContent {
+        color: rgb(70, 82, 82);
+        font-weight: 500;
+        align-self: center;
+        width: 100%;
+        text-align: center;
+      }
+    }
   }
 }
 @media (max-width: 768px) {

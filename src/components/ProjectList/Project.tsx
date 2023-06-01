@@ -1,7 +1,7 @@
 import { TypeProjectList } from '@/interfaces/Project.interface';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
-import styles from './ProjectList.module.scss';
+import styles from './Project.module.scss';
 
 interface projectDataProps {
   projectData: TypeProjectList;
