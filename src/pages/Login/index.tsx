@@ -1,30 +1,93 @@
 import React, {useState, useRef} from "react";
+//@ts-ignore
 import styles from "./login.module.scss";
-import {Link} from "react-router-dom";
+//@ts-ignore
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+//@ts-ignore
+import cookie from "react-cookies";
 
 function Login(){
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const navigate = useNavigate();
 
-  function isEmailBlank(){
+  function isEmailBlank():Boolean{
     //@ts-ignore
     if(emailRef.current.value === ""){
       setIsEmail(true);
+
+      return true;
     }
     else{
       setIsEmail(false)
+
+      return false;
     }
   }
 
-  function isPasswordBlank(){
+  function isPasswordBlank():Boolean{
     //@ts-ignore
     if(passwordRef.current.value === ""){
       setIsPassword(true);
+
+      return true;
     }
     else{
       setIsPassword(false)
+
+      return false;
+    }
+  }
+
+  const login = async (e:any) =>{
+    e.preventDefault();
+        
+    if(isEmailBlank() || isPasswordBlank()){
+      return;
+    }
+
+    const header = {
+      headers: {
+      "Content-type": "application/json",
+      },
+    };
+
+    try{
+      const res = await axios.post("http://localhost:5500/api/users/login", {
+        //@ts-ignore
+        user_email:emailRef.current.value,
+        //@ts-ignore
+        user_password:passwordRef.current.value
+      }, header);
+
+      const data = res.data.data;
+
+      if(res.status == 200){
+          const author = await res.headers["authorization"];
+          const token = author.split(" ")[1]
+          cookie.save("accessToken", token, {
+            path:"/",
+          });
+
+          console.log(data);
+
+          localStorage.setItem("user_id", data.user_id);
+          localStorage.setItem("user_name", data.user_name);
+          localStorage.setItem("user_img", data.user_img);
+
+          navigate("/");
+      }
+      else if(res.status == 404){
+        alert("사용자 정보를 다시 확인해주세요.");
+        return;
+      }
+    }
+    catch(e){
+      alert("사용자 정보를 다시 확인해주세요.");
+      return;
     }
   }
 
@@ -34,7 +97,7 @@ function Login(){
           <div className={styles.component}>
               <div className={styles.title}><p>로그인</p></div>
 
-              <form method = "post" action = "" className={styles.form}>
+              <form onSubmit={(e) =>{login(e)}} className={styles.form}>
                 <div className={styles.label}>
                 이메일
                 </div>
@@ -49,7 +112,7 @@ function Login(){
                 비밀번호
                 </div>
                   <div className={styles.input}>
-                  <input type = "password" placeholder="비밀번호 입력" ref = {passwordRef} onBlur={isPasswordBlank}></input>
+                  <input type = "password" className={styles.password}placeholder="비밀번호 입력" ref = {passwordRef} onBlur={isPasswordBlank}></input>
                  </div>
                   {
                     isPassword && <div className={styles.emptyWarning}>비밀번호를 입력해주세요.</div>
@@ -76,7 +139,7 @@ function Login(){
 
                 <div className={styles.menuLine}>
                   <span className={styles.call}><Link to = "/" className={styles.link}>고객센터</Link></span>
-                  <span className={styles.forget}><Link to = "/" className={styles.link}>비밀번호를 잊으셨나요?</Link></span>
+                  <span className={styles.forget}><Link to = "/user/editpw" className={styles.link}>비밀번호를 잊으셨나요?</Link></span>
                 </div>
 
 
