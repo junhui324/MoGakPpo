@@ -9,6 +9,7 @@ import { TypeProjectList } from '@/interfaces/Project.interface';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 import styles from './Project.module.scss';
+import { BsBookmark } from 'react-icons/bs';
 
 interface projectDataProps {
   projectData: TypeProjectList;
@@ -57,7 +58,11 @@ function Project({ projectData }: projectDataProps) {
             {PROJECT_PARTICIPATION_TIME[participationTime]}
           </span>
         )}
-        {isBookmarked !== null && <button></button>}
+        {isBookmarked !== null && (
+          <button>
+            <BsBookmark />
+          </button>
+        )}
       </div>
       <div>
         <span
