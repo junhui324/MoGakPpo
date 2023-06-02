@@ -2,18 +2,23 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './comments.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
-import { TypeUserComments } from '../../interfaces/Comment.interface';
+import { TypeMypageComments } from '../../interfaces/Comment.interface';
 import { getUserComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
+import getDateFormat from '../../utils/getDateFormat';
 
 function Comments() {
-  const [comments, setComments] = useState<TypeUserComments | []>([]);
+  const [comments, setComments] = useState<TypeMypageComments>([]);
   const navigate = useNavigate();
 
   const getUserCommentData = async () => {
     try {
-      const data = (await getUserComments()) as unknown as TypeUserComments;
-      setComments(data);
+      const { message, data } = await getUserComments();
+
+      console.log(message);
+      console.log(data.project_comments);
+
+      setComments(data.project_comments);
     } catch (error) {
       console.error('유저가 작성한 댓글을 가져오지 못했어요');
     }
@@ -40,15 +45,16 @@ function Comments() {
       ) : (
         <div className={styles.comments}>
           {comments.map((data, index) => {
-            const { comment_content, comment_created_at, project_id } = data.comment;
+            const { comment_content, comment_created_at, project_id, project_title } = data;
             return (
               <div 
                 className={styles.commentWrapper} 
                 key={`${comment_created_at}-${index}`}
                 onClick={(e) => handleClickComment(e, project_id)}
               >
+                <div className={styles.title}>{project_title}</div>
                 <div className={styles.comment}>{comment_content}</div>
-                <div className={styles.createdAt}>작성시간: {comment_created_at}</div>
+                <div className={styles.createdAt}>{getDateFormat(comment_created_at)}</div>
               </div>
             )
           })}

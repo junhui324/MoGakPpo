@@ -107,7 +107,10 @@ async function updateUserProfile(
 }
 
 // 유저 작성 댓글 불러오기
-async function getUserComments(): Promise<CommentType.TypeUserComments> {
+async function getUserComments(): Promise<{
+  message: string,
+  data: { project_comments: CommentType.TypeMypageComments };
+}> {
   const params = `/user/comments.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.get(domain, params, false);
