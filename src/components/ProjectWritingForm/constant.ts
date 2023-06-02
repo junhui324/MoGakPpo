@@ -9,4 +9,9 @@ const PROJECT_TYPE_STRING = new Map<string, string>([
   ['study', '스터디/모임'],
 ]);
 
-export { PLACEHOLDER_STRING, PROJECT_TYPE_STRING };
+const MAX_NUMBER = {
+  TITLE: 50,
+  SUMMARY: 150,
+};
+
+export { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER };

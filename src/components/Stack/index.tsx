@@ -16,8 +16,9 @@ function Stack({ selectedStack, setStackList }: StackProps) {
 
   const getStackData = async () => {
     try {
-      const data = (await getStackList()) as unknown as { stackList: string[] };
-      setStacks(data.stackList);
+      const data = await getStackList();
+      console.log(data.message);
+      setStacks(data.data.stackList);
     } catch (error) {
       console.error('스택을 가져오지 못했어요');
     }

@@ -7,14 +7,15 @@ import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import * as Fetcher from '../../apis/Fetcher';
-import Stack from './Stack';
+import Stack from '../Stack';
 import {
   PROJECT_TYPE,
   PROJECT_GOAL,
   PROJECT_PARTICIPATION_TIME,
   PROJECT_RECRUITMENT_ROLES,
 } from '../../constants/project';
-import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING } from './constant';
+import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER } from './constant';
+import ValidateModal from './ValidateModal';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -32,6 +33,8 @@ function ProjectWritingForm() {
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
   const [stackList, setStackList] = useState<string[]>([]);
+  const [buttonClick, setButtonClick] = useState(false);
+  const [isValidate, setIsValidate] = useState(false);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -125,12 +128,15 @@ function ProjectWritingForm() {
   //전송 버튼을 누르면 백엔드에 데이터 전송
   const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
-
+    setButtonClick(true);
     const missingFields = getMissingFields();
     if (missingFields.length > 0) {
-      alert(`다음 필수 항목이 입력되지 않았습니다: ${missingFields.join(', ')}`);
+      setIsValidate(true);
+      goToTop();
+      //alert(`다음 필수 항목이 입력되지 않았습니다: ${missingFields.join(', ')}`);
       return;
     }
+    setIsValidate(false);
 
     if (stackList.length === 0) {
       setProject((prevProject) => ({
@@ -140,7 +146,7 @@ function ProjectWritingForm() {
         },
       }));
     }
-    //await Fetcher.postProject(project);
+    //const { project_id } = await Fetcher.postProject(project);
     console.log('json으로 보기:', JSON.stringify(project));
   };
 
@@ -168,6 +174,10 @@ function ProjectWritingForm() {
     return missingFields;
   };
 
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className={styles.container}>
       <nav></nav>
@@ -178,12 +188,15 @@ function ProjectWritingForm() {
               <p>{PROJECT_TYPE[project.project_type]}</p>
             </div>
             <input
-              className={styles.titleTextarea}
+              className={`${styles.titleTextarea} ${
+                project.project_title.length >= MAX_NUMBER.TITLE ? styles.maxLengthReached : ''
+              }`}
               type="text"
               name="project_title"
               value={project.project_title}
               onChange={handleProjectChange}
               placeholder={PLACEHOLDER_STRING.TITLE}
+              maxLength={MAX_NUMBER.TITLE}
             />
           </div>
 
@@ -198,6 +211,7 @@ function ProjectWritingForm() {
                 value={project.project_summary}
                 onChange={handleProjectChange}
                 placeholder={PLACEHOLDER_STRING.SUMMARY}
+                maxLength={MAX_NUMBER.SUMMARY}
               ></textarea>
             </div>
           </div>
@@ -279,7 +293,10 @@ function ProjectWritingForm() {
           <div>
             <h2>기술 스택</h2>
             <div>
-              <Stack setStackList={handleSetStackList}></Stack>
+              <Stack
+                selectedStack={project.project_required_stacks.stackList}
+                setStackList={handleSetStackList}
+              />
             </div>
           </div>
 
@@ -287,6 +304,7 @@ function ProjectWritingForm() {
             <button className={styles.submitButton} onClick={handleSubmitButton}>
               작성 완료
             </button>
+            {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
           </div>
         </div>
       </div>
