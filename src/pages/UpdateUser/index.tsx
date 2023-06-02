@@ -92,7 +92,14 @@ function UpdateUser() {
       stackList: userStack || [],
     },
   };
-  
+
+  const isValidName = () => {
+    if (inputName.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
   const handleSumbit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     
@@ -110,6 +117,8 @@ function UpdateUser() {
   useEffect(() => {
     getUserData();
   }, []);
+
+  const buttonClassName = isValidName() ? styles.submitButton : styles.disabledButton;
 
   return (
     <div className={styles.container}>
@@ -169,9 +178,10 @@ function UpdateUser() {
           selectedStack={userStack}
           setStackList={handleSetStackList}
         />
-        <button 
-          className={styles.submitButton}
+        <button
+          className={buttonClassName}
           onClick={handleSumbit}
+          disabled={!isValidName()}
         >
           완료
         </button>

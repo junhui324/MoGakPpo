@@ -116,7 +116,7 @@ $input-border-color: #94A3B8;
       margin-bottom: 1rem;
     }
 
-    .submitButton {
+    .button {
       border: none;
       border-radius: 8px;
       color: white;
@@ -126,10 +126,19 @@ $input-border-color: #94A3B8;
       margin: 1rem 0 2rem 0;
       cursor: pointer;
       transition: all 0.2s;
-
+    
       &:hover {
         background-color: rgba($main-color, 0.7);
       }
+    }
+    
+    .submitButton {
+      @extend .button;
+    }
+    
+    .disabledButton {
+      @extend .button;
+      cursor: not-allowed;
     }
   }
 }
