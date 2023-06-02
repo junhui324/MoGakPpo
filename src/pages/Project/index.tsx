@@ -13,6 +13,23 @@ import * as Fetcher from '../../apis/Fetcher';
 import * as ProjectType from '../../interfaces/Project.interface';
 // 스타일
 import styles from './Project.module.scss';
+import { BiDotsVertical } from 'react-icons/bi';
+
+const LOADING_LOGO_SIZE: number = 32;
+const LOADING_LOGO_COLOR: string = '#95a4b0';
+
+// 로딩 중 로고
+function Loading() {
+  return (
+    <>
+      <BiDotsVertical
+        size={LOADING_LOGO_SIZE}
+        color={LOADING_LOGO_COLOR}
+        className={styles.loadingLogo}
+      />
+    </>
+  );
+}
 
 function Project() {
   // 라우터 관련
@@ -43,6 +60,12 @@ function Project() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // 글 작성자가 현재 작성자인지 확인하는 함수
+  const isAuthor = (): boolean => {
+    // 전역적인 userId와 author_id아이디가 같으면 true를 호출합니다.
+    return true;
   };
 
   // 게시글 아이디에 맞게 로딩할 것
@@ -114,12 +137,16 @@ function Project() {
         <ProjectAuthorProfile authorData={authorData} />
         <ProjectBookmarkBlock bookmarksData={bookmarksData} />
         {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
-        <ProjectModifyBlock modifyData={modifyData} setProjectData={setProjectData} />
+        {isAuthor() ? (
+          <ProjectModifyBlock modifyData={modifyData} setProjectData={setProjectData} />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   ) : (
     <>
-      <div>{isLoading ? '로딩중입니다.' : error}</div>
+      <div>{isLoading ? <Loading /> : error}</div>
     </>
   );
 }

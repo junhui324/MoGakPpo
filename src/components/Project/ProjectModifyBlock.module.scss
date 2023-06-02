@@ -1,6 +1,6 @@
 @import '/src/variables.scss';
 
-@mixin button-style {
+@mixin fill-button-style {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +18,136 @@
   margin-bottom: 16px;
 
   cursor: pointer;
+
+  transition-property: background-color, border-color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+
+  &:hover {
+    background-color: #7e58db;
+    border-color: #7e58db;
+  }
+
+  &:active {
+    background-color: #9878e5;
+    border-color: #9878e5;
+
+    transition: none;
+  }
+}
+
+@mixin border-button-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 300px;
+  height: 50px;
+  border-radius: 6px;
+
+  border: $main-color solid 1px;
+  background-color: rgb(255, 255, 255, 0);
+
+  font-size: 18px;
+  color: $main-color;
+
+  margin-bottom: 16px;
+
+  cursor: pointer;
+
+  transition-property: border-color, color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+
+  &:hover {
+    border-color: #9878e5;
+    color: #9878e5;
+  }
+
+  &:active {
+    border-color: #a5b4ee;
+    color: #a5b4ee;
+
+    transition: none;
+  }
+}
+
+@mixin red-button-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 300px;
+  height: 50px;
+  border-radius: 6px;
+
+  border: #cc0000 solid 1px;
+  background-color: rgb(255, 255, 255, 0);
+
+  font-size: 18px;
+  color: #cc0000;
+
+  margin-bottom: 16px;
+
+  cursor: pointer;
+
+  transition-property: background-color, color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+
+  &:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+  }
+
+  &:active {
+    background-color: #ea3e3e;
+    border-color: #ea3e3e;
+    color: #ffffff;
+
+    transition: none;
+  }
+}
+
+.modalContainer {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 275px;
+  height: 100px;
+  margin: 50px;
+
+  .modalText {
+    font-size: 22px;
+  }
+
+  .modalButtonBox {
+    display: flex;
+    margin-top: 30px;
+
+    .completeButton {
+      @include fill-button-style;
+
+      width: 125px;
+      margin: 0 10px;
+    }
+    .deleteButton {
+      @include red-button-style;
+
+      width: 125px;
+      margin: 0 10px;
+    }
+    .cancleButton {
+      @include border-button-style;
+
+      width: 125px;
+      margin: 0 10px;
+    }
+  }
 }
 
 .container {
@@ -30,100 +160,54 @@
   border-top: 1px solid #d0d8de;
 
   .recruitingButton {
-    @include button-style;
-
-    cursor: pointer;
-
-    transition-property: background-color, border-color;
-    transition-duration: 0.5s;
-    transition-timing-function: ease;
-
-    &:hover {
-      background-color: #7e58db;
-      border-color: #7e58db;
-    }
-
-    &:active {
-      background-color: #9878e5;
-      border-color: #9878e5;
-
-      transition: none;
-    }
+    @include fill-button-style;
   }
 
   .completeButton {
-    @include button-style;
+    @include fill-button-style;
 
     border: #cfd9ff solid 1px;
     background-color: #cfd9ff;
 
     cursor: default;
+
+    &:hover,
+    &:active {
+      background-color: #cfd9ff;
+      border-color: #cfd9ff;
+    }
   }
 
   .modifyContainer {
     display: flex;
 
     .modifyButton {
-      @include button-style;
+      @include border-button-style;
 
       width: 140px;
-      color: $main-color;
-      border: $main-color solid 1px;
-      background-color: rgb(255, 255, 255, 0);
-
-      transition-property: border-color, color;
-      transition-duration: 0.5s;
-      transition-timing-function: ease;
-
-      &:hover {
-        border-color: #9878e5;
-        color: #9878e5;
-      }
-
-      &:active {
-        border-color: #a5b4ee;
-        color: #a5b4ee;
-
-        transition: none;
-      }
     }
 
     .modifyDisableButton {
-      @include button-style;
+      @include border-button-style;
 
       width: 140px;
       color: #cfd9ff;
       border: #cfd9ff solid 1px;
-      background-color: rgb(255, 255, 255, 0);
 
       cursor: default;
+
+      &:hover,
+      &:active {
+        color: #cfd9ff;
+        border-color: #cfd9ff;
+      }
     }
 
     .deleteButton {
-      @include button-style;
+      @include red-button-style;
 
-      margin-left: 20px;
       width: 140px;
-      color: #cc0000;
-      border: #cc0000 solid 1px;
-      background-color: rgb(255, 255, 255, 0);
-
-      transition-property: background-color, color;
-      transition-duration: 0.5s;
-      transition-timing-function: ease;
-
-      &:hover {
-        background-color: #cc0000;
-        color: #ffffff;
-      }
-
-      &:active {
-        background-color: #ea3e3e;
-        border-color: #ea3e3e;
-        color: #ffffff;
-
-        transition: none;
-      }
+      margin-left: 20px;
     }
   }
 }
