@@ -75,11 +75,16 @@ function Login() {
           path: '/',
         });
 
-        console.log(data);
+        // console.log(data);
 
-        localStorage.setItem('user_id', data.user_id);
-        localStorage.setItem('user_name', data.user_name);
-        localStorage.setItem('user_img', data.user_img);
+        localStorage.setItem(
+          'user',
+          JSON.stringify({
+            user_id: data.user_id,
+            user_name: data.user_name,
+            user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+          })
+        );
 
         navigate('/');
       } else if (res.status == 404) {
