@@ -95,4 +95,4 @@ export type TypeProjectPost = Pick<
 
 export type TypeUserPosts = { project: TypeProjectList }[];
 
-export type TypeStacks = Pick<Project, 'project_required_stacks'>;
+// export type TypeStacks = Pick<Project, 'project_required_stacks'>;
