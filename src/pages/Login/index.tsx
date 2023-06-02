@@ -68,9 +68,10 @@ function Login() {
       const data = res.data.data;
 
       if (res.status == 200) {
-        const author = await res.headers['authorization'];
-        const token = author.split(' ')[1];
-        cookie.save('accessToken', token, {
+        // const author = await res.headers['authorization'];
+        // const token = author.split(' ')[1];
+        const accessToken = data.accessToken;
+        cookie.save('accessToken', accessToken, {
           path: '/',
         });
 
