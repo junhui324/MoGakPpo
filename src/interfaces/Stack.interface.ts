@@ -1,8 +1,5 @@
 interface Stack {
-  message: string;
-  data: {
-    stackList: string[];
-  };
+  stackList: string[];
 }
 
 export type TypeStacks = Stack;

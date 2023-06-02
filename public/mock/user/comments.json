@@ -1,0 +1,18 @@
+[
+  {
+    "comment": {
+      "comment_id": 1,
+      "project_id": 1,
+      "comment_content": "우와 저도 참여하고 싶어요!",
+      "comment_created_at": "2023-05-01 15:21:41"
+    }
+  },
+  {
+    "comment": {
+      "comment_id": 2,
+      "project_id": 1,
+      "comment_content": "대박대박",
+      "comment_created_at": "2023-05-15 15:21:41"
+    }
+  }
+]

@@ -69,14 +69,20 @@ async function postProject(
 }
 
 // 유저 프로필 불러오기
-async function getUserProfile(): Promise<UserType.TypeUserProfile> {
-  const params = `/user.json`;
+async function getUserProfile(): Promise<{
+  message: string;
+  data: UserType.TypeUserProfile;
+}> {
+  const params = `/user/profile.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.get(domain, params, false);
 }
 
 // stack 전체 데이터 불러오기
-async function getStackList(): Promise<StackType.TypeStacks> {
+async function getStackList(): Promise<{
+  message: string;
+  data: StackType.TypeStacks;
+}> {
   const params = `/stack.json`;
   return await Api.get(domain, params, false);
 }
@@ -91,7 +97,25 @@ async function getUserPosts(): Promise<{
   return await Api.get(domain, params, false);
 }
 
+// 유저 정보 수정하기
+async function updateUserProfile(
+  data: UserType.TypeUserProfile
+): Promise<UserType.TypeUserProfile> {
+  const params = `/user.json`;
+  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
+  return await Api.put(domain, params, data, false);
+}
+
+// 유저 작성 댓글 불러오기
+async function getUserComments(): Promise<CommentType.TypeUserComments> {
+  const params = `/user/comments.json`;
+  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
+  return await Api.get(domain, params, false);
+}
+
 export {
+  updateUserProfile,
+  getUserComments,
   getProject,
   getComment,
   postComment,

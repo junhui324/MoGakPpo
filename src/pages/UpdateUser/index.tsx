@@ -1,20 +1,24 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TypeUserProfile } from '../../interfaces/User.interface';
-import { getUserProfile } from '../../apis/Fetcher';
+import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from "../../components/Stack";
 import styles from './updateUser.module.scss';
 import { RiAddCircleFill } from 'react-icons/ri';
+import ROUTES from '../../constants/Routes';
+import useBeforeUnload from '../../hooks/useBeforeUnload';
 
 function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>();
   const [imageSrc, setImageSrc] = useState(user?.user_img);
   const [userStack, setUserStack] = useState<string[]>(user?.user_stacks.stackList ?? []);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // 글자수 제한을 위한 상태관리
   const [inputName, setInputName] = useState<string>('');
   const [inputIntro, setInputIntro] = useState<string>('');
   const [inputCareer, setInputCareer] = useState<string>('');
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   const MAX_NAME_COUNT = 50;
   const MAX_INTRO_COUNT = 250;
@@ -66,36 +70,59 @@ function UpdateUser() {
     setUserStack(stacks);
   };
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    
-    if (window.confirm('수정하시겠습니까?')) {
-      console.log('마이페이지로 이동');
-    }
-  }
 
   const getUserData = async () => {
     try {
-      const userList = await getUserProfile();
-      setUser(userList);
+      const { data } = await getUserProfile();
+      setUser(data);
+      setImageSrc(data.user_img);
+      setInputName(data.user_name);
+      setInputIntro(data.user_introduction);
+      setInputCareer(data.user_career_goal);
+      setUserStack(data.user_stacks.stackList);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const updatedUserData = {
+    user_img: imageSrc || '',
+    user_name: inputName.trim(),
+    user_introduction: inputIntro || '',
+    user_career_goal: inputCareer || '',
+    user_stacks: {
+      stackList: userStack || [],
+    },
+  };
+
+  const isValidName = () => {
+    if (inputName.trim().length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  const handleSumbit = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    
+    if (window.confirm('수정하시겠습니까?')) {
+      try {
+        await updateUserProfile(updatedUserData);
+      } catch (error) {
+        console.log(error);
+      }
+
+      navigate(`${ROUTES.MY_PAGE}`);
+    }
+  }
+
+  useBeforeUnload();
+
   useEffect(() => {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      setImageSrc(user.user_img);
-      setInputName(user.user_name);
-      setInputIntro(user.user_introduction);
-      setInputCareer(user.user_career_goal);
-      setUserStack(user.user_stacks.stackList);
-    }
-  }, [user]);
+  const buttonClassName = isValidName() ? styles.submitButton : styles.disabledButton;
 
   return (
     <div className={styles.container}>
@@ -128,7 +155,7 @@ function UpdateUser() {
             maxLength={MAX_NAME_COUNT}
             onChange={(e) => handleChange(e, MAX_NAME_COUNT, 'name')}
           />
-          <p>{inputName.length}/{MAX_NAME_COUNT}</p>
+          <p>{inputName.trim().length}/{MAX_NAME_COUNT}</p>
         </div>
         <div className={styles.introContainer}>
           <label>자기소개</label>
@@ -155,9 +182,10 @@ function UpdateUser() {
           selectedStack={userStack}
           setStackList={handleSetStackList}
         />
-        <button 
-          className={styles.submitButton}
+        <button
+          className={buttonClassName}
           onClick={handleSumbit}
+          disabled={!isValidName()}
         >
           완료
         </button>
