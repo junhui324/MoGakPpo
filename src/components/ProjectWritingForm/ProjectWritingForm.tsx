@@ -16,6 +16,9 @@ import {
 } from '../../constants/project';
 import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER } from './constant';
 import ValidateModal from './ValidateModal';
+import useBeforeUnload from '../../hooks/useBeforeUnload';
+import { useNavigate } from 'react-router-dom';
+import Project from './../ProjectList/Project';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -34,6 +37,7 @@ function ProjectWritingForm() {
   const [stackList, setStackList] = useState<string[]>([]);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
+  const navigate = useNavigate();
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -49,7 +53,7 @@ function ProjectWritingForm() {
         project_type: key,
       }));
     }
-  }, []);
+  }, [type]);
 
   useEffect(() => {
     setProject((prevProject) => ({
@@ -145,7 +149,12 @@ function ProjectWritingForm() {
         },
       }));
     }
-    //const { project_id } = await Fetcher.postProject(project);
+
+    // 게시글 id를 반환받아서 해당 id를 가진 게시물로 이동
+    // const { project_id } = await Fetcher.postProject(project);
+    // 임시 주소
+    const project_id = 1;
+    navigate(`/project/${project_id}`);
     console.log('json으로 보기:', JSON.stringify(project));
   };
 
@@ -177,9 +186,10 @@ function ProjectWritingForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  useBeforeUnload();
+
   return (
     <div className={styles.container}>
-      <nav></nav>
       <div className={styles.mainForm}>
         <div className={styles.projectWriteForm}>
           <div className={styles.title}>
@@ -305,6 +315,33 @@ function ProjectWritingForm() {
             </button>
             {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
           </div>
+        </div>
+      </div>
+      <div className={styles.helpContainer}>
+        <div className={styles.firstDiv}>
+          <p>제목은 프로젝트를 직관적으로 알 수 있게 작성해주세요. (50자 이내)</p>
+        </div>
+        <div className={styles.secondDiv}>
+          <p>어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게 요약해주세요. (150자 이내)</p>
+        </div>
+        <div className={styles.thirdDiv}>
+          <p>
+            소개에는 이런 내용이 있으면 좋아요👇
+            <br />
+            <br />
+            • 어떤 프로젝트인지
+            <br />
+            • 프로젝트를 기획한 배경
+            <br />
+            • 프로젝트의 목적이나 달성하고 싶은 목표
+            <br />
+            • 모집하고 싶은 역할과 인원수
+            <br />
+            • 프로젝트 진행 방식
+            <br />
+            <br />
+            이미 진행 중인 프로젝트라면, 현재 구성원과 진행 상황을 알려주세요!
+          </p>
         </div>
       </div>
     </div>

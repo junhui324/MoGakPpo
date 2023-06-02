@@ -7,6 +7,20 @@
   margin-bottom: 10px;
 }
 
+@mixin helpbox {
+  margin-left: 70px;
+  width: 360px;
+  border: 1px solid $gray-back-color;
+  border-radius: 10px;
+  background-color: $gray-back-color;
+}
+
+@mixin helpP {
+  margin: 30px;
+  font-size: 15px;
+  line-height: 19px;
+}
+
 input {
   font-weight: 600;
   padding: 6px;
@@ -40,6 +54,32 @@ h2 {
   margin: 0 auto;
   max-width: 1024px;
   border: 1px solid rgb(234, 234, 234);
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+}
+
+.helpContainer {
+  .firstDiv {
+    margin-top: 42px;
+    @include helpbox;
+    p {
+      @include helpP;
+    }
+  }
+  .secondDiv {
+    margin-top: 73px;
+    @include helpbox;
+    p {
+      @include helpP;
+    }
+  }
+  .thirdDiv {
+    margin-top: 400px;
+    @include helpbox;
+    p {
+      @include helpP;
+    }
+  }
 }
 
 .mainForm {
@@ -55,6 +95,7 @@ h2 {
   color: white;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
 
   p {
     font-size: 11px;
