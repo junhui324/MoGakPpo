@@ -90,7 +90,6 @@ export type TypeProjectPost = Pick<
   | 'project_goal'
   | 'project_participation_time'
   | 'project_introduction'
-  | 'project_img'
 >;
 
 export type TypeUserPosts = { project: TypeProjectList }[];

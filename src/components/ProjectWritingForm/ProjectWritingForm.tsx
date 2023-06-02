@@ -27,7 +27,6 @@ function ProjectWritingForm() {
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
-    project_img: null,
   });
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
