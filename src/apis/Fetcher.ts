@@ -14,13 +14,15 @@ async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
 }
 
 // 모든 프로젝트 리스트 불러오기
-async function getProjects(): Promise<ProjectType.TypeProjectList[]> {
+async function getProjects(): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
   const params = `projects.json`;
   return await Api.get(domain, params, false);
 }
 
 // 카테고리로 프로젝트 리스트 불러오기
-async function getProjectsByCategory(categoryId: string): Promise<ProjectType.TypeProjectList[]> {
+async function getProjectsByCategory(
+  categoryId: string
+): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
   const params = `projects/cate=${categoryId}.json`;
   return await Api.get(domain, params, false);
 }
@@ -54,7 +56,10 @@ async function getStackList(): Promise<ProjectType.TypeStacks> {
 }
 
 // 유저 작성 게시글 불러오기
-async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
+async function getUserPosts(): Promise<{
+  message: string;
+  data: { user_posts: { projectList: ProjectType.TypeUserPosts } };
+}> {
   const params = `/user/posts.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.get(domain, params, false);

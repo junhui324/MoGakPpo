@@ -20,34 +20,35 @@ function Main() {
     setSearchKeyword(keyword);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    searchKeyword && getSearchListData();
-    setSearchKeyword('');
-  };
-
   const getSearchListData = async () => {
     try {
-      const data = await getProjectsByKeyword(selectedCategory, searchKeyword);
+      const data = await getProjectsByKeyword(selectedCategory, searchKeyword.toLowerCase());
       setProjectList(data);
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');
     }
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    searchKeyword && getSearchListData();
+    setSearchKeyword('');
+  };
+
+  const getAllListData = async (): Promise<void> => {
+    try {
+      const projectList =
+        selectedCategory === 'all'
+          ? await getProjects()
+          : await getProjectsByCategory(selectedCategory);
+      setProjectList(projectList.data);
+    } catch (error) {
+      console.error('포스팅을 가져오지 못했어요');
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        const projectList =
-          selectedCategory === 'all'
-            ? await getProjects()
-            : await getProjectsByCategory(selectedCategory);
-        setProjectList(projectList);
-      } catch (error) {
-        console.error('포스팅을 가져오지 못했어요');
-      }
-    };
-    fetchData();
+    getAllListData();
   }, [selectedCategory]);
 
   return (

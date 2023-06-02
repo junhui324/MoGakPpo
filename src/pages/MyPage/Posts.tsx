@@ -6,18 +6,19 @@ import { getUserPosts } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 
 function Posts() {
-  const [posts, setPosts] = useState<TypeUserPosts | []>([]);
-  const getUserData = async () => {
+  const [posts, setPosts] = useState<TypeUserPosts>([]);
+  const getUserPostsData = async () => {
     try {
-      const data = (await getUserPosts()) as unknown as TypeUserPosts;
-      setPosts(data);
+      const userPostsData = await getUserPosts();
+      setPosts(userPostsData.data.user_posts);
+      console.log(userPostsData.data.user_posts);
     } catch (error) {
       console.error('유저가 작성한 포스팅을 가져오지 못했어요');
     }
   };
 
   useEffect(() => {
-    getUserData();
+    getUserPostsData();
   }, []);
 
   return (

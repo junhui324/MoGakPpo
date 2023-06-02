@@ -17,7 +17,7 @@ function ProjectSearch({ handleSubmit, handleChange, value }: ProjectSearchProps
         <input
           type="text"
           placeholder="제목, 내용, 기술스택으로 검색"
-          onChange={(e) => handleChange(e.target.value.toLowerCase())}
+          onChange={(e) => handleChange(e.target.value)}
           value={value}
         ></input>
         <button>🔍</button>

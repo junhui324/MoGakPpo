@@ -24,6 +24,7 @@ function Project({ projectData }: projectDataProps) {
   };
 
   const {
+    is_bookmarked: isBookmarked,
     project_id: projectId,
     project_type: type,
     project_recruitment_status: recruitmentStatus,

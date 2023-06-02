@@ -1,4 +1,5 @@
 interface Project {
+  is_bookmarked: boolean;
   project_id: number;
   author_id: number;
   author_name: string;
@@ -44,6 +45,7 @@ export type TypeProjectList = Pick<
   Partial<
     Pick<
       Project,
+      | 'is_bookmarked'
       | 'project_required_stacks'
       | 'project_participation_time'
       | 'project_summary'
