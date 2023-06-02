@@ -70,15 +70,16 @@ function UpdateUser() {
     setUserStack(stacks);
   };
 
+
   const getUserData = async () => {
     try {
-      const userList = await getUserProfile();
-      setUser(userList);
-      setImageSrc(userList.user_img);
-      setInputName(userList.user_name);
-      setInputIntro(userList.user_introduction);
-      setInputCareer(userList.user_career_goal);
-      setUserStack(userList.user_stacks.stackList);
+      const { data } = await getUserProfile();
+      setUser(data);
+      setImageSrc(data.user_img);
+      setInputName(data.user_name);
+      setInputIntro(data.user_introduction);
+      setInputCareer(data.user_career_goal);
+      setUserStack(data.user_stacks.stackList);
     } catch (error) {
       console.error(error);
     }
