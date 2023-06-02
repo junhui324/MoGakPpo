@@ -1,5 +1,23 @@
 @import '/src/variables.scss';
 
+.loadingLogo {
+  margin-top: $header-height;
+
+  @keyframes loading {
+    from {
+      color: #95a4b0;
+    }
+    50% {
+      color: #d0d8de;
+    }
+    to {
+      color: #95a4b0;
+    }
+  }
+
+  animation: loading 0.8s 0.3s infinite;
+}
+
 .container {
   display: flex;
   margin-top: $header-height;

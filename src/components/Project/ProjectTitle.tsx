@@ -27,7 +27,6 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
     const commentsCount: number = titleData.project_comments_count;
     // 모집 여부
     const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[titleData.project_recruitment_status];
-    console.log(recruitmentStatus);
 
     // 7일전까지는 글로 나타내고, 그 이후엔 날짜를 반환합니다.
     const projectDate = () => {
@@ -79,7 +78,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
         <div>
           <span>{projectDate()}</span>
           <span> · </span>
-          <span>조회수 {titleData.project_views}</span>
+          <span>조회수 {titleData.project_views_count}</span>
           <span> · </span>
           <span>댓글수 {commentsCount}</span>
         </div>

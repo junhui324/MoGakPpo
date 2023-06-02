@@ -37,7 +37,7 @@ function Posts() {
                 project_participation_time,
                 project_bookmark_count,
                 project_comments_count,
-                project_views,
+                project_views_count,
                 project_created_at,
               } = post;
 
@@ -50,7 +50,7 @@ function Posts() {
                 project_participation_time,
                 project_bookmark_count,
                 project_comments_count,
-                project_views,
+                project_views_count,
                 project_created_at,
               };
 

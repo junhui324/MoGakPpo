@@ -32,7 +32,10 @@ export default function ProjectBookmarkBlock({
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);
 
   useEffect(() => {
-    bookmarksData && setBookmarksCount(bookmarksData.project_bookmarks.bookmarkList.length);
+    if (bookmarksData) {
+      setBookmarksCount(bookmarksData.project_bookmark_count);
+      setIsBookmark(bookmarksData.is_bookmarked);
+    }
   }, [bookmarksData]);
 
   const handleBookmark = () => {
