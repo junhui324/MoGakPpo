@@ -38,7 +38,10 @@ async function getUserProfile(): Promise<{
 }
 
 // stack 전체 데이터 불러오기
-async function getStackList(): Promise<StackType.TypeStacks> {
+async function getStackList(): Promise<{
+  message: string;
+  data:StackType.TypeStacks
+}> {
   const params = `/stack.json`;
   return await Api.get(domain, params, false);
 }
