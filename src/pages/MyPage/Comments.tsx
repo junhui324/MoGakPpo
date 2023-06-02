@@ -5,6 +5,7 @@ import NoContentImage from '../../assets/NoContent.png';
 import { TypeMypageComments } from '../../interfaces/Comment.interface';
 import { getUserComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
+import getDateFormat from '../../utils/getDateFormat';
 
 function Comments() {
   const [comments, setComments] = useState<TypeMypageComments>([]);
@@ -53,7 +54,7 @@ function Comments() {
               >
                 <div className={styles.title}>{project_title}</div>
                 <div className={styles.comment}>{comment_content}</div>
-                <div className={styles.createdAt}>작성시간: {comment_created_at}</div>
+                <div className={styles.createdAt}>{getDateFormat(comment_created_at)}</div>
               </div>
             )
           })}
