@@ -8,8 +8,8 @@ interface ProjectListProps {
 function ProjectList({ projectList }: ProjectListProps) {
   return (
     <ul className={styles.container}>
-      {projectList.map((project) => (
-        <Project projectData={project} />
+      {projectList.map((project, index) => (
+        <Project projectData={project} key={index} />
       ))}
     </ul>
   );

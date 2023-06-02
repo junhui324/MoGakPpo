@@ -31,7 +31,7 @@ async function getProjectsByCategory(
 async function getProjectsByKeyword(
   categoryId: string,
   keyword: string
-): Promise<ProjectType.TypeProjectList[]> {
+): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
   const params = `projects/cate=${categoryId}&search=${keyword}.json`;
   return await Api.get(domain, params, false);
 }

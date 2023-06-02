@@ -14,34 +14,6 @@ function Main() {
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [isSearched, setIsSearched] = useState(false);
 
-  const handleCategoryClick = (key: string) => {
-    setSelectedCategory(key);
-  };
-
-  const handleSearchChange = (keyword: string) => {
-    setKeywordValue(keyword);
-  };
-
-  const getSearchListData = async () => {
-    try {
-      const data = await getProjectsByKeyword(selectedCategory, searchKeyword.toLowerCase());
-      setProjectList(data);
-    } catch (error) {
-      console.error('포스팅을 가져오지 못했어요');
-    }
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearchKeyword(keywordValue);
-    searchKeyword && getSearchListData();
-    setIsSearched(true);
-  };
-
-  const handleSearchCancelClick = () => {
-    setIsSearched(false);
-  };
-
   const getAllListData = async (): Promise<void> => {
     try {
       const projectList =
@@ -52,6 +24,42 @@ function Main() {
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');
     }
+  };
+
+  const getSearchListData = async () => {
+    try {
+      const projectList = await getProjectsByKeyword(selectedCategory, keywordValue.toLowerCase());
+      console.log(projectList.data);
+      setProjectList(projectList.data);
+    } catch (error) {
+      console.error('포스팅을 가져오지 못했어요');
+    }
+  };
+
+  const handleCategoryClick = (key: string) => {
+    setSelectedCategory(key);
+  };
+
+  const handleSearchChange = (keyword: string) => {
+    setKeywordValue(keyword);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchKeyword(keywordValue);
+    keywordValue && getSearchListData();
+    if (keywordValue) {
+      setIsSearched(true);
+    } else if (isSearched && !keywordValue) {
+      setIsSearched(false);
+      getAllListData();
+    }
+  };
+
+  const handleSearchCancelClick = () => {
+    setIsSearched(false);
+    getAllListData();
+    setKeywordValue('');
   };
 
   useEffect(() => {
