@@ -54,11 +54,13 @@ function Project() {
 
   // 데이터 API 호출 함수
   const fetchData = async () => {
+    setIsLoading(true);
+
     try {
       const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
       setProjectData(data);
+      console.log(data);
     } catch (loadingError) {
-      // 경로 나중에 상수로 바꿀 필요 있음
       navigate(ROUTES.MAIN);
     } finally {
       setIsLoading(false);
@@ -144,11 +146,7 @@ function Project() {
         <ProjectAuthorProfile authorData={authorData} />
         <ProjectBookmarkBlock bookmarksData={bookmarksData} />
         {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
-        {isAuthor() ? (
-          <ProjectModifyBlock modifyData={modifyData} setProjectData={setProjectData} />
-        ) : (
-          <></>
-        )}
+        {isAuthor() ? <ProjectModifyBlock modifyData={modifyData} fetchData={fetchData} /> : <></>}
       </div>
     </div>
   ) : (
