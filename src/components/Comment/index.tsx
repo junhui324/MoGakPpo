@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
-import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { TypeComment, TypeCommentPost } from '../../interfaces/Comment.interface';
+import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 import getUserInfo from '../../utils/getUserInfo';
