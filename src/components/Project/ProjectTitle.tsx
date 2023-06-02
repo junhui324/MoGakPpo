@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+//import React, { useState, useEffect } from 'react';
 import { TypeProjectTitle } from '../../interfaces/Project.interface';
 
 //스타일

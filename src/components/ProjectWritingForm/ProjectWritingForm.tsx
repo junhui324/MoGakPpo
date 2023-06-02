@@ -152,7 +152,6 @@ function ProjectWritingForm() {
     // 임시 주소
     const project_id = 1;
     navigate(`/project/${project_id}`);
-    console.log('json으로 보기:', JSON.stringify(project));
   };
 
   // 유효성 검사

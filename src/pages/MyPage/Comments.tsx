@@ -15,8 +15,8 @@ function Comments() {
     try {
       const { message, data } = await getUserComments();
 
-      console.log(message);
-      console.log(data.project_comments);
+      //console.log(message);
+      //console.log(data.project_comments);
 
       setComments(data.project_comments);
     } catch (error) {
@@ -28,7 +28,7 @@ function Comments() {
     event.preventDefault();
 
     navigate(`${ROUTES.PROJECT}${project_id}`);
-  }
+  };
 
   useEffect(() => {
     getUserCommentData();
@@ -47,8 +47,8 @@ function Comments() {
           {comments.map((data, index) => {
             const { comment_content, comment_created_at, project_id, project_title } = data;
             return (
-              <div 
-                className={styles.commentWrapper} 
+              <div
+                className={styles.commentWrapper}
                 key={`${comment_created_at}-${index}`}
                 onClick={(e) => handleClickComment(e, project_id)}
               >
@@ -56,12 +56,12 @@ function Comments() {
                 <div className={styles.comment}>{comment_content}</div>
                 <div className={styles.createdAt}>{getDateFormat(comment_created_at)}</div>
               </div>
-            )
+            );
           })}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default Comments;

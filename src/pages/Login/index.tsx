@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore

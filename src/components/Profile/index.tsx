@@ -12,7 +12,7 @@ function Profile() {
   const getUserData = async () => {
     try {
       const { message, data } = await getUserProfile();
-      console.log(message, data);
+      //console.log(message, data);
       setUser(data);
     } catch (error) {
       console.error(error);
@@ -21,7 +21,7 @@ function Profile() {
 
   const handleClickEdit = () => {
     navigate(`${ROUTES.USER_UPDATE}`);
-  }
+  };
 
   useEffect(() => {
     getUserData();
@@ -31,10 +31,7 @@ function Profile() {
     <div className={styles.profileContainer}>
       <div className={styles.imageWrapper}>
         <img className={styles.image} src={user?.user_img} alt={user?.user_name}></img>
-        <button 
-          className={styles.updateButton}
-          onClick={handleClickEdit}
-        >
+        <button className={styles.updateButton} onClick={handleClickEdit}>
           편집
         </button>
       </div>

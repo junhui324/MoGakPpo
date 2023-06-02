@@ -29,7 +29,7 @@ function Main() {
   const getSearchListData = async () => {
     try {
       const projectList = await getProjectsByKeyword(selectedCategory, keywordValue.toLowerCase());
-      console.log(projectList.data);
+      //console.log(projectList.data);
       setProjectList(projectList.data);
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');

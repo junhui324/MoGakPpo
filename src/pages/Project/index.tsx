@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utils/getUserInfo';
 import Comment from '../../components/Comment';
@@ -60,7 +60,7 @@ function Project() {
     try {
       const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
       setProjectData(data);
-      console.log(data);
+      //console.log(data);
     } catch (loadingError) {
       navigate(ROUTES.MAIN);
     } finally {
