@@ -27,7 +27,6 @@ function App() {
           <Route path={`${ROUTES.CREATE}:type`} element={<ProjectWriting />} />
           {/* 게시글 확인 */}
           <Route path={`${ROUTES.PROJECT}:id`} element={<Project />} />
-          <Route path="/comments/:id" element={<Comment />} />
           {/* 유저관련 */}
           <Route path={ROUTES.LOGIN} element={<Login />} />
           {/* <Route path="/register" element={}/> */}

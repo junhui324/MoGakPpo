@@ -12,10 +12,6 @@ import { PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
 const RECRUITING = '모집 중';
 const COMPLETE = '모집 완료';
 
-interface PostTypeSelectModalProps {
-  setModalOpen: (value: boolean) => void;
-}
-
 const CompleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
   return (
     <ModalBasic setModalOpen={() => true} closeButton={false} fullScreen={true}>
@@ -90,10 +86,10 @@ function ModifyButton({ recruitmentStatus }: { recruitmentStatus: string }) {
 
 export default function ProjectModifyBlock({
   modifyData,
-  setProjectData,
+  fetchData,
 }: {
   modifyData: TypeProjectModify | null;
-  setProjectData: React.Dispatch<React.SetStateAction<TypeProject | null>>;
+  fetchData: () => Promise<void>;
 }) {
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -101,12 +97,16 @@ export default function ProjectModifyBlock({
   const recruitmentComplete = () => {
     try {
       // API 연결을 통해 모집완료 처리가 제대로 되었는지 확인합니다.(상태코드 200)
+      /*
+      const response : AxiosResponse<T>  = await Fetcher.deleteProject();
+      const status = response.status;
+      if(status === 200) {
+        밑 코드를 이쪽으로 이동
+      } else throw new Error('예기치 않은 서버 응답');
+      */
 
-      // setProjectData를 통해 모집 상태를 최신화시킨 후 렌더링합니다.
-      setProjectData((prevProjectData) => {
-        if (prevProjectData) return { ...prevProjectData, project_recruitment_status: 'COMPLETE' };
-        return null;
-      });
+      // fetchData()로 최신화 된 프로젝트 정보를 불러옵니다.
+      fetchData();
     } catch (error) {
       alert('모집 완료 처리에 실패했습니다.');
     }
