@@ -50,9 +50,17 @@ $grey: #64748B;
       background-color: rgba(#e8e8e8, 0.2);
     }
 
+    .title {
+      color: $grey;
+      font-size: 16px;
+      font-weight: 500;
+      padding-bottom: 1rem;
+    }
+
     .comment {
       font-size: 18px;
-      padding-bottom: 0.6rem;
+      padding-bottom: 1rem;
+      font-weight: 600;
     }
   
     .createdAt {

@@ -116,7 +116,7 @@ export default function Comment() {
   }
 
   return (
-    <div>
+    <div className={styles.commentContainer}>
       <div className={styles.inputArea}>
         <h3>
           댓글 <strong>{comments.length}</strong>

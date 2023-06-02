@@ -43,6 +43,7 @@ function Project({ projectData }: projectDataProps) {
   } = projectData;
 
   const [bookmark, setBookmark] = useState(isBookmarked);
+
   const handleBookmarkClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     setBookmark((prev) => !prev);
@@ -70,7 +71,7 @@ function Project({ projectData }: projectDataProps) {
               </span>
             )}
             {isBookmarked !== undefined && (
-              <button className={styles.bookmarkButton} onClick={(e) => handleBookmarkClick}>
+              <button className={styles.bookmarkButton} onClick={(e) => handleBookmarkClick(e)}>
                 {bookmark ? <BsBookmark /> : <BsBookmarkFill />}
               </button>
             )}
