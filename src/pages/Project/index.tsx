@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import getUserInfo from '../../utils/getUserInfo';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -67,7 +68,7 @@ function Project() {
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
-    const userId = Number(localStorage.getItem('user_id'));
+    const userId = Number(getUserInfo()?.user_id);
     return userId === projectData?.user_id ? true : false;
   };
 
