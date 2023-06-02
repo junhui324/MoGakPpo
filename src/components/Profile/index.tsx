@@ -11,8 +11,9 @@ function Profile() {
 
   const getUserData = async () => {
     try {
-      const userList = await getUserProfile();
-      setUser(userList);
+      const { message, data } = await getUserProfile();
+      console.log(message, data);
+      setUser(data);
     } catch (error) {
       console.error(error);
     }

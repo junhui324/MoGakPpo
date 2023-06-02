@@ -27,8 +27,11 @@ async function postProject(
 }
 
 // 유저 프로필 불러오기
-async function getUserProfile(): Promise<UserType.TypeUserProfile> {
-  const params = `/user.json`;
+async function getUserProfile(): Promise<{
+  message: string;
+  data: UserType.TypeUserProfile;
+}> {
+  const params = `/user/profile.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.get(domain, params, false);
 }
