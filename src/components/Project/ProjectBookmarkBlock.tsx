@@ -41,7 +41,22 @@ export default function ProjectBookmarkBlock({
   const handleBookmark = () => {
     try {
       // 북마크 API와 통신합니다.
-      // 반환값을 저장해서 반환값을 setIsBookmark 함
+      /*
+      let response : AxiosResponse<T>; 
+      if (isBookmark) response = await Fetcher.postBookmark();
+      else response = await Fecher.deleteBookmark();
+
+      switch(response.status) {
+        case 200:
+          setIsBookmark(false);
+          break;
+        case 201:
+          setIsBookmark(true);
+          break;
+        default:
+          throw new Error('예기치 않은 서버 응답');
+      }
+      */
 
       // 북마크 API 통신 반환값에 따라 상태를 변경합니다.
       // 해당코드는 UI구상을 위한 임시코드임
