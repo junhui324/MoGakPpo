@@ -20,9 +20,9 @@ async function getComment(projectId: string): Promise<CommentType.TypeComment> {
   return await Api.get(domain, params, false);
 }
 async function postComment(
-  projectId: number,
-  data: CommentType.TypeComment
-): Promise<CommentType.TypeComment> {
+  projectId: string,
+  data: CommentType.TypeCommentPost
+): Promise<CommentType.TypeCommentPost> {
   const params = `comments/${projectId}.json`;
   return await Api.post(domain, params, data);
 }
@@ -33,7 +33,7 @@ async function putComment(
   const params = `comments/${commentId}.json`;
   return await Api.put(domain, params, data);
 }
-async function deleteComment(commentId: number): Promise<CommentType.TypeComment> {
+async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
   const params = `comments/${commentId}.json`;
   return await Api.delete(domain, params);
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { TypeComment } from '../../interfaces/Comment.interface';
+import { TypeComment, TypeCommentPost } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 
@@ -19,9 +19,9 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const projectId = params.id || '0';
 
   //코멘트 api get요청
-  const projectId = params.id || '0';
   const getCommentData = async () => {
     const commentList = await getComment(projectId);
     //@ts-ignore
@@ -65,12 +65,9 @@ export default function Comment() {
   const loggedInUserInputClicked = () => {
     const handleSubmitButtonClick = async () => {
       try {
-        //@ts-ignore
-        const response = await postComment({
+        const response = await postComment(projectId, {
           comment_content: inputValue,
         });
-
-        //@ts-ignore
         if (response.status === 200) {
           setIsListUpdated(!isListUpdated);
         }
@@ -134,9 +131,7 @@ export default function Comment() {
           const isEditing = editingCommentId === comment.comment_id;
           const handleDeleteButtonClick = async () => {
             try {
-              const response = await axios.delete(
-                `http://localhost:3000/mock/projects/1/${comment.comment_id}.json`
-              );
+              const response = await deleteComment(comment.comment_id);
               if (response.status === 200) {
                 setIsListUpdated(!isListUpdated);
               }
@@ -147,12 +142,16 @@ export default function Comment() {
           const handleEditButtonClick = () => {
             setEditingCommentId(comment.comment_id);
           };
-          const handleEditSubmitButtonClick = () => {
-            axios.patch('http://localhost:3000/mock/projects/1.json', {
-              comment_id: comment.comment_id,
-              comment_content: editInputValue,
-            });
-            setEditingCommentId(null);
+          const handleEditSubmitButtonClick = async () => {
+            try {
+              const response = await putComment(comment.comment_id, {
+                //@ts-ignore
+                comment_content: editInputValue,
+              });
+              setEditingCommentId(null);
+            } catch (error) {
+              console.log(error);
+            }
           };
 
           return (
