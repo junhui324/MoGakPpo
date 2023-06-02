@@ -15,21 +15,27 @@ async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
 }
 
 // 코멘트 리스트 불러오기
-async function getCommentList(): Promise<CommentType.TypeComment> {
-  const params = `project/comment.json`;
+async function getComment(projectId: string): Promise<CommentType.TypeComment> {
+  const params = `comments/${projectId}.json`;
   return await Api.get(domain, params, false);
 }
-async function postComment(data: CommentType.TypeComment): Promise<CommentType.TypeComment> {
-  const params = `project/comment.json`;
+async function postComment(
+  projectId: number,
+  data: CommentType.TypeComment
+): Promise<CommentType.TypeComment> {
+  const params = `comments/${projectId}.json`;
   return await Api.post(domain, params, data);
 }
-async function putComment(data: CommentType.TypeComment): Promise<CommentType.TypeComment> {
-  const params = `project/comment.json`;
+async function putComment(
+  commentId: number,
+  data: CommentType.TypeComment
+): Promise<CommentType.TypeComment> {
+  const params = `comments/${commentId}.json`;
   return await Api.put(domain, params, data);
 }
-async function deleteComment(data: CommentType.TypeComment): Promise<CommentType.TypeComment> {
-  const params = `project/comment.json`;
-  return await Api.delete(domain, params, data);
+async function deleteComment(commentId: number): Promise<CommentType.TypeComment> {
+  const params = `comments/${commentId}.json`;
+  return await Api.delete(domain, params);
 }
 
 // 모든 프로젝트 리스트 불러오기
@@ -66,7 +72,7 @@ async function getUserPosts(): Promise<ProjectType.TypeUserPosts> {
 
 export {
   getProject,
-  getCommentList,
+  getComment,
   postComment,
   putComment,
   deleteComment,

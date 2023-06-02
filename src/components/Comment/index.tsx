@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
-import { getCommentList, postComment } from '../../apis/Fetcher';
+import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -15,24 +15,27 @@ export default function Comment() {
   const [editInputValue, setEditInputValue] = useState<string | undefined>(undefined);
   const [isListUpdated, setIsListUpdated] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  //라우팅관련
+  const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+
+  //코멘트 api get요청
+  const projectId = params.id || '0';
+  const getCommentData = async () => {
+    const commentList = await getComment(projectId);
+    //@ts-ignore
+    setComments(commentList.data);
+  };
+  useEffect(() => {
+    getCommentData();
+  }, [isListUpdated]);
 
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments.find((comment) => comment.comment_id === editingCommentId);
     setEditInputValue(comment?.comment_content);
   }, [comments, editingCommentId]);
-
-  //댓글 리스트가 업데이트 될 때마다 코멘트 api get요청
-  const getCommentData = async () => {
-    const commentList = await getCommentList();
-    //@ts-ignore
-    setComments(commentList);
-  };
-  useEffect(() => {
-    getCommentData();
-  }, [isListUpdated]);
 
   //로그인 상태가 바뀔 때 마다 유저 정보 api get요청
   useEffect(() => {
@@ -155,9 +158,9 @@ export default function Comment() {
           return (
             <li key={comment.comment_id} className={styles.comment}>
               <div className={styles.header}>
-                <img src={comment.commenter_img} alt="profile" />
+                <img src={comment.user_img} alt="profile" />
                 <div className={styles.subHeader}>
-                  <h3>{comment.commenter_name}</h3>
+                  <h3>{comment.user_name}</h3>
                   <p>{comment.comment_created_at}</p>
                 </div>
               </div>
@@ -170,7 +173,7 @@ export default function Comment() {
                 <p className={styles.content}>{comment.comment_content}</p>
               )}
               {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
-              {comment.commenter_id !== user?.user_id &&
+              {comment.user_id !== user?.user_id &&
                 (isEditing ? (
                   <div className={styles.buttonContainer}>
                     <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
