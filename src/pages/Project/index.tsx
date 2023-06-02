@@ -15,6 +15,9 @@ import * as ProjectType from '../../interfaces/Project.interface';
 import styles from './Project.module.scss';
 import { BiDotsVertical } from 'react-icons/bi';
 
+//상수
+import ROUTES from '../../constants/Routes';
+
 const LOADING_LOGO_SIZE: number = 32;
 const LOADING_LOGO_COLOR: string = '#95a4b0';
 
@@ -54,9 +57,8 @@ function Project() {
       const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
       setProjectData(data);
     } catch (loadingError) {
-      alert('올바르지 않은 주소입니다.');
       // 경로 나중에 상수로 바꿀 필요 있음
-      navigate('/');
+      navigate(ROUTES.MAIN);
     } finally {
       setIsLoading(false);
     }
@@ -64,8 +66,9 @@ function Project() {
 
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
-    // 전역적인 userId와 author_id아이디가 같으면 true를 호출합니다.
-    return true;
+    // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
+    const userId = Number(localStorage.getItem('user_id'));
+    return userId === projectData?.user_id ? true : false;
   };
 
   // 게시글 아이디에 맞게 로딩할 것
@@ -83,7 +86,7 @@ function Project() {
             project_title: projectData.project_title,
             project_created_at: projectData.project_created_at,
             project_comments_count: projectData.project_comments_count,
-            project_views: projectData.project_views,
+            project_views_count: projectData.project_views_count,
           }
         : null;
     });
@@ -102,18 +105,20 @@ function Project() {
     setAuthorData(() => {
       return projectData
         ? {
-            author_id: projectData.author_id,
-            author_name: projectData.author_name,
-            author_introduction: projectData.author_introduction,
-            author_img: projectData.author_img,
+            user_id: projectData.user_id,
+            user_name: projectData.user_name,
+            user_introduction: projectData.user_introduction,
+            user_img: projectData.user_img,
           }
         : null;
     });
     setBookmarksData(() => {
       return projectData
         ? {
+            is_bookmarked: projectData.is_bookmarked,
+            project_bookmark_count: projectData.project_bookmark_count,
             project_type: projectData.project_type,
-            project_bookmarks: { bookmarkList: projectData.project_bookmarks.bookmarkList },
+            project_bookmark_users: projectData.project_bookmark_users,
           }
         : null;
     });
@@ -121,6 +126,7 @@ function Project() {
       return projectData
         ? {
             project_id: projectData.project_id,
+            user_id: projectData.user_id,
             project_recruitment_status: projectData.project_recruitment_status,
           }
         : null;

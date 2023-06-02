@@ -78,7 +78,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
         <div>
           <span>{projectDate()}</span>
           <span> · </span>
-          <span>조회수 {titleData.project_views}</span>
+          <span>조회수 {titleData.project_views_count}</span>
           <span> · </span>
           <span>댓글수 {commentsCount}</span>
         </div>

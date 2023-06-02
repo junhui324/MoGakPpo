@@ -9,7 +9,7 @@ const domain = `/mock`;
 
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
-  const params = `projects/${projectId}.json`;
+  const params = `projects/info/${projectId}.json`;
   return await Api.get(domain, params, false);
 }
 

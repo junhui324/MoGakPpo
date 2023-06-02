@@ -1,9 +1,5 @@
 interface Project {
   project_id: number;
-  author_id: number;
-  author_name: string;
-  author_introduction: string;
-  author_img: string;
   project_type: string;
   project_recruitment_status: string;
   project_title: string;
@@ -18,13 +14,16 @@ interface Project {
   project_participation_time: string;
   project_introduction: string;
   project_img: string | null;
-  project_bookmarks: {
-    bookmarkList: Array<{ user_name: string; user_img: number[] }>;
-  };
   project_bookmark_count: number;
-  project_views: number;
-  project_created_at: string;
   project_comments_count: number;
+  project_views_count: number;
+  project_created_at: string;
+  project_bookmark_users: { user_name: string; user_img: string }[];
+  user_id: number;
+  user_name: string;
+  user_introduction: string;
+  user_img: string;
+  is_bookmarked: boolean;
 }
 
 export type TypeProject = Project;
@@ -38,7 +37,7 @@ export type TypeProjectList = Pick<
   | 'project_goal'
   | 'project_bookmark_count'
   | 'project_comments_count'
-  | 'project_views'
+  | 'project_views_count'
   | 'project_created_at'
 > &
   Partial<
@@ -58,7 +57,7 @@ export type TypeProjectTitle = Pick<
   | 'project_title'
   | 'project_created_at'
   | 'project_comments_count'
-  | 'project_views'
+  | 'project_views_count'
 >;
 
 export type TypeProjectBody = Pick<
@@ -73,12 +72,18 @@ export type TypeProjectBody = Pick<
 
 export type TypeProjectAuthor = Pick<
   Project,
-  'author_id' | 'author_name' | 'author_introduction' | 'author_img'
+  'user_id' | 'user_name' | 'user_introduction' | 'user_img'
 >;
 
-export type TypeProjectBookmarks = Pick<Project, 'project_bookmarks' | 'project_type'>;
+export type TypeProjectBookmarks = Pick<
+  Project,
+  'is_bookmarked' | 'project_bookmark_count' | 'project_bookmark_users' | 'project_type'
+>;
 
-export type TypeProjectModify = Pick<Project, 'project_id' | 'project_recruitment_status'>;
+export type TypeProjectModify = Pick<
+  Project,
+  'project_id' | 'user_id' | 'project_recruitment_status'
+>;
 
 export type TypeProjectPost = Pick<
   Project,

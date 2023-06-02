@@ -28,7 +28,7 @@ function Project({ projectData }: projectDataProps) {
     project_participation_time: participationTime,
     project_bookmark_count: bookmarkCount,
     project_comments_count: commentsCount,
-    project_views: viewsCount,
+    project_views_count: viewsCount,
     project_created_at: createdAt,
   } = projectData;
   return (
