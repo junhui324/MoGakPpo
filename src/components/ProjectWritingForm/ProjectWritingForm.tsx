@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
+import Checkbox from './Checkbox';
 import Editor from '../Editor/Editor';
 import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import * as Fetcher from '../../apis/Fetcher';
-import Stack from './Stack';
+import Stack from '../Stack';
 import {
   PROJECT_TYPE,
   PROJECT_GOAL,
   PROJECT_PARTICIPATION_TIME,
   PROJECT_RECRUITMENT_ROLES,
 } from '../../constants/project';
-import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING } from './constant';
+import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER } from './constant';
+import ValidateModal from './ValidateModal';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -25,12 +27,13 @@ function ProjectWritingForm() {
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
-    project_img: null,
   });
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
   const [stackList, setStackList] = useState<string[]>([]);
+  const [buttonClick, setButtonClick] = useState(false);
+  const [isValidate, setIsValidate] = useState(false);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -124,12 +127,15 @@ function ProjectWritingForm() {
   //전송 버튼을 누르면 백엔드에 데이터 전송
   const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
-
+    setButtonClick(true);
     const missingFields = getMissingFields();
     if (missingFields.length > 0) {
-      alert(`다음 필수 항목이 입력되지 않았습니다: ${missingFields.join(', ')}`);
+      setIsValidate(true);
+      goToTop();
+      //alert(`다음 필수 항목이 입력되지 않았습니다: ${missingFields.join(', ')}`);
       return;
     }
+    setIsValidate(false);
 
     if (stackList.length === 0) {
       setProject((prevProject) => ({
@@ -139,7 +145,7 @@ function ProjectWritingForm() {
         },
       }));
     }
-    //await Fetcher.postProject(project);
+    //const { project_id } = await Fetcher.postProject(project);
     console.log('json으로 보기:', JSON.stringify(project));
   };
 
@@ -167,6 +173,10 @@ function ProjectWritingForm() {
     return missingFields;
   };
 
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className={styles.container}>
       <nav></nav>
@@ -177,12 +187,15 @@ function ProjectWritingForm() {
               <p>{PROJECT_TYPE[project.project_type]}</p>
             </div>
             <input
-              className={styles.titleTextarea}
+              className={`${styles.titleTextarea} ${
+                project.project_title.length >= MAX_NUMBER.TITLE ? styles.maxLengthReached : ''
+              }`}
               type="text"
               name="project_title"
               value={project.project_title}
               onChange={handleProjectChange}
               placeholder={PLACEHOLDER_STRING.TITLE}
+              maxLength={MAX_NUMBER.TITLE}
             />
           </div>
 
@@ -197,6 +210,7 @@ function ProjectWritingForm() {
                 value={project.project_summary}
                 onChange={handleProjectChange}
                 placeholder={PLACEHOLDER_STRING.SUMMARY}
+                maxLength={MAX_NUMBER.SUMMARY}
               ></textarea>
             </div>
           </div>
@@ -206,46 +220,14 @@ function ProjectWritingForm() {
               모집 역할<span className={styles.essential}>*</span>
             </h2>
             <div className={styles.checkbox}>
-              <div>
-                <input
-                  type="checkbox"
-                  id="FRONT"
-                  onChange={(event) => handleCheckboxChange(event)}
-                ></input>
-                <label htmlFor="FRONT">{PROJECT_RECRUITMENT_ROLES.FRONT}</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="BACK"
-                  onChange={(event) => handleCheckboxChange(event)}
-                ></input>
-                <label htmlFor="BACK">{PROJECT_RECRUITMENT_ROLES.BACK}</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="DESIGN"
-                  onChange={(event) => handleCheckboxChange(event)}
-                ></input>
-                <label htmlFor="DESIGN">{PROJECT_RECRUITMENT_ROLES.DESIGN}</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="PM"
-                  onChange={(event) => handleCheckboxChange(event)}
-                ></input>
-                <label htmlFor="PM">{PROJECT_RECRUITMENT_ROLES.PM}</label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="ROLE_ETC"
-                  onChange={(event) => handleCheckboxChange(event)}
-                ></input>
-                <label htmlFor="ROLE_ETC">{PROJECT_RECRUITMENT_ROLES.ROLE_ETC}</label>
-              </div>
+              {Object.keys(PROJECT_RECRUITMENT_ROLES).map((role) => (
+                <Checkbox
+                  key={role}
+                  id={role}
+                  label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
+                  onChange={handleCheckboxChange}
+                />
+              ))}
             </div>
           </div>
 
@@ -254,27 +236,16 @@ function ProjectWritingForm() {
               목적<span className={styles.essential}>*</span>
             </h2>
             <div className={styles.radioBox}>
-              <RadioButton
-                label={PROJECT_GOAL.PORTFOLIO}
-                value={PROJECT_GOAL.PORTFOLIO}
-                name="PROJECT_GOAL"
-                checked={selectedGoalRadioValue === PROJECT_GOAL.PORTFOLIO}
-                onChange={handleGoalRadioChange}
-              ></RadioButton>
-              <RadioButton
-                label={PROJECT_GOAL.FOUNDED}
-                value={PROJECT_GOAL.FOUNDED}
-                name="PROJECT_GOAL"
-                checked={selectedGoalRadioValue === PROJECT_GOAL.FOUNDED}
-                onChange={handleGoalRadioChange}
-              ></RadioButton>
-              <RadioButton
-                label={PROJECT_GOAL.FUN}
-                value={PROJECT_GOAL.FUN}
-                name="PROJECT_GOAL"
-                checked={selectedGoalRadioValue === PROJECT_GOAL.FUN}
-                onChange={handleGoalRadioChange}
-              ></RadioButton>
+              {Object.values(PROJECT_GOAL).map((goal) => (
+                <RadioButton
+                  key={goal}
+                  label={goal}
+                  value={goal}
+                  name="PROJECT_GOAL"
+                  checked={selectedGoalRadioValue === goal}
+                  onChange={handleGoalRadioChange}
+                />
+              ))}
             </div>
           </div>
 
@@ -290,34 +261,16 @@ function ProjectWritingForm() {
             </div>
 
             <div className={styles.radioBox}>
-              <RadioButton
-                label={PROJECT_PARTICIPATION_TIME.LESS}
-                value={PROJECT_PARTICIPATION_TIME.LESS}
-                name="PROJECT_PARTICIPATION_TIME"
-                checked={selectedTimeRadioValue === PROJECT_PARTICIPATION_TIME.LESS}
-                onChange={handleTimeRadioChange}
-              ></RadioButton>
-              <RadioButton
-                label={PROJECT_PARTICIPATION_TIME.MIDDLE}
-                value={PROJECT_PARTICIPATION_TIME.MIDDLE}
-                name="PROJECT_PARTICIPATION_TIME"
-                checked={selectedTimeRadioValue === PROJECT_PARTICIPATION_TIME.MIDDLE}
-                onChange={handleTimeRadioChange}
-              ></RadioButton>
-              <RadioButton
-                label={PROJECT_PARTICIPATION_TIME.MORE}
-                value={PROJECT_PARTICIPATION_TIME.MORE}
-                name="PROJECT_PARTICIPATION_TIME"
-                checked={selectedTimeRadioValue === PROJECT_PARTICIPATION_TIME.MORE}
-                onChange={handleTimeRadioChange}
-              ></RadioButton>
-              <RadioButton
-                label={PROJECT_PARTICIPATION_TIME.TIME_ETC}
-                value={PROJECT_PARTICIPATION_TIME.TIME_ETC}
-                name="PROJECT_PARTICIPATION_TIME"
-                checked={selectedTimeRadioValue === PROJECT_PARTICIPATION_TIME.TIME_ETC}
-                onChange={handleTimeRadioChange}
-              ></RadioButton>
+              {Object.values(PROJECT_PARTICIPATION_TIME).map((time) => (
+                <RadioButton
+                  key={time}
+                  label={time}
+                  value={time}
+                  name="PROJECT_PARTICIPATION_TIME"
+                  checked={selectedTimeRadioValue === time}
+                  onChange={handleTimeRadioChange}
+                />
+              ))}
             </div>
           </div>
 
@@ -339,7 +292,10 @@ function ProjectWritingForm() {
           <div>
             <h2>기술 스택</h2>
             <div>
-              <Stack setStackList={handleSetStackList}></Stack>
+              <Stack
+                selectedStack={project.project_required_stacks.stackList}
+                setStackList={handleSetStackList}
+              />
             </div>
           </div>
 
@@ -347,6 +303,7 @@ function ProjectWritingForm() {
             <button className={styles.submitButton} onClick={handleSubmitButton}>
               작성 완료
             </button>
+            {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
           </div>
         </div>
       </div>

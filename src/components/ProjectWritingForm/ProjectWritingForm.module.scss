@@ -26,6 +26,7 @@ textarea {
   border-style: none;
   font-size: 16px;
   resize: none;
+  overflow: hidden;
   &::placeholder {
     color: #ccc;
   }
@@ -67,6 +68,16 @@ h2 {
   height: 58px;
   border-style: none;
   margin: 20px 0;
+}
+.maxLengthReached {
+  border-style: solid;
+  border-color: red;
+  &:focus {
+    border-color: red;
+  }
+  &:not(:focus) {
+    border-color: red;
+  }
 }
 
 .summaryBox {
