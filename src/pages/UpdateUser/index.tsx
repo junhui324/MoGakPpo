@@ -85,7 +85,7 @@ function UpdateUser() {
 
   const updatedUserData = {
     user_img: imageSrc || '',
-    user_name: inputName,
+    user_name: inputName.trim(),
     user_introduction: inputIntro || '',
     user_career_goal: inputCareer || '',
     user_stacks: {
@@ -94,7 +94,7 @@ function UpdateUser() {
   };
 
   const isValidName = () => {
-    if (inputName.length === 0) {
+    if (inputName.trim().length === 0) {
       return false;
     }
     return true;
@@ -151,7 +151,7 @@ function UpdateUser() {
             maxLength={MAX_NAME_COUNT}
             onChange={(e) => handleChange(e, MAX_NAME_COUNT, 'name')}
           />
-          <p>{inputName.length}/{MAX_NAME_COUNT}</p>
+          <p>{inputName.trim().length}/{MAX_NAME_COUNT}</p>
         </div>
         <div className={styles.introContainer}>
           <label>자기소개</label>
