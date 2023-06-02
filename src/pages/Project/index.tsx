@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utils/getUserInfo';
+import Comment from '../../components/Comment';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -137,18 +138,25 @@ function Project() {
   }, [projectData]);
 
   return projectData ? (
-    <div className={styles.container}>
-      <div className={styles.leftContainer}>
-        <ProjectTitle titleData={titleData} />
-        <ProjectBody bodyData={bodyData} />
+    <>
+      <div className={styles.container}>
+        <div className={styles.leftContainer}>
+          <ProjectTitle titleData={titleData} />
+          <ProjectBody bodyData={bodyData} />
+        </div>
+        <div className={styles.rightContainer}>
+          <ProjectAuthorProfile authorData={authorData} />
+          <ProjectBookmarkBlock bookmarksData={bookmarksData} />
+          {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
+          {isAuthor() ? (
+            <ProjectModifyBlock modifyData={modifyData} fetchData={fetchData} />
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
-      <div className={styles.rightContainer}>
-        <ProjectAuthorProfile authorData={authorData} />
-        <ProjectBookmarkBlock bookmarksData={bookmarksData} />
-        {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
-        {isAuthor() ? <ProjectModifyBlock modifyData={modifyData} fetchData={fetchData} /> : <></>}
-      </div>
-    </div>
+      <Comment />
+    </>
   ) : (
     <>
       <div>{isLoading ? <Loading /> : error}</div>
