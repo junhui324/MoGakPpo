@@ -9,7 +9,8 @@ import { TypeProjectList } from '@/interfaces/Project.interface';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 import styles from './Project.module.scss';
-import { BsBookmark } from 'react-icons/bs';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
+import React, { useState } from 'react';
 
 interface projectDataProps {
   projectData: TypeProjectList;
@@ -40,6 +41,13 @@ function Project({ projectData }: projectDataProps) {
     project_views: viewsCount,
     project_created_at: createdAt,
   } = projectData;
+
+  const [bookmark, setBookmark] = useState(isBookmarked);
+  const handleBookmarkClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    setBookmark((prev) => !prev);
+  };
+
   return (
     <li
       key={projectId}
@@ -49,22 +57,26 @@ function Project({ projectData }: projectDataProps) {
       }}
     >
       <div>
-        <div>
-          <span className={styles.type}>{PROJECT_TYPE[type]}</span>
-          <span className={styles.goal}>{PROJECT_GOAL[goal]}</span>
+        <div className={styles.topContainer}>
+          <div>
+            <span className={styles.type}>{PROJECT_TYPE[type]}</span>
+            <span className={styles.goal}>{PROJECT_GOAL[goal]}</span>
+          </div>
+          <div>
+            {participationTime && (
+              <span className={styles.participationTime}>
+                {PROJECT_PARTICIPATION_TIME[participationTime]}
+              </span>
+            )}
+            {isBookmarked !== undefined && (
+              <button className={styles.bookmarkButton} onClick={(e) => handleBookmarkClick}>
+                {bookmark ? <BsBookmark /> : <BsBookmarkFill />}
+              </button>
+            )}
+          </div>
         </div>
-        {participationTime && (
-          <span className={styles.participationTime}>
-            {PROJECT_PARTICIPATION_TIME[participationTime]}
-          </span>
-        )}
-        {isBookmarked !== null && (
-          <button>
-            <BsBookmark />
-          </button>
-        )}
       </div>
-      <div>
+      <div className={styles.secondContainer}>
         <span
           className={`${styles.status} ${
             recruitmentStatus === 'RECRUITING'

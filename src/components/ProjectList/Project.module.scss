@@ -11,29 +11,49 @@
   background-color: #ffff;
   cursor: pointer;
 
-  div:nth-child(1) {
+  .topContainer {
     display: flex;
     justify-content: space-between;
-    .type {
-      margin-right: 8px;
-      padding: 4px 6px 4px 6px;
-      color: rgb(148 163 184);
-      font-size: 14px;
-      border-radius: 4px;
-      background-color: rgb(241 245 249);
+    align-items: center;
+    div:nth-child(1) {
+      .type {
+        margin-right: 8px;
+        padding: 4px 6px 4px 6px;
+        color: rgb(148 163 184);
+        font-size: 14px;
+        border-radius: 4px;
+        background-color: rgb(241 245 249);
+      }
+      .goal {
+        padding: 4px 6px 4px 6px;
+        color: rgb(148 163 184);
+        font-size: 14px;
+        border-radius: 4px;
+        background-color: rgb(241 245 249);
+      }
     }
-    .goal {
-      padding: 4px 6px 4px 6px;
-      color: rgb(148 163 184);
-      font-size: 14px;
-      border-radius: 4px;
-      background-color: rgb(241 245 249);
-    }
-    .participationTime {
-      color: rgb(148 163 184);
+    div:nth-child(2) {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      .participationTime {
+        align-self: c;
+        color: rgb(148 163 184);
+      }
+      .bookmarkButton {
+        display: flex;
+        border: none;
+        padding: 6px 8px;
+        background-color: unset;
+        cursor: pointer;
+        svg {
+          font-size: 18px;
+          color: $main-color;
+        }
+      }
     }
   }
-  div:nth-child(2) {
+  .secondContainer {
     display: flex;
     font-size: 24px;
     font-weight: 550;
