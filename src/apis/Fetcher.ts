@@ -58,7 +58,7 @@ async function getStackList(): Promise<ProjectType.TypeStacks> {
 // 유저 작성 게시글 불러오기
 async function getUserPosts(): Promise<{
   message: string;
-  data: { user_posts: { projectList: ProjectType.TypeUserPosts } };
+  data: { user_projects: ProjectType.TypeUserPosts };
 }> {
   const params = `/user/posts.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함

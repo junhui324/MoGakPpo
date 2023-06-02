@@ -57,6 +57,7 @@ function Project({ projectData }: projectDataProps) {
             {PROJECT_PARTICIPATION_TIME[participationTime]}
           </span>
         )}
+        {isBookmarked !== null && <button></button>}
       </div>
       <div>
         <span

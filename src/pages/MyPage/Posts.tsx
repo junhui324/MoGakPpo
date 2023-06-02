@@ -6,12 +6,12 @@ import { getUserPosts } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 
 function Posts() {
-  const [posts, setPosts] = useState<TypeUserPosts>([]);
+  const [projects, setProjects] = useState<TypeUserPosts>([]);
   const getUserPostsData = async () => {
     try {
       const userPostsData = await getUserPosts();
-      setPosts(userPostsData.data.user_posts);
-      console.log(userPostsData.data.user_posts);
+      setProjects(userPostsData.data.user_projects);
+      console.log(userPostsData.data.user_projects);
     } catch (error) {
       console.error('유저가 작성한 포스팅을 가져오지 못했어요');
     }
@@ -23,45 +23,43 @@ function Posts() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {posts.length}개</div>
+      <div className={styles.contentCount}>게시글 {projects.length}개</div>
       <div className={styles.posts}>
         <ul>
-          {posts.length > 0 ? (
-            posts.map((post, index) => {
-              if ('project' in post) {
-                const {
-                  project_id,
-                  project_type,
-                  project_recruitment_status,
-                  project_title,
-                  project_goal,
-                  project_participation_time,
-                  project_bookmark_count,
-                  project_comments_count,
-                  project_views,
-                  project_created_at,
-                } = post.project;
+          {projects.length > 0 ? (
+            projects.map((post, index) => {
+              const {
+                project_id,
+                project_type,
+                project_recruitment_status,
+                project_title,
+                project_goal,
+                project_participation_time,
+                project_bookmark_count,
+                project_comments_count,
+                project_views,
+                project_created_at,
+              } = post;
 
-                const newProjectData = {
-                  project_id,
-                  project_type,
-                  project_recruitment_status,
-                  project_title,
-                  project_goal,
-                  project_participation_time,
-                  project_bookmark_count,
-                  project_comments_count,
-                  project_views,
-                  project_created_at,
-                };
+              const newProjectData = {
+                project_id,
+                project_type,
+                project_recruitment_status,
+                project_title,
+                project_goal,
+                project_participation_time,
+                project_bookmark_count,
+                project_comments_count,
+                project_views,
+                project_created_at,
+              };
 
-                return (
-                  <li key={index}>
-                    <span>프로젝트</span>
-                    <Project projectData={newProjectData} />
-                  </li>
-                );
-              }
+              return (
+                <li key={index}>
+                  <span>프로젝트</span>
+                  <Project projectData={newProjectData} />
+                </li>
+              );
             })
           ) : (
             <div>
