@@ -4,6 +4,7 @@
 import * as Api from './Api';
 import * as ProjectType from '../interfaces/Project.interface';
 import * as UserType from '../interfaces/User.interface';
+import * as StackType from '../interfaces/Stack.interface';
 
 const domain = `/mock`;
 
@@ -33,7 +34,7 @@ async function getUserProfile(): Promise<UserType.TypeUserProfile> {
 }
 
 // stack 전체 데이터 불러오기
-async function getStackList(): Promise<ProjectType.TypeStacks> {
+async function getStackList(): Promise<StackType.TypeStacks> {
   const params = `/stack.json`;
   return await Api.get(domain, params, false);
 }
