@@ -55,7 +55,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        'http://localhost:5500/api/users/login',
+        'http://localhost:5500/api/v1/users/login',
         {
           //@ts-ignore
           user_email: emailRef.current.value,

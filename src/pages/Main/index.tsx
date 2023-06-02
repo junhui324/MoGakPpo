@@ -9,15 +9,17 @@ import styles from './Main.module.scss';
 
 function Main() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [keywordValue, setKeywordValue] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
+  const [isSearched, setIsSearched] = useState(false);
 
   const handleCategoryClick = (key: string) => {
     setSelectedCategory(key);
   };
 
   const handleSearchChange = (keyword: string) => {
-    setSearchKeyword(keyword);
+    setKeywordValue(keyword);
   };
 
   const getSearchListData = async () => {
@@ -31,8 +33,13 @@ function Main() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setSearchKeyword(keywordValue);
     searchKeyword && getSearchListData();
-    setSearchKeyword('');
+    setIsSearched(true);
+  };
+
+  const handleSearchCancelClick = () => {
+    setIsSearched(false);
   };
 
   const getAllListData = async (): Promise<void> => {
@@ -63,7 +70,10 @@ function Main() {
         <ProjectSearch
           handleSubmit={handleSearchSubmit}
           handleChange={handleSearchChange}
-          value={searchKeyword}
+          value={keywordValue}
+          searchKeyword={searchKeyword}
+          isSearched={isSearched}
+          handleSearchCancelClick={handleSearchCancelClick}
         />
         {projectList.length > 0 ? (
           <ProjectList projectList={projectList} />

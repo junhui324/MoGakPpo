@@ -46,6 +46,7 @@ function Project({ projectData }: projectDataProps) {
   const handleBookmarkClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     setBookmark((prev) => !prev);
+    // 북마크 api 호출
   };
 
   return (
