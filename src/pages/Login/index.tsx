@@ -7,7 +7,7 @@ import axios from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
 
-function Login() {
+function Login({ setIsLoggedIn }: { setIsLoggedIn: any }) {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [isEmail, setIsEmail] = useState(false);
@@ -85,7 +85,7 @@ function Login() {
             user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
           })
         );
-
+        setIsLoggedIn(true);
         navigate('/');
       } else if (res.status == 404) {
         alert('사용자 정보를 다시 확인해주세요.');

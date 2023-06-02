@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './reset.css';
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
@@ -13,11 +13,17 @@ import Password from './pages/FindPassword';
 import ProjectWriting from './pages/ProjectWriting';
 import UpdateUser from './pages/UpdateUser';
 import Register from './pages/Register';
+import { getIsLoggedIn } from './hooks/login';
+//@ts-ignore
+import cookie from 'react-cookies';
 
 function App() {
+  //로그인, 로그아웃 시 해당 상태 값이 변경되어야합
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <BrowserRouter>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <div className={styles.container}>
         <Routes>
           {/* 메인 게시글 리스트*/}
@@ -29,7 +35,7 @@ function App() {
           <Route path={`${ROUTES.PROJECT}:id`} element={<Project />} />
           <Route path="/comments/:id" element={<Comment />} />
           {/* 유저관련 */}
-          <Route path={ROUTES.LOGIN} element={<Login />} />
+          <Route path={ROUTES.LOGIN} element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           {/* <Route path="/register" element={}/> */}
           <Route path={ROUTES.EDIT_PASSWORD} element={<Password />} />
           <Route path={ROUTES.REGISTER} element={<Register />} />

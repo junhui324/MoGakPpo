@@ -1,12 +1,16 @@
 //@ts-ignore
 import cookie from 'react-cookies';
 
-export function isLoggedIn() {
-  const userToken = cookie.load('accessToken');
+const userToken = cookie.load('accessToken');
+
+export function getIsLoggedIn() {
+  console.log(userToken);
   if (userToken) {
     return true;
   }
   return false;
 }
 
-export {};
+export function logout() {
+  cookie.remove('accessToken');
+}

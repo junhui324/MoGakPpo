@@ -2,12 +2,14 @@ import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
 import ModalBasic from '../common/Modal/ModalBasic';
 import styles from './MyPageModal.module.scss';
+import { logout } from '../../hooks/login';
 
 interface ModalBasicProps {
   setModalOpen: (value: boolean) => void;
   modalOpen: boolean;
+  setIsLoggedIn: any;
 }
-export function MyPageModal({ modalOpen, setModalOpen }: ModalBasicProps) {
+export function MyPageModal({ modalOpen, setModalOpen, setIsLoggedIn }: ModalBasicProps) {
   const navigate = useNavigate();
   return (
     <div className={styles.divContainer}>
@@ -23,7 +25,15 @@ export function MyPageModal({ modalOpen, setModalOpen }: ModalBasicProps) {
               내 프로필
             </li>
             <li>계정 관리</li>
-            <li>로그아웃</li>
+            <li
+              onClick={() => {
+                logout();
+                setIsLoggedIn(false);
+                navigate('/');
+              }}
+            >
+              로그아웃
+            </li>
           </ul>
         </ModalBasic>
       )}

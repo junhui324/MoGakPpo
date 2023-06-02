@@ -5,14 +5,10 @@ import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
 import { FaUserCircle } from 'react-icons/fa';
 import ProjectPostButton from '../common/ProjectPostButton';
-import { isLoggedIn } from '../../hooks/login';
 
-function Header() {
+function Header({ isLoggedIn, setIsLoggedIn }: { isLoggedIn: boolean; setIsLoggedIn: any }) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(isLoggedIn);
-  }, []);
+
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <div className={styles.container}>
@@ -33,7 +29,11 @@ function Header() {
               >
                 <FaUserCircle />
               </button>
-              <MyPageModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+              <MyPageModal
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                setIsLoggedIn={setIsLoggedIn}
+              />
             </>
           ) : (
             <div className={styles.notLoggedIn}>
