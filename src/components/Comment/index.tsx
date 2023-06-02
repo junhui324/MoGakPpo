@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TypeComment, TypeCommentPost } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
+import getUserInfo from '../../utils/getUserInfo';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -39,10 +40,8 @@ export default function Comment() {
 
   //로그인 상태가 바뀔 때 마다 유저 정보 api get요청
   useEffect(() => {
-    //todo - 로컬스토리지의 유저정보로 변경하기
-    axios.get('http://localhost:3000/mock/user.json').then((res) => {
-      setUser(res.data);
-    });
+    const user = getUserInfo();
+    setUser(user);
   }, [isLoggedIn]);
 
   //로그인 한 유저일 경우 렌더링되는 인풋영역
