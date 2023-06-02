@@ -7,14 +7,9 @@ interface Comment {
   comment_created_at: string;
   status?: number;
 }
-
-// 스키마 버전 댓글 인터페이스 의논 필요함!!!
-interface MyPageComment {
-  comment_id: number;
+interface MyPageComment extends Comment {
   project_id: number;
-  user_id: number;
-  comment_content: string;
-  comment_created_at: string;
+  project_title: string;
 }
 
 export type TypeComment = Pick<
@@ -22,5 +17,10 @@ export type TypeComment = Pick<
   'comment_id' | 'user_id' | 'user_name' | 'user_img' | 'comment_content' | 'comment_created_at'
 >;
 
+export type TypeMypageComment = Pick<
+  MyPageComment,
+  'comment_id' | 'project_id' | 'project_title' | 'comment_content' | 'comment_created_at'
+>;
+
 export type TypeCommentPost = Pick<Comment, 'comment_content' | 'status'>;
-export type TypeUserComments = { comment: MyPageComment }[];
+export type TypeMypageComments = TypeMypageComment[];
