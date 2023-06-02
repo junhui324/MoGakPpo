@@ -3,7 +3,7 @@
   "data": [
     {
       "is_bookmarked": true,
-      "project_id": 0,
+      "project_id": 1,
       "project_type": "PROJECT",
       "project_recruitment_status": "RECRUITING",
       "project_title": "프로젝트 제목 입니다.",
@@ -39,7 +39,7 @@
     },
     {
       "is_bookmarked": false,
-      "project_id": 2,
+      "project_id": 1,
       "project_type": "PROJECT",
       "project_recruitment_status": "COMPLETE",
       "project_title": "React UI Library",
@@ -55,7 +55,7 @@
     },
     {
       "is_bookmarked": false,
-      "project_id": 3,
+      "project_id": 1,
       "project_type": "STUDY",
       "project_recruitment_status": "RECRUITING",
       "project_title": "Customer Segmentation Analysis",
@@ -70,7 +70,7 @@
     },
     {
       "is_bookmarked": false,
-      "project_id": 4,
+      "project_id": 1,
       "project_type": "STUDY",
       "project_recruitment_status": "RECRUITING",
       "project_title": "Customer Segmentation Analysis",

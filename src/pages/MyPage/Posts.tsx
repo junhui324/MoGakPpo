@@ -11,7 +11,6 @@ function Posts() {
     try {
       const userPostsData = await getUserPosts();
       setProjects(userPostsData.data.user_projects);
-      console.log(userPostsData.data.user_projects);
     } catch (error) {
       console.error('유저가 작성한 포스팅을 가져오지 못했어요');
     }
