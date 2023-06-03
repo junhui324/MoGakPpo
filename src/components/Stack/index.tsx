@@ -9,7 +9,7 @@ interface StackProps {
 }
 
 function Stack({ selectedStack, setStackList }: StackProps) {
-  const [selected, setSelected] = useState<string[]>(selectedStack);
+  const [selected, setSelected] = useState<string[]>([]);
   const [stacks, setStacks] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -58,15 +58,10 @@ function Stack({ selectedStack, setStackList }: StackProps) {
     getStackData();
   }, []);
 
+  // selectedStack 매개변수가 넘어와서 요소가 있다면 선택된 배열에 띄우고 시작하기
   useEffect(() => {
-    if (selectedStack.length > 0) {
-      setSelected(selectedStack); // 이미 선택된 stack이 있다면 추가 함
-    }
+    setSelected(selectedStack);
   }, [selectedStack]);
-
-  useEffect(() => {
-    setStackList(selected);
-  }, [selected, selectedStack]);
 
   return (
     <div className={styles.container}>
@@ -74,12 +69,14 @@ function Stack({ selectedStack, setStackList }: StackProps) {
       <div className={styles.stackContainer}>
         {selected.map((stack, id) => {
           return (
-            <div className={styles.stackWrapper} key={`${stack}-${id}`}>
-              <div className={styles.selectedStack}>
+            <div 
+              className={styles.stackWrapper} 
+              key={`${stack}-${id}`}
+              onClick={() => handleDelete(stack)}
+            >
+              <div className={styles.selectedStack}> 
                 {stack}
-                <RiCloseFill className={styles.deleteButton} onClick={() => handleDelete(stack)}>
-                  x
-                </RiCloseFill>
+                <RiCloseFill className={styles.deleteButton} />
               </div>
             </div>
           );
