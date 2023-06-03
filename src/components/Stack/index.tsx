@@ -60,8 +60,15 @@ function Stack({ selectedStack, setStackList }: StackProps) {
 
   // selectedStack 매개변수가 넘어와서 요소가 있다면 선택된 배열에 띄우고 시작하기
   useEffect(() => {
-    setSelected(selectedStack);
+    if (selectedStack.length > 0) {
+      setSelected(selectedStack);
+    }
   }, [selectedStack]);
+
+  // setStackList 매개변수에 selected 담아주기
+  useEffect(() => {
+    setStackList(selected);
+  }, [selected]);
 
   return (
     <div className={styles.container}>
