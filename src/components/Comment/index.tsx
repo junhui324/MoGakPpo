@@ -5,6 +5,7 @@ import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 import getUserInfo from '../../utils/getUserInfo';
+import DefaultUserImg from '../../assets/DefaultUser.png';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -47,7 +48,7 @@ export default function Comment() {
     return (
       <>
         <div className={styles.loggedInInput}>
-          <img src={user?.user_img} alt="profile" />
+          <img src={user?.user_img || DefaultUserImg} alt="profile" />
           <input
             type="text"
             placeholder={`${user?.user_name}님, 댓글을 작성해보세요.`}
@@ -154,7 +155,7 @@ export default function Comment() {
           return (
             <li key={comment.comment_id} className={styles.comment}>
               <div className={styles.header}>
-                <img src={comment.user_img} alt="profile" />
+                <img src={comment.user_img || DefaultUserImg} alt="profile" />
                 <div className={styles.subHeader}>
                   <h3>{comment.user_name}</h3>
                   <p>{comment.comment_created_at}</p>
