@@ -5,7 +5,7 @@ import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
 import { FaUserCircle } from 'react-icons/fa';
 import ProjectPostButton from '../common/ProjectPostButton';
-import { isLoggedIn } from '../../hooks/login';
+// import { isLoggedIn } from '../../hooks/login';
 
 function Header() {
   const navigate = useNavigate();

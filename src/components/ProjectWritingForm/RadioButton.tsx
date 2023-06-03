@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import styles from './RadioButton.module.scss';
 
 interface RadioButtonProps {

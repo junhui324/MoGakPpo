@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Checkbox from './Checkbox';
-import Editor from '../Editor/Editor';
 import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-import * as Fetcher from '../../apis/Fetcher';
+//import * as Fetcher from '../../apis/Fetcher';
 import Stack from '../Stack';
 import {
   PROJECT_TYPE,
@@ -18,7 +17,6 @@ import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER } from './constant'
 import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
-import Project from './../ProjectList/Project';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -136,7 +134,6 @@ function ProjectWritingForm() {
     if (missingFields.length > 0) {
       setIsValidate(true);
       goToTop();
-      //alert(`다음 필수 항목이 입력되지 않았습니다: ${missingFields.join(', ')}`);
       return;
     }
     setIsValidate(false);
@@ -155,7 +152,6 @@ function ProjectWritingForm() {
     // 임시 주소
     const project_id = 1;
     navigate(`/project/${project_id}`);
-    console.log('json으로 보기:', JSON.stringify(project));
   };
 
   // 유효성 검사
@@ -173,7 +169,9 @@ function ProjectWritingForm() {
     requiredFields.forEach((field) => {
       if (field === 'project_recruitment_roles') {
         const isEmpty = project.project_recruitment_roles.roleList.length;
-        isEmpty === 0 ? missingFields.push(field) : console.log('');
+        if (isEmpty === 0) {
+          missingFields.push(field);
+        }
       } else if (!project[field as keyof typeof project]) {
         missingFields.push(field);
       }

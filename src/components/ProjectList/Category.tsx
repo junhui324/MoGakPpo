@@ -1,5 +1,5 @@
 import { PROJECT_RECRUITMENT_ROLES } from '../../constants/project';
-import { useState } from 'react';
+// import { useState } from 'react';
 import styles from './Category.module.scss';
 
 interface CategoryProps {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // 컴포넌트
 import ModalBasic from '../common/Modal/ModalBasic';

@@ -1,4 +1,4 @@
-import React from 'react';
+//import React from 'react';
 
 // 타입
 import { TypeProjectAuthor } from '../../interfaces/Project.interface';

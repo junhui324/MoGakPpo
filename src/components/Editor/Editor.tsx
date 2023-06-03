@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { EditorProps } from '../../interfaces/Editor.interface';
@@ -26,7 +26,7 @@ function Editor({ content }: EditorProps) {
     // 텍스트 변경 시 이벤트 처리
     quill.on('text-change', () => {
       content = quill.root.innerHTML;
-      console.log(content);
+      //console.log(content);
     });
   }, []);
 
