@@ -9,6 +9,11 @@ import * as CommentType from '../interfaces/Comment.interface';
 
 const domain = `/mock`;
 
+const PORT = process.env.REACT_APP_PORT;
+const VERSION = process.env.REACT_APP_VERSION;
+const IP = process.env.REACT_APP_IP;
+const DOMAIN = `http://${IP}:${PORT}/api/${VERSION}`;
+
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
   const params = `projects/info/${projectId}.json`;
@@ -83,8 +88,8 @@ async function getStackList(): Promise<{
   message: string;
   data: StackType.TypeStacks;
 }> {
-  const params = `/stack.json`;
-  return await Api.get(domain, params, false);
+  const params = `stacks`;
+  return await Api.get(DOMAIN, params, false);
 }
 
 // 유저 작성 게시글 불러오기
@@ -101,7 +106,7 @@ async function getUserPosts(): Promise<{
 async function updateUserProfile(
   data: UserType.TypeUserProfile
 ): Promise<UserType.TypeUserProfile> {
-  const params = `/user.json`;
+  const params = `/user/profile.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.put(domain, params, data, false);
 }
