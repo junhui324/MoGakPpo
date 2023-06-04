@@ -8,7 +8,7 @@ function getToken(): string | null {
   const cookies = document.cookie.split('; ');
   for (let cookie of cookies) {
     const [key, value] = cookie.split('=');
-    return key === 'token' ? value : null;
+    return key === 'accessToken' ? value : null;
   }
   return null;
 }

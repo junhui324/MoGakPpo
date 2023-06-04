@@ -5,7 +5,7 @@ import Checkbox from './Checkbox';
 import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-//import * as Fetcher from '../../apis/Fetcher';
+import * as Fetcher from '../../apis/Fetcher';
 import Stack from '../Stack';
 import {
   PROJECT_TYPE,
@@ -128,7 +128,7 @@ function ProjectWritingForm() {
   };
 
   //전송 버튼을 누르면 백엔드에 데이터 전송
-  const handleSubmitButton = (e: React.FormEvent) => {
+  const handleSubmitButton = async (e: React.FormEvent) => {
     e.preventDefault();
     setButtonClick(true);
     const missingFields = getMissingFields();
@@ -148,11 +148,16 @@ function ProjectWritingForm() {
       }));
     }
 
-    // 게시글 id를 반환받아서 해당 id를 가진 게시물로 이동
-    // const { project_id } = await Fetcher.postProject(project);
-    // 임시 주소
-    const project_id = 1;
-    navigate(`/project/${project_id}`);
+    try {
+      // 게시글 id를 반환받아서 해당 id를 가진 게시물로 이동
+      console.log('버튼눌렀을 때, project 상태', JSON.stringify(project));
+      const project_data = await Fetcher.postProject(JSON.stringify(project));
+      // 임시 주소
+      console.log(project_data);
+      navigate(`/project/${project_data.project_id}`);
+    } catch (error) {
+      console.log(`POST 요청 에러 : ${error}`);
+    }
   };
 
   // 유효성 검사
@@ -203,8 +208,8 @@ function ProjectWritingForm() {
         />
       </div>
       <div
-        className={`${styles.helpBox}  ${
-          project.project_title.length > MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
+        className={`${styles.titleHelpBox}  ${
+          project.project_title.length >= MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
         }`}
       >
         <p>제목은 프로젝트를 직관적으로 알 수 있게 작성해주세요. (50자 이내)</p>
@@ -227,8 +232,8 @@ function ProjectWritingForm() {
         </div>
       </div>
       <div
-        className={`${styles.helpBox}  ${
-          project.project_summary.length > MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
+        className={`${styles.summaryHelpBox}  ${
+          project.project_summary.length >= MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
         }`}
       >
         <p>어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게 요약해주세요. (150자 이내)</p>
@@ -303,7 +308,7 @@ function ProjectWritingForm() {
         <div>
           <TextareaAutosize
             className="introduceTextarea"
-            minRows={6}
+            minRows={10}
             name="project_introduction"
             value={project.project_introduction}
             onChange={handleProjectChange}

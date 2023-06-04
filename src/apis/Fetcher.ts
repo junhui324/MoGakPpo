@@ -10,6 +10,7 @@ import * as CommentType from '../interfaces/Comment.interface';
 const domain = `/mock`;
 
 const DOMAIN = `http://34.64.242.119:5000/api/v1`;
+const API_KEY: any = process.env.REACT_APP_API_KEY;
 
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
@@ -64,10 +65,9 @@ async function getProjectsByKeyword(
   return await Api.get(domain, params, false);
 }
 
-async function postProject(
-  data: ProjectType.TypeProjectPost
-): Promise<ProjectType.TypeProjectPost> {
-  return await Api.post(domain, ``, data);
+async function postProject(data: string): Promise<any> {
+  const params = `projects/recruitment`;
+  return await Api.post(`http://localhost:5500/api/v1`, params, data, true);
 }
 
 // 유저 프로필 불러오기
@@ -110,7 +110,7 @@ async function updateUserProfile(
 
 // 유저 작성 댓글 불러오기
 async function getUserComments(): Promise<{
-  message: string,
+  message: string;
   data: { project_comments: CommentType.TypeMypageComments };
 }> {
   const params = `/user/comments.json`;
