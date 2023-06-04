@@ -9,7 +9,6 @@ import getUserInfo from '../../utils/getUserInfo';
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [user, setUser] = useState<TypeUser | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editInputValue, setEditInputValue] = useState<string | undefined>(undefined);
@@ -37,11 +36,11 @@ export default function Comment() {
     setEditInputValue(comment?.comment_content);
   }, [comments, editingCommentId]);
 
-  //로그인 상태가 바뀔 때 마다 유저 정보 api get요청
+  //유저 정보 localStorage에서 받아오기
   useEffect(() => {
     const user = getUserInfo();
     setUser(user);
-  }, [isLoggedIn]);
+  }, []);
 
   //로그인 한 유저일 경우 렌더링되는 인풋영역
   const loggedInUserInput = () => {
@@ -107,11 +106,11 @@ export default function Comment() {
   };
 
   let inputComponent;
-  if (!isLoggedIn) {
+  if (!user) {
     inputComponent = loggedOutUserInput();
-  } else if (isLoggedIn && !isInputClicked) {
+  } else if (user && !isInputClicked) {
     inputComponent = loggedInUserInput();
-  } else if (isLoggedIn && isInputClicked) {
+  } else if (user && isInputClicked) {
     inputComponent = loggedInUserInputClicked();
   }
 
