@@ -97,7 +97,6 @@ async function getUserPosts(): Promise<{
   data: { user_projects: ProjectType.TypeUserPosts };
 }> {
   const params = `projects/user`;
-  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.get(API_KEY, params, true);
 }
 

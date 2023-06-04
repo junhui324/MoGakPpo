@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getProjects, getProjectsByCategory, getProjectsByKeyword } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
@@ -14,7 +14,7 @@ function Main() {
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [isSearched, setIsSearched] = useState(false);
 
-  const getAllListData = async (): Promise<void> => {
+  const getProjectListData = useCallback(async (): Promise<void> => {
     try {
       const projectList =
         selectedCategory === 'ALL'
@@ -24,7 +24,7 @@ function Main() {
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');
     }
-  };
+  }, [selectedCategory]);
 
   const getSearchListData = async () => {
     try {
@@ -52,19 +52,19 @@ function Main() {
       setIsSearched(true);
     } else if (isSearched && !keywordValue) {
       setIsSearched(false);
-      getAllListData();
+      getProjectListData();
     }
   };
 
   const handleSearchCancelClick = () => {
     setIsSearched(false);
-    getAllListData();
+    getProjectListData();
     setKeywordValue('');
   };
 
   useEffect(() => {
-    getAllListData();
-  }, [selectedCategory]);
+    getProjectListData();
+  }, [getProjectListData]);
 
   return (
     <div className={styles.container}>
