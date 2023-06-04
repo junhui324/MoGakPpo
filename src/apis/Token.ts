@@ -6,7 +6,6 @@ function setToken(tokenValue: string) {
 // 쿠키에 저장한 토큰 값을 반환합니다.
 function getToken(): string | null {
   const cookies = document.cookie.split('; ');
-  console.log(cookies);
   for (let cookie of cookies) {
     const [key, value] = cookie.split('=');
     return key === 'accessToken' ? value : null;

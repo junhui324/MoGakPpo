@@ -54,10 +54,10 @@ function Posts() {
               };
 
               return (
-                <li key={index}>
+                <ul key={index}>
                   <span>프로젝트</span>
                   <Project projectData={newProjectData} />
-                </li>
+                </ul>
               );
             })
           ) : (
