@@ -26,7 +26,7 @@ function Posts() {
       <div className={styles.posts}>
         <ul>
           {projects.length > 0 ? (
-            projects.map((post, index) => {
+            projects.map((post) => {
               const {
                 project_id,
                 project_type,
@@ -54,7 +54,7 @@ function Posts() {
               };
 
               return (
-                <ul key={index}>
+                <ul key={post.project_id}>
                   <span>프로젝트</span>
                   <Project projectData={newProjectData} />
                 </ul>
