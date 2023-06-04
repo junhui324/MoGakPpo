@@ -32,14 +32,18 @@ function Stack({ selectedStack, setStackList }: StackProps) {
       setSelected((prevSelected) => [...prevSelected, stack]);
     }
   };
-
+  
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchWord(value);
-
+    
     const filteredSuggestions = getSuggestions(value);
     setSuggestions(filteredSuggestions);
   };
+  
+  const handleClickInputCross = () => {
+    setSearchWord('');
+  }
 
   const handleSuggestionClick = (suggestion: string) => {
     setSearchWord(suggestion);
@@ -50,7 +54,14 @@ function Stack({ selectedStack, setStackList }: StackProps) {
 
   const getSuggestions = (value: string) => {
     // 로컬에 저장된 데이터를 필터링
-    return stacks.filter((item) => item.toLowerCase().startsWith(value.toLowerCase()));
+    const filteredStacks = stacks.filter((item) => {
+      const lowerCaseItem = item.toLowerCase();
+      const lowerCaseValue = value.toLowerCase();
+
+      return !selected.includes(item) && lowerCaseItem.startsWith(lowerCaseValue);
+    });
+
+    return filteredStacks;
   };
 
   useEffect(() => {
@@ -96,7 +107,10 @@ function Stack({ selectedStack, setStackList }: StackProps) {
           onChange={handleInputChange}
           placeholder="기술 스택을 검색해 보세요."
         />
-        <RiSearchLine className={styles.searchButton} />
+        {searchWord 
+          ? <RiCloseFill className={styles.searchButton} onClick={handleClickInputCross}/>
+          : <RiSearchLine className={styles.searchButton} /> 
+        }
         {suggestions.length > 0 && searchWord.trim().length > 0 && (
           <ul className={styles.suggestionContainer}>
             {suggestions.map((suggestion, index) => (
