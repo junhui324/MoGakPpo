@@ -9,10 +9,7 @@ import * as CommentType from '../interfaces/Comment.interface';
 
 const domain = `/mock`;
 
-const PORT = process.env.REACT_APP_PORT;
-const VERSION = process.env.REACT_APP_VERSION;
-const IP = process.env.REACT_APP_IP;
-const DOMAIN = `http://${IP}:${PORT}/api/${VERSION}`;
+const DOMAIN = `http://34.64.242.119:5000/api/v1`;
 
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
