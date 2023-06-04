@@ -53,8 +53,8 @@ async function getProjects(): Promise<{ message: string; data: ProjectType.TypeP
 async function getProjectsByCategory(
   categoryId: string
 ): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
-  const params = `projects/cate=${categoryId}.json`;
-  return await Api.get(domain, params, false);
+  const params = `projects/role/${categoryId}`;
+  return await Api.get(API_KEY, params, false);
 }
 
 // 검색어로 프로젝트 리스트 불러오기
