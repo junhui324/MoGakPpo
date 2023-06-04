@@ -8,8 +8,9 @@
 }
 
 @mixin helpbox {
-  margin-left: 70px;
-  width: 360px;
+  margin-left: 100px;
+  width: 340px;
+  height: 100px;
   border: 1px solid $gray-back-color;
   border-radius: 10px;
   background-color: $gray-back-color;
@@ -55,52 +56,47 @@ h2 {
   max-width: 1024px;
   border: 1px solid rgb(234, 234, 234);
   display: grid;
-  grid-template-columns: repeat(2, 2fr);
+  padding: 20px;
+  grid-template-areas:
+    'title titleHelp'
+    'summary summaryHelp'
+    'checkRadioBox .'
+    'introduce introduceHelp'
+    'stack .';
 }
 
-.helpContainer {
-  .firstDiv {
-    margin-top: 42px;
-    @include helpbox;
-    p {
-      @include helpP;
-    }
-  }
-  .secondDiv {
-    margin-top: 73px;
-    @include helpbox;
-    p {
-      @include helpP;
-    }
-  }
-  .thirdDiv {
-    margin-top: 400px;
-    @include helpbox;
-    p {
-      @include helpP;
-    }
-  }
-}
-
-.mainForm {
-  margin: 20px;
-}
-
-.type {
-  display: flex;
-  width: 85px;
-  height: 20px;
-  background-color: $main-color;
-  text-align: center;
-  color: white;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-
+.helpBox {
+  @include helpbox;
   p {
-    font-size: 11px;
-    font-weight: 600;
+    @include helpP;
+  }
+}
+.introHelpBox {
+  @include helpbox;
+  height: 260px;
+  p {
+    @include helpP;
+  }
+}
+
+.title {
+  grid-area: title;
+  .type {
+    display: flex;
+    width: 85px;
+    height: 20px;
+    background-color: $main-color;
     text-align: center;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+
+    p {
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
   }
 }
 
@@ -110,15 +106,10 @@ h2 {
   border-style: none;
   margin: 20px 0;
 }
-.maxLengthReached {
+.maxLengthTitle {
   border-style: solid;
   border-color: red;
-  &:focus {
-    border-color: red;
-  }
-  &:not(:focus) {
-    border-color: red;
-  }
+  background-color: rgba($color: #e00c0c50, $alpha: 0.1);
 }
 
 .summaryBox {
@@ -131,6 +122,11 @@ h2 {
     font-size: 16px;
     resize: none;
   }
+}
+.maxLengthSummary {
+  border-style: solid;
+  border-color: red;
+  background-color: rgba($color: #e00c0c50, $alpha: 0.1);
 }
 
 .role {
