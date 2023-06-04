@@ -14,9 +14,9 @@ function ProjectList({ projectList, isLoading }: ProjectListProps) {
       {isLoading && projectList.length > 0 ? (
         projectList.map((project) => <Project projectData={project} key={project.project_id} />)
       ) : isLoading && projectList.length === 0 ? (
-        <div className={styles.noneContentContainer}>
+        <li className={styles.noneContentContainer}>
           <p className={styles.noneContent}>게시글이 없습니다 :(</p>
-        </div>
+        </li>
       ) : undefined}
     </ul>
   );

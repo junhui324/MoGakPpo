@@ -19,8 +19,9 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .container {
+    width: 100%;
     ul {
       z-index: 1;
       position: sticky;
