@@ -8,6 +8,7 @@ import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
 
 function ProjectListMain() {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -21,6 +22,7 @@ function ProjectListMain() {
           ? await getProjects()
           : await getProjectsByCategory(`"${selectedCategory}"`);
       setProjectList(projectList.data);
+      setIsLoading(true);
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');
     }
@@ -83,13 +85,7 @@ function ProjectListMain() {
           isSearched={isSearched}
           handleSearchCancelClick={handleSearchCancelClick}
         />
-        {projectList.length > 0 ? (
-          <ProjectList projectList={projectList} />
-        ) : (
-          <div className={styles.noneContentContainer}>
-            <p className={styles.noneContent}>게시글이 없습니다 :(</p>
-          </div>
-        )}
+        <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
   );

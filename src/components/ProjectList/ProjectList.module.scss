@@ -1,3 +1,17 @@
 .container {
   width: 100%;
+  .noneContentContainer {
+    height: 350px;
+    background-color: rgb(230, 237, 239);
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+    .noneContent {
+      color: rgb(70, 82, 82);
+      font-weight: 500;
+      align-self: center;
+      width: 100%;
+      text-align: center;
+    }
+  }
 }
