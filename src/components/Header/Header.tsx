@@ -18,7 +18,7 @@ function Header() {
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
-          <span className={styles.logo} onClick={() => navigate(ROUTES.MAIN)}>
+          <span className={styles.logo} onClick={() => navigate(ROUTES.HOME)}>
             모프 🪄
           </span>
         </div>

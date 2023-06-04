@@ -5,9 +5,9 @@ import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
 import ProjectPostButton from '../../components/common/ProjectPostButton';
 import ProjectSearch from '../../components/ProjectList/ProjectSearch';
-import styles from './Main.module.scss';
+import styles from './ProjectListMain.module.scss';
 
-function Main() {
+function ProjectListMain() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -95,4 +95,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default ProjectListMain;

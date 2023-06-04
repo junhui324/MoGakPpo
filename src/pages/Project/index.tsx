@@ -62,7 +62,7 @@ function Project() {
       setProjectData(data);
       //console.log(data);
     } catch (loadingError) {
-      navigate(ROUTES.MAIN);
+      navigate(ROUTES.PROJECT_LIST);
     } finally {
       setIsLoading(false);
     }
