@@ -8,7 +8,7 @@ import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './Main.module.scss';
 
 function Main() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
@@ -17,9 +17,9 @@ function Main() {
   const getAllListData = async (): Promise<void> => {
     try {
       const projectList =
-        selectedCategory === 'all'
+        selectedCategory === 'ALL'
           ? await getProjects()
-          : await getProjectsByCategory(selectedCategory);
+          : await getProjectsByCategory(`"${selectedCategory}"`);
       setProjectList(projectList.data);
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');
