@@ -19,36 +19,40 @@ import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { useRecoilState } from 'recoil';
+import { projectState, stackListState } from '../../recoil/projectState';
+
 interface classificationType {
   classification: string;
 }
 
 function ProjectWritingForm({ classification }: classificationType) {
-  const [project, setProject] = useState<TypeProjectPost>({
-    project_type: '',
-    project_title: '',
-    project_summary: '',
-    project_recruitment_roles: { roleList: [] as string[] },
-    project_required_stacks: { stackList: [] as string[] },
-    project_goal: '',
-    project_participation_time: '',
-    project_introduction: '',
-    project_img: null,
-  });
+  // const [project, setProject] = useState<TypeProjectPost>({
+  //   project_type: '',
+  //   project_title: '',
+  //   project_summary: '',
+  //   project_recruitment_roles: { roleList: [] as string[] },
+  //   project_required_stacks: { stackList: [] as string[] },
+  //   project_goal: '',
+  //   project_participation_time: '',
+  //   project_introduction: '',
+  //   project_img: null,
+  // });
+  const [project, setProject] = useRecoilState(projectState);
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
-  const [stackList, setStackList] = useState<string[]>([]);
+  //const [stackList, setStackList] = useState<string[]>([]);
+  const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
   const navigate = useNavigate();
 
+  // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
   const getProjectData = async () => {
-    //setIsLoading(true);
     try {
       const data = await Fetcher.getProject(39);
       console.log(data);
-      //setProjectData(data);
       setProject({
         ...project,
         project_type: data.project_type,
@@ -63,9 +67,6 @@ function ProjectWritingForm({ classification }: classificationType) {
       });
     } catch (loadingError) {
       alert(loadingError);
-      //navigate(ROUTES.PROJECT_LIST);
-    } finally {
-      //setIsLoading(false);
     }
   };
 
@@ -85,6 +86,7 @@ function ProjectWritingForm({ classification }: classificationType) {
   useEffect(() => {
     const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
     const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
+    console.log(projectTypeValue, key);
     if (projectTypeValue && key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -98,7 +100,9 @@ function ProjectWritingForm({ classification }: classificationType) {
       setStackList(['미정']);
     }
     if (stackList[0] === '미정' && stackList.length === 2) {
-      stackList.shift();
+      const newStackList = [...stackList];
+      newStackList.shift();
+      setStackList(newStackList);
     }
     setProject((prevProject) => ({
       ...prevProject,
@@ -193,19 +197,21 @@ function ProjectWritingForm({ classification }: classificationType) {
       },
     }));
 
-    if (classification === 'create') {
-      (async () => {
-        const res = await postProject();
-        console.log('res: ', res);
-        navigate(`/project/${res}`);
-      })();
-    } else if (classification === 'modify') {
-      (async () => {
-        const res = await patchProject();
-        console.log('res: ', res);
-        navigate(`/project/${res}`);
-      })();
-    }
+    navigate(`/preview`);
+
+    // if (classification === 'create') {
+    //   (async () => {
+    //     const res = await postProject();
+    //     console.log('res: ', res);
+    //     navigate(`/project/${res}`);
+    //   })();
+    // } else if (classification === 'modify') {
+    //   (async () => {
+    //     const res = await patchProject();
+    //     console.log('res: ', res);
+    //     navigate(`/project/${res}`);
+    //   })();
+    // }
   };
 
   //백엔드에 게시물 데이터 전송하는 POST 함수
@@ -259,6 +265,9 @@ function ProjectWritingForm({ classification }: classificationType) {
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  console.log('project : ', project);
+  console.log('stackList : ', stackList);
 
   useBeforeUnload();
 

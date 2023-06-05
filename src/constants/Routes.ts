@@ -9,6 +9,7 @@ export const ROUTES = {
   REGISTER: '/register',
   USER_UPDATE: '/user/update',
   MODIFY_PROJECT: '/modify/',
+  PREVIEW_PROJECT: '/preview',
 };
 
 export default ROUTES;

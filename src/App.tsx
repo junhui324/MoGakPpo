@@ -15,6 +15,7 @@ import UpdateUser from './pages/UpdateUser';
 import Register from './pages/Register';
 import Home from './pages/Home/Home';
 import ProjectWritingForm from './components/ProjectWritingForm/ProjectWritingForm';
+import Preview from './pages/ProjectPreview';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             path={ROUTES.MODIFY_PROJECT}
             element={<ProjectWritingForm classification="modify" />}
           />
+          <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
         </Routes>
       </div>
     </BrowserRouter>
