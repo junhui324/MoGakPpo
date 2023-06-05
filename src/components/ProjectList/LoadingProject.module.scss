@@ -1,0 +1,62 @@
+@import '/src/variables.scss';
+
+.loadingList {
+  display: flex;
+  margin-bottom: 32px;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 24px 24px 24px 24px;
+  border: 1px solid #f3f3f3;
+  border-radius: 16px;
+  background-color: #ffff;
+  cursor: pointer;
+
+  .loadingBox {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #ecf2f3;
+    height: 26px;
+  }
+
+  .topContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    div:nth-child(1) {
+      display: flex;
+      gap: 0.5rem;
+      .type {
+        width: 6rem;
+      }
+      .goal {
+        width: 6rem;
+      }
+    }
+    div:nth-child(2) {
+      display: flex;
+      align-items: center;
+      .participationTime {
+        width: 6rem;
+      }
+    }
+  }
+  .secondContainer {
+    display: flex;
+    gap: 0.5rem;
+    .status {
+      width: 6rem;
+    }
+    .title {
+      width: 100%;
+    }
+  }
+
+  .summary {
+    width: 100%;
+  }
+
+  .roleContainer {
+    width: 15rem;
+  }
+}

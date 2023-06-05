@@ -1,0 +1,111 @@
+@import '../../variables.scss';
+@mixin profileStyle {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  border: 1px solid #f1f3f5;
+}
+.commentContainer {
+  background-color: #f7f8fa;
+  padding: 24px 0;
+  position: relative;
+  margin: 0 calc((100vw - 100%) * -0.5);
+}
+.inputArea {
+  margin: 24px auto 0;
+  width: 686px;
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  strong {
+    color: $main-color;
+  }
+  input {
+    margin: 40px 0 40px 0;
+    width: 686px;
+    height: 32px;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+  }
+  input:focus {
+    outline-style: none;
+  }
+  .loggedInInput {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    img {
+      @include profileStyle;
+    }
+  }
+}
+.commentInputArea {
+  margin-bottom: 40px;
+}
+.commentList {
+  margin: 0 auto;
+  padding: 0;
+  width: 686px;
+  .comment {
+    // box-shadow: rgba(0, 0, 0, 0.08) 0px 16px 56px;
+    background-color: white;
+    border: 1px solid #f1f3f5;
+    border-radius: 8px;
+    list-style: none;
+    padding: 20px 32px;
+    margin-bottom: 20px;
+    .header {
+      display: flex;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f1f3f5;
+      gap: 16px;
+      img {
+        @include profileStyle;
+      }
+      p {
+        color: #ced4da;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+      .subHeader {
+        flex-direction: column;
+      }
+    }
+    .content {
+      padding: 20px 0;
+    }
+  }
+}
+
+textarea {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 16px;
+  margin: 20px 0;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+@mixin buttonStyle {
+  width: 56px;
+  height: 40px;
+  border-radius: 4px;
+  padding: 6px 12px;
+}
+.defaultButton {
+  @include buttonStyle;
+  color: white;
+  background-color: $main-color;
+  border: 0;
+}
+.lineButton {
+  @include buttonStyle;
+  background-color: white;
+  border: 1px solid #ced4da;
+}

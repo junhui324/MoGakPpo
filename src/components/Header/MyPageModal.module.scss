@@ -1,0 +1,25 @@
+@import '/src/variables.scss';
+
+.divContainer {
+  position: relative;
+  z-index: 999;
+  top: 8px;
+  display: flex;
+  justify-content: end;
+  .ulContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    li {
+      width: 150px;
+      color: #252525;
+      font-weight: 400;
+      cursor: pointer;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 10px 0;
+    }
+  }
+}

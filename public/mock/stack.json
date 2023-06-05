@@ -1,0 +1,38 @@
+{
+  "message": "기술 스택 조회 성공",
+  "data": {
+    "stackList": [
+      "HTML",
+      "JavaScript",
+      "CSS",
+      "React",
+      "VueJS",
+      "TypeScript",
+      "NodeJS",
+      "NestJSs",
+      "NextJS",
+      "Spring",
+      "SpringBoot",
+      "ExpressJS",
+      "C",
+      "C++",
+      "C#",
+      "Python",
+      "Django",
+      "Flask",
+      "Ruby",
+      "ASP.NET",
+      "Laravel",
+      "Angular",
+      "Svelte",
+      "Redux",
+      "VueX",
+      "Recoil",
+      "MobX",
+      "Zustand",
+      "ReactContext",
+      "Jotai",
+      "Immer"
+    ]
+  }
+}
