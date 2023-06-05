@@ -52,6 +52,15 @@ export async function getProjects(): Promise<{
   return await Api.get(API_KEY, params, false);
 }
 
+// 모든 프로젝트 리스트 불러오기 페이지네이션
+export async function getProjectsPage(page: number): Promise<{
+  message: string;
+  data: ProjectType.TypeProjectList[];
+}> {
+  const params = `projects/cate=all&page=${page}.json`;
+  return await Api.get(domain, params, false);
+}
+
 // 카테고리로 프로젝트 리스트 불러오기
 export async function getProjectsByCategory(
   categoryId: string
