@@ -85,7 +85,8 @@ export default function Comment() {
     return (
       <div className={styles.commentInputArea}>
         <textarea
-          placeholder="2차구현-에디터로 변경하기"
+          autoFocus
+          placeholder="댓글을 작성해보세요."
           value={inputValue}
           onChange={(event) => setInputValue(() => event.target.value)}
         />
@@ -190,6 +191,7 @@ export default function Comment() {
                 </div>
                 {isEditing ? (
                   <textarea
+                    autoFocus
                     value={editInputValue}
                     onChange={(event) => setEditInputValue(() => event.target.value)}
                   />

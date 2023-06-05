@@ -5,6 +5,18 @@
   border-radius: 100px;
   border: 1px solid #f1f3f5;
 }
+@mixin textareaStyle {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  padding: 16px;
+  margin: 20px 0;
+  height: 120px;
+  &:focus {
+    border: 2px solid #dfd6ff;
+    outline-style: none;
+  }
+}
+
 .commentContainer {
   background-color: #f7f8fa;
   padding: 24px 0;
@@ -43,6 +55,10 @@
 }
 .commentInputArea {
   margin-bottom: 40px;
+  textarea {
+    @include textareaStyle;
+    margin: 40px 0 20px 0;
+  }
 }
 .commentList {
   margin: 0 auto;
@@ -83,6 +99,9 @@
         }
       }
     }
+    textarea {
+      @include textareaStyle;
+    }
     .content {
       padding: 20px 0;
     }
@@ -103,13 +122,6 @@
     font-weight: 700;
     line-height: 160%;
   }
-}
-
-textarea {
-  border-radius: 8px;
-  border: 1px solid #ced4da;
-  padding: 16px;
-  margin: 20px 0;
 }
 
 .buttonContainer {
