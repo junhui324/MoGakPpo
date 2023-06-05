@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import * as Fetcher from '../../apis/Fetcher';
+import { useNavigate } from 'react-router-dom';
 
 // 컴포넌트
 import ModalBasic from '../common/Modal/ModalBasic';
 // 타입
 import { TypeProjectModify, TypeProject } from '../../interfaces/Project.interface';
+import { AxiosResponse } from 'axios';
 // 스타일
 import styles from './ProjectModifyBlock.module.scss';
 // 상수
 import { PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
+import ROUTES from '../../constants/Routes';
+
 // 문자열 상수
 const RECRUITING = '모집 중';
 const COMPLETE = '모집 완료';
@@ -93,22 +98,35 @@ export default function ProjectModifyBlock({
 }) {
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const recruitmentComplete = () => {
-    try {
-      // API 연결을 통해 모집완료 처리가 제대로 되었는지 확인합니다.(상태코드 200)
-      /*
-      const response : AxiosResponse<T>  = await Fetcher.deleteProject();
-      const status = response.status;
-      if(status === 200) {
-        밑 코드를 이쪽으로 이동
-      } else throw new Error('예기치 않은 서버 응답');
-      */
+  const recruitmentComplete = async () => {
+    if (modifyData) {
+      try {
+        const response: AxiosResponse = await Fetcher.patchProjectStatus(modifyData.project_id);
 
-      // fetchData()로 최신화 된 프로젝트 정보를 불러옵니다.
-      fetchData();
-    } catch (error) {
-      alert('모집 완료 처리에 실패했습니다.');
+        // 성공 응답으로 보낸 project_id와 현재 컴포넌트의 project_id가 같으면 성공 처리 합니다.
+        if (response.data.project_id === modifyData.project_id) {
+          // fetchData()로 최신화 된 프로젝트 정보를 불러옵니다.
+          fetchData();
+        } else throw new Error('예기치 않은 서버 응답');
+      } catch (error) {
+        alert(`${error} : 모집 완료 처리에 실패했습니다.`);
+      }
+    }
+  };
+
+  const deleteProject = async () => {
+    if (modifyData) {
+      try {
+        const response: AxiosResponse = await Fetcher.deleteProject(modifyData.project_id);
+
+        // 오류를 반환받지 않으면 진행합니다.
+        alert('게시글이 삭제되었습니다.');
+        navigate(ROUTES.PROJECT_LIST);
+      } catch (error) {
+        alert(`${error} : 삭제 처리에 실패했습니다.`);
+      }
     }
   };
 
@@ -124,6 +142,7 @@ export default function ProjectModifyBlock({
   const handleModalDelete = (isOk: boolean) => {
     if (isOk) {
       setIsDeleteModalOpen(false);
+      deleteProject();
     } else {
       setIsDeleteModalOpen(false);
     }

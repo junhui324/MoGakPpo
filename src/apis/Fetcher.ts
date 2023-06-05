@@ -20,6 +20,23 @@ export async function getProject(projectId: number): Promise<ProjectType.TypePro
   return response.data;
 }
 
+// 프로젝트 모집 완료 처리
+export async function patchProjectStatus(projectId: number): Promise<AxiosResponse> {
+  const params = `projects/recruitment/status/${projectId}`;
+  const data = {
+    project_recruitment_status: 'COMPLETE',
+  };
+  const response: AxiosResponse = await Api.patch(API_KEY, params, data);
+  return response;
+}
+
+// 프로젝트 삭제
+export async function deleteProject(projectId: number): Promise<AxiosResponse> {
+  const params = `projects/recruitment/${projectId}`;
+  const response: AxiosResponse = await Api.delete(API_KEY, params);
+  return response;
+}
+
 // 코멘트 리스트 불러오기
 export async function getComment(projectId: number): Promise<CommentType.TypeComment> {
   const params = `projects/${projectId}/comments`;
