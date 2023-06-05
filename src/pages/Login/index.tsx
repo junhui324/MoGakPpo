@@ -6,18 +6,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
+import { userInfo } from 'os';
+import {RiKakaoTalkFill} from "react-icons/ri"; 
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 function Login() {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const emailRef = useRef<any>(null);
+  const passwordRef = useRef<any>(null);
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
 
   function isEmailBlank(): Boolean {
-    //@ts-ignore
     if (emailRef.current.value === '') {
       setIsEmail(true);
 
@@ -30,7 +31,6 @@ function Login() {
   }
 
   function isPasswordBlank(): Boolean {
-    //@ts-ignore
     if (passwordRef.current.value === '') {
       setIsPassword(true);
 
@@ -59,9 +59,7 @@ function Login() {
       const res = await axios.post(
         `${API_KEY}/users/login`,
         {
-          //@ts-ignore
           user_email: emailRef.current.value,
-          //@ts-ignore
           user_password: passwordRef.current.value,
         },
         header
@@ -89,9 +87,6 @@ function Login() {
         );
 
         navigate('/');
-      } else if (res.status == 404) {
-        alert('사용자 정보를 다시 확인해주세요.');
-        return;
       }
     } catch (e) {
       alert('사용자 정보를 다시 확인해주세요.');
@@ -148,7 +143,7 @@ function Login() {
 
           <div className={styles.kakaoContainer}>
             <button type="button" className={styles.kakaoLogin}>
-              카카오로 계속하기
+              <div className={styles.kakaoContainer}><RiKakaoTalkFill className={styles.kakaoImage} size="20"/><span className={styles.kakaoDesc}>카카오로 계속하기</span></div>
             </button>
           </div>
 

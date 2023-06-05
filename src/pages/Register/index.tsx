@@ -1,30 +1,30 @@
 //import axios from "axios";
+import axios from 'axios';
 import { useState, useRef } from 'react';
 //@ts-ignore
-import { Link /*useNavigate*/ } from 'react-router-dom';
+import { Link, /*useNavigate*/ 
+Navigate,
+useNavigate} from 'react-router-dom';
 //@ts-ignore
 import styles from './register.module.scss';
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 function Register() {
-  const emailRef = useRef(null);
-  const nameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const allRef = useRef(null);
-  const useInfoRef = useRef(null);
-  const ageRef = useRef(null);
-  const privacyRef = useRef(null);
-  const marketingRef = useRef(null);
-  // const header = {
-  //   headers: {
-  //     'Content-type': 'application/json',
-  //   },
-  // };
-  //const navigate = useNavigate();
+  const emailRef = useRef<any>(null);
+  const nameRef = useRef<any>(null);
+  const passwordRef = useRef<any>(null);
+  const allRef = useRef<any>(null);
+  const useInfoRef = useRef<any>(null);
+  const ageRef = useRef<any>(null);
+  const privacyRef = useRef<any>(null);
+  const marketingRef = useRef<any>(null);
 
   const [isEmail, setIsEmail] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  //const [all, setAll] = useState(false);
+
+  const navigate = useNavigate();
 
   function CheckEmail(str: any) {
     var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -36,30 +36,20 @@ function Register() {
   }
 
   function isAllCheck() {
-    //@ts-ignore
     if (allRef.current.checked) {
-      //@ts-ignore
       ageRef.current.checked = true;
-      //@ts-ignore
       useInfoRef.current.checked = true;
-      //@ts-ignore
       privacyRef.current.checked = true;
-      //@ts-ignore
       marketingRef.current.checked = true;
     } else {
-      //@ts-ignore
       ageRef.current.checked = false;
-      //@ts-ignore
       useInfoRef.current.checked = false;
-      //@ts-ignore
       privacyRef.current.checked = false;
-      //@ts-ignore
       marketingRef.current.checked = false;
     }
   }
 
   function isEmailBlank(): Boolean {
-    //@ts-ignore
     if (!CheckEmail(emailRef.current.value)) {
       setIsEmail(true);
 
@@ -72,7 +62,6 @@ function Register() {
   }
 
   function isNameBlank(): Boolean {
-    //@ts-ignore
     if (nameRef.current.value === '') {
       setIsName(true);
 
@@ -85,7 +74,6 @@ function Register() {
   }
 
   function isPasswordBlank(): Boolean {
-    //@ts-ignore
     if (passwordRef.current.value.length < 6) {
       setIsPassword(true);
 
@@ -103,22 +91,41 @@ function Register() {
     if (isNameBlank() || isEmailBlank() || isPasswordBlank()) {
       return;
     }
-
-    //@ts-ignore
     if (!ageRef.current.checked) {
       alert('만 14세 이상에 동의해주세요.');
       return;
     }
-
-    //@ts-ignore
     if (!useInfoRef.current.checked) {
       alert('커리어리 이용약관에 동의해주세요.');
       return;
     }
-
-    //@ts-ignore
     if (!privacyRef.current.checked) {
       alert('개인정보 수집 및 이용에 동의해주세요.');
+      return;
+    }
+
+    try{
+      const header = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
+
+      const res = await axios.post(`${API_KEY}/users/signup`, {
+      user_email:emailRef.current.value,
+      user_name:nameRef.current.value,
+      user_password:passwordRef.current.value,
+    }, header);
+
+    const data = res.data;
+
+    if(res.status === 201){
+      alert("회원가입이 완료되었습니다.");
+      navigate("/login");
+    }
+    }
+    catch(e:any){
+      alert("중복된 이메일입니다.");
       return;
     }
   };

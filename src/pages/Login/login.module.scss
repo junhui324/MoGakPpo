@@ -50,11 +50,8 @@ input[type=email]{
   border:1px solid gray;
   padding:3px;
 
-  &:hover{
-    border:1px solid pink;
-  }
-
   &:focus{
+    border:1px solid pink;
     outline:none;
   }
 }
@@ -67,11 +64,8 @@ input[type=email]{
   border:1px solid gray;
   padding:3px;
 
-  &:hover{
-    border:1px solid pink;
-  }
-
   &:focus{
+    border:1px solid pink;
     outline:none;
   }
 }
@@ -106,7 +100,7 @@ input[type=email]{
   color:white;
 
   &:hover{
-    border:3px solid pink;
+    border:1px solid pink;
     cursor:pointer;
   }
 }
@@ -138,7 +132,7 @@ input[type=email]{
   color:black;
   
   &:hover{
-    border:3px solid pink;
+    border:0px solid pink;
     cursor:pointer;
   }
 
@@ -182,4 +176,14 @@ input[type=email]{
   text-decoration: none;
   color:black;
 
+}
+
+.kakaoContainer{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kakaoImage{
+  margin-right:10px;
 }
