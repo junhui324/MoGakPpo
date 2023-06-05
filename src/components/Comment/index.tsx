@@ -5,6 +5,8 @@ import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 import getUserInfo from '../../utils/getUserInfo';
+import getDateFormat from '../../utils/getDateFormat';
+import DefaultUserImg from '../../assets/DefaultUser.png';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -18,7 +20,7 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const projectId = params.id || '0';
+  const projectId = Number(params.id) || 0;
 
   //코멘트 api get요청
   const getCommentData = async () => {
@@ -47,7 +49,7 @@ export default function Comment() {
     return (
       <>
         <div className={styles.loggedInInput}>
-          <img src={user?.user_img} alt="profile" />
+          <img src={user?.user_img || DefaultUserImg} alt="profile" />
           <input
             type="text"
             placeholder={`${user?.user_name}님, 댓글을 작성해보세요.`}
@@ -61,11 +63,13 @@ export default function Comment() {
   //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
   const loggedInUserInputClicked = () => {
     const handleSubmitButtonClick = async () => {
+      //신규 댓글 등록
       try {
-        const response = await postComment(projectId, {
+        const response = await postComment({
+          project_id: projectId,
           comment_content: inputValue,
         });
-        if (response.status === 200) {
+        if (response.status === 201) {
           setIsListUpdated(!isListUpdated);
         }
         setIsInputClicked(!isInputClicked);
@@ -129,7 +133,7 @@ export default function Comment() {
           const handleDeleteButtonClick = async () => {
             try {
               const response = await deleteComment(comment.comment_id);
-              if (response.status === 200) {
+              if (response.status === 201) {
                 setIsListUpdated(!isListUpdated);
               }
             } catch (error) {
@@ -154,10 +158,10 @@ export default function Comment() {
           return (
             <li key={comment.comment_id} className={styles.comment}>
               <div className={styles.header}>
-                <img src={comment.user_img} alt="profile" />
+                <img src={comment.user_img || DefaultUserImg} alt="profile" />
                 <div className={styles.subHeader}>
                   <h3>{comment.user_name}</h3>
-                  <p>{comment.comment_created_at}</p>
+                  <p>{getDateFormat(comment.comment_created_at)}</p>
                 </div>
               </div>
               {isEditing ? (
@@ -169,7 +173,7 @@ export default function Comment() {
                 <p className={styles.content}>{comment.comment_content}</p>
               )}
               {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
-              {comment.user_id !== user?.user_id &&
+              {comment.user_id === user?.user_id &&
                 (isEditing ? (
                   <div className={styles.buttonContainer}>
                     <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
