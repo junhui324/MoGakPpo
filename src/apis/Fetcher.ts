@@ -87,7 +87,7 @@ export async function getProjects(): Promise<{
   data: ProjectType.TypeProjectList[];
 }> {
   const params = `projects`;
-  return await Api.get(API_KEY, params, false);
+  return await Api.get(API_KEY, params, true);
 }
 
 // 카테고리로 프로젝트 리스트 불러오기
