@@ -60,6 +60,7 @@ function Project() {
     try {
       const data = await Fetcher.getProject(projectId);
       setProjectData(data);
+      console.log(data);
     } catch (loadingError) {
       alert(loadingError);
       navigate(ROUTES.PROJECT_LIST);
@@ -119,6 +120,7 @@ function Project() {
     setBookmarksData(() => {
       return projectData
         ? {
+            project_id: projectData.project_id,
             is_bookmarked: projectData.is_bookmarked,
             project_bookmark_count: projectData.project_bookmark_count,
             project_type: projectData.project_type,

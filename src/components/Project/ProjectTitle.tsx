@@ -23,7 +23,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
     // 게시글 생성 시간에 대한 정리를 합니다.
     const now: Date = new Date();
     const passedTime: number = now.getTime() - timestamp;
-    const fewDaysAgo: number = Math.ceil(passedTime / ONE_DAY_TIME);
+    const fewDaysAgo: number = Math.floor(passedTime / ONE_DAY_TIME);
     // 댓글 수
     const commentsCount: number = titleData.project_comments_count;
     // 모집 여부
@@ -33,10 +33,10 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
     const projectDate = () => {
       if (fewDaysAgo === TODAY) {
         // 시간을 계산합니다.
-        const fewHoursAgo: number = Math.ceil(passedTime / ONE_HOUR_TIME);
+        const fewHoursAgo: number = Math.floor(passedTime / ONE_HOUR_TIME);
         // 분을 계산합니다
         if (fewHoursAgo < 1) {
-          const fewMinuteAgo: number = Math.ceil(passedTime / ONE_MINUTE_TIME);
+          const fewMinuteAgo: number = Math.floor(passedTime / ONE_MINUTE_TIME);
           if (fewMinuteAgo < 1) {
             return '방금 전';
           } else {

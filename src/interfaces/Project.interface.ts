@@ -78,7 +78,11 @@ export type TypeProjectAuthor = Pick<
 
 export type TypeProjectBookmarks = Pick<
   Project,
-  'is_bookmarked' | 'project_bookmark_count' | 'project_bookmark_users' | 'project_type'
+  | 'project_id'
+  | 'is_bookmarked'
+  | 'project_bookmark_count'
+  | 'project_bookmark_users'
+  | 'project_type'
 >;
 
 export type TypeProjectModify = Pick<
