@@ -17,6 +17,7 @@ import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER } from './constant'
 import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
+import TextareaAutosize from 'react-textarea-autosize';
 
 function ProjectWritingForm() {
   const [project, setProject] = useState<TypeProjectPost>({
@@ -188,159 +189,165 @@ function ProjectWritingForm() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.mainForm}>
-        <div className={styles.projectWriteForm}>
-          <div className={styles.title}>
-            <div className={styles.type}>
-              <p>{PROJECT_TYPE[project.project_type]}</p>
-            </div>
-            <input
-              className={`${styles.titleTextarea} ${
-                project.project_title.length >= MAX_NUMBER.TITLE ? styles.maxLengthReached : ''
-              }`}
-              type="text"
-              name="project_title"
-              value={project.project_title}
-              onChange={handleProjectChange}
-              placeholder={PLACEHOLDER_STRING.TITLE}
-              maxLength={MAX_NUMBER.TITLE}
-            />
-          </div>
+      <div className={styles.title}>
+        <div className={styles.type}>
+          <p>{PROJECT_TYPE[project.project_type]}</p>
+        </div>
+        <TextareaAutosize
+          className={styles.titleTextarea}
+          name="project_title"
+          value={project.project_title}
+          onChange={handleProjectChange}
+          placeholder={PLACEHOLDER_STRING.TITLE}
+          maxLength={MAX_NUMBER.TITLE}
+        />
+      </div>
+      <div
+        className={`${styles.helpBox}  ${
+          project.project_title.length > MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
+        }`}
+      >
+        <p>제목은 프로젝트를 직관적으로 알 수 있게 작성해주세요. (50자 이내)</p>
+      </div>
 
-          <div>
-            <h2 className={styles.summary}>
-              요약<span className={styles.essential}>*</span>
-            </h2>
-            <div className={styles.summaryBox}>
-              <textarea
-                className={styles.summaryTextarea}
-                name="project_summary"
-                value={project.project_summary}
-                onChange={handleProjectChange}
-                placeholder={PLACEHOLDER_STRING.SUMMARY}
-                maxLength={MAX_NUMBER.SUMMARY}
-              ></textarea>
-            </div>
-          </div>
+      <div>
+        <h2 className={styles.summary}>
+          요약<span className={styles.essential}>*</span>
+        </h2>
+        <div className={styles.summaryBox}>
+          <TextareaAutosize
+            className={styles.summaryTextarea}
+            minRows={7}
+            name="project_summary"
+            value={project.project_summary}
+            onChange={handleProjectChange}
+            placeholder={PLACEHOLDER_STRING.SUMMARY}
+            maxLength={MAX_NUMBER.SUMMARY}
+          />
+        </div>
+      </div>
+      <div
+        className={`${styles.helpBox}  ${
+          project.project_summary.length > MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
+        }`}
+      >
+        <p>어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게 요약해주세요. (150자 이내)</p>
+      </div>
 
-          <div>
-            <h2 className={styles.role}>
-              모집 역할<span className={styles.essential}>*</span>
-            </h2>
-            <div className={styles.checkbox}>
-              {Object.keys(PROJECT_RECRUITMENT_ROLES).map((role) => (
-                <Checkbox
-                  key={role}
-                  id={role}
-                  label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
-                  onChange={handleCheckboxChange}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className={styles.goal}>
-              목적<span className={styles.essential}>*</span>
-            </h2>
-            <div className={styles.radioBox}>
-              {Object.values(PROJECT_GOAL).map((goal) => (
-                <RadioButton
-                  key={goal}
-                  label={goal}
-                  value={goal}
-                  name="PROJECT_GOAL"
-                  checked={selectedGoalRadioValue === goal}
-                  onChange={handleGoalRadioChange}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div className={styles.timeBox}>
-              <h2 className={styles.time}>
-                참여 시간<span className={styles.essential}>*</span>
-              </h2>
-              <div className={styles.speechBubble}>
-                <AiOutlineInfoCircle className={styles.svg} />
-                <div className={styles.arrowBox}>매주 프로젝트에 쓸 수 있는 시간</div>
-              </div>
-            </div>
-
-            <div className={styles.radioBox}>
-              {Object.values(PROJECT_PARTICIPATION_TIME).map((time) => (
-                <RadioButton
-                  key={time}
-                  label={time}
-                  value={time}
-                  name="PROJECT_PARTICIPATION_TIME"
-                  checked={selectedTimeRadioValue === time}
-                  onChange={handleTimeRadioChange}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className={styles.introduction}>
-              소개<span className={styles.essential}>*</span>
-            </h2>
-            <div>
-              <textarea
-                className="introduceTextarea"
-                name="project_introduction"
-                value={project.project_introduction}
-                onChange={handleProjectChange}
-                placeholder={PLACEHOLDER_STRING.INTRODUCE}
-              ></textarea>
-            </div>
-          </div>
-
-          <div>
-            <h2>기술 스택</h2>
-            <div>
-              <Stack
-                selectedStack={project.project_required_stacks.stackList}
-                setStackList={handleSetStackList}
+      <div>
+        <div>
+          <h2 className={styles.role}>
+            모집 역할<span className={styles.essential}>*</span>
+          </h2>
+          <div className={styles.checkbox}>
+            {Object.keys(PROJECT_RECRUITMENT_ROLES).map((role) => (
+              <Checkbox
+                key={role}
+                id={role}
+                label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
+                onChange={handleCheckboxChange}
               />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 className={styles.goal}>
+            목적<span className={styles.essential}>*</span>
+          </h2>
+          <div className={styles.radioBox}>
+            {Object.values(PROJECT_GOAL).map((goal) => (
+              <RadioButton
+                key={goal}
+                label={goal}
+                value={goal}
+                name="PROJECT_GOAL"
+                checked={selectedGoalRadioValue === goal}
+                onChange={handleGoalRadioChange}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className={styles.timeBox}>
+            <h2 className={styles.time}>
+              참여 시간<span className={styles.essential}>*</span>
+            </h2>
+            <div className={styles.speechBubble}>
+              <AiOutlineInfoCircle className={styles.svg} />
+              <div className={styles.arrowBox}>매주 프로젝트에 쓸 수 있는 시간</div>
             </div>
           </div>
 
-          <div>
-            <button className={styles.submitButton} onClick={handleSubmitButton}>
-              작성 완료
-            </button>
-            {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
+          <div className={styles.radioBox}>
+            {Object.values(PROJECT_PARTICIPATION_TIME).map((time) => (
+              <RadioButton
+                key={time}
+                label={time}
+                value={time}
+                name="PROJECT_PARTICIPATION_TIME"
+                checked={selectedTimeRadioValue === time}
+                onChange={handleTimeRadioChange}
+              />
+            ))}
           </div>
         </div>
       </div>
-      <div className={styles.helpContainer}>
-        <div className={styles.firstDiv}>
-          <p>제목은 프로젝트를 직관적으로 알 수 있게 작성해주세요. (50자 이내)</p>
+      <div></div>
+
+      <div>
+        <h2 className={styles.introduction}>
+          소개<span className={styles.essential}>*</span>
+        </h2>
+        <div>
+          <TextareaAutosize
+            className="introduceTextarea"
+            minRows={6}
+            name="project_introduction"
+            value={project.project_introduction}
+            onChange={handleProjectChange}
+            placeholder={PLACEHOLDER_STRING.INTRODUCE}
+          />
         </div>
-        <div className={styles.secondDiv}>
-          <p>어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게 요약해주세요. (150자 이내)</p>
+      </div>
+      <div className={styles.introHelpBox}>
+        <p>
+          소개에는 이런 내용이 있으면 좋아요👇
+          <br />
+          <br />
+          • 어떤 프로젝트인지
+          <br />
+          • 프로젝트를 기획한 배경
+          <br />
+          • 프로젝트의 목적이나 달성하고 싶은 목표
+          <br />
+          • 모집하고 싶은 역할과 인원수
+          <br />
+          • 프로젝트 진행 방식
+          <br />
+          <br />
+          이미 진행 중인 프로젝트라면, 현재 구성원과 진행 상황을 알려주세요!
+        </p>
+      </div>
+
+      <div>
+        <h2>기술 스택</h2>
+        <div>
+          <Stack
+            selectedStack={project.project_required_stacks.stackList}
+            setStackList={handleSetStackList}
+          />
         </div>
-        <div className={styles.thirdDiv}>
-          <p>
-            소개에는 이런 내용이 있으면 좋아요👇
-            <br />
-            <br />
-            • 어떤 프로젝트인지
-            <br />
-            • 프로젝트를 기획한 배경
-            <br />
-            • 프로젝트의 목적이나 달성하고 싶은 목표
-            <br />
-            • 모집하고 싶은 역할과 인원수
-            <br />
-            • 프로젝트 진행 방식
-            <br />
-            <br />
-            이미 진행 중인 프로젝트라면, 현재 구성원과 진행 상황을 알려주세요!
-          </p>
-        </div>
+      </div>
+
+      <div></div>
+
+      <div>
+        <button className={styles.submitButton} onClick={handleSubmitButton}>
+          작성 완료
+        </button>
+        {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ function Category({ handleClick, selectedCategory }: CategoryProps) {
       <ul>
         <h2>📂 카테고리</h2>
         {categories.map(([key, value]) => {
-          const newKey = key.toLowerCase();
+          const newKey = key;
 
           return (
             <li

@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as Token from './Token';
 
 interface RequestParams<T> {
-  endpoint: string;
+  endpoint: string | undefined;
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   params?: string;
   data?: any;
@@ -50,16 +50,28 @@ async function request<T>({
   }
 }
 
-const get = <T>(endpoint: string, params = '', requiresToken = true): Promise<T> =>
+const get = <T>(endpoint: string | undefined, params = '', requiresToken = true): Promise<T> =>
   request<T>({ endpoint, method: 'GET', params, requiresToken });
 
-const post = <T>(endpoint: string, params = '', data: any, requiresToken = true): Promise<T> =>
-  request<T>({ endpoint, method: 'POST', params, data, requiresToken });
+const post = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any,
+  requiresToken = true
+): Promise<T> => request<T>({ endpoint, method: 'POST', params, data, requiresToken });
 
-const put = <T>(endpoint: string, params = '', data: any, requiresToken = true): Promise<T> =>
-  request<T>({ endpoint, method: 'PUT', params, data, requiresToken });
+const put = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any,
+  requiresToken = true
+): Promise<T> => request<T>({ endpoint, method: 'PUT', params, data, requiresToken });
 
-const del = <T>(endpoint: string, params = '', data: any = {}, requiresToken = true): Promise<T> =>
-  request<T>({ endpoint, method: 'DELETE', params, data, requiresToken });
+const del = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any = {},
+  requiresToken = true
+): Promise<T> => request<T>({ endpoint, method: 'DELETE', params, data, requiresToken });
 
 export { get, post, put, del as delete };

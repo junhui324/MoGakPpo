@@ -7,6 +7,8 @@ import axios from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 function Login() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -55,7 +57,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        'http://localhost:5500/api/v1/users/login',
+        `${API_KEY}/users/login`,
         {
           //@ts-ignore
           user_email: emailRef.current.value,

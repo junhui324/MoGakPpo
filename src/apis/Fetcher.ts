@@ -9,6 +9,10 @@ import * as CommentType from '../interfaces/Comment.interface';
 
 const domain = `/mock`;
 
+const DOMAIN = `http://34.64.242.119:5000/api/v1`;
+
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
   const params = `projects/info/${projectId}.json`;
@@ -41,16 +45,16 @@ async function deleteComment(commentId: number): Promise<CommentType.TypeComment
 
 // 모든 프로젝트 리스트 불러오기
 async function getProjects(): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
-  const params = `projects.json`;
-  return await Api.get(domain, params, false);
+  const params = `projects`;
+  return await Api.get(API_KEY, params, false);
 }
 
 // 카테고리로 프로젝트 리스트 불러오기
 async function getProjectsByCategory(
   categoryId: string
 ): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
-  const params = `projects/cate=${categoryId}.json`;
-  return await Api.get(domain, params, false);
+  const params = `projects/role/${categoryId}`;
+  return await Api.get(API_KEY, params, false);
 }
 
 // 검색어로 프로젝트 리스트 불러오기
@@ -83,8 +87,8 @@ async function getStackList(): Promise<{
   message: string;
   data: StackType.TypeStacks;
 }> {
-  const params = `/stack.json`;
-  return await Api.get(domain, params, false);
+  const params = `stacks`;
+  return await Api.get(DOMAIN, params, false);
 }
 
 // 유저 작성 게시글 불러오기
@@ -92,16 +96,16 @@ async function getUserPosts(): Promise<{
   message: string;
   data: { user_projects: ProjectType.TypeUserPosts };
 }> {
-  const params = `/user/posts.json`;
+  const params = `projects/user`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
-  return await Api.get(domain, params, false);
+  return await Api.get(API_KEY, params, true);
 }
 
 // 유저 정보 수정하기
 async function updateUserProfile(
   data: UserType.TypeUserProfile
 ): Promise<UserType.TypeUserProfile> {
-  const params = `/user.json`;
+  const params = `/user/profile.json`;
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.put(domain, params, data, false);
 }
