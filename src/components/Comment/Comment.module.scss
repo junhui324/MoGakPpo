@@ -88,6 +88,22 @@
     }
   }
 }
+.noComment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px;
+  gap: 20px;
+  img {
+    width: 100px;
+  }
+  p {
+    color: #ced4da;
+    font-weight: 700;
+    line-height: 160%;
+  }
+}
 
 textarea {
   border-radius: 8px;

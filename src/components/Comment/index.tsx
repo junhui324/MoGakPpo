@@ -7,6 +7,7 @@ import { getComment, postComment, putComment, deleteComment } from '../../apis/F
 import getUserInfo from '../../utils/getUserInfo';
 import getDateFormat from '../../utils/getDateFormat';
 import DefaultUserImg from '../../assets/DefaultUser.png';
+import NoContentImage from '../../assets/NoContent.png';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -122,14 +123,9 @@ export default function Comment() {
     inputComponent = loggedInUserInputClicked();
   }
 
-  return (
-    <div className={styles.commentContainer}>
-      <div className={styles.inputArea}>
-        <h3>
-          댓글 <strong>{comments.length}</strong>
-        </h3>
-        {inputComponent}
-      </div>
+  //코멘트 리스트 렌더링
+  const CommentList = () => {
+    return (
       <ul className={styles.commentList}>
         {comments.map((comment) => {
           //수정, 삭제버튼 이벤트 처리
@@ -210,6 +206,28 @@ export default function Comment() {
           );
         })}
       </ul>
+    );
+  };
+
+  return (
+    <div className={styles.commentContainer}>
+      <div className={styles.inputArea}>
+        <h3>
+          댓글 <strong>{comments.length}</strong>
+        </h3>
+        {inputComponent}
+      </div>
+      {comments.length === 0 ? (
+        <div className={styles.noComment}>
+          <img src={NoContentImage} alt="No Content" />
+          <p>
+            아직 댓글이 없어요.
+            <br />첫 번째 댓글을 남겨보세요!
+          </p>
+        </div>
+      ) : (
+        <CommentList />
+      )}
     </div>
   );
 }
