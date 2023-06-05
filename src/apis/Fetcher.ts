@@ -20,27 +20,27 @@ async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
 }
 
 // 코멘트 리스트 불러오기
-async function getComment(projectId: string): Promise<CommentType.TypeComment> {
-  const params = `comments/${projectId}.json`;
-  return await Api.get(domain, params, false);
+async function getComment(projectId: number): Promise<CommentType.TypeComment> {
+  const params = `projects/5/comments`;
+  // const params = `projects/${projectId}/comments`;
+  return await Api.get(API_KEY, params, false);
 }
 async function postComment(
-  projectId: string,
   data: CommentType.TypeCommentPost
 ): Promise<CommentType.TypeCommentPost> {
-  const params = `comments/${projectId}.json`;
-  return await Api.post(domain, params, data);
+  const params = `comments`;
+  return await Api.post(API_KEY, params, data, true);
 }
 async function putComment(
   commentId: number,
   data: CommentType.TypeComment
 ): Promise<CommentType.TypeComment> {
-  const params = `comments/${commentId}.json`;
-  return await Api.put(domain, params, data);
+  const params = `comments/${commentId}`;
+  return await Api.put(API_KEY, params, data, true);
 }
 async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
-  const params = `comments/${commentId}.json`;
-  return await Api.delete(domain, params);
+  const params = `comments/${commentId}`;
+  return await Api.delete(API_KEY, params, '', true);
 }
 
 // 모든 프로젝트 리스트 불러오기
@@ -112,7 +112,7 @@ async function updateUserProfile(
 
 // 유저 작성 댓글 불러오기
 async function getUserComments(): Promise<{
-  message: string,
+  message: string;
   data: { project_comments: CommentType.TypeMypageComments };
 }> {
   const params = `/user/comments.json`;

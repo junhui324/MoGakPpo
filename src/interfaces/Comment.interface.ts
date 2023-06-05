@@ -6,9 +6,9 @@ interface Comment {
   comment_content: string;
   comment_created_at: string;
   status?: number;
+  project_id: number;
 }
 interface MyPageComment extends Comment {
-  project_id: number;
   project_title: string;
 }
 
@@ -22,5 +22,5 @@ export type TypeMypageComment = Pick<
   'comment_id' | 'project_id' | 'project_title' | 'comment_content' | 'comment_created_at'
 >;
 
-export type TypeCommentPost = Pick<Comment, 'comment_content' | 'status'>;
+export type TypeCommentPost = Pick<Comment, 'project_id' | 'comment_content' | 'status'>;
 export type TypeMypageComments = TypeMypageComment[];

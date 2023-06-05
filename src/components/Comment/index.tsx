@@ -20,7 +20,7 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const projectId = params.id || '0';
+  const projectId = Number(params.id) || 0;
 
   //코멘트 api get요청
   const getCommentData = async () => {
@@ -63,11 +63,13 @@ export default function Comment() {
   //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
   const loggedInUserInputClicked = () => {
     const handleSubmitButtonClick = async () => {
+      //신규 댓글 등록
       try {
-        const response = await postComment(projectId, {
+        const response = await postComment({
+          project_id: projectId,
           comment_content: inputValue,
         });
-        if (response.status === 200) {
+        if (response.status === 201) {
           setIsListUpdated(!isListUpdated);
         }
         setIsInputClicked(!isInputClicked);
@@ -131,7 +133,7 @@ export default function Comment() {
           const handleDeleteButtonClick = async () => {
             try {
               const response = await deleteComment(comment.comment_id);
-              if (response.status === 200) {
+              if (response.status === 201) {
                 setIsListUpdated(!isListUpdated);
               }
             } catch (error) {
@@ -171,7 +173,7 @@ export default function Comment() {
                 <p className={styles.content}>{comment.comment_content}</p>
               )}
               {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
-              {comment.user_id !== user?.user_id &&
+              {comment.user_id === user?.user_id &&
                 (isEditing ? (
                   <div className={styles.buttonContainer}>
                     <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>

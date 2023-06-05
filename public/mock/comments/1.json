@@ -3,9 +3,9 @@
   "data": [
     {
       "comment_id": 1,
-      "user_id": 2,
-      "user_name": "김댓쓴",
-      "user_img": "https://api.dicebear.com/6.x/pixel-art/svg?seed=1",
+      "user_id": 1,
+      "user_name": "김유저",
+      "user_img": "",
       "comment_content": "참여하고싶어요~~ 스터디 진행방식이 궁금합니다!",
       "comment_created_at": "2023-05-31T21:24:46.000Z"
     },
