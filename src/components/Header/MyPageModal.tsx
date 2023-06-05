@@ -6,8 +6,9 @@ import styles from './MyPageModal.module.scss';
 interface ModalBasicProps {
   setModalOpen: (value: boolean) => void;
   modalOpen: boolean;
+  onClickLogout: () => void;
 }
-export function MyPageModal({ modalOpen, setModalOpen }: ModalBasicProps) {
+export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBasicProps) {
   const navigate = useNavigate();
   return (
     <div className={styles.divContainer}>
@@ -23,7 +24,7 @@ export function MyPageModal({ modalOpen, setModalOpen }: ModalBasicProps) {
               내 프로필
             </li>
             <li>계정 관리</li>
-            <li>로그아웃</li>
+            <li onClick={onClickLogout}>로그아웃</li>
           </ul>
         </ModalBasic>
       )}
