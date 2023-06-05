@@ -13,6 +13,7 @@ import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
 import * as Fetcher from '../../apis/Fetcher';
 // 타입
 import * as ProjectType from '../../interfaces/Project.interface';
+import { AxiosResponse } from 'axios';
 // 스타일
 import styles from './Project.module.scss';
 import { BiDotsVertical } from 'react-icons/bi';
@@ -56,12 +57,11 @@ function Project() {
   // 데이터 API 호출 함수
   const fetchData = async () => {
     setIsLoading(true);
-
     try {
-      const data: ProjectType.TypeProject = await Fetcher.getProject(projectId);
+      const data = await Fetcher.getProject(projectId);
       setProjectData(data);
-      //console.log(data);
     } catch (loadingError) {
+      alert(loadingError);
       navigate(ROUTES.MAIN);
     } finally {
       setIsLoading(false);
