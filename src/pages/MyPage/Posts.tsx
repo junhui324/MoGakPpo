@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react';
 import { TypeUserPosts } from '../../interfaces/Project.interface';
 import { getUserPosts } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
+import LoadingProject from '../../components/ProjectList/LoadingProject';
 
 function Posts() {
+  const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
   const getUserPostsData = async () => {
     try {
       const userPostsData = await getUserPosts();
       setProjects(userPostsData.data.user_projects);
+      setIsLoading(true);
     } catch (error) {
       console.error('유저가 작성한 포스팅을 가져오지 못했어요');
     }
@@ -25,8 +28,9 @@ function Posts() {
       <div className={styles.contentCount}>게시글 {projects.length}개</div>
       <div className={styles.posts}>
         <ul>
-          {projects.length > 0 ? (
-            projects.map((post, index) => {
+          {!isLoading && <LoadingProject />}
+          {isLoading && projects.length > 0 ? (
+            projects.map((post) => {
               const {
                 project_id,
                 project_type,
@@ -54,10 +58,10 @@ function Posts() {
               };
 
               return (
-                <li key={index}>
+                <div key={post.project_id}>
                   <span>프로젝트</span>
                   <Project projectData={newProjectData} />
-                </li>
+                </div>
               );
             })
           ) : (

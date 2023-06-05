@@ -1,30 +1,45 @@
-import { useEffect, useState } from 'react';
-import { getProjects, getProjectsByCategory, getProjectsByKeyword } from '../../apis/Fetcher';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  getProjects,
+  getProjectsByCategory,
+  getProjectsByKeyword,
+  getRecruitingProjects,
+} from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
 import ProjectPostButton from '../../components/common/ProjectPostButton';
 import ProjectSearch from '../../components/ProjectList/ProjectSearch';
-import styles from './Main.module.scss';
+import styles from './ProjectListMain.module.scss';
+import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
 
-function Main() {
+function ProjectListMain() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [isSearched, setIsSearched] = useState(false);
+  const [isRecruitingFiltered, setIsRecruitingFiltered] = useState(false);
 
-  const getAllListData = async (): Promise<void> => {
+  const getProjectListData = useCallback(async (): Promise<void> => {
     try {
-      const projectList =
-        selectedCategory === 'ALL'
-          ? await getProjects()
-          : await getProjectsByCategory(`"${selectedCategory}"`);
-      setProjectList(projectList.data);
+      if (!isRecruitingFiltered) {
+        const projectList =
+          selectedCategory === 'ALL'
+            ? await getProjects()
+            : await getProjectsByCategory(`"${selectedCategory}"`);
+        setProjectList(projectList.data);
+        setIsLoading(true);
+      } else if (isRecruitingFiltered) {
+        const projectList = await getRecruitingProjects(selectedCategory);
+        setProjectList(projectList.data);
+        setIsLoading(true);
+      }
     } catch (error) {
       console.error('포스팅을 가져오지 못했어요');
     }
-  };
+  }, [isRecruitingFiltered, selectedCategory]);
 
   const getSearchListData = async () => {
     try {
@@ -52,19 +67,24 @@ function Main() {
       setIsSearched(true);
     } else if (isSearched && !keywordValue) {
       setIsSearched(false);
-      getAllListData();
+      getProjectListData();
     }
   };
 
   const handleSearchCancelClick = () => {
     setIsSearched(false);
-    getAllListData();
+    getProjectListData();
     setKeywordValue('');
   };
 
+  const handleRecruitingFilterCheck = () => {
+    setIsRecruitingFiltered((prev) => !prev);
+    // isRecruitingFiltered ? getRecruitingListData() : getProjectListData();
+  };
+
   useEffect(() => {
-    getAllListData();
-  }, [selectedCategory]);
+    getProjectListData();
+  }, [getProjectListData]);
 
   return (
     <div className={styles.container}>
@@ -83,16 +103,14 @@ function Main() {
           isSearched={isSearched}
           handleSearchCancelClick={handleSearchCancelClick}
         />
-        {projectList.length > 0 ? (
-          <ProjectList projectList={projectList} />
-        ) : (
-          <div className={styles.noneContentContainer}>
-            <p className={styles.noneContent}>게시글이 없습니다 :(</p>
-          </div>
-        )}
+        <RecruitingProjectFilter
+          isFilterChecked={isRecruitingFiltered}
+          onChange={handleRecruitingFilterCheck}
+        />
+        <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
   );
 }
 
-export default Main;
+export default ProjectListMain;

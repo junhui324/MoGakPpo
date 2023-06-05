@@ -6,6 +6,7 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 24px 24px 24px 24px;
+  // width: 100%;
   border: 1px solid #e8e8e8;
   border-radius: 16px;
   background-color: #ffff;
@@ -13,6 +14,7 @@
 
   .topContainer {
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     div:nth-child(1) {
@@ -54,6 +56,7 @@
     }
   }
   .secondContainer {
+    width: 100%;
     display: flex;
     font-size: 24px;
     font-weight: 550;
