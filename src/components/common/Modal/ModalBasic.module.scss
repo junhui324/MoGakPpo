@@ -1,5 +1,6 @@
 .container {
-  position: relative;
+  position: absolute;
+  height: fit-content;
   z-index: 9999;
   .contentsContainer {
     background-color: rgb(255, 255, 255);
@@ -22,30 +23,10 @@
   }
 }
 
-.wideContainer {
-  position: fixed;
-  z-index: 99999;
-  top: 0%;
-  left: 0%;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.196);
-  display: flex;
-  justify-content: center;
+.container.left {
+  transform: translateX(-120%) translateY(20%);
 }
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-}
-.fullScreen {
-  align-self: center;
-  position: relative;
-  z-index: 999999;
-  width: fit-content;
-  height: fit-content;
+
+.container.right {
+  transform: translateX(-20%) translateY(20%);
 }

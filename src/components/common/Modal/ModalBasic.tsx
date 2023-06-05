@@ -8,8 +8,15 @@ type TypeModalBasicProps = {
   children: React.ReactNode;
   closeButton?: boolean;
   fullScreen?: boolean;
+  position?: string;
 };
-function ModalBasic({ setModalOpen, children, closeButton, fullScreen }: TypeModalBasicProps) {
+function ModalBasic({
+  setModalOpen,
+  children,
+  closeButton,
+  fullScreen,
+  position = 'left',
+}: TypeModalBasicProps) {
   // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
   const closeModal = () => {
     setModalOpen(false);
@@ -39,13 +46,9 @@ function ModalBasic({ setModalOpen, children, closeButton, fullScreen }: TypeMod
     };
   });
 
-  return ReactDOM.createPortal(
-    <div className={`${styles.container} ${fullScreen && styles.wideContainer}`}>
-      <div className={`${fullScreen && styles.overlay}`}></div>
-      <div
-        ref={modalRef}
-        className={`${styles.contentsContainer} ${fullScreen && styles.fullScreen}`}
-      >
+  return (
+    <div className={`${styles.container} ${position === 'left' ? styles.left : styles.right}`}>
+      <div ref={modalRef} className={styles.contentsContainer}>
         {closeButton && (
           <div className={styles.closeContainer}>
             <button className={styles.close} onClick={closeModal}>
@@ -55,8 +58,7 @@ function ModalBasic({ setModalOpen, children, closeButton, fullScreen }: TypeMod
         )}
         {children}
       </div>
-    </div>,
-    document.getElementById('root') as Element
+    </div>
   );
 }
 export default ModalBasic;
