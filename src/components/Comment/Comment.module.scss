@@ -66,12 +66,21 @@
         @include profileStyle;
       }
       p {
-        color: #ced4da;
+        color: #abb0b5;
         font-size: 13px;
         margin-top: 8px;
       }
       .subHeader {
         flex-direction: column;
+        a {
+          font-weight: 500;
+          text-decoration: none;
+          color: black;
+          :hover {
+            text-decoration: underline;
+            color: #454545;
+          }
+        }
       }
     }
     .content {
