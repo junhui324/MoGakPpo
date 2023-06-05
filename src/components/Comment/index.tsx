@@ -69,8 +69,10 @@ export default function Comment() {
           project_id: projectId,
           comment_content: inputValue,
         });
-        if (response.status === 201) {
+        //@ts-ignore
+        if (response.message === '모집 글 댓글 등록 성공') {
           setIsListUpdated(!isListUpdated);
+          // setComments((current) => [response.data, ...current]);
         }
         setIsInputClicked(!isInputClicked);
       } catch (error) {
@@ -133,7 +135,8 @@ export default function Comment() {
           const handleDeleteButtonClick = async () => {
             try {
               const response = await deleteComment(comment.comment_id);
-              if (response.status === 201) {
+              //@ts-ignore
+              if (response.message === '댓글 삭제 성공') {
                 setIsListUpdated(!isListUpdated);
               }
             } catch (error) {
@@ -149,6 +152,10 @@ export default function Comment() {
                 //@ts-ignore
                 comment_content: editInputValue,
               });
+              //@ts-ignore
+              if (response.message === '댓글 수정 성공') {
+                setIsListUpdated(!isListUpdated);
+              }
               setEditingCommentId(null);
             } catch (error) {
               console.log(error);
