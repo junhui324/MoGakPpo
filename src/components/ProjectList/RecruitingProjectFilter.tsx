@@ -1,3 +1,5 @@
+import styles from './RecruitingProjectFilter.module.scss';
+
 interface RecruitingFilterProps {
   isFilterChecked: boolean;
   onChange: any;
@@ -5,15 +7,15 @@ interface RecruitingFilterProps {
 
 function RecruitingProjectFilter({ isFilterChecked, onChange }: RecruitingFilterProps) {
   return (
-    <div>
+    <div className={styles.container}>
       <label id="recruiting-filter">
-        모집 중만 보기
         <input
           id="recruiting-filter"
           type="checkbox"
           checked={isFilterChecked}
           onChange={onChange}
         ></input>
+        모집 중만 보기
       </label>
     </div>
   );

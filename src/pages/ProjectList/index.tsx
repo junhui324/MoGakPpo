@@ -74,7 +74,6 @@ function ProjectListMain() {
 
   const handleRecruitingFilterCheck = () => {
     setIsRecruitingFiltered((prev) => !prev);
-    // isRecruitingFiltered ? getRecruitingListData() : getProjectListData();
   };
 
   useEffect(() => {
@@ -90,15 +89,17 @@ function ProjectListMain() {
         </div>
       </div>
       <div className={styles.rightContainer}>
-        <ProjectSearch
-          handleChange={handleSearchChange}
-          value={keywordValue}
-          isSearched={isSearched}
-        />
-        <RecruitingProjectFilter
-          isFilterChecked={isRecruitingFiltered}
-          onChange={handleRecruitingFilterCheck}
-        />
+        <div className={styles.searchContainer}>
+          <ProjectSearch
+            handleChange={handleSearchChange}
+            value={keywordValue}
+            isSearched={isSearched}
+          />
+          <RecruitingProjectFilter
+            isFilterChecked={isRecruitingFiltered}
+            onChange={handleRecruitingFilterCheck}
+          />
+        </div>
         <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
