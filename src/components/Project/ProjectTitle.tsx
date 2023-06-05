@@ -5,6 +5,7 @@ import { TypeProjectTitle } from '../../interfaces/Project.interface';
 import styles from './ProjectTitle.module.scss';
 // 상수
 import { PROJECT_TYPE, PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
+import ProjectShare from './ProjectShare';
 // 날짜 계산 상수
 const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
 const ONE_HOUR_TIME = 60 * 60 * 1000;
@@ -81,6 +82,8 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
           <span>조회수 {titleData.project_views_count}</span>
           <span> · </span>
           <span>댓글수 {commentsCount}</span>
+          {/* 공유 버튼 */}
+          <ProjectShare />
         </div>
       </div>
     );

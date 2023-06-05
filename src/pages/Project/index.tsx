@@ -9,11 +9,11 @@ import ProjectBody from '../../components/Project/ProjectBody';
 import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
+
 // data
 import * as Fetcher from '../../apis/Fetcher';
 // 타입
 import * as ProjectType from '../../interfaces/Project.interface';
-import { AxiosResponse } from 'axios';
 // 스타일
 import styles from './Project.module.scss';
 import { BiDotsVertical } from 'react-icons/bi';
