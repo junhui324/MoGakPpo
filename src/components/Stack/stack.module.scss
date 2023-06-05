@@ -64,12 +64,14 @@ $suggestion-color: #f1f3f5;
     position: relative;
 
     .input {
-      width: 96%;
+      width: 450px;
       border: 1px solid $input-border-color;
       border-radius: 6px;
       outline: none;
       height: 40px;
       padding-left: 1rem;
+      
+      padding-right: 36px;
     }
 
     .searchButton {
