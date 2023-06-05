@@ -9,8 +9,7 @@
   background-color: #f7f8fa;
   padding: 24px 0;
   position: relative;
-  margin-right: calc((100vw - 100%) * -0.5);
-  margin-left: calc((100vw - 100%) * -0.5);
+  margin: 0 calc((100vw - 100%) * -0.5);
 }
 .inputArea {
   margin: 24px auto 0;

@@ -5,6 +5,7 @@ import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 import getUserInfo from '../../utils/getUserInfo';
+import getDateFormat from '../../utils/getDateFormat';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 export default function Comment() {
@@ -158,7 +159,7 @@ export default function Comment() {
                 <img src={comment.user_img || DefaultUserImg} alt="profile" />
                 <div className={styles.subHeader}>
                   <h3>{comment.user_name}</h3>
-                  <p>{comment.comment_created_at}</p>
+                  <p>{getDateFormat(comment.comment_created_at)}</p>
                 </div>
               </div>
               {isEditing ? (
