@@ -6,19 +6,20 @@ import { TypeMypageComments } from '../../interfaces/Comment.interface';
 import { getUserComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
+import Pagination from '../../components/Pagination';
 
 function Comments() {
   const [comments, setComments] = useState<TypeMypageComments>([]);
+  const [currPage, setCurrPage] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
   const navigate = useNavigate();
 
   const getUserCommentData = async () => {
     try {
       const { message, data } = await getUserComments();
 
-      //console.log(message);
-      //console.log(data.project_comments);
-
       setComments(data.project_comments);
+      setTotalPage(data.project_comments.length);
     } catch (error) {
       console.error('유저가 작성한 댓글을 가져오지 못했어요');
     }
@@ -60,6 +61,11 @@ function Comments() {
           })}
         </div>
       )}
+      <Pagination 
+        currPage={currPage}
+        onClickPage={setCurrPage}
+        pageCount={20}
+      />
     </div>
   );
 }
