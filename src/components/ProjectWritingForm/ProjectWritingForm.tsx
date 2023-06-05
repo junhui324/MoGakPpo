@@ -19,7 +19,11 @@ import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
-function ProjectWritingForm() {
+interface classificationType {
+  classification: string;
+}
+
+function ProjectWritingForm({ classification }: classificationType) {
   const [project, setProject] = useState<TypeProjectPost>({
     project_type: '',
     project_title: '',
@@ -38,6 +42,40 @@ function ProjectWritingForm() {
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
   const navigate = useNavigate();
+
+  const getProjectData = async () => {
+    //setIsLoading(true);
+    try {
+      const data = await Fetcher.getProject(39);
+      console.log(data);
+      //setProjectData(data);
+      setProject({
+        ...project,
+        project_type: data.project_type,
+        project_title: data.project_title,
+        project_summary: data.project_summary,
+        project_recruitment_roles: { roleList: [...data.project_recruitment_roles.roleList] },
+        project_required_stacks: { stackList: [...data.project_required_stacks.stackList] },
+        project_goal: data.project_goal,
+        project_participation_time: data.project_participation_time,
+        project_introduction: data.project_introduction,
+        project_img: null,
+      });
+    } catch (loadingError) {
+      alert(loadingError);
+      //navigate(ROUTES.PROJECT_LIST);
+    } finally {
+      //setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (classification === 'create') {
+    } else if (classification === 'modify') {
+      console.log('수정하기 페이지');
+      getProjectData();
+    }
+  }, []);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -155,14 +193,22 @@ function ProjectWritingForm() {
       },
     }));
 
-    (async () => {
-      const res = await postProject();
-      console.log('res: ', res);
-      //navigate(`/project/${res}`);
-    })();
+    if (classification === 'create') {
+      (async () => {
+        const res = await postProject();
+        console.log('res: ', res);
+        navigate(`/project/${res}`);
+      })();
+    } else if (classification === 'modify') {
+      (async () => {
+        const res = await patchProject();
+        console.log('res: ', res);
+        navigate(`/project/${res}`);
+      })();
+    }
   };
 
-  //백엔드에 데이터 전송하는 함수
+  //백엔드에 게시물 데이터 전송하는 POST 함수
   const postProject = async () => {
     try {
       const res = await Fetcher.postProject(project);
@@ -170,6 +216,17 @@ function ProjectWritingForm() {
       return res.data.project_id;
     } catch (error) {
       console.log(`POST 요청 에러 : ${error}`);
+    }
+  };
+
+  //백엔드에 게시물 데이터 전송하는 PATCH 함수
+  const patchProject = async () => {
+    try {
+      const res = await Fetcher.patchProject(project, 39);
+      // @ts-ignore
+      return res.data.project_id;
+    } catch (error) {
+      console.log(`PATCH 요청 에러 : ${error}`);
     }
   };
 
@@ -363,7 +420,7 @@ function ProjectWritingForm() {
 
       <div>
         <button className={styles.submitButton} onClick={handleSubmitButton}>
-          작성 완료
+          {classification === 'create' ? '작성 완료' : '수정 완료'}
         </button>
         {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
       </div>

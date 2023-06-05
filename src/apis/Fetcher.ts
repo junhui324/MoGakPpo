@@ -78,11 +78,21 @@ export async function getRecruitingProjects(categoryId: string): Promise<{
   return await Api.get(domain, params, false);
 }
 
+// 게시물 post
 export async function postProject(
   data: ProjectType.TypeProjectPost
 ): Promise<{ message: string; data: number }> {
   const params = `projects/recruitment`;
   return await Api.post(API_KEY, params, data, true);
+}
+
+// 게시물 수정
+export async function patchProject(
+  data: ProjectType.TypeProjectPost,
+  project_id: number
+): Promise<{ message: string; data: number }> {
+  const params = `projects/recruitment/:${project_id}`;
+  return await Api.patch(API_KEY, params, data, true);
 }
 
 // 유저 프로필 불러오기

@@ -3,7 +3,7 @@ import ProjectWritingForm from '../../components/ProjectWritingForm/ProjectWriti
 function ProjectWriting() {
   return (
     <>
-      <ProjectWritingForm></ProjectWritingForm>
+      <ProjectWritingForm classification="create"></ProjectWritingForm>
     </>
   );
 }
