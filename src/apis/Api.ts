@@ -22,13 +22,8 @@ async function request<T>({
     'Content-Type': 'application/json',
   };
 
-  if (requiresToken && !Token.getToken()) {
-    throw new Error('로그인이 필요한 요청입니다.');
-  }
+  requiresToken ?? (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
 
-  if (requiresToken) {
-    headers.Authorization = `Bearer ${Token.getToken()}`;
-  }
   try {
     const response = await axios.request<T>({
       url: apiUrl,
@@ -42,6 +37,7 @@ async function request<T>({
   } catch (error: any) {
     if (error.response) {
       // 서버에서 오류를 받으면 오류 상태 코드를 보냅니다.
+      console.log(error);
       const { status } = error.response;
       throw new Error(status);
     } else {

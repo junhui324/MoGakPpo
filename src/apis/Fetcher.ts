@@ -17,7 +17,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
   const params = `projects/info/${projectId}`;
-  const response: AxiosResponse = await Api.get(API_KEY, params, false);
+  const response: AxiosResponse = await Api.get(API_KEY, params);
   return response.data;
 }
 
