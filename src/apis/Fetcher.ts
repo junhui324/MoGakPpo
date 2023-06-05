@@ -150,6 +150,15 @@ export async function getUserPosts(): Promise<{
   return await Api.get(API_KEY, params, true);
 }
 
+// 유저 북마크 게시글 불러오기
+export async function getUserBookmarks(): Promise<{
+  message: string;
+  data: { user_projects: ProjectType.TypeUserPosts };
+}> {
+  const params = `projects/user/bookmark`;
+  return await Api.get(API_KEY, params, true);
+}
+
 // 유저 정보 수정하기
 export async function updateUserProfile(
   data: UserType.TypeUserProfile
