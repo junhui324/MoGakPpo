@@ -1,0 +1,45 @@
+{
+  "message": "모집 중인 글 조회 성공",
+  "data": [
+    {
+      "is_bookmarked": true,
+      "project_id": 1,
+      "project_type": "PROJECT",
+      "project_recruitment_status": "RECRUITING",
+      "project_title": "검색결과.",
+      "project_summary": "모집 중인 글.",
+      "project_recruitment_roles": {
+        "roleList": ["BACK"]
+      },
+      "project_required_stacks": {
+        "stackList": ["React", "Figma"]
+      },
+      "project_goal": "PORTFOLIO",
+      "project_participation_time": "MIDDLE",
+      "project_bookmark_count": 1,
+      "project_comments_count": 0,
+      "project_views_count": 0,
+      "project_created_at": "2023-05-31T21:24:46.000Z"
+    },
+    {
+      "is_bookmarked": true,
+      "project_id": 1,
+      "project_type": "PROJECT",
+      "project_recruitment_status": "RECRUITING",
+      "project_title": "검색결과.",
+      "project_summary": "모집 중인 글.",
+      "project_recruitment_roles": {
+        "roleList": ["BACK"]
+      },
+      "project_required_stacks": {
+        "stackList": ["React", "Figma"]
+      },
+      "project_goal": "PORTFOLIO",
+      "project_participation_time": "MIDDLE",
+      "project_bookmark_count": 1,
+      "project_comments_count": 0,
+      "project_views_count": 0,
+      "project_created_at": "2023-05-31T21:24:46.000Z"
+    }
+  ]
+}

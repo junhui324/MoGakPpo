@@ -66,6 +66,15 @@ async function getProjectsByKeyword(
   return await Api.get(domain, params, false);
 }
 
+// 모집 중 프로젝트 리스트 불러오기
+async function getRecruitingProjects(categoryId: string): Promise<{
+  message: string;
+  data: ProjectType.TypeProjectList[];
+}> {
+  const params = `projects/cate=${categoryId}&recruiting=true.json`;
+  return await Api.get(domain, params, false);
+}
+
 async function postProject(
   data: ProjectType.TypeProjectPost
 ): Promise<ProjectType.TypeProjectPost> {
@@ -111,7 +120,7 @@ async function updateUserProfile(
 
 // 유저 작성 댓글 불러오기
 async function getUserComments(): Promise<{
-  message: string,
+  message: string;
   data: { project_comments: CommentType.TypeMypageComments };
 }> {
   const params = `/user/comments.json`;
@@ -134,4 +143,5 @@ export {
   postProject,
   getProjectsByCategory,
   getProjectsByKeyword,
+  getRecruitingProjects,
 };
