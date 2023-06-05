@@ -8,6 +8,7 @@ import getUserInfo from '../../utils/getUserInfo';
 import getDateFormat from '../../utils/getDateFormat';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import NoContentImage from '../../assets/NoContent.png';
+import TextareaAutosize from 'react-textarea-autosize';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -70,7 +71,6 @@ export default function Comment() {
           project_id: projectId,
           comment_content: inputValue,
         });
-        console.log('🚀 ~ file: index.tsx:72 ~ handleSubmitButtonClick ~ response:', response);
 
         //@ts-ignore
         if (response.message === '모집 글 댓글 등록 성공') {
@@ -84,8 +84,10 @@ export default function Comment() {
     };
     return (
       <div className={styles.commentInputArea}>
-        <textarea
+        <TextareaAutosize
           autoFocus
+          minRows={3}
+          maxRows={12}
           placeholder="댓글을 작성해보세요."
           value={inputValue}
           onChange={(event) => setInputValue(() => event.target.value)}
@@ -94,7 +96,13 @@ export default function Comment() {
           <button className={styles.defaultButton} type="submit" onClick={handleSubmitButtonClick}>
             등록
           </button>
-          <button className={styles.lineButton} onClick={() => setIsInputClicked(!isInputClicked)}>
+          <button
+            className={styles.lineButton}
+            onClick={() => {
+              setInputValue('');
+              setIsInputClicked(!isInputClicked);
+            }}
+          >
             취소
           </button>
         </div>
@@ -190,7 +198,9 @@ export default function Comment() {
                   </div>
                 </div>
                 {isEditing ? (
-                  <textarea
+                  <TextareaAutosize
+                    minRows={3}
+                    maxRows={12}
                     autoFocus
                     value={editInputValue}
                     onChange={(event) => setEditInputValue(() => event.target.value)}
