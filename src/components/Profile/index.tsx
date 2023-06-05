@@ -4,6 +4,7 @@ import styles from './profile.module.scss';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
+import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function Profile() {
   const [user, setUser] = useState<TypeUserProfile>();
@@ -30,7 +31,7 @@ function Profile() {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.imageWrapper}>
-        <img className={styles.image} src={user?.user_img} alt={user?.user_name}></img>
+        <img className={styles.image} src={user?.user_img || DefaultUserImg} alt={user?.user_name}></img>
         <button className={styles.updateButton} onClick={handleClickEdit}>
           편집
         </button>

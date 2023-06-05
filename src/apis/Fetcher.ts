@@ -88,9 +88,8 @@ async function getUserProfile(): Promise<{
   message: string;
   data: UserType.TypeUserProfile;
 }> {
-  const params = `/user/profile.json`;
-  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
-  return await Api.get(domain, params, false);
+  const params = `users/profile`;
+  return await Api.get(API_KEY, params);
 }
 
 // stack 전체 데이터 불러오기
@@ -125,9 +124,8 @@ async function getUserComments(): Promise<{
   message: string;
   data: { project_comments: CommentType.TypeMypageComments };
 }> {
-  const params = `/user/comments.json`;
-  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
-  return await Api.get(domain, params, false);
+  const params = `comments/user`;
+  return await Api.get(API_KEY, params);
 }
 
 export {

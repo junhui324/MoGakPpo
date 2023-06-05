@@ -22,7 +22,7 @@ async function request<T>({
     'Content-Type': 'application/json',
   };
 
-  requiresToken ?? (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
+  requiresToken && (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
 
   try {
     const response = await axios.request<T>({
