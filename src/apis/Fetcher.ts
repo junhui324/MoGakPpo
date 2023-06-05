@@ -40,7 +40,7 @@ export async function putComment(
 }
 export async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
   const params = `comments/${commentId}`;
-  return await Api.delete(API_KEY, params, '', true);
+  return await Api.delete(API_KEY, params, {}, true);
 }
 
 // 모든 프로젝트 리스트 불러오기
