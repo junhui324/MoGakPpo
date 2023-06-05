@@ -123,92 +123,6 @@ export default function Comment() {
     inputComponent = loggedInUserInputClicked();
   }
 
-  //코멘트 리스트 렌더링
-  const CommentList = () => {
-    return (
-      <ul className={styles.commentList}>
-        {comments.map((comment) => {
-          //수정, 삭제버튼 이벤트 처리
-          const isEditing = editingCommentId === comment.comment_id;
-          const handleDeleteButtonClick = async () => {
-            try {
-              const response = await deleteComment(comment.comment_id);
-              //@ts-ignore
-              if (response.message === '댓글 삭제 성공') {
-                setIsListUpdated(!isListUpdated);
-              }
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          const handleEditButtonClick = () => {
-            setEditingCommentId(comment.comment_id);
-          };
-          const handleEditSubmitButtonClick = async () => {
-            try {
-              const response = await putComment(comment.comment_id, {
-                //@ts-ignore
-                comment_content: editInputValue,
-              });
-              //@ts-ignore
-              if (response.message === '댓글 수정 성공') {
-                setIsListUpdated(!isListUpdated);
-              }
-              setEditingCommentId(null);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-
-          return (
-            <li key={comment.comment_id} className={styles.comment}>
-              <div className={styles.header}>
-                <Link to={`/user/${comment.user_id}`}>
-                  <img src={comment.user_img || DefaultUserImg} alt="profile" />
-                </Link>
-                <div className={styles.subHeader}>
-                  <Link to={`/user/${comment.user_id}`}>
-                    <h3>{comment.user_name}</h3>
-                  </Link>
-                  <p>{getDateFormat(comment.comment_created_at)}</p>
-                </div>
-              </div>
-              {isEditing ? (
-                <textarea
-                  value={editInputValue}
-                  onChange={(event) => setEditInputValue(() => event.target.value)}
-                />
-              ) : (
-                <p className={styles.content}>{comment.comment_content}</p>
-              )}
-              {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
-              {comment.user_id === user?.user_id &&
-                (isEditing ? (
-                  <div className={styles.buttonContainer}>
-                    <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
-                      등록
-                    </button>
-                    <button className={styles.lineButton} onClick={() => setEditingCommentId(null)}>
-                      취소
-                    </button>
-                  </div>
-                ) : (
-                  <div className={styles.buttonContainer}>
-                    <button className={styles.defaultButton} onClick={handleEditButtonClick}>
-                      수정
-                    </button>
-                    <button className={styles.lineButton} onClick={handleDeleteButtonClick}>
-                      삭제
-                    </button>
-                  </div>
-                ))}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  };
-
   return (
     <div className={styles.commentContainer}>
       <div className={styles.inputArea}>
@@ -217,6 +131,7 @@ export default function Comment() {
         </h3>
         {inputComponent}
       </div>
+      {/* 댓글리스트 영역 */}
       {comments.length === 0 ? (
         <div className={styles.noComment}>
           <img src={NoContentImage} alt="No Content" />
@@ -226,8 +141,94 @@ export default function Comment() {
           </p>
         </div>
       ) : (
-        <CommentList />
+        <ul className={styles.commentList}>
+          {comments.map((comment) => {
+            //수정, 삭제버튼 이벤트 처리
+            const isEditing = editingCommentId === comment.comment_id;
+            const handleDeleteButtonClick = async () => {
+              try {
+                const response = await deleteComment(comment.comment_id);
+                //@ts-ignore
+                if (response.message === '댓글 삭제 성공') {
+                  setIsListUpdated(!isListUpdated);
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            const handleEditButtonClick = () => {
+              setEditingCommentId(comment.comment_id);
+            };
+            const handleEditSubmitButtonClick = async () => {
+              try {
+                const response = await putComment(comment.comment_id, {
+                  //@ts-ignore
+                  comment_content: editInputValue,
+                });
+                //@ts-ignore
+                if (response.message === '댓글 수정 성공') {
+                  setIsListUpdated(!isListUpdated);
+                }
+                setEditingCommentId(null);
+              } catch (error) {
+                console.log(error);
+              }
+            };
+
+            return (
+              <li key={comment.comment_id} className={styles.comment}>
+                <div className={styles.header}>
+                  <Link to={`/user/${comment.user_id}`}>
+                    <img src={comment.user_img || DefaultUserImg} alt="profile" />
+                  </Link>
+                  <div className={styles.subHeader}>
+                    <Link to={`/user/${comment.user_id}`}>
+                      <h3>{comment.user_name}</h3>
+                    </Link>
+                    <p>{getDateFormat(comment.comment_created_at)}</p>
+                  </div>
+                </div>
+                {isEditing ? (
+                  <textarea
+                    value={editInputValue}
+                    onChange={(event) => setEditInputValue(() => event.target.value)}
+                  />
+                ) : (
+                  <p className={styles.content}>{comment.comment_content}</p>
+                )}
+                {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
+                {comment.user_id === user?.user_id &&
+                  (isEditing ? (
+                    <div className={styles.buttonContainer}>
+                      <button
+                        className={styles.defaultButton}
+                        onClick={handleEditSubmitButtonClick}
+                      >
+                        등록
+                      </button>
+                      <button
+                        className={styles.lineButton}
+                        onClick={() => setEditingCommentId(null)}
+                      >
+                        취소
+                      </button>
+                    </div>
+                  ) : (
+                    <div className={styles.buttonContainer}>
+                      <button className={styles.defaultButton} onClick={handleEditButtonClick}>
+                        수정
+                      </button>
+                      <button className={styles.lineButton} onClick={handleDeleteButtonClick}>
+                        삭제
+                      </button>
+                    </div>
+                  ))}
+              </li>
+            );
+          })}
+        </ul>
       )}
+      {/* 댓글리스트 영역 끝 */}
     </div>
   );
 }
