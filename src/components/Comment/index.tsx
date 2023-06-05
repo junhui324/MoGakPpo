@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './Comment.module.scss';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
@@ -69,6 +69,8 @@ export default function Comment() {
           project_id: projectId,
           comment_content: inputValue,
         });
+        console.log('🚀 ~ file: index.tsx:72 ~ handleSubmitButtonClick ~ response:', response);
+
         //@ts-ignore
         if (response.message === '모집 글 댓글 등록 성공') {
           setIsListUpdated(!isListUpdated);
@@ -165,9 +167,13 @@ export default function Comment() {
           return (
             <li key={comment.comment_id} className={styles.comment}>
               <div className={styles.header}>
-                <img src={comment.user_img || DefaultUserImg} alt="profile" />
+                <Link to={`/user/${comment.user_id}`}>
+                  <img src={comment.user_img || DefaultUserImg} alt="profile" />
+                </Link>
                 <div className={styles.subHeader}>
-                  <h3>{comment.user_name}</h3>
+                  <Link to={`/user/${comment.user_id}`}>
+                    <h3>{comment.user_name}</h3>
+                  </Link>
                   <p>{getDateFormat(comment.comment_created_at)}</p>
                 </div>
               </div>
