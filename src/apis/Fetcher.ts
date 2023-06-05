@@ -65,9 +65,11 @@ async function getProjectsByKeyword(
   return await Api.get(domain, params, false);
 }
 
-async function postProject(data: string): Promise<any> {
+async function postProject(
+  data: ProjectType.TypeProjectPost
+): Promise<{ message: string; data: number }> {
   const params = `projects/recruitment`;
-  return await Api.post(`http://localhost:5500/api/v1`, params, data, true);
+  return await Api.post(API_KEY, params, data, true);
 }
 
 // 유저 프로필 불러오기

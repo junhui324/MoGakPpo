@@ -29,6 +29,7 @@ function ProjectWritingForm() {
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
+    project_img: null,
   });
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
@@ -55,6 +56,12 @@ function ProjectWritingForm() {
   }, [type]);
 
   useEffect(() => {
+    if (stackList.length === 0) {
+      setStackList(['미정']);
+    }
+    if (stackList[0] === '미정' && stackList.length === 2) {
+      stackList.shift();
+    }
     setProject((prevProject) => ({
       ...prevProject,
       project_required_stacks: {
@@ -128,7 +135,7 @@ function ProjectWritingForm() {
   };
 
   //전송 버튼을 누르면 백엔드에 데이터 전송
-  const handleSubmitButton = async (e: React.FormEvent) => {
+  const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
     setButtonClick(true);
     const missingFields = getMissingFields();
@@ -139,22 +146,28 @@ function ProjectWritingForm() {
     }
     setIsValidate(false);
 
-    if (stackList.length === 0) {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_required_stacks: {
-          stackList: ['미정'],
-        },
-      }));
-    }
+    // stackList가 비어있는 경우 '미정' 추가
+    const updatedStackList = stackList.length === 0 ? ['미정'] : stackList;
+    setProject((prevProject) => ({
+      ...prevProject,
+      project_required_stacks: {
+        stackList: updatedStackList,
+      },
+    }));
 
+    (async () => {
+      const res = await postProject();
+      console.log('res: ', res);
+      //navigate(`/project/${res}`);
+    })();
+  };
+
+  //백엔드에 데이터 전송하는 함수
+  const postProject = async () => {
     try {
-      // 게시글 id를 반환받아서 해당 id를 가진 게시물로 이동
-      console.log('버튼눌렀을 때, project 상태', JSON.stringify(project));
-      const project_data = await Fetcher.postProject(JSON.stringify(project));
-      // 임시 주소
-      console.log(project_data);
-      navigate(`/project/${project_data.project_id}`);
+      const res = await Fetcher.postProject(project);
+      // @ts-ignore
+      return res.data.project_id;
     } catch (error) {
       console.log(`POST 요청 에러 : ${error}`);
     }
