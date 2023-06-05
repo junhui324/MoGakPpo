@@ -9,16 +9,19 @@
 
 @mixin helpbox {
   margin-left: 100px;
-  width: 340px;
-  height: 100px;
+  width: 320px;
+  height: 80px;
   border: 1px solid $gray-back-color;
   border-radius: 10px;
   background-color: $gray-back-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin helpP {
   margin: 30px;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 19px;
 }
 
@@ -65,20 +68,6 @@ h2 {
     'stack .';
 }
 
-.helpBox {
-  @include helpbox;
-  p {
-    @include helpP;
-  }
-}
-.introHelpBox {
-  @include helpbox;
-  height: 260px;
-  p {
-    @include helpP;
-  }
-}
-
 .title {
   grid-area: title;
   .type {
@@ -97,6 +86,29 @@ h2 {
       font-weight: 600;
       text-align: center;
     }
+  }
+}
+
+.titleHelpBox {
+  @include helpbox;
+  margin-top: 15px;
+  p {
+    @include helpP;
+  }
+}
+.summaryHelpBox {
+  @include helpbox;
+  margin-top: 20px;
+  p {
+    @include helpP;
+  }
+}
+.introHelpBox {
+  @include helpbox;
+  margin-top: 10px;
+  height: 260px;
+  p {
+    @include helpP;
   }
 }
 

@@ -10,6 +10,7 @@ import * as CommentType from '../interfaces/Comment.interface';
 const domain = `/mock`;
 
 const DOMAIN = `http://34.64.242.119:5000/api/v1`;
+const API_KEY: any = process.env.REACT_APP_API_KEY;
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -77,8 +78,9 @@ async function getRecruitingProjects(categoryId: string): Promise<{
 
 async function postProject(
   data: ProjectType.TypeProjectPost
-): Promise<ProjectType.TypeProjectPost> {
-  return await Api.post(domain, ``, data);
+): Promise<{ message: string; data: number }> {
+  const params = `projects/recruitment`;
+  return await Api.post(API_KEY, params, data, true);
 }
 
 // 유저 프로필 불러오기

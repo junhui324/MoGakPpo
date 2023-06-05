@@ -5,7 +5,7 @@ import Checkbox from './Checkbox';
 import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-//import * as Fetcher from '../../apis/Fetcher';
+import * as Fetcher from '../../apis/Fetcher';
 import Stack from '../Stack';
 import {
   PROJECT_TYPE,
@@ -29,6 +29,7 @@ function ProjectWritingForm() {
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
+    project_img: null,
   });
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
@@ -55,6 +56,12 @@ function ProjectWritingForm() {
   }, [type]);
 
   useEffect(() => {
+    if (stackList.length === 0) {
+      setStackList(['미정']);
+    }
+    if (stackList[0] === '미정' && stackList.length === 2) {
+      stackList.shift();
+    }
     setProject((prevProject) => ({
       ...prevProject,
       project_required_stacks: {
@@ -139,20 +146,31 @@ function ProjectWritingForm() {
     }
     setIsValidate(false);
 
-    if (stackList.length === 0) {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_required_stacks: {
-          stackList: ['미정'],
-        },
-      }));
-    }
+    // stackList가 비어있는 경우 '미정' 추가
+    const updatedStackList = stackList.length === 0 ? ['미정'] : stackList;
+    setProject((prevProject) => ({
+      ...prevProject,
+      project_required_stacks: {
+        stackList: updatedStackList,
+      },
+    }));
 
-    // 게시글 id를 반환받아서 해당 id를 가진 게시물로 이동
-    // const { project_id } = await Fetcher.postProject(project);
-    // 임시 주소
-    const project_id = 1;
-    navigate(`/project/${project_id}`);
+    (async () => {
+      const res = await postProject();
+      console.log('res: ', res);
+      //navigate(`/project/${res}`);
+    })();
+  };
+
+  //백엔드에 데이터 전송하는 함수
+  const postProject = async () => {
+    try {
+      const res = await Fetcher.postProject(project);
+      // @ts-ignore
+      return res.data.project_id;
+    } catch (error) {
+      console.log(`POST 요청 에러 : ${error}`);
+    }
   };
 
   // 유효성 검사
@@ -203,8 +221,8 @@ function ProjectWritingForm() {
         />
       </div>
       <div
-        className={`${styles.helpBox}  ${
-          project.project_title.length > MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
+        className={`${styles.titleHelpBox}  ${
+          project.project_title.length >= MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
         }`}
       >
         <p>제목은 프로젝트를 직관적으로 알 수 있게 작성해주세요. (50자 이내)</p>
@@ -227,8 +245,8 @@ function ProjectWritingForm() {
         </div>
       </div>
       <div
-        className={`${styles.helpBox}  ${
-          project.project_summary.length > MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
+        className={`${styles.summaryHelpBox}  ${
+          project.project_summary.length >= MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
         }`}
       >
         <p>어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게 요약해주세요. (150자 이내)</p>
@@ -303,7 +321,7 @@ function ProjectWritingForm() {
         <div>
           <TextareaAutosize
             className="introduceTextarea"
-            minRows={6}
+            minRows={10}
             name="project_introduction"
             value={project.project_introduction}
             onChange={handleProjectChange}

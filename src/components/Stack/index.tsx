@@ -75,12 +75,12 @@ function Stack({ selectedStack, setStackList }: StackProps) {
       <div className={styles.stackContainer}>
         {selected.map((stack, id) => {
           return (
-            <div 
-              className={styles.stackWrapper} 
+            <div
+              className={styles.stackWrapper}
               key={`${stack}-${id}`}
               onClick={() => handleDelete(stack)}
             >
-              <div className={styles.selectedStack}> 
+              <div className={styles.selectedStack}>
                 {stack}
                 <RiCloseFill className={styles.deleteButton} />
               </div>
