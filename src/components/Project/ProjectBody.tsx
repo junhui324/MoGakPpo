@@ -28,7 +28,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
           <div className={styles.logoLine}>
             {bodyData.project_recruitment_roles.roleList.map((role) => {
               return (
-                <div className={styles.logoBlock}>
+                <div className={styles.logoBlock} key={role}>
                   <div className={styles.logoCircle}>
                     <RoleIcon role={PROJECT_RECRUITMENT_ROLES[role]} />
                   </div>
@@ -45,7 +45,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
           <div className={styles.logoLine}>
             {bodyData.project_required_stacks.stackList.map((stack) => {
               return (
-                <div className={styles.logoBlock}>
+                <div className={styles.logoBlock} key={stack}>
                   <div className={styles.logoCircle}>
                     <StackIcon stack={stack} />
                   </div>

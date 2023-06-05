@@ -6,6 +6,7 @@ import * as ProjectType from '../interfaces/Project.interface';
 import * as UserType from '../interfaces/User.interface';
 import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
+import { AxiosResponse } from 'axios';
 
 const domain = `/mock`;
 
@@ -14,8 +15,9 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 // 개별 프로젝트 불러오기
 async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
-  const params = `projects/info/${projectId}.json`;
-  return await Api.get(domain, params, false);
+  const params = `projects/info/${projectId}`;
+  const response: AxiosResponse = await Api.get(API_KEY, params);
+  return response.data;
 }
 
 // 코멘트 리스트 불러오기
