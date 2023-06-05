@@ -18,7 +18,7 @@ function ProjectListMain() {
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
-  const [searchKeyword, setSearchKeyword] = useState('');
+  // const [searchKeyword, setSearchKeyword] = useState('');
   const [isSearched, setIsSearched] = useState(false);
   const [isRecruitingFiltered, setIsRecruitingFiltered] = useState(false);
 
@@ -51,30 +51,25 @@ function ProjectListMain() {
     }
   };
 
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (keywordValue.length > 0) {
+        getSearchListData();
+        setIsSearched(true);
+      }
+      if (keywordValue.length === 0) {
+        setIsSearched(false);
+      }
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [keywordValue]);
+
   const handleCategoryClick = (key: string) => {
     setSelectedCategory(key);
   };
 
   const handleSearchChange = (keyword: string) => {
     setKeywordValue(keyword);
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearchKeyword(keywordValue);
-    keywordValue && getSearchListData();
-    if (keywordValue) {
-      setIsSearched(true);
-    } else if (isSearched && !keywordValue) {
-      setIsSearched(false);
-      getProjectListData();
-    }
-  };
-
-  const handleSearchCancelClick = () => {
-    setIsSearched(false);
-    getProjectListData();
-    setKeywordValue('');
   };
 
   const handleRecruitingFilterCheck = () => {
@@ -96,12 +91,9 @@ function ProjectListMain() {
       </div>
       <div className={styles.rightContainer}>
         <ProjectSearch
-          handleSubmit={handleSearchSubmit}
           handleChange={handleSearchChange}
           value={keywordValue}
-          searchKeyword={searchKeyword}
           isSearched={isSearched}
-          handleSearchCancelClick={handleSearchCancelClick}
         />
         <RecruitingProjectFilter
           isFilterChecked={isRecruitingFiltered}
