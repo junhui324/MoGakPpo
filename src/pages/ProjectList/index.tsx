@@ -6,6 +6,7 @@ import ProjectList from '../../components/ProjectList/ProjectList';
 import ProjectPostButton from '../../components/common/ProjectPostButton';
 import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
+import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
 
 function ProjectListMain() {
   const [isLoading, setIsLoading] = useState(false);
@@ -85,6 +86,7 @@ function ProjectListMain() {
           isSearched={isSearched}
           handleSearchCancelClick={handleSearchCancelClick}
         />
+        <RecruitingProjectFilter />
         <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
