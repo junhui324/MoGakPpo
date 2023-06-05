@@ -6,6 +6,7 @@ $grey: #64748B;
   background-color: rgba(226, 232, 240, 0.3);
   padding-top: 1.4rem;
   min-height: 480px;
+  width: 800px;
 }
 
 .contentConunt {
@@ -62,6 +63,10 @@ $grey: #64748B;
       font-size: 18px;
       padding-bottom: 1rem;
       font-weight: 600;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   
     .createdAt {
