@@ -83,7 +83,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
           <span> · </span>
           <span>댓글수 {commentsCount}</span>
           {/* 공유 버튼 */}
-          <ProjectShare />
+          <ProjectShare projectTitle={titleData.project_title} />
         </div>
       </div>
     );

@@ -1,5 +1,82 @@
 @import '/src/variables.scss';
 
+@mixin logo-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+
+  background-color: #f5f5f5;
+
+  cursor: pointer;
+}
+
+.modalContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 475px;
+  height: 225px;
+
+  .closeButton {
+    margin-left: auto;
+    margin-right: 18px;
+
+    border: none;
+    background-color: rgb(255, 255, 255, 0);
+
+    cursor: pointer;
+  }
+
+  .modalText {
+    font-size: 22px;
+    color: #555555;
+    text-align: center;
+
+    width: 450px;
+    padding-bottom: 30px;
+
+    border-bottom: 1px $gray-text-color solid;
+  }
+
+  .modalButtonBox {
+    margin-top: 30px;
+    .kakaoLogoCircle {
+      @include logo-circle;
+
+      margin: 0 16px;
+
+      background-color: #f5f5f5;
+    }
+    .facebookLogoCircle {
+      @include logo-circle;
+
+      margin: 0 16px;
+
+      background-color: #f5f5f5;
+    }
+    .twitterLogoCircle {
+      @include logo-circle;
+
+      margin: 0 16px;
+
+      background-color: #f5f5f5;
+    }
+    .linkLogoCircle {
+      @include logo-circle;
+
+      margin: 0 16px;
+
+      background-color: #f5f5f5;
+    }
+  }
+}
+
 .container {
   display: flex;
   align-items: center;
@@ -10,17 +87,13 @@
   cursor: pointer;
 
   .logoCircle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include logo-circle;
 
     margin-right: 6px;
     margin-top: 20px;
     width: 20px;
     height: 20px;
-    border-radius: 36px;
-
-    background-color: #f5f5f5;
+    border-radius: px;
   }
 
   p {
