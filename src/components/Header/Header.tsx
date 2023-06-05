@@ -9,7 +9,7 @@ import ProjectPostButton from '../common/ProjectPostButton';
 
 function Header() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
     setIsLoggedIn(isLoggedIn);
   }, []);
