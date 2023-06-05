@@ -14,44 +14,47 @@ const DOMAIN = `http://34.64.242.119:5000/api/v1`;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 // 개별 프로젝트 불러오기
-async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
+export async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
   const params = `projects/info/${projectId}`;
   const response: AxiosResponse = await Api.get(API_KEY, params);
   return response.data;
 }
 
 // 코멘트 리스트 불러오기
-async function getComment(projectId: number): Promise<CommentType.TypeComment> {
+export async function getComment(projectId: number): Promise<CommentType.TypeComment> {
   const params = `projects/5/comments`;
   // const params = `projects/${projectId}/comments`;
   return await Api.get(API_KEY, params, false);
 }
-async function postComment(
+export async function postComment(
   data: CommentType.TypeCommentPost
 ): Promise<CommentType.TypeCommentPost> {
   const params = `comments`;
   return await Api.post(API_KEY, params, data, true);
 }
-async function putComment(
+export async function putComment(
   commentId: number,
   data: CommentType.TypeComment
 ): Promise<CommentType.TypeComment> {
   const params = `comments/${commentId}`;
   return await Api.put(API_KEY, params, data, true);
 }
-async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
+export async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
   const params = `comments/${commentId}`;
   return await Api.delete(API_KEY, params, '', true);
 }
 
 // 모든 프로젝트 리스트 불러오기
-async function getProjects(): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
+export async function getProjects(): Promise<{
+  message: string;
+  data: ProjectType.TypeProjectList[];
+}> {
   const params = `projects`;
   return await Api.get(API_KEY, params, false);
 }
 
 // 카테고리로 프로젝트 리스트 불러오기
-async function getProjectsByCategory(
+export async function getProjectsByCategory(
   categoryId: string
 ): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
   const params = `projects/role/${categoryId}`;
@@ -59,7 +62,7 @@ async function getProjectsByCategory(
 }
 
 // 검색어로 프로젝트 리스트 불러오기
-async function getProjectsByKeyword(
+export async function getProjectsByKeyword(
   categoryId: string,
   keyword: string
 ): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
@@ -68,7 +71,7 @@ async function getProjectsByKeyword(
 }
 
 // 모집 중 프로젝트 리스트 불러오기
-async function getRecruitingProjects(categoryId: string): Promise<{
+export async function getRecruitingProjects(categoryId: string): Promise<{
   message: string;
   data: ProjectType.TypeProjectList[];
 }> {
@@ -76,7 +79,7 @@ async function getRecruitingProjects(categoryId: string): Promise<{
   return await Api.get(domain, params, false);
 }
 
-async function postProject(
+export async function postProject(
   data: ProjectType.TypeProjectPost
 ): Promise<{ message: string; data: number }> {
   const params = `projects/recruitment`;
@@ -84,7 +87,7 @@ async function postProject(
 }
 
 // 유저 프로필 불러오기
-async function getUserProfile(): Promise<{
+export async function getUserProfile(): Promise<{
   message: string;
   data: UserType.TypeUserProfile;
 }> {
@@ -94,7 +97,7 @@ async function getUserProfile(): Promise<{
 }
 
 // stack 전체 데이터 불러오기
-async function getStackList(): Promise<{
+export async function getStackList(): Promise<{
   message: string;
   data: StackType.TypeStacks;
 }> {
@@ -103,7 +106,7 @@ async function getStackList(): Promise<{
 }
 
 // 유저 작성 게시글 불러오기
-async function getUserPosts(): Promise<{
+export async function getUserPosts(): Promise<{
   message: string;
   data: { user_projects: ProjectType.TypeUserPosts };
 }> {
@@ -112,7 +115,7 @@ async function getUserPosts(): Promise<{
 }
 
 // 유저 정보 수정하기
-async function updateUserProfile(
+export async function updateUserProfile(
   data: UserType.TypeUserProfile
 ): Promise<UserType.TypeUserProfile> {
   const params = `/user/profile.json`;
@@ -121,7 +124,7 @@ async function updateUserProfile(
 }
 
 // 유저 작성 댓글 불러오기
-async function getUserComments(): Promise<{
+export async function getUserComments(): Promise<{
   message: string;
   data: { project_comments: CommentType.TypeMypageComments };
 }> {
@@ -129,21 +132,3 @@ async function getUserComments(): Promise<{
   // 나중에 마지막 매개변수 false -> true 로 수정해야 함
   return await Api.get(domain, params, false);
 }
-
-export {
-  updateUserProfile,
-  getUserComments,
-  getProject,
-  getComment,
-  postComment,
-  putComment,
-  deleteComment,
-  getProjects,
-  getUserProfile,
-  getStackList,
-  getUserPosts,
-  postProject,
-  getProjectsByCategory,
-  getProjectsByKeyword,
-  getRecruitingProjects,
-};
