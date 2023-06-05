@@ -11,7 +11,7 @@ interface ModalBasicProps {
 export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBasicProps) {
   const navigate = useNavigate();
   return (
-    <div className={styles.divContainer}>
+    <div>
       {modalOpen && (
         <ModalBasic setModalOpen={setModalOpen} closeButton={false}>
           <ul className={styles.ulContainer}>

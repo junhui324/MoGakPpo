@@ -1,5 +1,5 @@
 .container {
-  position: absolute;
+  position: relative;
   z-index: 9999;
   .contentsContainer {
     background-color: rgb(255, 255, 255);
@@ -23,8 +23,8 @@
 }
 
 .wideContainer {
-  position: absolute;
-  z-index: 1000;
+  position: fixed;
+  z-index: 99999;
   top: 0%;
   left: 0%;
   width: 100vw;
