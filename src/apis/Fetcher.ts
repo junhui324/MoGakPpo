@@ -10,8 +10,6 @@ import * as CommentType from '../interfaces/Comment.interface';
 const domain = `/mock`;
 
 const DOMAIN = `http://34.64.242.119:5000/api/v1`;
-const API_KEY: any = process.env.REACT_APP_API_KEY;
-
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 // 개별 프로젝트 불러오기
