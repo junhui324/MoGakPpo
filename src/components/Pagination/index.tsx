@@ -7,21 +7,19 @@ interface PaginationProps {
   onClickPage: (pageCount: number) => void,
 }
 
-
 function getPaginationArray(currentPage: number, total: number) {
   const MAX_PAGE_COUNT = 9;
   const resultList = [currentPage];
 
-  let idx = 1;
+  let index = 1;
   while (resultList.length < Math.min(MAX_PAGE_COUNT, total)) {
-    if (currentPage - idx > -1) resultList.unshift(currentPage - idx);
-    if (currentPage + idx < total) resultList.push(currentPage + idx);
-    idx++;
+    if (currentPage - index > -1) resultList.unshift(currentPage - index);
+    if (currentPage + index < total) resultList.push(currentPage + index);
+    index++;
   }
 
   return resultList;
 }
-
 
 function Pagination({ currPage, pageCount, onClickPage }: PaginationProps) {
 

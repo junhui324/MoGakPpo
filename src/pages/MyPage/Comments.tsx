@@ -68,13 +68,13 @@ function Comments() {
               </div>
             );
           })}
+          <Pagination 
+            currPage={currPage}
+            onClickPage={setCurrPage}
+            pageCount={Math.ceil(totalPageCount / PER_PAGE)}
+          />
         </div>
       )}
-      <Pagination 
-        currPage={currPage}
-        onClickPage={setCurrPage}
-        pageCount={Math.ceil(totalPageCount / PER_PAGE)}
-      />
     </div>
   );
 }
