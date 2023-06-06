@@ -6,19 +6,20 @@ import { TypeMypageComments } from '../../interfaces/Comment.interface';
 import { getUserComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
+import Pagination from '../../components/Pagination';
 
 function Comments() {
   const [comments, setComments] = useState<TypeMypageComments>([]);
+  const [currPage, setCurrPage] = useState<number>(0);
+  const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const navigate = useNavigate();
 
   const getUserCommentData = async () => {
     try {
-      const { message, data } = await getUserComments();
-
-      //console.log(message);
-      //console.log(data.project_comments);
+      const { data } = await getUserComments();
 
       setComments(data.project_comments);
+      setTotalPageCount(data.project_comments.length);
     } catch (error) {
       console.error('유저가 작성한 댓글을 가져오지 못했어요');
     }
@@ -28,6 +29,15 @@ function Comments() {
     event.preventDefault();
 
     navigate(`${ROUTES.PROJECT}${project_id}`);
+  };
+
+  const PER_PAGE = 5; // 한 페이지당 표시할 댓글 개수
+
+  // 현재 페이지에 해당하는 댓글들을 자르기
+  const getCurrentPageComments = () => {
+    const startIndex = currPage * PER_PAGE;
+    const endIndex = startIndex + PER_PAGE;
+    return comments.slice(startIndex, endIndex);
   };
 
   useEffect(() => {
@@ -44,7 +54,7 @@ function Comments() {
         </div>
       ) : (
         <div className={styles.comments}>
-          {comments.map((data, index) => {
+          {getCurrentPageComments().map((data, index) => {
             const { comment_content, comment_created_at, project_id, project_title } = data;
             return (
               <div
@@ -58,6 +68,11 @@ function Comments() {
               </div>
             );
           })}
+          <Pagination 
+            currPage={currPage}
+            onClickPage={setCurrPage}
+            pageCount={Math.ceil(totalPageCount / PER_PAGE)}
+          />
         </div>
       )}
     </div>

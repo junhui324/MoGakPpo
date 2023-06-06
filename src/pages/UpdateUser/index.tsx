@@ -7,6 +7,7 @@ import styles from './updateUser.module.scss';
 import { RiAddCircleFill } from 'react-icons/ri';
 import ROUTES from '../../constants/Routes';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
+import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>();
@@ -75,7 +76,7 @@ function UpdateUser() {
     try {
       const { data } = await getUserProfile();
       setUser(data);
-      setImageSrc(data.user_img);
+      setImageSrc(data.user_img || DefaultUserImg);
       setInputName(data.user_name);
       setInputIntro(data.user_introduction);
       setInputCareer(data.user_career_goal);
