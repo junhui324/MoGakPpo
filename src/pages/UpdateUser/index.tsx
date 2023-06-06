@@ -15,7 +15,7 @@ function UpdateUser() {
   const [inputNameLength, setInputNameLength] = useState<number>(0);
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
-  const [isChanged, setIsChanged] = useState<boolean>(false);
+  const [isInputChanged, setIsChanged] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputNameRef = useRef<HTMLInputElement>(null);
@@ -32,10 +32,6 @@ function UpdateUser() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-
-    fileInputRef.current?.value !== user?.user_img 
-    ? setIsChanged(true) 
-    : setIsChanged(false);
   };
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +87,7 @@ function UpdateUser() {
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (isValidName() && isChanged && window.confirm('수정하시겠습니까?')) {
+    if (isValidName() && isInputChanged && window.confirm('수정하시겠습니까?')) {
       try {
         if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
           const updatedUserData = {
@@ -122,17 +118,33 @@ function UpdateUser() {
     const getUserData = async () => {
       try {
         const { data } = await getUserProfile();
+  
+        if (data.user_stacks && data.user_stacks.stackList) {
+          setUserStack(data.user_stacks.stackList);
+        } else {
+          setUserStack([]);
+        }
+
+        if (data.user_introduction) {
+          setInputIntroLength(data.user_introduction.length);
+        } else {
+          setInputIntroLength(0);
+        }
+
+        if (data.user_career_goal) {
+          setInputCareerLength(data.user_career_goal.length);
+        } else {
+          setInputCareerLength(0);
+        }
+  
         setUser(data);
         setImageSrc(data.user_img || DefaultUserImg);
-        setUserStack(data.user_stacks.stackList);
         setInputNameLength(data.user_name.length);
-        setInputIntroLength(data.user_introduction.length);
-        setInputCareerLength(data.user_career_goal.length);
       } catch (error) {
         console.log(error);
       }
     };
-
+  
     getUserData();
   }, []);
 
@@ -156,7 +168,7 @@ function UpdateUser() {
     compareUserData();
   }, [inputNameRef.current, inputCareerRef.current, inputCareerRef.current]);
 
-  const buttonClassName = isValidName() && isChanged ? styles.submitButton : styles.disabledButton;
+  const buttonClassName = isValidName() && isInputChanged ? styles.submitButton : styles.disabledButton;
 
   return (
     <div className={styles.container}>
@@ -165,7 +177,7 @@ function UpdateUser() {
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
-              src={imageSrc}
+              src={imageSrc || DefaultUserImg}
               alt={user.user_name}
               onClick={handleImageChange}
             />
@@ -220,7 +232,7 @@ function UpdateUser() {
           <button 
             className={buttonClassName} 
             onClick={handleSubmit} 
-            disabled={isValidName() === false || isChanged === false}
+            disabled={isValidName() === false || isInputChanged === false}
           >
             완료
           </button>
