@@ -7,11 +7,12 @@ import * as ProjectType from '../../interfaces/Project.interface';
 import * as Fetcher from '../../apis/Fetcher';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { projectState, classificationState } from '../../recoil/projectState';
+import { projectState, classificationState, projectIdState } from '../../recoil/projectState';
 
 function ProjectPreview() {
   const [project, setProject] = useRecoilState(projectState);
   const classification = useRecoilValue(classificationState);
+  const projectId = useRecoilValue(projectIdState);
   const resetProject = useResetRecoilState(projectState);
   const [titleData, setTitleData] = useState<any>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
@@ -97,7 +98,7 @@ function ProjectPreview() {
   //백엔드에 게시물 데이터 전송하는 PATCH 함수
   const patchProject = async () => {
     try {
-      const res = await Fetcher.patchProject(project, 39);
+      const res = await Fetcher.patchProject(project, projectId);
       // @ts-ignore
       return res.data.project_id;
     } catch (error) {

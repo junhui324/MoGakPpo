@@ -25,3 +25,8 @@ export const classificationState = atom<string>({
   key: 'classificationState',
   default: '',
 });
+
+export const projectIdState = atom<number>({
+  key: 'projectIdState',
+  default: 0,
+});

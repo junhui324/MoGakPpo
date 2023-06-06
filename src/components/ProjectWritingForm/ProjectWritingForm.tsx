@@ -19,12 +19,18 @@ import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { useRecoilState } from 'recoil';
-import { projectState, stackListState, classificationState } from '../../recoil/projectState';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  projectState,
+  stackListState,
+  classificationState,
+  projectIdState,
+} from '../../recoil/projectState';
 
 function ProjectWritingForm() {
   const [project, setProject] = useRecoilState(projectState);
   const [classification, setClassification] = useRecoilState(classificationState);
+  const projectId = useRecoilValue(projectIdState);
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
@@ -37,7 +43,7 @@ function ProjectWritingForm() {
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
   const getProjectData = async () => {
     try {
-      const data = await Fetcher.getProject(39);
+      const data = await Fetcher.getProject(projectId);
       console.log(data);
       setProject({
         ...project,
@@ -217,7 +223,7 @@ function ProjectWritingForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  console.log('project : ', project);
+  //console.log('project : ', project);
   //console.log('stackList : ', stackList);
 
   useBeforeUnload();

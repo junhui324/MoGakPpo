@@ -8,6 +8,9 @@ import { TypeProjectModify, TypeProject } from '../../interfaces/Project.interfa
 import styles from './ProjectModifyBlock.module.scss';
 // 상수
 import { PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
+
+import { useNavigate } from 'react-router-dom';
+
 // 문자열 상수
 const RECRUITING = '모집 중';
 const COMPLETE = '모집 완료';
@@ -70,9 +73,16 @@ function RecruitmentCompleteButton({
   );
 }
 
-function ModifyButton({ recruitmentStatus }: { recruitmentStatus: string }) {
+interface ModifyButtonType {
+  recruitmentStatus: string;
+  onClick: () => void;
+}
+
+function ModifyButton({ recruitmentStatus, onClick }: ModifyButtonType) {
   return recruitmentStatus === RECRUITING ? (
-    <button className={styles.modifyButton}>수정</button>
+    <button className={styles.modifyButton} onClick={onClick}>
+      수정
+    </button>
   ) : recruitmentStatus === COMPLETE ? (
     <button disabled={true} className={styles.modifyDisableButton}>
       수정
@@ -93,6 +103,7 @@ export default function ProjectModifyBlock({
 }) {
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const recruitmentComplete = () => {
     try {
@@ -129,6 +140,10 @@ export default function ProjectModifyBlock({
     }
   };
 
+  const handleModifyClick = () => {
+    navigate(`/modify`);
+  };
+
   if (modifyData) {
     const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
 
@@ -140,7 +155,10 @@ export default function ProjectModifyBlock({
             onClick={() => setIsCompleteModalOpen(true)}
           />
           <div className={styles.modifyContainer}>
-            <ModifyButton recruitmentStatus={recruitmentStatus} />
+            <ModifyButton
+              recruitmentStatus={recruitmentStatus}
+              onClick={() => handleModifyClick()}
+            />
             <button className={styles.deleteButton} onClick={() => setIsDeleteModalOpen(true)}>
               삭제
             </button>
