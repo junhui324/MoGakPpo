@@ -1,14 +1,19 @@
+//패키지
 import { useEffect, useRef, useState } from 'react';
-import styles from './Comment.module.scss';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import TextareaAutosize from 'react-textarea-autosize';
+//Type, Api
 import { TypeComment } from '../../interfaces/Comment.interface';
 import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
+//util,모듈,컴포넌트
 import getUserInfo from '../../utils/getUserInfo';
 import getDateFormat from '../../utils/getDateFormat';
+import CommentModal from './CommentModal';
+//이미지,아이콘,CSS
+import styles from './Comment.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import NoContentImage from '../../assets/NoContent.png';
-import TextareaAutosize from 'react-textarea-autosize';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export default function Comment() {
@@ -16,7 +21,10 @@ export default function Comment() {
   const [user, setUser] = useState<TypeUser | null>(null);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
+
   const [isListUpdated, setIsListUpdated] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const postTextareaRef = useRef('');
   const editTextareaRef = useRef('');
   //라우팅관련
@@ -212,8 +220,17 @@ export default function Comment() {
                     </Link>
                     <p>{getDateFormat(comment.comment_created_at)}</p>
                   </div>
-                  <div className={styles.dotIcon}>
-                    <BsThreeDotsVertical />
+                  <div className={styles.dotButton}>
+                    <BsThreeDotsVertical
+                      onClick={() => {
+                        setSelectedCommentId(comment.comment_id);
+                        setModalOpen(true);
+                      }}
+                    />
+                    <CommentModal
+                      modalOpen={modalOpen && selectedCommentId === comment.comment_id}
+                      setModalOpen={setModalOpen}
+                    />
                   </div>
                 </div>
                 {isEditing ? (
