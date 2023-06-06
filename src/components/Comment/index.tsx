@@ -69,6 +69,10 @@ export default function Comment() {
   //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
   const loggedInUserInputClicked = () => {
     const handleSubmitButtonClick = async () => {
+      //@ts-ignore
+      if (!postTextareaRef.current.value) {
+        alert('댓글을 입력해주세요.');
+      }
       //신규 댓글 등록
       try {
         const response = await postComment({
@@ -174,6 +178,10 @@ export default function Comment() {
               setEditingCommentId(comment.comment_id);
             };
             const handleEditSubmitButtonClick = async () => {
+              //@ts-ignore
+              if (!editTextareaRef.current.value) {
+                alert('댓글을 입력해주세요.');
+              }
               try {
                 //@ts-ignore
                 const response = await putComment(comment.comment_id, {
