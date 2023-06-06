@@ -13,6 +13,7 @@ import styles from './Project.module.scss';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 import { deleteProjectBookmark, postProjectBookmark } from '../../apis/Fetcher';
+import { getIsNew } from '../../utils/getIsNew';
 
 interface projectDataProps {
   projectData: TypeProjectList;
@@ -20,12 +21,6 @@ interface projectDataProps {
 
 function Project({ projectData }: projectDataProps) {
   const navigate = useNavigate();
-  const isNewProject = (createdAt: string) => {
-    const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    const createdAtDate = new Date(createdAt);
-    return createdAtDate > threeDaysAgo;
-  };
 
   const {
     is_bookmarked: isBookmarked,
@@ -67,7 +62,6 @@ function Project({ projectData }: projectDataProps) {
 
   return (
     <li
-      // ref={innerRef ? innerRef : undefined}
       key={projectId}
       className={styles.listContainer}
       onClick={() => {
@@ -107,7 +101,7 @@ function Project({ projectData }: projectDataProps) {
           {PROJECT_RECRUITMENT_STATUS[recruitmentStatus]}
         </span>
         <p className={styles.title}>{title}</p>
-        {isNewProject(createdAt) && <span className={styles.newTag}>NEW</span>}
+        {getIsNew(createdAt) && <span className={styles.newTag}>NEW</span>}
       </div>
       {summary && <p className={styles.summary}>{summary}</p>}{' '}
       {recruitmentRoles && (
