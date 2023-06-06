@@ -37,7 +37,7 @@ function ProjectListMain() {
     try {
       if (pageCount === 0 && !isRecruitingFiltered) {
         const projectList =
-          pageCount === 0 && !isRecruitingFiltered && selectedCategory === 'ALL'
+          selectedCategory === 'ALL'
             ? await getProjects()
             : await getProjectsByCategory(`"${selectedCategory}"`);
         setProjectList(projectList.data);
@@ -87,9 +87,9 @@ function ProjectListMain() {
     setIsRecruitingFiltered((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   getProjectListData();
-  // }, [selectedCategory, isRecruitingFiltered, pageCount]);
+  useEffect(() => {
+    getProjectListData();
+  }, []);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
