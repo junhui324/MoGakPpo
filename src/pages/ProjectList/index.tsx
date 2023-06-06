@@ -31,6 +31,7 @@ function ProjectListMain() {
       const pageSize = projectList.data.pageSize;
       setPageSize(pageSize);
       setProjectList(projectList.data.pagenatedProjects);
+      pageSize <= 1 && setMoreData(false);
     } catch (error) {
       setMoreData(false);
       console.error('포스팅을 가져오지 못했어요');
@@ -61,7 +62,7 @@ function ProjectListMain() {
   };
 
   const target = useInfiniteScroll(async (entry, observer) => {
-    //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
+    //토탈 페이지 수의 전 페이지까지만 다음 페이지 데이터 업데이트하기
     pageSize > pageCount && (await getNextProjectListData());
   });
 
