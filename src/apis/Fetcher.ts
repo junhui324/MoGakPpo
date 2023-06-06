@@ -95,27 +95,9 @@ export async function getProjects(
   message: string;
   data: { pageSize: number; pagenatedProjects: ProjectType.TypeProjectList[] };
 }> {
-  const params = `projects?cate=${cate}&recruiting=${recruiting}&keyword=${
-    keyword ?? false
-  }&page=${page}`;
-  return await Api.get(API_KEY, params, true);
-}
-
-// 카테고리로 프로젝트 리스트 불러오기
-export async function getProjectsByCategory(
-  categoryId: string
-): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
-  const params = `projects/role/${categoryId}`;
-  return await Api.get(API_KEY, params, false);
-}
-
-// 검색어로 프로젝트 리스트 불러오기
-export async function getProjectsByKeyword(
-  categoryId: string,
-  keyword: string
-): Promise<{ message: string; data: ProjectType.TypeProjectList[] }> {
-  const params = `projects/cate=${categoryId}&search=${keyword}.json`;
-  return await Api.get(domain, params, false);
+  const params = `projects`;
+  const query = `cate=${cate}&recruiting=${recruiting}&keyword=${keyword ?? false}&page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
 }
 
 // 모집 중 프로젝트 리스트 불러오기

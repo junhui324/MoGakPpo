@@ -1,10 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  getProjects,
-  getProjectsByCategory,
-  getProjectsByKeyword,
-  getRecruitingProjects,
-} from '../../apis/Fetcher';
+import { useEffect, useState } from 'react';
+import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
@@ -16,7 +11,6 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 function ProjectListMain() {
   const [pageCount, setPageCount] = useState(1);
-  // const [pageSize, ]
   const [moreData, setMoreData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
@@ -34,6 +28,7 @@ function ProjectListMain() {
         pageCount
       );
       setProjectList(projectList.data.pagenatedProjects);
+      console.log(projectList.data.pagenatedProjects);
     } catch (error) {
       setMoreData(false);
       console.error('포스팅을 가져오지 못했어요');
@@ -98,10 +93,10 @@ function ProjectListMain() {
     getProjectListData();
   }, [selectedCategory, recruitingFilter, keywordValue]);
 
+  //검색 쓰로틀링
   useEffect(() => {
     if (isSearched === true) {
       setTimeout(() => {
-        console.log(2);
         getProjectListData();
         window.scroll(0, 0);
       }, 1000);

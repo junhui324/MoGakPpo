@@ -19,7 +19,6 @@ async function request<T>({
   requiresToken = true,
 }: RequestParams<T>): Promise<T> {
   const apiUrl = params ? `${endpoint}/${params}?${query}` : endpoint;
-
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
   };
