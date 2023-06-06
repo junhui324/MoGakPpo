@@ -68,7 +68,6 @@
   padding: 0;
   width: 686px;
   .comment {
-    // box-shadow: rgba(0, 0, 0, 0.08) 0px 16px 56px;
     background-color: white;
     border: 1px solid #f1f3f5;
     border-radius: 8px;
@@ -113,6 +112,12 @@
     }
     .content {
       padding: 20px 0;
+      border: 0;
+      margin: 0;
+      &:focus {
+        border: 0;
+        outline-style: none;
+      }
     }
   }
 }
