@@ -10,10 +10,11 @@ import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProj
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 function ProjectListMain() {
-  const [pageCount, setPageCount] = useState(1);
-  const [moreData, setMoreData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
+  const [pageCount, setPageCount] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [moreData, setMoreData] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [keywordValue, setKeywordValue] = useState('');
   const [isSearched, setIsSearched] = useState(false);
@@ -27,8 +28,9 @@ function ProjectListMain() {
         keywordValue,
         pageCount
       );
+      const pageSize = projectList.data.pageSize;
+      setPageSize(pageSize);
       setProjectList(projectList.data.pagenatedProjects);
-      console.log(projectList.data.pagenatedProjects);
     } catch (error) {
       setMoreData(false);
       console.error('포스팅을 가져오지 못했어요');
@@ -46,7 +48,7 @@ function ProjectListMain() {
         keywordValue,
         pageCount
       );
-      const pageSize = projectList.data.pageSize;
+      //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
       pageSize - 1 <= pageCount && setMoreData(false);
       setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
       setPageCount((prev) => prev + 1);
@@ -59,7 +61,8 @@ function ProjectListMain() {
   };
 
   const target = useInfiniteScroll(async (entry, observer) => {
-    moreData && (await getNextProjectListData());
+    //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
+    pageSize > pageCount && (await getNextProjectListData());
   });
 
   const handleCategoryClick = async (key: string) => {
@@ -70,10 +73,10 @@ function ProjectListMain() {
   };
 
   const handleSearchChange = (keyword: string) => {
-    setSelectedCategory('all');
-    setPageCount(1);
-    setMoreData(true);
     setKeywordValue(keyword);
+    setPageCount(1);
+    setSelectedCategory('all');
+    setMoreData(true);
     if (keywordValue.length > 0) {
       setIsSearched(true);
     }
@@ -83,9 +86,9 @@ function ProjectListMain() {
   };
 
   const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
     setPageCount(1);
     setMoreData(true);
-    setRecruitingFilter(value);
   };
 
   useEffect(() => {
