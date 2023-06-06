@@ -21,7 +21,6 @@ import { BiDotsVertical } from 'react-icons/bi';
 
 //상수
 import ROUTES from '../../constants/Routes';
-import { load } from 'react-cookies';
 
 const LOADING_LOGO_SIZE: number = 32;
 const LOADING_LOGO_COLOR: string = '#95a4b0';
@@ -158,7 +157,7 @@ function Project() {
         </div>
         <div className={styles.rightContainer}>
           <ProjectAuthorProfile authorData={authorData} />
-          <ProjectBookmarkBlock bookmarksData={bookmarksData} />
+          <ProjectBookmarkBlock bookmarksData={bookmarksData} fetchData={fetchData} />
           {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
           {isAuthor() ? (
             <ProjectModifyBlock modifyData={modifyData} fetchData={fetchData} />
