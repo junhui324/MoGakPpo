@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RiAddCircleFill } from 'react-icons/ri';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
+import debounce from '../../utils/debounce';
 import Stack from "../../components/Stack";
-import styles from './updateUser.module.scss';
-import { RiAddCircleFill } from 'react-icons/ri';
 import ROUTES from '../../constants/Routes';
+import styles from './updateUser.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
@@ -51,8 +52,7 @@ function UpdateUser() {
     input: React.RefObject<HTMLInputElement | HTMLTextAreaElement>,
     max: number
   ) => {
-
-    switch(input.current?.name) {
+    switch (input.current?.name) {
       case 'name': {
         const { value } = e.target;
         if (value.length <= max && input.current) {
@@ -72,9 +72,12 @@ function UpdateUser() {
         if (value.length <= max && input.current) {
           setInputCareerLength(input.current?.value.length);
         }
+        break;
       }
     }
   };
+
+  const debouncedHandleChange = useRef(debounce(handleChange, 300));
 
   const handleSetStackList = (stacks: string[]) => {
     setUserStack(stacks);
@@ -199,7 +202,7 @@ function UpdateUser() {
               ref={inputNameRef}
               placeholder="이름을 입력해 주세요."
               maxLength={MAX_NAME_COUNT}
-              onChange={(e) => handleChange(e, inputNameRef, MAX_NAME_COUNT)}
+              onChange={(e) => debouncedHandleChange.current(e, inputNameRef, MAX_NAME_COUNT)}
             />
             <p>{inputNameLength}/{MAX_NAME_COUNT}</p>
           </div>
@@ -211,7 +214,7 @@ function UpdateUser() {
               ref={inputIntroRef}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
-              onChange={(e) => handleChange(e, inputIntroRef, MAX_INTRO_COUNT)}
+              onChange={(e) => debouncedHandleChange.current(e, inputIntroRef, MAX_INTRO_COUNT)}
             />
             <p>{inputIntroLength}/{MAX_INTRO_COUNT}</p>
           </div>
@@ -224,7 +227,7 @@ function UpdateUser() {
               ref={inputCareerRef}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
-              onChange={(e) => handleChange(e, inputCareerRef, MAX_CAREER_COUNT)}
+              onChange={(e) => debouncedHandleChange.current(e, inputCareerRef, MAX_CAREER_COUNT)}
             />
             <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
           </div>
