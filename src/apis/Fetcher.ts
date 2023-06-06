@@ -203,11 +203,11 @@ export async function updateUserProfile(
 }
 
 // 유저 작성 댓글 불러오기
-export async function getUserComments(): Promise<{
+export async function getUserComments(page: number): Promise<{
   message: string;
-  data: { project_comments: CommentType.TypeMypageComments };
+  data: { listLength:number, pageSize: number, pagenatedComments : CommentType.TypeMypageComments };
 }> {
-  const params = `comments/user`;
+  const params = `comments/user?page=${page}`;
   return await Api.get(API_KEY, params);
 }
 // 유저 작성 댓글 불러오기
