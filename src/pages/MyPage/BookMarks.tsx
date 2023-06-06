@@ -12,33 +12,24 @@ import { useNavigate } from 'react-router-dom';
 function BookMarks() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [currPage, setCurrPage] = useState<number>(0);
+  const [currPage, setCurrPage] = useState<number>(1);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
   const getUserBookmarkData = async () => {
     try {
-      const userBookmarksData = await getUserBookmarks();
-      setProjects(userBookmarksData.data.user_projects);
-      setTotalPageCount(userBookmarksData.data.user_projects.length);
+      const userBookmarksData = await getUserBookmarks(currPage);
+      setProjects(userBookmarksData.data.pagenatedProjects);
+      setTotalPageCount(userBookmarksData.data.pageSize);
     } catch (error) {
-      console.error('유저가 작성한 포스팅을 가져오지 못했어요');
+      console.error('유저가 북마크 한 포스팅을 가져오지 못했어요');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const PER_PAGE = 5; // 한 페이지당 표시할 게시글 개수
-
-  // 현재 페이지에 해당하는 게시글들을 자르기
-  const getCurrentPageBookmarks = () => {
-    const startIndex = currPage * PER_PAGE;
-    const endIndex = startIndex + PER_PAGE;
-    return projects.slice(startIndex, endIndex);
-  };
-
   useEffect(() => {
     getUserBookmarkData();
-  }, []);
+  }, [currPage]);
 
   return (
     <div className={styles.container}>
@@ -48,7 +39,7 @@ function BookMarks() {
           {isLoading && <LoadingProject />}
           {projects.length > 0 &&
             !isLoading &&
-            getCurrentPageBookmarks().map((post) => {
+            projects.map((post) => {
               const {
                 project_id,
                 project_type,
@@ -91,11 +82,13 @@ function BookMarks() {
             </div>
           )}
         </ul>
-        <Pagination
-          currPage={currPage}
-          onClickPage={setCurrPage}
-          pageCount={Math.ceil(totalPageCount / PER_PAGE)}
-        />
+        {projects.length > 0 && !isLoading && (
+          <Pagination
+            currPage={currPage}
+            onClickPage={setCurrPage}
+            pageCount={Math.ceil(totalPageCount)}
+          />
+        )}
       </div>
     </div>
   );

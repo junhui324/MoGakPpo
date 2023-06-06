@@ -2,9 +2,9 @@ import styles from './pagination.module.scss';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 
 interface PaginationProps {
-  currPage: number,
-  pageCount: number,
-  onClickPage: (pageCount: number) => void,
+  currPage: number;
+  pageCount: number;
+  onClickPage: (pageCount: number) => void;
 }
 
 function getPaginationArray(currentPage: number, total: number) {
@@ -22,10 +22,9 @@ function getPaginationArray(currentPage: number, total: number) {
 }
 
 function Pagination({ currPage, pageCount, onClickPage }: PaginationProps) {
-
   return (
     <div className={styles.container}>
-      <button 
+      <button
         className={styles.leftArrow}
         disabled={currPage <= 0}
         onClick={() => currPage > 0 && onClickPage(currPage - 1)}
@@ -35,17 +34,17 @@ function Pagination({ currPage, pageCount, onClickPage }: PaginationProps) {
       <div>
         {getPaginationArray(currPage, pageCount).map((page) => {
           return (
-            <button 
-              className={`${styles.button} ${currPage === page ? styles.active : ""}`}
+            <button
+              className={`${styles.button} ${currPage === page ? styles.active : ''}`}
               key={`pagination-button-${page}`}
               onClick={() => onClickPage(page)}
             >
               {page + 1}
             </button>
-          )
+          );
         })}
       </div>
-      <button 
+      <button
         className={styles.rightArrow}
         disabled={currPage >= pageCount - 1}
         onClick={() => currPage < pageCount - 1 && onClickPage(currPage + 1)}
@@ -53,7 +52,7 @@ function Pagination({ currPage, pageCount, onClickPage }: PaginationProps) {
         <RiArrowRightSLine />
       </button>
     </div>
-  )
+  );
 }
 
 export default Pagination;

@@ -1,22 +1,22 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { RiAddCircleFill } from 'react-icons/ri';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
+import debounce from '../../utils/debounce';
 import Stack from "../../components/Stack";
-import styles from './updateUser.module.scss';
-import { RiAddCircleFill } from 'react-icons/ri';
 import ROUTES from '../../constants/Routes';
-import useBeforeUnload from '../../hooks/useBeforeUnload';
+import styles from './updateUser.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
-  const [user, setUser] = useState<TypeUserProfile | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | undefined>(DefaultUserImg);
+  const [user, setUser] = useState<TypeUserProfile>({} as TypeUserProfile);
+  const [imageSrc, setImageSrc] = useState<string>(DefaultUserImg);
   const [userStack, setUserStack] = useState<string[]>([]);
   const [inputNameLength, setInputNameLength] = useState<number>(0);
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
-  const [isChanged, setIsChanged] = useState<boolean>(false);
+  const [isInputChanged, setIsChanged] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputNameRef = useRef<HTMLInputElement>(null);
@@ -33,10 +33,6 @@ function UpdateUser() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-
-    fileInputRef.current?.value !== user?.user_img 
-    ? setIsChanged(true) 
-    : setIsChanged(false);
   };
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,28 +50,34 @@ function UpdateUser() {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     input: React.RefObject<HTMLInputElement | HTMLTextAreaElement>,
-    inputStateSetter: React.Dispatch<React.SetStateAction<number>>,
     max: number
   ) => {
-    const { value } = e.target;
-    if (value.length <= max && input.current) {
-      inputStateSetter(input.current?.value.length);
-    }
-
-    switch(input.current?.name) {
+    switch (input.current?.name) {
       case 'name': {
-        input.current.value !== user?.user_name ? setIsChanged(true) : setIsChanged(false);
+        const { value } = e.target;
+        if (value.length <= max && input.current) {
+          setInputNameLength(input.current?.value.length);
+        }
         break;
       }
       case 'intro': {
-        input.current.value !== user?.user_introduction ? setIsChanged(true) : setIsChanged(false);
+        const { value } = e.target;
+        if (value.length <= max && input.current) {
+          setInputIntroLength(input.current?.value.length);
+        }
         break;
       }
       case 'career': {
-        input.current.value !== user?.user_career_goal ? setIsChanged(true) : setIsChanged(false);
+        const { value } = e.target;
+        if (value.length <= max && input.current) {
+          setInputCareerLength(input.current?.value.length);
+        }
+        break;
       }
     }
   };
+
+  const debouncedHandleChange = useRef(debounce(handleChange, 300));
 
   const handleSetStackList = (stacks: string[]) => {
     setUserStack(stacks);
@@ -88,7 +90,7 @@ function UpdateUser() {
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (isValidName() && isChanged && window.confirm('수정하시겠습니까?')) {
+    if (isValidName() && isInputChanged && window.confirm('수정하시겠습니까?')) {
       try {
         if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
           const updatedUserData = {
@@ -112,29 +114,64 @@ function UpdateUser() {
   };
 
   const handleCancel = () => {
-    
+    navigate(`${ROUTES.MY_PAGE}`);
   }
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const { data } = await getUserProfile();
+  
+        if (data.user_stacks && data.user_stacks.stackList) {
+          setUserStack(data.user_stacks.stackList);
+        } else {
+          setUserStack([]);
+        }
+
+        if (data.user_introduction) {
+          setInputIntroLength(data.user_introduction.length);
+        } else {
+          setInputIntroLength(0);
+        }
+
+        if (data.user_career_goal) {
+          setInputCareerLength(data.user_career_goal.length);
+        } else {
+          setInputCareerLength(0);
+        }
+  
         setUser(data);
         setImageSrc(data.user_img || DefaultUserImg);
-        setUserStack(data.user_stacks.stackList);
         setInputNameLength(data.user_name.length);
-        setInputIntroLength(data.user_introduction.length);
-        setInputCareerLength(data.user_career_goal.length);
       } catch (error) {
-        alert('잘못된 접근입니다. 로그인 및 회원가입을 진행해주세요');
-        navigate(`${ROUTES.LOGIN}`);
+        console.log(error);
       }
     };
-
+  
     getUserData();
   }, []);
 
-  const buttonClassName = isValidName() && isChanged ? styles.submitButton : styles.disabledButton;
+  useEffect(() => {
+    const compareUserData = () => {
+      if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
+        const isNameChanged = inputNameRef.current.value.trim() !== user.user_name;
+        const isIntroChanged = inputIntroRef.current.value !== user.user_introduction;
+        const isCareerChanged = inputCareerRef.current.value !== user.user_career_goal;
+        const isStackChanged = JSON.stringify(userStack) !== JSON.stringify(user.user_stacks?.stackList);
+
+        setIsChanged(
+          isNameChanged ||
+          isIntroChanged ||
+          isCareerChanged ||
+          isStackChanged
+        );
+      }
+    };
+
+    compareUserData();
+  }, [inputNameRef.current, inputCareerRef.current, inputCareerRef.current]);
+
+  const buttonClassName = isValidName() && isInputChanged ? styles.submitButton : styles.disabledButton;
 
   return (
     <div className={styles.container}>
@@ -143,7 +180,7 @@ function UpdateUser() {
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
-              src={imageSrc}
+              src={imageSrc || DefaultUserImg}
               alt={user.user_name}
               onClick={handleImageChange}
             />
@@ -165,7 +202,7 @@ function UpdateUser() {
               ref={inputNameRef}
               placeholder="이름을 입력해 주세요."
               maxLength={MAX_NAME_COUNT}
-              onChange={(e) => handleChange(e, inputNameRef, setInputNameLength, MAX_NAME_COUNT)}
+              onChange={(e) => debouncedHandleChange.current(e, inputNameRef, MAX_NAME_COUNT)}
             />
             <p>{inputNameLength}/{MAX_NAME_COUNT}</p>
           </div>
@@ -177,20 +214,20 @@ function UpdateUser() {
               ref={inputIntroRef}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
-              onChange={(e) => handleChange(e, inputIntroRef, setInputIntroLength, MAX_INTRO_COUNT)}
+              onChange={(e) => debouncedHandleChange.current(e, inputIntroRef, MAX_INTRO_COUNT)}
             />
             <p>{inputIntroLength}/{MAX_INTRO_COUNT}</p>
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
             <input
-              name="career"
               type="text"
+              name="career"
               defaultValue={user.user_career_goal}
               ref={inputCareerRef}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
-              onChange={(e) => handleChange(e, inputCareerRef, setInputCareerLength, MAX_CAREER_COUNT)}
+              onChange={(e) => debouncedHandleChange.current(e, inputCareerRef, MAX_CAREER_COUNT)}
             />
             <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
           </div>
@@ -198,7 +235,7 @@ function UpdateUser() {
           <button 
             className={buttonClassName} 
             onClick={handleSubmit} 
-            disabled={isValidName() === false || isChanged === false}
+            disabled={isValidName() === false || isInputChanged === false}
           >
             완료
           </button>

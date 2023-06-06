@@ -4,6 +4,7 @@ import Tab from './Tab';
 import Posts from './Posts';
 import Comments from './Comments';
 import BookMarks from './BookMarks';
+import styles from './myPage.module.scss';
 
 function MyPage() {
   const tabs = ['게시글', '댓글', '북마크'];
@@ -14,7 +15,7 @@ function MyPage() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <Profile />
       <Tab tabs={tabs} currTab={currTab} onClick={handleClickTab} />
       {currTab === '게시글' && <Posts />}

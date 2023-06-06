@@ -14,15 +14,6 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   const [searchWord, setSearchWord] = useState<string>('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  const getStackData = async () => {
-    try {
-      const { data } = await getStackList();
-      setStacks(data.stackList);
-    } catch (error) {
-      console.error('스택을 가져오지 못했어요');
-    }
-  };
-
   const handleDelete = (stack: string) => {
     setSelected((prevSelected) => prevSelected.filter((selectedStack) => selectedStack !== stack));
   };
@@ -65,6 +56,14 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   };
 
   useEffect(() => {
+    const getStackData = async () => {
+      try {
+        const { data } = await getStackList();
+        setStacks(data.stackList);
+      } catch (error) {
+        console.error('스택을 가져오지 못했어요');
+      }
+    };
     getStackData();
   }, []);
 

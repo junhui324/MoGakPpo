@@ -171,12 +171,13 @@ export async function getUserPostsById(userId: number): Promise<{
 }
 
 // 유저 북마크 게시글 불러오기
-export async function getUserBookmarks(): Promise<{
+export async function getUserBookmarks(page: number): Promise<{
   message: string;
-  data: { user_projects: ProjectType.TypeUserPosts };
+  data: { listLength: number; pageSize: number; pagenatedProjects: ProjectType.TypeUserPosts };
 }> {
   const params = `projects/user/bookmark`;
-  return await Api.get(API_KEY, params, true);
+  const query = `page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
 }
 
 // 유저 정보 수정하기
@@ -188,11 +189,11 @@ export async function updateUserProfile(
 }
 
 // 유저 작성 댓글 불러오기
-export async function getUserComments(): Promise<{
+export async function getUserComments(page: number): Promise<{
   message: string;
-  data: { project_comments: CommentType.TypeMypageComments };
+  data: { listLength: number; pageSize: number; pagenatedComments: CommentType.TypeMypageComments };
 }> {
-  const params = `comments/user`;
+  const params = `comments/user?page=${page}`;
   return await Api.get(API_KEY, params);
 }
 // 유저 작성 댓글 불러오기

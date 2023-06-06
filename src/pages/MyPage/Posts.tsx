@@ -28,18 +28,9 @@ function Posts() {
     }
   };
 
-  // const PER_PAGE = 5; // 한 페이지당 표시할 게시글 개수
-
-  // // 현재 페이지에 해당하는 게시글들을 자르기
-  // const getCurrentPageProjects = () => {
-  //   const startIndex = currPage * PER_PAGE;
-  //   const endIndex = startIndex + PER_PAGE;
-  //   return projects.slice(startIndex, endIndex);
-  // };
-
   useEffect(() => {
     getUserPostsData();
-  }, []);
+  }, [currPage]);
 
   return (
     <div className={styles.container}>
@@ -92,11 +83,13 @@ function Posts() {
             </div>
           )}
         </ul>
-        <Pagination
-          currPage={currPage}
-          onClickPage={setCurrPage}
-          pageCount={Math.ceil(totalPageCount / projects.length)}
-        />
+        {projects.length > 0 && !isLoading && (
+          <Pagination
+            currPage={currPage}
+            onClickPage={setCurrPage}
+            pageCount={Math.ceil(totalPageCount)}
+          />
+        )}
       </div>
     </div>
   );
