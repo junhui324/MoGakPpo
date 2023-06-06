@@ -158,14 +158,16 @@ export default function Comment() {
             //수정, 삭제버튼 이벤트 처리
             const isEditing = editingCommentId === comment.comment_id;
             const handleDeleteButtonClick = async () => {
-              try {
-                const response = await deleteComment(comment.comment_id);
-                //@ts-ignore
-                if (response.message === '댓글 삭제 성공') {
-                  setIsListUpdated(!isListUpdated);
+              if (window.confirm('댓글을 삭제하시겠습니까?')) {
+                try {
+                  const response = await deleteComment(comment.comment_id);
+                  //@ts-ignore
+                  if (response.message === '댓글 삭제 성공') {
+                    setIsListUpdated(!isListUpdated);
+                  }
+                } catch (error) {
+                  console.log(error);
                 }
-              } catch (error) {
-                console.log(error);
               }
             };
             const handleEditButtonClick = () => {
