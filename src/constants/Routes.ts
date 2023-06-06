@@ -8,7 +8,7 @@ export const ROUTES = {
   MY_PAGE: '/user/mypage',
   REGISTER: '/register',
   USER_UPDATE: '/user/update',
-  MODIFY_PROJECT: '/modify/',
+  MODIFY_PROJECT: '/modify',
   PREVIEW_PROJECT: '/preview',
 };
 

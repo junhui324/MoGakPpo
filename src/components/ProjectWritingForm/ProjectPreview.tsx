@@ -5,6 +5,7 @@ import ProjectTitle from '../Project/ProjectTitle';
 import ProjectBody from '../Project/ProjectBody';
 import * as ProjectType from '../../interfaces/Project.interface';
 import * as Fetcher from '../../apis/Fetcher';
+import ROUTES from '../../constants/Routes';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -68,9 +69,9 @@ function ProjectPreview() {
         pType = 'study';
       }
       setModifyButtonClick(true);
-      navigate(`/create/${pType}`);
+      navigate(`${ROUTES.CREATE}${pType}`);
     } else if (classification === 'modify') {
-      navigate(`/modify`);
+      navigate(`${ROUTES.MODIFY_PROJECT}`);
     }
   };
 
@@ -80,13 +81,13 @@ function ProjectPreview() {
         const res = await postProject();
         resetProject();
         //console.log('res: ', res);
-        navigate(`/project/${res}`);
+        navigate(`${ROUTES.PROJECT}${res}`);
       })();
     } else if (classification === 'modify') {
       (async () => {
         const res = await patchProject();
         //console.log('res: ', res);
-        navigate(`/project/${res}`);
+        navigate(`${ROUTES.PROJECT}${res}`);
       })();
     }
   };

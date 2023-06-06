@@ -17,6 +17,7 @@ import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
+import ROUTES from '../../constants/Routes';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -36,7 +37,6 @@ function ProjectWritingForm() {
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
-  //const [stackList, setStackList] = useState<string[]>([]);
   const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
@@ -205,7 +205,7 @@ function ProjectWritingForm() {
       },
     }));
 
-    navigate(`/preview`);
+    navigate(`${ROUTES.PREVIEW_PROJECT}`);
   };
 
   // 유효성 검사
@@ -358,7 +358,7 @@ function ProjectWritingForm() {
         </h2>
         <div>
           <TextareaAutosize
-            className="introduceTextarea"
+            className={styles.introduceTextarea}
             minRows={10}
             name="project_introduction"
             value={project.project_introduction}

@@ -16,7 +16,8 @@ function Header() {
   const [classification, setClassification] = useRecoilState(classificationState);
   const onClickLogout = () => {
     Token.removeToken();
-    window.location.reload();
+    //window.location.reload();
+    navigate(`${ROUTES.HOME}`);
   };
   const handleLogoClick = () => {
     setClassification('/');
