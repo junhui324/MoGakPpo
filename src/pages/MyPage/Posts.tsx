@@ -6,9 +6,12 @@ import { getUserPosts } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
 import Pagination from '../../components/Pagination';
+import { useNavigate } from 'react-router-dom';
+import ROUTES from '../../constants/Routes';
 
 function Posts() {
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
@@ -17,10 +20,11 @@ function Posts() {
     try {
       const userPostsData = await getUserPosts();
       setProjects(userPostsData.data.user_projects);
-      setIsLoading(true);
       setTotalPageCount(userPostsData.data.user_projects.length);
     } catch (error) {
       console.error('유저가 작성한 포스팅을 가져오지 못했어요');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,8 +46,9 @@ function Posts() {
       <div className={styles.contentCount}>게시글 {projects.length}개</div>
       <div className={styles.posts}>
         <ul>
-          {!isLoading && <LoadingProject />}
-          {isLoading && projects.length > 0 ? (
+          {isLoading && <LoadingProject />}
+          {projects.length > 0 &&
+            !isLoading &&
             getCurrentPageProjects().map((post) => {
               const {
                 project_id,
@@ -73,13 +78,15 @@ function Posts() {
 
               return (
                 <div key={post.project_id}>
-                  <span>프로젝트</span>
+                  <span className={styles.postType} onClick={() => navigate(ROUTES.PROJECT_LIST)}>
+                    프로젝트
+                  </span>
                   <Project projectData={newProjectData} />
                 </div>
               );
-            })
-          ) : (
-            <div>
+            })}
+          {projects.length === 0 && !isLoading && (
+            <div className={styles.noContentContainer}>
               <img className={styles.image} src={NoContentImage} alt="No Content" />
               <div className={styles.noContent}>아직 작성한 게시글이 없어요.</div>
             </div>

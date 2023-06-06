@@ -18,7 +18,7 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 function ProjectListMain() {
   const [pageCount, setPageCount] = useState(0);
   const [moreData, setMoreData] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
@@ -41,7 +41,6 @@ function ProjectListMain() {
             ? await getProjects()
             : await getProjectsByCategory(`"${selectedCategory}"`);
         setProjectList(projectList.data);
-        setIsLoading(true);
         setPageCount((prev) => prev + 1);
       } else if (pageCount > 0) {
         const newPageData = await getProjectsPage(pageCount);
@@ -55,6 +54,8 @@ function ProjectListMain() {
     } catch (error) {
       setMoreData(false);
       console.error('포스팅을 가져오지 못했어요');
+    } finally {
+      setIsLoading(false);
     }
   };
 

@@ -6,9 +6,15 @@
 }
 
 .contentConunt {
-  color: #94A3B8;
+  color: #94a3b8;
   font-weight: 500;
   padding-left: 0.8rem;
+}
+
+.postType {
+  padding: 6px;
+  border-radius: 5px;
+  background-color: rgb(152, 152, 152);
 }
 
 .bookMarks {
@@ -16,14 +22,14 @@
   flex-direction: column;
   align-items: center;
   padding-top: 8rem;
-  
+
   .image {
     width: 100px;
     height: 100px;
   }
 
   .noContent {
-    color: #64748B;
+    color: #64748b;
     margin-top: 2rem;
   }
 }
