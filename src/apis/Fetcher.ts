@@ -59,9 +59,13 @@ export async function deleteProjectBookmark(projectId: number): Promise<{ bookma
 }
 
 // 코멘트 리스트 불러오기
-export async function getComment(projectId: number): Promise<CommentType.TypeComment> {
+export async function getComment(
+  projectId: number,
+  pageNumber: number
+): Promise<CommentType.TypeComment> {
   const params = `projects/${projectId}/comments`;
-  return await Api.get(API_KEY, params, false);
+  const query = `page=${pageNumber}`;
+  return await Api.get(API_KEY, params, false, query);
 }
 export async function postComment(
   data: CommentType.TypeCommentPost
