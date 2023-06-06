@@ -30,3 +30,8 @@ export const projectIdState = atom<number>({
   key: 'projectIdState',
   default: 0,
 });
+
+export const modifyButtonClickState = atom<boolean>({
+  key: 'modifyButtonClickState',
+  default: false,
+});

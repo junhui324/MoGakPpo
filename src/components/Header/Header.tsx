@@ -7,19 +7,27 @@ import { MyPageModal } from './MyPageModal';
 import { FaUserCircle } from 'react-icons/fa';
 import ProjectPostButton from '../common/ProjectPostButton';
 
+import { useRecoilState } from 'recoil';
+import { classificationState } from '../../recoil/projectState';
+
 function Header() {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [classification, setClassification] = useRecoilState(classificationState);
   const onClickLogout = () => {
     Token.removeToken();
     window.location.reload();
+  };
+  const handleLogoClick = () => {
+    setClassification('/');
+    navigate(ROUTES.HOME);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
-          <span className={styles.logo} onClick={() => navigate(ROUTES.HOME)}>
+          <span className={styles.logo} onClick={handleLogoClick}>
             모프 🪄
           </span>
         </div>
