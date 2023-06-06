@@ -40,38 +40,12 @@ function BookMarks() {
           {projects.length > 0 &&
             !isLoading &&
             projects.map((post) => {
-              const {
-                project_id,
-                project_type,
-                project_recruitment_status,
-                project_title,
-                project_goal,
-                project_participation_time,
-                project_bookmark_count,
-                project_comments_count,
-                project_views_count,
-                project_created_at,
-              } = post;
-
-              const newProjectData = {
-                project_id,
-                project_type,
-                project_recruitment_status,
-                project_title,
-                project_goal,
-                project_participation_time,
-                project_bookmark_count,
-                project_comments_count,
-                project_views_count,
-                project_created_at,
-              };
-
               return (
                 <div key={post.project_id}>
                   <span className={styles.postType} onClick={() => navigate(ROUTES.PROJECT_LIST)}>
                     프로젝트
                   </span>
-                  <Project projectData={newProjectData} />
+                  <Project projectData={{ ...post }} />
                 </div>
               );
             })}
