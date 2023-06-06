@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { CgShare } from 'react-icons/cg';
-import { FacebookShareButton, FacebookIcon } from 'react-share';
 
 // 스타일
 import styles from './ProjectShare.module.scss';
