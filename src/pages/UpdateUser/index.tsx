@@ -9,8 +9,8 @@ import ROUTES from '../../constants/Routes';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
-  const [user, setUser] = useState<TypeUserProfile | null>(null);
-  const [imageSrc, setImageSrc] = useState<string | undefined>(DefaultUserImg);
+  const [user, setUser] = useState<TypeUserProfile>({} as TypeUserProfile);
+  const [imageSrc, setImageSrc] = useState<string>(DefaultUserImg);
   const [userStack, setUserStack] = useState<string[]>([]);
   const [inputNameLength, setInputNameLength] = useState<number>(0);
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
@@ -59,7 +59,6 @@ function UpdateUser() {
     switch(input.current?.name) {
       case 'name': {
         const { value } = e.target;
-        input.current.value !== user?.user_name ? setIsChanged(true) : setIsChanged(false);
         if (value.length <= max && input.current) {
           setInputNameLength(input.current?.value.length);
         }
@@ -67,14 +66,12 @@ function UpdateUser() {
       }
       case 'intro': {
         const { value } = e.target;
-        input.current.value !== user?.user_introduction ? setIsChanged(true) : setIsChanged(false);
         if (value.length <= max && input.current) {
           setInputIntroLength(input.current?.value.length);
         }
         break;
       }
       case 'career': {
-        input.current.value !== user?.user_career_goal ? setIsChanged(true) : setIsChanged(false);
         const { value } = e.target;
         if (value.length <= max && input.current) {
           setInputCareerLength(input.current?.value.length);
@@ -138,6 +135,26 @@ function UpdateUser() {
 
     getUserData();
   }, []);
+
+  useEffect(() => {
+    const compareUserData = () => {
+      if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
+        const isNameChanged = inputNameRef.current.value.trim() !== user.user_name;
+        const isIntroChanged = inputIntroRef.current.value !== user.user_introduction;
+        const isCareerChanged = inputCareerRef.current.value !== user.user_career_goal;
+        const isStackChanged = JSON.stringify(userStack) !== JSON.stringify(user.user_stacks?.stackList);
+
+        setIsChanged(
+          isNameChanged ||
+          isIntroChanged ||
+          isCareerChanged ||
+          isStackChanged
+        );
+      }
+    };
+
+    compareUserData();
+  }, [inputNameRef.current, inputCareerRef.current, inputCareerRef.current]);
 
   const buttonClassName = isValidName() && isChanged ? styles.submitButton : styles.disabledButton;
 
