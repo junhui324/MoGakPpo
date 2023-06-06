@@ -90,8 +90,9 @@
 
   .roleContainer {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     li {
-      margin-right: 8px;
       padding: 8px 16px 8px 16px;
       border: 1px solid $main-color;
       background-color: unset;
