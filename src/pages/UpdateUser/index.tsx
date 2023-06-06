@@ -16,6 +16,7 @@ function UpdateUser() {
   const [inputNameLength, setInputNameLength] = useState<number>(0);
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
+  const [isChanged, setIsChanged] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputNameRef = useRef<HTMLInputElement>(null);
@@ -32,6 +33,10 @@ function UpdateUser() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+
+    fileInputRef.current?.value !== user?.user_img 
+    ? setIsChanged(true) 
+    : setIsChanged(false);
   };
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +61,20 @@ function UpdateUser() {
     if (value.length <= max && input.current) {
       inputStateSetter(input.current?.value.length);
     }
+
+    switch(input.current?.name) {
+      case 'name': {
+        input.current.value !== user?.user_name ? setIsChanged(true) : setIsChanged(false);
+        break;
+      }
+      case 'intro': {
+        input.current.value !== user?.user_introduction ? setIsChanged(true) : setIsChanged(false);
+        break;
+      }
+      case 'career': {
+        input.current.value !== user?.user_career_goal ? setIsChanged(true) : setIsChanged(false);
+      }
+    }
   };
 
   const handleSetStackList = (stacks: string[]) => {
@@ -63,19 +82,13 @@ function UpdateUser() {
   };
 
   const isValidName = () => {
-    if (inputNameRef.current) {
-      return inputNameRef.current.value.trim().length > 0;
-    }
+    return inputNameRef.current && inputNameRef.current.value.trim().length > 0;
   };
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (!isValidName()) {
-      return;
-    }
-
-    if (window.confirm('수정하시겠습니까?')) {
+    if (isValidName() && isChanged && window.confirm('수정하시겠습니까?')) {
       try {
         if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
           const updatedUserData = {
@@ -98,7 +111,9 @@ function UpdateUser() {
     }
   };
 
-  useBeforeUnload();
+  const handleCancel = () => {
+    
+  }
 
   useEffect(() => {
     const getUserData = async () => {
@@ -111,14 +126,15 @@ function UpdateUser() {
         setInputIntroLength(data.user_introduction.length);
         setInputCareerLength(data.user_career_goal.length);
       } catch (error) {
-        console.error(error);
+        alert('잘못된 접근입니다. 로그인 및 회원가입을 진행해주세요');
+        navigate(`${ROUTES.LOGIN}`);
       }
     };
 
     getUserData();
   }, []);
 
-  const buttonClassName = isValidName() ? styles.submitButton : styles.disabledButton;
+  const buttonClassName = isValidName() && isChanged ? styles.submitButton : styles.disabledButton;
 
   return (
     <div className={styles.container}>
@@ -144,6 +160,7 @@ function UpdateUser() {
             <label className={styles.name}>이름</label>
             <input
               type="text"
+              name="name"
               defaultValue={user.user_name}
               ref={inputNameRef}
               placeholder="이름을 입력해 주세요."
@@ -155,6 +172,7 @@ function UpdateUser() {
           <div className={styles.introContainer}>
             <label>자기소개</label>
             <textarea
+              name="intro"
               defaultValue={user.user_introduction}
               ref={inputIntroRef}
               placeholder="자기소개를 입력해 주세요."
@@ -166,6 +184,7 @@ function UpdateUser() {
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
             <input
+              name="career"
               type="text"
               defaultValue={user.user_career_goal}
               ref={inputCareerRef}
@@ -176,8 +195,15 @@ function UpdateUser() {
             <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
           </div>
           <Stack selectedStack={userStack} setStackList={handleSetStackList} />
-          <button className={buttonClassName} onClick={handleSubmit} disabled={!isValidName()}>
+          <button 
+            className={buttonClassName} 
+            onClick={handleSubmit} 
+            disabled={isValidName() === false || isChanged === false}
+          >
             완료
+          </button>
+          <button className={styles.cancelButton} onClick={handleCancel}>
+            취소
           </button>
         </form>
       )}
