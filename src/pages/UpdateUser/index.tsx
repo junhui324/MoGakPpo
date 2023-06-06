@@ -6,7 +6,6 @@ import Stack from "../../components/Stack";
 import styles from './updateUser.module.scss';
 import { RiAddCircleFill } from 'react-icons/ri';
 import ROUTES from '../../constants/Routes';
-import useBeforeUnload from '../../hooks/useBeforeUnload';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
@@ -54,25 +53,32 @@ function UpdateUser() {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     input: React.RefObject<HTMLInputElement | HTMLTextAreaElement>,
-    inputStateSetter: React.Dispatch<React.SetStateAction<number>>,
     max: number
   ) => {
-    const { value } = e.target;
-    if (value.length <= max && input.current) {
-      inputStateSetter(input.current?.value.length);
-    }
 
     switch(input.current?.name) {
       case 'name': {
+        const { value } = e.target;
         input.current.value !== user?.user_name ? setIsChanged(true) : setIsChanged(false);
+        if (value.length <= max && input.current) {
+          setInputNameLength(input.current?.value.length);
+        }
         break;
       }
       case 'intro': {
+        const { value } = e.target;
         input.current.value !== user?.user_introduction ? setIsChanged(true) : setIsChanged(false);
+        if (value.length <= max && input.current) {
+          setInputIntroLength(input.current?.value.length);
+        }
         break;
       }
       case 'career': {
         input.current.value !== user?.user_career_goal ? setIsChanged(true) : setIsChanged(false);
+        const { value } = e.target;
+        if (value.length <= max && input.current) {
+          setInputCareerLength(input.current?.value.length);
+        }
       }
     }
   };
@@ -112,7 +118,7 @@ function UpdateUser() {
   };
 
   const handleCancel = () => {
-    
+    navigate(`${ROUTES.MY_PAGE}`);
   }
 
   useEffect(() => {
@@ -126,8 +132,7 @@ function UpdateUser() {
         setInputIntroLength(data.user_introduction.length);
         setInputCareerLength(data.user_career_goal.length);
       } catch (error) {
-        alert('잘못된 접근입니다. 로그인 및 회원가입을 진행해주세요');
-        navigate(`${ROUTES.LOGIN}`);
+        console.log(error);
       }
     };
 
@@ -165,7 +170,7 @@ function UpdateUser() {
               ref={inputNameRef}
               placeholder="이름을 입력해 주세요."
               maxLength={MAX_NAME_COUNT}
-              onChange={(e) => handleChange(e, inputNameRef, setInputNameLength, MAX_NAME_COUNT)}
+              onChange={(e) => handleChange(e, inputNameRef, MAX_NAME_COUNT)}
             />
             <p>{inputNameLength}/{MAX_NAME_COUNT}</p>
           </div>
@@ -177,20 +182,20 @@ function UpdateUser() {
               ref={inputIntroRef}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
-              onChange={(e) => handleChange(e, inputIntroRef, setInputIntroLength, MAX_INTRO_COUNT)}
+              onChange={(e) => handleChange(e, inputIntroRef, MAX_INTRO_COUNT)}
             />
             <p>{inputIntroLength}/{MAX_INTRO_COUNT}</p>
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
             <input
-              name="career"
               type="text"
+              name="career"
               defaultValue={user.user_career_goal}
               ref={inputCareerRef}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
-              onChange={(e) => handleChange(e, inputCareerRef, setInputCareerLength, MAX_CAREER_COUNT)}
+              onChange={(e) => handleChange(e, inputCareerRef, MAX_CAREER_COUNT)}
             />
             <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
           </div>

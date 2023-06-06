@@ -12,8 +12,7 @@ function Profile() {
 
   const getUserData = async () => {
     try {
-      const { message, data } = await getUserProfile();
-      //console.log(message, data);
+      const { data } = await getUserProfile();
       setUser(data);
     } catch (error) {
       console.error(error);
@@ -30,26 +29,30 @@ function Profile() {
 
   return (
     <div className={styles.profileContainer}>
-      <div className={styles.imageWrapper}>
-        <img className={styles.image} src={user?.user_img || DefaultUserImg} alt={user?.user_name}></img>
-        <button className={styles.updateButton} onClick={handleClickEdit}>
-          편집
-        </button>
-      </div>
-      <div className={styles.introWrapper}>
-        <div className={styles.name}>{user?.user_name}</div>
-        <div className={styles.intro}>{user?.user_introduction}</div>
-        <div className={styles.career}>{user?.user_career_goal}</div>
-        <div className={styles.stacks}>
-          {user?.user_stacks.stackList.map((stack, index) => {
-            return (
-              <div className={styles.stack} key={`${stack}-${index}`}>
-                {stack}
-              </div>
-            );
-          })}
+      {user && ( 
+        <div>
+        <div className={styles.imageWrapper}>
+          <img className={styles.image} src={user?.user_img || DefaultUserImg} alt={user?.user_name}></img>
+          <button className={styles.updateButton} onClick={handleClickEdit}>
+            편집
+          </button>
         </div>
-      </div>
+        <div className={styles.introWrapper}>
+          <div className={styles.name}>{user?.user_name}</div>
+          <div className={styles.intro}>{user?.user_introduction}</div>
+          <div className={styles.career}>{user?.user_career_goal}</div>
+          <div className={styles.stacks}>
+            {user?.user_stacks?.stackList?.map((stack, index) => {
+              return (
+                <div className={styles.stack} key={`${stack}-${index}`}>
+                  {stack}
+                </div>
+              );
+            })}
+        </div>
+        </div>
+        </div>
+      )}
     </div>
   );
 }
