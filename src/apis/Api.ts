@@ -5,6 +5,7 @@ interface RequestParams<T> {
   endpoint: string | undefined;
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   params?: string;
+  query?: string;
   data?: any;
   requiresToken?: boolean;
 }
@@ -13,10 +14,11 @@ async function request<T>({
   endpoint,
   method,
   params = '',
+  query = '',
   data,
   requiresToken = true,
 }: RequestParams<T>): Promise<T> {
-  const apiUrl = params ? `${endpoint}/${params}` : endpoint;
+  const apiUrl = params ? `${endpoint}/${params}?${query}` : endpoint;
 
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
@@ -46,8 +48,12 @@ async function request<T>({
   }
 }
 
-const get = <T>(endpoint: string | undefined, params = '', requiresToken = true): Promise<T> =>
-  request<T>({ endpoint, method: 'GET', params, requiresToken });
+const get = <T>(
+  endpoint: string | undefined,
+  params = '',
+  requiresToken = true,
+  query = ''
+): Promise<T> => request<T>({ endpoint, method: 'GET', params, requiresToken, query });
 
 const post = <T>(
   endpoint: string | undefined,
