@@ -207,6 +207,11 @@ export default function Comment() {
                 console.log(error);
               }
             };
+            const handleCopyButtonClick = async () => {
+              await navigator.clipboard.writeText(comment.comment_content);
+              alert('복사되었습니다.');
+              setModalOpen(false);
+            };
             // 코멘트리스트 렌더링
             return (
               <li key={comment.comment_id} className={styles.comment}>
@@ -233,6 +238,7 @@ export default function Comment() {
                       isMyComment={comment.user_id === user?.user_id}
                       onClickEdit={handleEditButtonClick}
                       onClickDelete={handleDeleteButtonClick}
+                      onClickCopy={handleCopyButtonClick}
                     />
                   </div>
                 </div>
@@ -250,7 +256,7 @@ export default function Comment() {
                     value={comment.comment_content}
                   />
                 )}
-                {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
+                {/* 로그인한 유저가 작성한 댓글이면서, 수정버튼을 클릭한 경우 */}
                 {comment.user_id === user?.user_id && isEditing && (
                   <div className={styles.buttonContainer}>
                     <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>

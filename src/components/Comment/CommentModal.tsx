@@ -6,6 +6,7 @@ interface ModalBasicProps {
   isMyComment: boolean;
   onClickEdit: () => void;
   onClickDelete: () => void;
+  onClickCopy: () => void;
 }
 
 export default function CommentModal({
@@ -14,6 +15,7 @@ export default function CommentModal({
   isMyComment,
   onClickEdit,
   onClickDelete,
+  onClickCopy,
 }: ModalBasicProps) {
   return (
     <div>
@@ -26,7 +28,7 @@ export default function CommentModal({
                 <li onClick={onClickDelete}>삭제</li>
               </>
             )}
-            <li>댓글 복사</li>
+            <li onClick={onClickCopy}>댓글 복사</li>
           </ul>
         </ModalBasic>
       )}
