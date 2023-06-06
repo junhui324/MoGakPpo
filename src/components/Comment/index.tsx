@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Comment.module.scss';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
@@ -15,9 +15,9 @@ export default function Comment() {
   const [user, setUser] = useState<TypeUser | null>(null);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
-  const [editInputValue, setEditInputValue] = useState<string | undefined>(undefined);
   const [isListUpdated, setIsListUpdated] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const postTextareaRef = useRef('');
+  const editTextareaRef = useRef('');
   //라우팅관련
   const params = useParams();
   const location = useLocation();
@@ -37,7 +37,10 @@ export default function Comment() {
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments.find((comment) => comment.comment_id === editingCommentId);
-    setEditInputValue(comment?.comment_content);
+    if (editTextareaRef.current) {
+      //@ts-ignore
+      editTextareaRef.current.value = comment?.comment_content;
+    }
   }, [comments, editingCommentId]);
 
   //유저 정보 localStorage에서 받아오기
@@ -69,13 +72,13 @@ export default function Comment() {
       try {
         const response = await postComment({
           project_id: projectId,
-          comment_content: inputValue,
+          //@ts-ignore
+          comment_content: postTextareaRef.current.value,
         });
 
         //@ts-ignore
         if (response.message === '모집 글 댓글 등록 성공') {
           setIsListUpdated(!isListUpdated);
-          // setComments((current) => [response.data, ...current]);
         }
         setIsInputClicked(!isInputClicked);
       } catch (error) {
@@ -89,8 +92,8 @@ export default function Comment() {
           minRows={3}
           maxRows={12}
           placeholder="댓글을 작성해보세요."
-          value={inputValue}
-          onChange={(event) => setInputValue(() => event.target.value)}
+          //@ts-ignore
+          ref={postTextareaRef}
         />
         <div className={styles.buttonContainer}>
           <button className={styles.defaultButton} type="submit" onClick={handleSubmitButtonClick}>
@@ -99,7 +102,8 @@ export default function Comment() {
           <button
             className={styles.lineButton}
             onClick={() => {
-              setInputValue('');
+              //@ts-ignore
+              postTextareaRef.current.value = '';
               setIsInputClicked(!isInputClicked);
             }}
           >
@@ -170,9 +174,10 @@ export default function Comment() {
             };
             const handleEditSubmitButtonClick = async () => {
               try {
+                //@ts-ignore
                 const response = await putComment(comment.comment_id, {
                   //@ts-ignore
-                  comment_content: editInputValue,
+                  comment_content: editTextareaRef.current.value,
                 });
                 //@ts-ignore
                 if (response.message === '댓글 수정 성공') {
@@ -202,8 +207,8 @@ export default function Comment() {
                     minRows={3}
                     maxRows={12}
                     autoFocus
-                    value={editInputValue}
-                    onChange={(event) => setEditInputValue(() => event.target.value)}
+                    //@ts-ignore
+                    ref={editTextareaRef}
                   />
                 ) : (
                   <p className={styles.content}>{comment.comment_content}</p>
