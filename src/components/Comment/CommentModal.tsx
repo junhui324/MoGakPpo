@@ -4,9 +4,17 @@ interface ModalBasicProps {
   modalOpen: boolean;
   setModalOpen: (value: boolean) => void;
   isMyComment: boolean;
+  onClickEdit: () => void;
+  onClickDelete: () => void;
 }
 
-export default function CommentModal({ modalOpen, setModalOpen, isMyComment }: ModalBasicProps) {
+export default function CommentModal({
+  modalOpen,
+  setModalOpen,
+  isMyComment,
+  onClickEdit,
+  onClickDelete,
+}: ModalBasicProps) {
   return (
     <div>
       {modalOpen && (
@@ -14,8 +22,8 @@ export default function CommentModal({ modalOpen, setModalOpen, isMyComment }: M
           <ul>
             {isMyComment && (
               <>
-                <li>수정</li>
-                <li>삭제</li>
+                <li onClick={onClickEdit}>수정</li>
+                <li onClick={onClickDelete}>삭제</li>
               </>
             )}
             <li>댓글 복사</li>

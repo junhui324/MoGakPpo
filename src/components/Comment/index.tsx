@@ -231,6 +231,8 @@ export default function Comment() {
                       modalOpen={modalOpen && selectedCommentId === comment.comment_id}
                       setModalOpen={setModalOpen}
                       isMyComment={comment.user_id === user?.user_id}
+                      onClickEdit={handleEditButtonClick}
+                      onClickDelete={handleDeleteButtonClick}
                     />
                   </div>
                 </div>
@@ -249,32 +251,16 @@ export default function Comment() {
                   />
                 )}
                 {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
-                {comment.user_id === user?.user_id &&
-                  (isEditing ? (
-                    <div className={styles.buttonContainer}>
-                      <button
-                        className={styles.defaultButton}
-                        onClick={handleEditSubmitButtonClick}
-                      >
-                        등록
-                      </button>
-                      <button
-                        className={styles.lineButton}
-                        onClick={() => setEditingCommentId(null)}
-                      >
-                        취소
-                      </button>
-                    </div>
-                  ) : (
-                    <div className={styles.buttonContainer}>
-                      <button className={styles.defaultButton} onClick={handleEditButtonClick}>
-                        수정
-                      </button>
-                      <button className={styles.lineButton} onClick={handleDeleteButtonClick}>
-                        삭제
-                      </button>
-                    </div>
-                  ))}
+                {comment.user_id === user?.user_id && isEditing && (
+                  <div className={styles.buttonContainer}>
+                    <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
+                      등록
+                    </button>
+                    <button className={styles.lineButton} onClick={() => setEditingCommentId(null)}>
+                      취소
+                    </button>
+                  </div>
+                )}
               </li>
             );
           })}
