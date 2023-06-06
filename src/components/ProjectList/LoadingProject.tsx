@@ -1,8 +1,11 @@
 import styles from './LoadingProject.module.scss';
 
-function LoadingProject() {
+interface LoadingProjectProps {
+  innerRef?: any;
+}
+function LoadingProject({ innerRef }: LoadingProjectProps) {
   return (
-    <li className={styles.loadingList}>
+    <li className={styles.loadingList} ref={innerRef && innerRef}>
       <div>
         <div className={styles.topContainer}>
           <div>

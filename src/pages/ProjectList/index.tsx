@@ -13,10 +13,11 @@ import ProjectPostButton from '../../components/common/ProjectPostButton';
 import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
 import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
-import useIntersect from '../../hooks/useIntersect';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 function ProjectListMain() {
-  // const [pageCount, setPageCount] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const [moreData, setMoreData] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
@@ -25,47 +26,35 @@ function ProjectListMain() {
   const [isSearched, setIsSearched] = useState(false);
   const [isRecruitingFiltered, setIsRecruitingFiltered] = useState(false);
 
-  const { setRef, pageCount } = useIntersect({
-    onIntersect: async (
-      entry: { target: any },
-      observer: { unobserve: (arg0: any) => void; observe: (arg0: any) => void }
-    ) => {
-      console.log('use', pageCount);
-      observer.unobserve(entry.target);
-      observer.observe(entry.target);
-      getProjectListData(pageCount);
-    },
-    option: {},
-  });
-
-  // 관찰 => 관찰됨 상태 true => 새로운 페이지 +기존 페이지 => 관찰됨 상태 false => 새로운 데이터 마지막 리스트 관찰
-
-  const getProjectListData = useCallback(
-    async (pageCount = 0): Promise<void> => {
-      console.log(pageCount);
-      try {
-        if (pageCount === 0 && !isRecruitingFiltered) {
-          const projectList =
-            selectedCategory === 'ALL'
-              ? await getProjects()
-              : await getProjectsByCategory(`"${selectedCategory}"`);
-          setProjectList(projectList.data);
-          setIsLoading(true);
-          // setPageCount((prev) => prev + 1);
-        } else if (pageCount > 0) {
-          const newPageData = await getProjectsPage(pageCount);
-          setProjectList((prev) => [...prev, ...newPageData.data]);
-        } else if (isRecruitingFiltered) {
-          const projectList = await getRecruitingProjects(selectedCategory);
-          setProjectList(projectList.data);
-          setIsLoading(true);
-        }
-      } catch (error) {
-        console.error('포스팅을 가져오지 못했어요');
+  const getProjectListData = async (): Promise<void> => {
+    //페이지네이션 추가되면 getData 구조 바꾸기
+    try {
+      if (pageCount === 0 && !isRecruitingFiltered) {
+        const projectList =
+          pageCount === 0 && !isRecruitingFiltered && selectedCategory === 'ALL'
+            ? await getProjects()
+            : await getProjectsByCategory(`"${selectedCategory}"`);
+        setProjectList(projectList.data);
+        setIsLoading(true);
+        setPageCount((prev) => prev + 1);
+      } else if (pageCount > 0) {
+        const newPageData = await getProjectsPage(pageCount);
+        setProjectList((prev) => [...prev, ...newPageData.data]);
+        setPageCount((prev) => prev + 1);
+      } else if (isRecruitingFiltered) {
+        const projectList = await getRecruitingProjects(selectedCategory);
+        setProjectList(projectList.data);
+        setIsLoading(true);
       }
-    },
-    [isRecruitingFiltered, selectedCategory]
-  );
+    } catch (error) {
+      setMoreData(false);
+      console.error('포스팅을 가져오지 못했어요');
+    }
+  };
+
+  const target = useInfiniteScroll(async (entry, observer) => {
+    await getProjectListData();
+  });
 
   const getSearchListData = async () => {
     try {
@@ -79,6 +68,9 @@ function ProjectListMain() {
 
   const handleCategoryClick = (key: string) => {
     setSelectedCategory(key);
+    // getProjectListData();
+    setPageCount(0);
+    setMoreData(true);
   };
 
   const handleSearchChange = (keyword: string) => {
@@ -109,7 +101,7 @@ function ProjectListMain() {
 
   useEffect(() => {
     getProjectListData();
-  }, [getProjectListData]);
+  }, [selectedCategory]);
 
   return (
     <div className={styles.container}>
@@ -132,7 +124,12 @@ function ProjectListMain() {
           isFilterChecked={isRecruitingFiltered}
           onChange={handleRecruitingFilterCheck}
         />
-        <ProjectList innerRef={setRef} projectList={projectList} isLoading={isLoading} />
+        <ProjectList
+          projectList={projectList}
+          isLoading={isLoading}
+          moreData={moreData}
+          innerRef={target}
+        />
       </div>
     </div>
   );

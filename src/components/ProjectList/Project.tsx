@@ -14,10 +14,9 @@ import React, { useState } from 'react';
 
 interface projectDataProps {
   projectData: TypeProjectList;
-  innerRef?: any;
 }
 
-function Project({ projectData, innerRef }: projectDataProps) {
+function Project({ projectData }: projectDataProps) {
   const navigate = useNavigate();
   const isNewProject = (createdAt: string) => {
     const threeDaysAgo = new Date();
@@ -53,7 +52,7 @@ function Project({ projectData, innerRef }: projectDataProps) {
 
   return (
     <li
-      ref={innerRef ? innerRef : undefined}
+      // ref={innerRef ? innerRef : undefined}
       key={projectId}
       className={styles.listContainer}
       onClick={() => {
