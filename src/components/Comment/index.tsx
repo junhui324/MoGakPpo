@@ -9,6 +9,7 @@ import getDateFormat from '../../utils/getDateFormat';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import NoContentImage from '../../assets/NoContent.png';
 import TextareaAutosize from 'react-textarea-autosize';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 export default function Comment() {
   const [comments, setComments] = useState<TypeComment[]>([]);
@@ -200,6 +201,9 @@ export default function Comment() {
                       <h3>{comment.user_name}</h3>
                     </Link>
                     <p>{getDateFormat(comment.comment_created_at)}</p>
+                  </div>
+                  <div className={styles.dotIcon}>
+                    <BsThreeDotsVertical />
                   </div>
                 </div>
                 {isEditing ? (

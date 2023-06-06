@@ -75,6 +75,7 @@
     .header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding-bottom: 20px;
       border-bottom: 1px solid #f1f3f5;
       gap: 16px;
@@ -88,6 +89,7 @@
       }
       .subHeader {
         flex-direction: column;
+        flex: 1;
         a {
           font-weight: 500;
           text-decoration: none;
@@ -97,6 +99,10 @@
             color: #454545;
           }
         }
+      }
+      .dotIcon {
+        color: #abb0b5;
+        align-self: flex-end;
       }
     }
     textarea {
