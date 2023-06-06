@@ -29,7 +29,7 @@ export default function Comment() {
   const getCommentData = async () => {
     const commentList = await getComment(projectId, 1);
     //@ts-ignore
-    setComments(commentList.data);
+    setComments(commentList.data.pagenatedComments);
   };
   useEffect(() => {
     getCommentData();
