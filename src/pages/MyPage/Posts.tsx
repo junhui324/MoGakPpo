@@ -92,11 +92,13 @@ function Posts() {
             </div>
           )}
         </ul>
-        <Pagination
-          currPage={currPage}
-          onClickPage={setCurrPage}
-          pageCount={Math.ceil(totalPageCount / PER_PAGE)}
-        />
+        {projects.length > 0 && !isLoading &&
+          <Pagination
+            currPage={currPage}
+            onClickPage={setCurrPage}
+            pageCount={Math.ceil(totalPageCount / PER_PAGE)}
+          />
+        }
       </div>
     </div>
   );
