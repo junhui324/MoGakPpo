@@ -139,12 +139,10 @@ export default function Comment() {
 
   return (
     <div className={styles.commentContainer}>
-      <div className={styles.inputArea}>
-        <h3>
-          댓글 <strong>{comments.length}</strong>
-        </h3>
-        {inputComponent}
-      </div>
+      <h3 className={styles.commentCount}>
+        댓글 <strong>{comments.length}</strong>
+      </h3>
+
       {/* 댓글리스트 영역 */}
       {comments.length === 0 ? (
         <div className={styles.noComment}>
@@ -250,6 +248,7 @@ export default function Comment() {
         </ul>
       )}
       {/* 댓글리스트 영역 끝 */}
+      <div className={styles.inputArea}>{inputComponent}</div>
     </div>
   );
 }
