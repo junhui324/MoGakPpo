@@ -42,15 +42,16 @@ function ProjectListMain() {
             : await getProjectsByCategory(`"${selectedCategory}"`);
         setProjectList(projectList.data);
         setPageCount((prev) => prev + 1);
-      } else if (pageCount > 0) {
-        const newPageData = await getProjectsPage(pageCount);
-        setProjectList((prev) => [...prev, ...newPageData.data]);
-        setPageCount((prev) => prev + 1);
-      } else if (isRecruitingFiltered) {
-        const projectList = await getRecruitingProjects(selectedCategory);
-        setProjectList(projectList.data);
-        setIsLoading(true);
       }
+      // else if (pageCount > 0) {
+      //   const newPageData = await getProjectsPage(pageCount);
+      //   setProjectList((prev) => [...prev, ...newPageData.data]);
+      //   setPageCount((prev) => prev + 1);
+      // } else if (isRecruitingFiltered) {
+      //   const projectList = await getRecruitingProjects(selectedCategory);
+      //   setProjectList(projectList.data);
+      //   setIsLoading(true);
+      // }
     } catch (error) {
       setMoreData(false);
       console.error('포스팅을 가져오지 못했어요');
