@@ -116,9 +116,8 @@ export async function getUserPosts(): Promise<{
 export async function updateUserProfile(
   data: UserType.TypeUserProfile
 ): Promise<UserType.TypeUserProfile> {
-  const params = `/user/profile.json`;
-  // 나중에 마지막 매개변수 false -> true 로 수정해야 함
-  return await Api.put(domain, params, data, false);
+  const params = `users/profile`;
+  return await Api.patch(API_KEY, params, data);
 }
 
 // 유저 작성 댓글 불러오기

@@ -87,7 +87,7 @@ function UpdateUser() {
   };
 
   const updatedUserData = {
-    user_img: imageSrc || '',
+    user_img: imageSrc || DefaultUserImg,
     user_name: inputName.trim(),
     user_introduction: inputIntro || '',
     user_career_goal: inputCareer || '',
@@ -109,6 +109,7 @@ function UpdateUser() {
     if (window.confirm('수정하시겠습니까?')) {
       try {
         await updateUserProfile(updatedUserData);
+        console.log(imageSrc);
       } catch (error) {
         console.log(error);
       }
