@@ -26,7 +26,7 @@ function ProjectList({ projectList, isLoading, innerRef, moreData }: ProjectList
           <p className={styles.noneContent}>게시글이 없습니다 :(</p>
         </li>
       ) : undefined}
-      {moreData && <LoadingProject innerRef={innerRef} />}
+      {projectList.length >= 10 && moreData && <LoadingProject innerRef={innerRef} />}
     </ul>
   );
 }

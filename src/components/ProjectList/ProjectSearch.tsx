@@ -18,7 +18,7 @@ function ProjectSearch({ handleChange, value, isSearched }: ProjectSearchProps) 
           value={value}
         ></input>
       </form>
-      {isSearched && (
+      {value.length > 0 && (
         <div className={styles.resultContainer}>
           <p>"{value}"(으)로 검색한 결과</p>
         </div>

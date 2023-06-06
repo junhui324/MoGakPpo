@@ -82,21 +82,19 @@ export async function deleteComment(commentId: number): Promise<CommentType.Type
 }
 
 // 모든 프로젝트 리스트 불러오기
-export async function getProjects(): Promise<{
+export async function getProjects(
+  cate: string,
+  recruiting: boolean | string,
+  keyword: false | string,
+  page: number
+): Promise<{
   message: string;
-  data: ProjectType.TypeProjectList[];
+  data: { pageSize: number; pagenatedProjects: ProjectType.TypeProjectList[] };
 }> {
-  const params = `projects`;
+  const params = `projects?cate=${cate}&recruiting=${recruiting}&keyword=${
+    keyword ?? false
+  }&page=${page}`;
   return await Api.get(API_KEY, params, true);
-}
-
-// 모든 프로젝트 리스트 불러오기 페이지네이션
-export async function getProjectsPage(page: number): Promise<{
-  message: string;
-  data: ProjectType.TypeProjectList[];
-}> {
-  const params = `projects/cate=all&page=${page}.json`;
-  return await Api.get(domain, params, false);
 }
 
 // 카테고리로 프로젝트 리스트 불러오기

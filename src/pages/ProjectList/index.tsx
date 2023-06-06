@@ -3,7 +3,6 @@ import {
   getProjects,
   getProjectsByCategory,
   getProjectsByKeyword,
-  getProjectsPage,
   getRecruitingProjects,
 } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
@@ -16,42 +15,46 @@ import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProj
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 function ProjectListMain() {
-  const [pageCount, setPageCount] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
+  // const [pageSize, ]
   const [moreData, setMoreData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [keywordValue, setKeywordValue] = useState('');
   const [isSearched, setIsSearched] = useState(false);
-  const [isRecruitingFiltered, setIsRecruitingFiltered] = useState(false);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
 
-  //useCallback으로 바꿔보기
   const getProjectListData = async (): Promise<void> => {
-    //페이지네이션 추가되면 getData 구조 바꾸기
-    // try{
-    //   const projectList=await getProject(selectedCategory, pageCount, isRecruitingFiltered, isSearched&&keywordValue)
-    // }
-    // projects?cate=front&page=1&recruiting=false&keyword=false
-    // projects?cate=back&page=1&recruiting=true&keyword=웹
-
     try {
-      if (pageCount === 0 && !isRecruitingFiltered) {
-        const projectList =
-          selectedCategory === 'ALL'
-            ? await getProjects()
-            : await getProjectsByCategory(`"${selectedCategory}"`);
-        setProjectList(projectList.data);
-        setPageCount((prev) => prev + 1);
-      }
-      // else if (pageCount > 0) {
-      //   const newPageData = await getProjectsPage(pageCount);
-      //   setProjectList((prev) => [...prev, ...newPageData.data]);
-      //   setPageCount((prev) => prev + 1);
-      // } else if (isRecruitingFiltered) {
-      //   const projectList = await getRecruitingProjects(selectedCategory);
-      //   setProjectList(projectList.data);
-      //   setIsLoading(true);
-      // }
+      const projectList = await getProjects(
+        selectedCategory,
+        recruitingFilter,
+        keywordValue,
+        pageCount
+      );
+      setProjectList(projectList.data.pagenatedProjects);
+    } catch (error) {
+      setMoreData(false);
+      console.error('포스팅을 가져오지 못했어요');
+    } finally {
+      setPageCount((prev) => prev + 1);
+      setIsLoading(false);
+    }
+  };
+
+  const getNextProjectListData = async (): Promise<void> => {
+    try {
+      const projectList = await getProjects(
+        selectedCategory,
+        recruitingFilter,
+        keywordValue,
+        pageCount
+      );
+      const pageSize = projectList.data.pageSize;
+      pageSize - 1 <= pageCount && setMoreData(false);
+      setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
+      setPageCount((prev) => prev + 1);
     } catch (error) {
       setMoreData(false);
       console.error('포스팅을 가져오지 못했어요');
@@ -61,49 +64,48 @@ function ProjectListMain() {
   };
 
   const target = useInfiniteScroll(async (entry, observer) => {
-    await getProjectListData();
+    moreData && (await getNextProjectListData());
   });
 
-  const getSearchListData = async () => {
-    try {
-      const projectList = await getProjectsByKeyword(selectedCategory, keywordValue.toLowerCase());
-      //console.log(projectList.data);
-      setProjectList(projectList.data);
-    } catch (error) {
-      console.error('포스팅을 가져오지 못했어요');
-    }
-  };
-
-  const handleCategoryClick = (key: string) => {
+  const handleCategoryClick = async (key: string) => {
     setSelectedCategory(key);
-    setPageCount(0);
+    setKeywordValue('');
+    setPageCount(1);
     setMoreData(true);
   };
 
   const handleSearchChange = (keyword: string) => {
+    setSelectedCategory('all');
+    setPageCount(1);
+    setMoreData(true);
     setKeywordValue(keyword);
+    if (keywordValue.length > 0) {
+      setIsSearched(true);
+    }
+    if (keywordValue.length === 0) {
+      setIsSearched(false);
+    }
   };
 
-  const handleRecruitingFilterCheck = () => {
-    setIsRecruitingFiltered((prev) => !prev);
+  const handleRecruitingSelect = (value: string) => {
+    setPageCount(1);
+    setMoreData(true);
+    setRecruitingFilter(value);
   };
 
   useEffect(() => {
+    window.scroll(0, 0);
     getProjectListData();
-  }, []);
+  }, [selectedCategory, recruitingFilter, keywordValue]);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (keywordValue.length > 0) {
-        getSearchListData();
-        setIsSearched(true);
-      }
-      if (keywordValue.length === 0) {
-        setIsSearched(false);
-        getSearchListData();
-      }
-    }, 300);
-    return () => clearTimeout(delayDebounceFn);
+    if (isSearched === true) {
+      setTimeout(() => {
+        console.log(2);
+        getProjectListData();
+        window.scroll(0, 0);
+      }, 1000);
+    }
   }, [keywordValue]);
 
   return (
@@ -121,10 +123,7 @@ function ProjectListMain() {
             value={keywordValue}
             isSearched={isSearched}
           />
-          <RecruitingProjectFilter
-            isFilterChecked={isRecruitingFiltered}
-            onChange={handleRecruitingFilterCheck}
-          />
+          <RecruitingProjectFilter onChange={handleRecruitingSelect} />
         </div>
         <ProjectList
           projectList={projectList}
@@ -132,8 +131,6 @@ function ProjectListMain() {
           moreData={moreData}
           innerRef={target}
         />
-
-        <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
   );
