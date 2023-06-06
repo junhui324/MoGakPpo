@@ -4,7 +4,7 @@
   display: flex;
   margin-bottom: 32px;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 24px 24px 24px 24px;
   // width: 100%;
   border: 1px solid #e8e8e8;
@@ -57,9 +57,9 @@
   }
   .secondContainer {
     width: 100%;
-    display: flex;
     font-size: 24px;
     font-weight: 550;
+    line-height: 2.2rem;
     .status.recruiting {
       color: $green;
     }
@@ -74,7 +74,7 @@
       color: #d0d8de;
     }
     .title {
-      line-height: 1.6rem;
+      display: inline;
     }
     .newTag {
       margin-left: 8px;

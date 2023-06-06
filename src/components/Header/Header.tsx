@@ -1,5 +1,6 @@
+import * as Token from '../../apis/Token';
 import ROUTES from '../../constants/Routes';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
@@ -9,11 +10,13 @@ import ProjectPostButton from '../common/ProjectPostButton';
 
 function Header() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(isLoggedIn);
-  }, []);
+
   const [modalOpen, setModalOpen] = useState(false);
+  const onClickLogout = () => {
+    Token.removeToken();
+    window.location.reload();
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
@@ -23,7 +26,7 @@ function Header() {
           </span>
         </div>
         <div className={styles.rightContainer}>
-          {isLoggedIn ? (
+          {Token.getToken() ? (
             <>
               <button
                 className={styles.userButton}
@@ -33,7 +36,11 @@ function Header() {
               >
                 <FaUserCircle />
               </button>
-              <MyPageModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+              <MyPageModal
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                onClickLogout={onClickLogout}
+              />
             </>
           ) : (
             <div className={styles.notLoggedIn}>

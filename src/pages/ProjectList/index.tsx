@@ -22,12 +22,18 @@ function ProjectListMain() {
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [keywordValue, setKeywordValue] = useState('');
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [isSearched, setIsSearched] = useState(false);
   const [isRecruitingFiltered, setIsRecruitingFiltered] = useState(false);
 
+  //useCallback으로 바꿔보기
   const getProjectListData = async (): Promise<void> => {
     //페이지네이션 추가되면 getData 구조 바꾸기
+    // try{
+    //   const projectList=await getProject(selectedCategory, pageCount, isRecruitingFiltered, isSearched&&keywordValue)
+    // }
+    // projects?cate=front&page=1&recruiting=false&keyword=false
+    // projects?cate=back&page=1&recruiting=true&keyword=웹
+
     try {
       if (pageCount === 0 && !isRecruitingFiltered) {
         const projectList =
@@ -68,7 +74,6 @@ function ProjectListMain() {
 
   const handleCategoryClick = (key: string) => {
     setSelectedCategory(key);
-    // getProjectListData();
     setPageCount(0);
     setMoreData(true);
   };
@@ -77,31 +82,27 @@ function ProjectListMain() {
     setKeywordValue(keyword);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearchKeyword(keywordValue);
-    keywordValue && getSearchListData();
-    if (keywordValue) {
-      setIsSearched(true);
-    } else if (isSearched && !keywordValue) {
-      setIsSearched(false);
-      getProjectListData();
-    }
-  };
-
-  const handleSearchCancelClick = () => {
-    setIsSearched(false);
-    getProjectListData();
-    setKeywordValue('');
-  };
-
   const handleRecruitingFilterCheck = () => {
     setIsRecruitingFiltered((prev) => !prev);
   };
 
+  // useEffect(() => {
+  //   getProjectListData();
+  // }, [selectedCategory, isRecruitingFiltered, pageCount]);
+
   useEffect(() => {
-    getProjectListData();
-  }, [selectedCategory]);
+    const delayDebounceFn = setTimeout(() => {
+      if (keywordValue.length > 0) {
+        getSearchListData();
+        setIsSearched(true);
+      }
+      if (keywordValue.length === 0) {
+        setIsSearched(false);
+        getSearchListData();
+      }
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [keywordValue]);
 
   return (
     <div className={styles.container}>
@@ -112,24 +113,25 @@ function ProjectListMain() {
         </div>
       </div>
       <div className={styles.rightContainer}>
-        <ProjectSearch
-          handleSubmit={handleSearchSubmit}
-          handleChange={handleSearchChange}
-          value={keywordValue}
-          searchKeyword={searchKeyword}
-          isSearched={isSearched}
-          handleSearchCancelClick={handleSearchCancelClick}
-        />
-        <RecruitingProjectFilter
-          isFilterChecked={isRecruitingFiltered}
-          onChange={handleRecruitingFilterCheck}
-        />
+        <div className={styles.searchContainer}>
+          <ProjectSearch
+            handleChange={handleSearchChange}
+            value={keywordValue}
+            isSearched={isSearched}
+          />
+          <RecruitingProjectFilter
+            isFilterChecked={isRecruitingFiltered}
+            onChange={handleRecruitingFilterCheck}
+          />
+        </div>
         <ProjectList
           projectList={projectList}
           isLoading={isLoading}
           moreData={moreData}
           innerRef={target}
         />
+
+        <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
   );

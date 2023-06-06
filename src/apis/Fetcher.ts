@@ -7,6 +7,7 @@ import * as UserType from '../interfaces/User.interface';
 import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
 import { AxiosResponse } from 'axios';
+import * as Token from './Token';
 
 const domain = `/mock`;
 
@@ -17,6 +18,43 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 export async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
   const params = `projects/info/${projectId}`;
   const response: AxiosResponse = await Api.get(API_KEY, params);
+  return response.data;
+}
+
+// 프로젝트 모집 완료 처리
+export async function patchProjectStatus(projectId: number): Promise<AxiosResponse> {
+  const params = `projects/recruitment/status/${projectId}`;
+  const data = {
+    project_recruitment_status: 'COMPLETE',
+  };
+  const response: AxiosResponse = await Api.patch(API_KEY, params, data);
+  return response;
+}
+
+// 프로젝트 삭제
+export async function deleteProject(projectId: number): Promise<AxiosResponse> {
+  const params = `projects/recruitment/${projectId}`;
+  const response: AxiosResponse = await Api.delete(API_KEY, params);
+  return response;
+}
+
+// 프로젝트 북마크 등록
+export async function postProjectBookmark(projectId: number): Promise<{ bookmark_id: number }> {
+  // 비회원 오류 이슈가 있었으므로 추가하였음.
+  if (!Token.getToken()) throw new Error('로그인이 필요한 요청입니다.');
+
+  const params = `bookmarks`;
+  const data = {
+    project_id: projectId,
+  };
+  const response: AxiosResponse = await Api.post(API_KEY, params, data);
+  return response.data;
+}
+
+// 프로젝트 북마크 취소
+export async function deleteProjectBookmark(projectId: number): Promise<{ bookmark_id: number }> {
+  const params = `bookmarks/${projectId}`;
+  const response: AxiosResponse = await Api.delete(API_KEY, params);
   return response.data;
 }
 
@@ -49,7 +87,7 @@ export async function getProjects(): Promise<{
   data: ProjectType.TypeProjectList[];
 }> {
   const params = `projects`;
-  return await Api.get(API_KEY, params, false);
+  return await Api.get(API_KEY, params, true);
 }
 
 // 모든 프로젝트 리스트 불러오기 페이지네이션
@@ -118,6 +156,15 @@ export async function getUserPosts(): Promise<{
   data: { user_projects: ProjectType.TypeUserPosts };
 }> {
   const params = `projects/user`;
+  return await Api.get(API_KEY, params, true);
+}
+
+// 유저 북마크 게시글 불러오기
+export async function getUserBookmarks(): Promise<{
+  message: string;
+  data: { user_projects: ProjectType.TypeUserPosts };
+}> {
+  const params = `projects/user/bookmark`;
   return await Api.get(API_KEY, params, true);
 }
 

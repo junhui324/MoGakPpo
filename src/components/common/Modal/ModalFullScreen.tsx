@@ -1,22 +1,14 @@
 import { useEffect, useRef } from 'react';
-import styles from './ModalBasic.module.scss';
+import styles from './ModalFullScreen.module.scss';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ReactDOM from 'react-dom';
 
-type TypeModalBasicProps = {
+interface ModalFullScreenProps {
   setModalOpen: (newValue: boolean) => void;
   children: React.ReactNode;
   closeButton?: boolean;
-  fullScreen?: boolean;
-  position?: string;
-};
-function ModalBasic({
-  setModalOpen,
-  children,
-  closeButton,
-  fullScreen,
-  position = 'left',
-}: TypeModalBasicProps) {
+}
+function ModalFullScreen({ setModalOpen, children, closeButton }: ModalFullScreenProps) {
   // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
   const closeModal = () => {
     setModalOpen(false);
@@ -46,8 +38,9 @@ function ModalBasic({
     };
   });
 
-  return (
-    <div className={`${styles.container} ${position === 'left' ? styles.left : styles.right}`}>
+  return ReactDOM.createPortal(
+    <div className={styles.container}>
+      <div className={styles.overlay}></div>
       <div ref={modalRef} className={styles.contentsContainer}>
         {closeButton && (
           <div className={styles.closeContainer}>
@@ -58,7 +51,8 @@ function ModalBasic({
         )}
         {children}
       </div>
-    </div>
+    </div>,
+    document.getElementById('root') as Element
   );
 }
-export default ModalBasic;
+export default ModalFullScreen;

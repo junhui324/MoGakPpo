@@ -3,7 +3,7 @@ import * as Token from './Token';
 
 interface RequestParams<T> {
   endpoint: string | undefined;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   params?: string;
   data?: any;
   requiresToken?: boolean;
@@ -70,4 +70,11 @@ const del = <T>(
   requiresToken = true
 ): Promise<T> => request<T>({ endpoint, method: 'DELETE', params, data, requiresToken });
 
-export { get, post, put, del as delete };
+const patch = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any,
+  requiresToken = true
+): Promise<T> => request<T>({ endpoint, method: 'PATCH', params, data, requiresToken });
+
+export { get, post, put, del as delete, patch };

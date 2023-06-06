@@ -9,11 +9,11 @@ import ProjectBody from '../../components/Project/ProjectBody';
 import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
+
 // data
 import * as Fetcher from '../../apis/Fetcher';
 // 타입
 import * as ProjectType from '../../interfaces/Project.interface';
-import { AxiosResponse } from 'axios';
 // 스타일
 import styles from './Project.module.scss';
 import { BiDotsVertical } from 'react-icons/bi';
@@ -60,6 +60,7 @@ function Project() {
     try {
       const data = await Fetcher.getProject(projectId);
       setProjectData(data);
+      console.log(data);
     } catch (loadingError) {
       alert(loadingError);
       navigate(ROUTES.PROJECT_LIST);
@@ -119,6 +120,7 @@ function Project() {
     setBookmarksData(() => {
       return projectData
         ? {
+            project_id: projectData.project_id,
             is_bookmarked: projectData.is_bookmarked,
             project_bookmark_count: projectData.project_bookmark_count,
             project_type: projectData.project_type,
