@@ -21,6 +21,10 @@ import { BiDotsVertical } from 'react-icons/bi';
 //상수
 import ROUTES from '../../constants/Routes';
 
+//recoil
+import { useRecoilState } from 'recoil';
+import { projectIdState } from '../../recoil/projectState';
+
 const LOADING_LOGO_SIZE: number = 32;
 const LOADING_LOGO_COLOR: string = '#95a4b0';
 
@@ -54,11 +58,15 @@ function Project() {
   const [bookmarksData, setBookmarksData] = useState<ProjectType.TypeProjectBookmarks | null>(null);
   const [modifyData, setModifyData] = useState<ProjectType.TypeProjectModify | null>(null);
 
+  const [projectIdRecoil, setProjectIdRecoil] = useRecoilState(projectIdState);
+
   // 데이터 API 호출 함수
   const fetchData = async () => {
     setIsLoading(true);
     try {
       const data = await Fetcher.getProject(projectId);
+      setProjectIdRecoil(projectId);
+      console.log(projectIdRecoil);
       setProjectData(data);
       console.log(data);
     } catch (loadingError) {

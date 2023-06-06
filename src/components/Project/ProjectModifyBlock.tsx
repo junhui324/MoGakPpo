@@ -75,9 +75,16 @@ function RecruitmentCompleteButton({
   );
 }
 
-function ModifyButton({ recruitmentStatus }: { recruitmentStatus: string }) {
+interface ModifyButtonType {
+  recruitmentStatus: string;
+  onClick: () => void;
+}
+
+function ModifyButton({ recruitmentStatus, onClick }: ModifyButtonType) {
   return recruitmentStatus === RECRUITING ? (
-    <button className={styles.modifyButton}>수정</button>
+    <button className={styles.modifyButton} onClick={onClick}>
+      수정
+    </button>
   ) : recruitmentStatus === COMPLETE ? (
     <button disabled={true} className={styles.modifyDisableButton}>
       수정
@@ -148,6 +155,10 @@ export default function ProjectModifyBlock({
     }
   };
 
+  const handleModifyClick = () => {
+    navigate(`/modify`);
+  };
+
   if (modifyData) {
     const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
 
@@ -159,7 +170,10 @@ export default function ProjectModifyBlock({
             onClick={() => setIsCompleteModalOpen(true)}
           />
           <div className={styles.modifyContainer}>
-            <ModifyButton recruitmentStatus={recruitmentStatus} />
+            <ModifyButton
+              recruitmentStatus={recruitmentStatus}
+              onClick={() => handleModifyClick()}
+            />
             <button className={styles.deleteButton} onClick={() => setIsDeleteModalOpen(true)}>
               삭제
             </button>

@@ -15,6 +15,8 @@ import UpdateUser from './pages/UpdateUser';
 import Register from './pages/Register';
 import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
+import Modify from './pages/ProjectModify';
+import Preview from './pages/ProjectPreview';
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
           <Route path={ROUTES.MY_PAGE} element={<MyPage />} />
           <Route path={ROUTES.USER_UPDATE} element={<UpdateUser />} />
           <Route path="/user/38" element={<UserPage />} />
+          <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
+          <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
         </Routes>
       </div>
     </BrowserRouter>

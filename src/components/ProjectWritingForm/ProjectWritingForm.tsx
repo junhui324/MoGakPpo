@@ -19,25 +19,57 @@ import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  projectState,
+  stackListState,
+  classificationState,
+  projectIdState,
+} from '../../recoil/projectState';
+
 function ProjectWritingForm() {
-  const [project, setProject] = useState<TypeProjectPost>({
-    project_type: '',
-    project_title: '',
-    project_summary: '',
-    project_recruitment_roles: { roleList: [] as string[] },
-    project_required_stacks: { stackList: [] as string[] },
-    project_goal: '',
-    project_participation_time: '',
-    project_introduction: '',
-    project_img: null,
-  });
+  const [project, setProject] = useRecoilState(projectState);
+  const [classification, setClassification] = useRecoilState(classificationState);
+  const projectId = useRecoilValue(projectIdState);
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
-  const [stackList, setStackList] = useState<string[]>([]);
+  //const [stackList, setStackList] = useState<string[]>([]);
+  const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
   const navigate = useNavigate();
+
+  // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
+  const getProjectData = async () => {
+    try {
+      const data = await Fetcher.getProject(projectId);
+      console.log(data);
+      setProject({
+        ...project,
+        project_type: data.project_type,
+        project_title: data.project_title,
+        project_summary: data.project_summary,
+        project_recruitment_roles: { roleList: [] },
+        project_required_stacks: { stackList: [...data.project_required_stacks.stackList] },
+        project_goal: '',
+        project_participation_time: '',
+        project_introduction: data.project_introduction,
+        project_img: null,
+      });
+    } catch (loadingError) {
+      alert(loadingError);
+    }
+  };
+
+  useEffect(() => {
+    if (classification === 'create') {
+      console.log('게시글 작성 페이지');
+    } else if (classification === 'modify') {
+      console.log('수정하기 페이지', classification);
+      getProjectData();
+    }
+  }, [classification]);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -47,6 +79,7 @@ function ProjectWritingForm() {
   useEffect(() => {
     const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
     const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
+    console.log(projectTypeValue, key);
     if (projectTypeValue && key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -60,7 +93,9 @@ function ProjectWritingForm() {
       setStackList(['미정']);
     }
     if (stackList[0] === '미정' && stackList.length === 2) {
-      stackList.shift();
+      const newStackList = [...stackList];
+      newStackList.shift();
+      setStackList(newStackList);
     }
     setProject((prevProject) => ({
       ...prevProject,
@@ -155,22 +190,7 @@ function ProjectWritingForm() {
       },
     }));
 
-    (async () => {
-      const res = await postProject();
-      console.log('res: ', res);
-      //navigate(`/project/${res}`);
-    })();
-  };
-
-  //백엔드에 데이터 전송하는 함수
-  const postProject = async () => {
-    try {
-      const res = await Fetcher.postProject(project);
-      // @ts-ignore
-      return res.data.project_id;
-    } catch (error) {
-      console.log(`POST 요청 에러 : ${error}`);
-    }
+    navigate(`/preview`);
   };
 
   // 유효성 검사
@@ -202,6 +222,9 @@ function ProjectWritingForm() {
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  //console.log('project : ', project);
+  //console.log('stackList : ', stackList);
 
   useBeforeUnload();
 
@@ -363,7 +386,7 @@ function ProjectWritingForm() {
 
       <div>
         <button className={styles.submitButton} onClick={handleSubmitButton}>
-          작성 완료
+          {classification === 'create' ? '작성 완료' : '수정 완료'}
         </button>
         {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
       </div>
