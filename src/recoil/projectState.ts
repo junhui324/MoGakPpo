@@ -20,3 +20,8 @@ export const stackListState = atom<string[]>({
   key: 'stackListState',
   default: [],
 });
+
+export const classificationState = atom<string>({
+  key: 'classificationState',
+  default: '',
+});

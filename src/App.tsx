@@ -14,7 +14,7 @@ import ProjectWriting from './pages/ProjectWriting';
 import UpdateUser from './pages/UpdateUser';
 import Register from './pages/Register';
 import Home from './pages/Home/Home';
-import ProjectWritingForm from './components/ProjectWritingForm/ProjectWritingForm';
+import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
 
 function App() {
@@ -39,10 +39,7 @@ function App() {
           {/* <Route path="/user/delete" element={}/> */}
           <Route path={ROUTES.MY_PAGE} element={<MyPage />} />
           <Route path={ROUTES.USER_UPDATE} element={<UpdateUser />} />
-          <Route
-            path={ROUTES.MODIFY_PROJECT}
-            element={<ProjectWritingForm classification="modify" />}
-          />
+          <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
         </Routes>
       </div>

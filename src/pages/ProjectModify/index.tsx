@@ -3,12 +3,12 @@ import { useRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import { useEffect } from 'react';
 
-function ProjectWriting() {
+function Modify() {
   const [classification, setClassification] = useRecoilState(classificationState);
+  console.log('modify 저장');
   useEffect(() => {
-    console.log('create 저장');
-    setClassification('create');
+    setClassification('modify');
   }, [classification]);
   return <ProjectWritingForm />;
 }
-export default ProjectWriting;
+export default Modify;

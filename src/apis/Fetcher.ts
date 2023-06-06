@@ -91,7 +91,7 @@ export async function patchProject(
   data: ProjectType.TypeProjectPost,
   project_id: number
 ): Promise<{ message: string; data: number }> {
-  const params = `projects/recruitment/:${project_id}`;
+  const params = `projects/recruitment/${project_id}`;
   return await Api.patch(API_KEY, params, data, true);
 }
 

@@ -20,25 +20,11 @@ import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { useRecoilState } from 'recoil';
-import { projectState, stackListState } from '../../recoil/projectState';
+import { projectState, stackListState, classificationState } from '../../recoil/projectState';
 
-interface classificationType {
-  classification: string;
-}
-
-function ProjectWritingForm({ classification }: classificationType) {
-  // const [project, setProject] = useState<TypeProjectPost>({
-  //   project_type: '',
-  //   project_title: '',
-  //   project_summary: '',
-  //   project_recruitment_roles: { roleList: [] as string[] },
-  //   project_required_stacks: { stackList: [] as string[] },
-  //   project_goal: '',
-  //   project_participation_time: '',
-  //   project_introduction: '',
-  //   project_img: null,
-  // });
+function ProjectWritingForm() {
   const [project, setProject] = useRecoilState(projectState);
+  const [classification, setClassification] = useRecoilState(classificationState);
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
@@ -58,10 +44,10 @@ function ProjectWritingForm({ classification }: classificationType) {
         project_type: data.project_type,
         project_title: data.project_title,
         project_summary: data.project_summary,
-        project_recruitment_roles: { roleList: [...data.project_recruitment_roles.roleList] },
+        project_recruitment_roles: { roleList: [] },
         project_required_stacks: { stackList: [...data.project_required_stacks.stackList] },
-        project_goal: data.project_goal,
-        project_participation_time: data.project_participation_time,
+        project_goal: '',
+        project_participation_time: '',
         project_introduction: data.project_introduction,
         project_img: null,
       });
@@ -72,11 +58,12 @@ function ProjectWritingForm({ classification }: classificationType) {
 
   useEffect(() => {
     if (classification === 'create') {
+      console.log('게시글 작성 페이지');
     } else if (classification === 'modify') {
-      console.log('수정하기 페이지');
+      console.log('수정하기 페이지', classification);
       getProjectData();
     }
-  }, []);
+  }, [classification]);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -198,42 +185,6 @@ function ProjectWritingForm({ classification }: classificationType) {
     }));
 
     navigate(`/preview`);
-
-    // if (classification === 'create') {
-    //   (async () => {
-    //     const res = await postProject();
-    //     console.log('res: ', res);
-    //     navigate(`/project/${res}`);
-    //   })();
-    // } else if (classification === 'modify') {
-    //   (async () => {
-    //     const res = await patchProject();
-    //     console.log('res: ', res);
-    //     navigate(`/project/${res}`);
-    //   })();
-    // }
-  };
-
-  //백엔드에 게시물 데이터 전송하는 POST 함수
-  const postProject = async () => {
-    try {
-      const res = await Fetcher.postProject(project);
-      // @ts-ignore
-      return res.data.project_id;
-    } catch (error) {
-      console.log(`POST 요청 에러 : ${error}`);
-    }
-  };
-
-  //백엔드에 게시물 데이터 전송하는 PATCH 함수
-  const patchProject = async () => {
-    try {
-      const res = await Fetcher.patchProject(project, 39);
-      // @ts-ignore
-      return res.data.project_id;
-    } catch (error) {
-      console.log(`PATCH 요청 에러 : ${error}`);
-    }
   };
 
   // 유효성 검사
@@ -267,7 +218,7 @@ function ProjectWritingForm({ classification }: classificationType) {
   };
 
   console.log('project : ', project);
-  console.log('stackList : ', stackList);
+  //console.log('stackList : ', stackList);
 
   useBeforeUnload();
 

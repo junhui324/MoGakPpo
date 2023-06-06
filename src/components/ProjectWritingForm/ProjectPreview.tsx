@@ -1,27 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../pages/Project/Project.module.scss';
+import styles from './ProjectPreview.module.scss';
 import ProjectTitle from '../Project/ProjectTitle';
 import ProjectBody from '../Project/ProjectBody';
 import * as ProjectType from '../../interfaces/Project.interface';
+import * as Fetcher from '../../apis/Fetcher';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { projectState } from '../../recoil/projectState';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { projectState, classificationState } from '../../recoil/projectState';
 
 function ProjectPreview() {
-  const [projectData, setProjectData] = useState<ProjectType.TypeProject | null>(null);
-  const project = useRecoilValue(projectState);
+  const [project, setProject] = useRecoilState(projectState);
+  const classification = useRecoilValue(classificationState);
+  const resetProject = useResetRecoilState(projectState);
   const [titleData, setTitleData] = useState<any>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
   const navigate = useNavigate();
-  const [modifyButtonClick, setModifyButtonClick] = useState(false);
 
   useEffect(() => {
     console.log(project);
     setTitleData(() => {
       return {
         project_type: project.project_type,
-        project_recruitment_status: '작성 중',
+        project_recruitment_status: 'RECRUITING',
         project_title: project.project_title,
         project_created_at: '0',
         project_comments_count: 0,
@@ -41,13 +42,64 @@ function ProjectPreview() {
   }, []);
 
   const handleModifyButton = () => {
+    // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
     let pType = '';
     if (project.project_type === 'PROJECT') {
       pType = 'project';
     } else if (project.project_type === 'STUDY') {
       pType = 'study';
     }
+
+    // 체크 버튼, 라디오 버튼 초기화
+    setProject((prevProject) => {
+      return {
+        ...prevProject,
+        project_recruitment_roles: { roleList: [] },
+        project_participation_time: '',
+        project_goal: '',
+      };
+    });
+
     navigate(`/create/${pType}`);
+  };
+
+  const handleSubmitButton = () => {
+    if (classification === 'create') {
+      (async () => {
+        const res = await postProject();
+        resetProject();
+        console.log('res: ', res);
+        navigate(`/project/${res}`);
+      })();
+    } else if (classification === 'modify') {
+      (async () => {
+        const res = await patchProject();
+        console.log('res: ', res);
+        navigate(`/project/${res}`);
+      })();
+    }
+  };
+
+  //백엔드에 게시물 데이터 전송하는 POST 함수
+  const postProject = async () => {
+    try {
+      const res = await Fetcher.postProject(project);
+      // @ts-ignore
+      return res.data.project_id;
+    } catch (error) {
+      console.log(`POST 요청 에러 : ${error}`);
+    }
+  };
+
+  //백엔드에 게시물 데이터 전송하는 PATCH 함수
+  const patchProject = async () => {
+    try {
+      const res = await Fetcher.patchProject(project, 39);
+      // @ts-ignore
+      return res.data.project_id;
+    } catch (error) {
+      console.log(`PATCH 요청 에러 : ${error}`);
+    }
   };
 
   return (
@@ -57,10 +109,14 @@ function ProjectPreview() {
           <ProjectTitle titleData={titleData} />
           <ProjectBody bodyData={bodyData} />
         </div>
-      </div>
-      <div>
-        <button onClick={handleModifyButton}>프로젝트 편집</button>
-        <button>등록하기</button>
+        <div className={styles.rightContainer}>
+          <button className={styles.modify} onClick={handleModifyButton}>
+            프로젝트 편집
+          </button>
+          <button className={styles.submit} onClick={handleSubmitButton}>
+            등록하기
+          </button>
+        </div>
       </div>
     </>
   );

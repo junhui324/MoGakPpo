@@ -1,0 +1,53 @@
+@import '/src/variables.scss';
+
+@mixin btn {
+  width: 100%;
+  height: 50px;
+  border-radius: 7px;
+  font-size: 17px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: $header-height;
+
+  .leftContainer {
+    margin-right: 250px;
+    margin-bottom: 80px;
+  }
+  .rightContainer {
+    display: grid;
+    grid-template-rows: repeat(2, 100px);
+    margin-top: 50px;
+    margin-left: 100px;
+    width: 290px;
+    height: 145px;
+    .modify {
+      @include btn;
+      background-color: white;
+      color: rgba($color: #443f3f, $alpha: 0.8);
+      border: 1.2px solid;
+      &:hover {
+        background-color: rgba($color: $gray-back-color, $alpha: 0.8);
+        color: rgba($color: #443f3f, $alpha: 1);
+      }
+    }
+    .submit {
+      @include btn;
+      border-style: none;
+      background-color: rgba($color: #f55b5b, $alpha: 0.5);
+      color: white;
+      &:hover {
+        background-color: rgba($color: #f55b5b, $alpha: 0.8);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}
