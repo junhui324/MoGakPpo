@@ -3,7 +3,7 @@ import { CgShare } from 'react-icons/cg';
 
 // 스타일
 import styles from './ProjectShare.module.scss';
-import ModalBasic from '../common/Modal/ModalBasic';
+import ModalFullScreen from '../common/Modal/ModalFullScreen';
 import DefaultUserImage from '../../assets/DefaultUser.png';
 
 //로고
@@ -79,7 +79,7 @@ ${title}
   };
 
   return (
-    <ModalBasic setModalOpen={() => true} closeButton={false} fullScreen={true}>
+    <ModalFullScreen setModalOpen={() => true} closeButton={false}>
       <div className={styles.modalContainer}>
         <button className={styles.closeButton} onClick={onClose}>
           <MdClose size={CLOSE_LOGO_SIZE} color={CLOSE_LOGO_COLOR} />
@@ -104,7 +104,7 @@ ${title}
           </button>
         </div>
       </div>
-    </ModalBasic>
+    </ModalFullScreen>
   );
 };
 

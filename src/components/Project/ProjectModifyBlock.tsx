@@ -3,7 +3,7 @@ import * as Fetcher from '../../apis/Fetcher';
 import { useNavigate } from 'react-router-dom';
 
 // 컴포넌트
-import ModalBasic from '../common/Modal/ModalBasic';
+import ModalFullScreen from '../common/Modal/ModalFullScreen';
 // 타입
 import { TypeProjectModify, TypeProject } from '../../interfaces/Project.interface';
 import { AxiosResponse } from 'axios';
@@ -19,7 +19,7 @@ const COMPLETE = '모집 완료';
 
 const CompleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
   return (
-    <ModalBasic setModalOpen={() => true} closeButton={false} fullScreen={true}>
+    <ModalFullScreen setModalOpen={() => true} closeButton={false}>
       <div className={styles.modalContainer}>
         <p className={styles.modalText}>모집 완료하실 건가요?</p>
         <div className={styles.modalButtonBox}>
@@ -31,13 +31,13 @@ const CompleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
           </button>
         </div>
       </div>
-    </ModalBasic>
+    </ModalFullScreen>
   );
 };
 
 const DeleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
   return (
-    <ModalBasic setModalOpen={() => true} closeButton={false} fullScreen={true}>
+    <ModalFullScreen setModalOpen={() => true} closeButton={false}>
       <div className={styles.modalContainer}>
         <p className={styles.modalText}>삭제하실 건가요?</p>
         <div className={styles.modalButtonBox}>
@@ -49,7 +49,7 @@ const DeleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
           </button>
         </div>
       </div>
-    </ModalBasic>
+    </ModalFullScreen>
   );
 };
 
