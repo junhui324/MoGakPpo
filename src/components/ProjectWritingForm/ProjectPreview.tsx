@@ -42,14 +42,6 @@ function ProjectPreview() {
   }, []);
 
   const handleModifyButton = () => {
-    // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
-    let pType = '';
-    if (project.project_type === 'PROJECT') {
-      pType = 'project';
-    } else if (project.project_type === 'STUDY') {
-      pType = 'study';
-    }
-
     // 체크 버튼, 라디오 버튼 초기화
     setProject((prevProject) => {
       return {
@@ -60,7 +52,18 @@ function ProjectPreview() {
       };
     });
 
-    navigate(`/create/${pType}`);
+    // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
+    let pType = '';
+    if (classification === 'create') {
+      if (project.project_type === 'PROJECT') {
+        pType = 'project';
+      } else if (project.project_type === 'STUDY') {
+        pType = 'study';
+      }
+      navigate(`/create/${pType}`);
+    } else if (classification === 'modify') {
+      navigate(`/modify`);
+    }
   };
 
   const handleSubmitButton = () => {
@@ -110,7 +113,10 @@ function ProjectPreview() {
           <ProjectBody bodyData={bodyData} />
         </div>
         <div className={styles.rightContainer}>
-          <button className={styles.modify} onClick={handleModifyButton}>
+          <button
+            className={`${styles.modify} ${classification === 'modify' ? styles.modifyTrue : ''}`}
+            onClick={handleModifyButton}
+          >
             프로젝트 편집
           </button>
           <button className={styles.submit} onClick={handleSubmitButton}>
