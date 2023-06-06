@@ -22,8 +22,6 @@
     font-size: 18px;
     color: $main-color;
 
-    margin-bottom: 16px;
-
     cursor: pointer;
 
     transition: box-shadow 0.5s ease;
@@ -48,10 +46,38 @@
     }
   }
 
-  .bookmarkText {
-    height: 14px;
-    font-size: 14px;
-    color: rgb(118, 133, 154);
+  .bookmarkUserBox {
+    display: flex;
+    align-items: center;
+
+    margin: 10px 0;
+    height: 20px;
+
+    .bookmarkUserImages {
+      position: relative;
+      margin-right: 6px;
+      .bookmarkUserImageCircle {
+        position: absolute;
+        top: -10px;
+        left: 5px;
+
+        width: 18px;
+        height: 18px;
+        border-radius: 18px;
+        border: 1px white solid;
+        overflow: hidden;
+        .bookmarkUserImage {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .bookmarkText {
+      height: 13px;
+      font-size: 13px;
+      margin-bottom: 1px;
+      color: rgb(118, 133, 154);
+    }
   }
 }
 

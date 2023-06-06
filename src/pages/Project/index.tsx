@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utils/getUserInfo';
 import Comment from '../../components/Comment';
+import * as Token from '../../apis/Token';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -68,10 +69,18 @@ function Project() {
       setProjectIdRecoil(projectId);
       console.log(projectIdRecoil);
       setProjectData(data);
-      console.log(data);
     } catch (loadingError) {
-      alert(loadingError);
-      navigate(ROUTES.PROJECT_LIST);
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '401':
+            alert(`${loadingError}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${loadingError}: 예기치 못한 서버 오류입니다.`);
+            navigate(ROUTES.PROJECT_LIST);
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -156,7 +165,7 @@ function Project() {
         </div>
         <div className={styles.rightContainer}>
           <ProjectAuthorProfile authorData={authorData} />
-          <ProjectBookmarkBlock bookmarksData={bookmarksData} />
+          <ProjectBookmarkBlock bookmarksData={bookmarksData} fetchData={fetchData} />
           {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
           {isAuthor() ? (
             <ProjectModifyBlock modifyData={modifyData} fetchData={fetchData} />

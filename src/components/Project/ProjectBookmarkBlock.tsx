@@ -9,9 +9,13 @@ import { AxiosResponse } from 'axios';
 
 // 스타일
 import styles from './ProjectBookmarkBlock.module.scss';
+import DefaultUser from '../../assets/DefaultUser.png';
+
 // 상수
 import { PROJECT_TYPE } from '../../constants/project';
 import ROUTES from '../../constants/Routes';
+
+const LEFT_POSITION = 10;
 
 function BookmarkLogo({ className }: { className: string }) {
   return (
@@ -31,17 +35,29 @@ function BookmarkLogo({ className }: { className: string }) {
 
 export default function ProjectBookmarkBlock({
   bookmarksData,
+  fetchData,
 }: {
   bookmarksData: TypeProjectBookmarks | null;
+  fetchData: () => Promise<void>;
 }) {
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);
+  const [userImages, setUserImages] = useState<string[]>(['']);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (bookmarksData) {
       setBookmarksCount(bookmarksData.project_bookmark_count);
       setIsBookmark(bookmarksData.is_bookmarked);
+      // 북마크한 유저 이미지 3개를 저장합니다.
+      setUserImages(() => {
+        const newUserImages = [];
+        for (let i = 0; i < 3; i++)
+          if (!!bookmarksData.project_bookmark_users[i])
+            newUserImages.push(bookmarksData.project_bookmark_users[i].user_img);
+          else break;
+        return [...newUserImages.reverse()];
+      });
     }
   }, [bookmarksData]);
 
@@ -59,8 +75,7 @@ export default function ProjectBookmarkBlock({
 
             // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
             if (!(response.bookmark_id === bookmarksData.project_id)) new Error('예기치 못한 에러');
-            setBookmarksCount((prev) => prev + 1);
-            setIsBookmark(true);
+            fetchData();
           } catch (error) {
             alert(`${error} : 북마크 등록에 실패했습니다.`);
           }
@@ -73,8 +88,7 @@ export default function ProjectBookmarkBlock({
 
             // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
             if (!(response.bookmark_id === bookmarksData.project_id)) new Error('예기치 못한 에러');
-            setBookmarksCount((prev) => prev - 1);
-            setIsBookmark(false);
+            fetchData();
           } catch (error) {
             alert(`${error} : 북마크 취소에 실패했습니다.`);
           }
@@ -103,11 +117,28 @@ export default function ProjectBookmarkBlock({
             </>
           )}
         </button>
-        <p className={styles.bookmarkText}>
-          {bookmarksCount > 0
-            ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
-            : ''}
-        </p>
+        <div className={styles.bookmarkUserBox}>
+          <div
+            className={styles.bookmarkUserImages}
+            style={{ width: (userImages.length + 1) * 10 }}
+          >
+            {userImages.map((image, index) => {
+              return (
+                <div
+                  className={styles.bookmarkUserImageCircle}
+                  style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
+                >
+                  <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
+                </div>
+              );
+            })}
+          </div>
+          <p className={styles.bookmarkText}>
+            {bookmarksCount > 0
+              ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
+              : ''}
+          </p>
+        </div>
       </div>
     );
   } else {
