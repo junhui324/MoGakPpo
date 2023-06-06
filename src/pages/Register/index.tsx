@@ -134,7 +134,7 @@ function Register() {
     <>
       <div className={styles.container}>
         <div className={styles.mainTitle}>요즘 개발자 커뮤니티</div>
-        <div className={styles.subTitle}>지금 커리어리에 가입하세요</div>
+        <div className={styles.subTitle}>지금 모프에 가입하세요</div>
         <div className={styles.part}>
           <div className={styles.partTitle}>이메일로 시작하기</div>
           <div className={styles.partMain}>

@@ -75,8 +75,6 @@ function Login() {
           path: '/',
         });
 
-        // console.log(data);
-
         localStorage.setItem(
           'user',
           JSON.stringify({
@@ -85,7 +83,7 @@ function Login() {
             user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
           })
         );
-
+        
         navigate('/');
       }
     } catch (e) {
