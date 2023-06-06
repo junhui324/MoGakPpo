@@ -114,9 +114,11 @@ function Project({ projectData }: projectDataProps) {
       {requiredStacks && (
         <ul className={styles.stacksContainer}>
           <span>기술스택</span>
-          {requiredStacks.stackList.map((stack, index) => (
-            <li key={index}>{stack}</li>
-          ))}
+          <ul>
+            {requiredStacks.stackList.map((stack, index) => (
+              <li key={index}>{stack}</li>
+            ))}
+          </ul>
         </ul>
       )}
       {(bookmarkCount > 0 || commentsCount > 0 || viewsCount > 0) && (

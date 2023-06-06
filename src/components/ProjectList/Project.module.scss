@@ -103,11 +103,18 @@
   }
 
   .stacksContainer {
-    display: flex;
+    display: inline;
+    line-height: 1.5rem;
     font-size: 16px;
     color: rgb(130, 141, 157);
     font-weight: 500;
+    span {
+      display: inline;
+      width: fit-content;
+    }
+
     span::after {
+      display: inline;
       margin-left: 8px;
       margin-right: 8px;
       content: '|';
@@ -120,6 +127,12 @@
     }
     li:last-child::after {
       content: none;
+    }
+    ul {
+      display: inline;
+    }
+    ul > li {
+      display: inline;
     }
   }
 
