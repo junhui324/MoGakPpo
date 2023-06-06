@@ -10,14 +10,18 @@ import useBeforeUnload from '../../hooks/useBeforeUnload';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
-  const [user, setUser] = useState<TypeUserProfile>();
-  const [imageSrc, setImageSrc] = useState(user?.user_img);
-  const [userStack, setUserStack] = useState<string[]>(user?.user_stacks.stackList ?? []);
-  const [inputName, setInputName] = useState<string>('');
-  const [inputIntro, setInputIntro] = useState<string>('');
-  const [inputCareer, setInputCareer] = useState<string>('');
-  
+  const [user, setUser] = useState<TypeUserProfile | null>(null);
+  const [imageSrc, setImageSrc] = useState<string | undefined>(DefaultUserImg);
+  const [userStack, setUserStack] = useState<string[]>([]);
+  const [inputNameLength, setInputNameLength] = useState<number>(0);
+  const [inputIntroLength, setInputIntroLength] = useState<number>(0);
+  const [inputCareerLength, setInputCareerLength] = useState<number>(0);
+  const [isChanged, setIsChanged] = useState<boolean>(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputNameRef = useRef<HTMLInputElement>(null);
+  const inputIntroRef = useRef<HTMLTextAreaElement>(null);
+  const inputCareerRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
@@ -29,6 +33,10 @@ function UpdateUser() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+
+    fileInputRef.current?.value !== user?.user_img 
+    ? setIsChanged(true) 
+    : setIsChanged(false);
   };
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,28 +49,30 @@ function UpdateUser() {
       };
       reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    max: number,
-    title: string
+    input: React.RefObject<HTMLInputElement | HTMLTextAreaElement>,
+    inputStateSetter: React.Dispatch<React.SetStateAction<number>>,
+    max: number
   ) => {
     const { value } = e.target;
-    if (value.length <= max) {
-      switch (title) {
-        case 'name': {
-          setInputName(value);
-          break;
-        }
-        case 'intro': {
-          setInputIntro(value);
-          break;
-        }
-        case 'career': {
-          setInputCareer(value);
-          break;
-        }
+    if (value.length <= max && input.current) {
+      inputStateSetter(input.current?.value.length);
+    }
+
+    switch(input.current?.name) {
+      case 'name': {
+        input.current.value !== user?.user_name ? setIsChanged(true) : setIsChanged(false);
+        break;
+      }
+      case 'intro': {
+        input.current.value !== user?.user_introduction ? setIsChanged(true) : setIsChanged(false);
+        break;
+      }
+      case 'career': {
+        input.current.value !== user?.user_career_goal ? setIsChanged(true) : setIsChanged(false);
       }
     }
   };
@@ -71,128 +81,134 @@ function UpdateUser() {
     setUserStack(stacks);
   };
 
-
-  const getUserData = async () => {
-    try {
-      const { data } = await getUserProfile();
-      setUser(data);
-      setImageSrc(data.user_img || DefaultUserImg);
-      setInputName(data.user_name);
-      setInputIntro(data.user_introduction);
-      setInputCareer(data.user_career_goal);
-      setUserStack(data.user_stacks.stackList);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updatedUserData = {
-    user_img: imageSrc || '',
-    user_name: inputName.trim(),
-    user_introduction: inputIntro || '',
-    user_career_goal: inputCareer || '',
-    user_stacks: {
-      stackList: userStack || [],
-    },
-  };
-
   const isValidName = () => {
-    if (inputName.trim().length === 0) {
-      return false;
-    }
-    return true;
-  }
+    return inputNameRef.current && inputNameRef.current.value.trim().length > 0;
+  };
 
-  const handleSumbit = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    
-    if (window.confirm('수정하시겠습니까?')) {
+
+    if (isValidName() && isChanged && window.confirm('수정하시겠습니까?')) {
       try {
-        await updateUserProfile(updatedUserData);
+        if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
+          const updatedUserData = {
+            user_img: imageSrc || DefaultUserImg,
+            user_name: inputNameRef.current.value.trim(),
+            user_introduction: inputIntroRef.current.value || '',
+            user_career_goal: inputCareerRef.current.value || '',
+            user_stacks: {
+              stackList: userStack || [],
+            },
+          };
+  
+          await updateUserProfile(updatedUserData);
+          navigate(`${ROUTES.MY_PAGE}`);
+        }
+
       } catch (error) {
         console.log(error);
       }
-
-      navigate(`${ROUTES.MY_PAGE}`);
     }
+  };
+
+  const handleCancel = () => {
+    
   }
 
-  useBeforeUnload();
-
   useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const { data } = await getUserProfile();
+        setUser(data);
+        setImageSrc(data.user_img || DefaultUserImg);
+        setUserStack(data.user_stacks.stackList);
+        setInputNameLength(data.user_name.length);
+        setInputIntroLength(data.user_introduction.length);
+        setInputCareerLength(data.user_career_goal.length);
+      } catch (error) {
+        alert('잘못된 접근입니다. 로그인 및 회원가입을 진행해주세요');
+        navigate(`${ROUTES.LOGIN}`);
+      }
+    };
+
     getUserData();
   }, []);
 
-  const buttonClassName = isValidName() ? styles.submitButton : styles.disabledButton;
+  const buttonClassName = isValidName() && isChanged ? styles.submitButton : styles.disabledButton;
 
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
-        <div className={styles.imageContainer}>
-          <img 
-            className={styles.image} 
-            src={imageSrc} 
-            alt={user?.user_name}
-            onClick={handleImageChange}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileSelect}
-            className={styles.fileInput}
-            ref={fileInputRef}
-          />
-          <RiAddCircleFill 
-            className={styles.addButton} 
-            onClick={handleImageChange} 
-          />
-        </div>
-        <div className={styles.nameContainer}>
-          <label className={styles.name}>이름</label>
-          <input 
-            type="text" 
-            value={inputName}
-            placeholder="이름을 입력해 주세요."
-            maxLength={MAX_NAME_COUNT}
-            onChange={(e) => handleChange(e, MAX_NAME_COUNT, 'name')}
-          />
-          <p>{inputName.trim().length}/{MAX_NAME_COUNT}</p>
-        </div>
-        <div className={styles.introContainer}>
-          <label>자기소개</label>
-          <textarea
-            value={inputIntro}
-            placeholder="자기소개를 입력해 주세요."
-            maxLength={MAX_INTRO_COUNT}
-            onChange={(e) => handleChange(e, MAX_INTRO_COUNT, 'intro')}
-          />
-          <p>{inputIntro.length}/{MAX_INTRO_COUNT}</p>
-        </div>
-        <div className={styles.CareerContainer}>
-          <label>원하는 직군</label>
-          <input 
-            type="text" 
-            value={inputCareer}
-            placeholder="원하는 직군을 입력해 주세요."
-            maxLength={MAX_CAREER_COUNT}
-            onChange={(e) => handleChange(e, MAX_CAREER_COUNT, 'career')}
-          />
-          <p>{inputCareer.length}/{MAX_CAREER_COUNT}</p>
-        </div>
-        <Stack 
-          selectedStack={userStack}
-          setStackList={handleSetStackList}
-        />
-        <button
-          className={buttonClassName}
-          onClick={handleSumbit}
-          disabled={!isValidName()}
-        >
-          완료
-        </button>
-      </form>
+      {user && (
+        <form className={styles.form}>
+          <div className={styles.imageContainer}>
+            <img
+              className={styles.image}
+              src={imageSrc}
+              alt={user.user_name}
+              onClick={handleImageChange}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className={styles.fileInput}
+              ref={fileInputRef}
+            />
+            <RiAddCircleFill className={styles.addButton} onClick={handleImageChange} />
+          </div>
+          <div className={styles.nameContainer}>
+            <label className={styles.name}>이름</label>
+            <input
+              type="text"
+              name="name"
+              defaultValue={user.user_name}
+              ref={inputNameRef}
+              placeholder="이름을 입력해 주세요."
+              maxLength={MAX_NAME_COUNT}
+              onChange={(e) => handleChange(e, inputNameRef, setInputNameLength, MAX_NAME_COUNT)}
+            />
+            <p>{inputNameLength}/{MAX_NAME_COUNT}</p>
+          </div>
+          <div className={styles.introContainer}>
+            <label>자기소개</label>
+            <textarea
+              name="intro"
+              defaultValue={user.user_introduction}
+              ref={inputIntroRef}
+              placeholder="자기소개를 입력해 주세요."
+              maxLength={MAX_INTRO_COUNT}
+              onChange={(e) => handleChange(e, inputIntroRef, setInputIntroLength, MAX_INTRO_COUNT)}
+            />
+            <p>{inputIntroLength}/{MAX_INTRO_COUNT}</p>
+          </div>
+          <div className={styles.CareerContainer}>
+            <label>원하는 직군</label>
+            <input
+              name="career"
+              type="text"
+              defaultValue={user.user_career_goal}
+              ref={inputCareerRef}
+              placeholder="원하는 직군을 입력해 주세요."
+              maxLength={MAX_CAREER_COUNT}
+              onChange={(e) => handleChange(e, inputCareerRef, setInputCareerLength, MAX_CAREER_COUNT)}
+            />
+            <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
+          </div>
+          <Stack selectedStack={userStack} setStackList={handleSetStackList} />
+          <button 
+            className={buttonClassName} 
+            onClick={handleSubmit} 
+            disabled={isValidName() === false || isChanged === false}
+          >
+            완료
+          </button>
+          <button className={styles.cancelButton} onClick={handleCancel}>
+            취소
+          </button>
+        </form>
+      )}
     </div>
-  )
+  );
 }
 
 export default UpdateUser;

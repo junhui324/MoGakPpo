@@ -123,7 +123,7 @@ $input-border-color: #94A3B8;
       background-color: $main-color;
       font-size: 18px;
       padding: 1rem;
-      margin: 1rem 0 2rem 0;
+      margin: 1rem 0;
       cursor: pointer;
       transition: all 0.2s;
     
@@ -139,6 +139,16 @@ $input-border-color: #94A3B8;
     .disabledButton {
       @extend .button;
       cursor: not-allowed;
+    }
+
+    .cancelButton {
+      @extend .button;
+      background-color: $input-border-color;
+      margin-bottom: 2rem;
+
+      &:hover {
+        background-color: rgba($input-border-color, 0.7);
+      }
     }
   }
 }
