@@ -12,15 +12,15 @@ import ROUTES from '../../constants/Routes';
 function Posts() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [currPage, setCurrPage] = useState<number>(0);
+  const [currPage, setCurrPage] = useState<number>(1);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
 
   const getUserPostsData = async () => {
     try {
-      const userPostsData = await getUserPosts();
-      setProjects(userPostsData.data.user_projects);
-      setTotalPageCount(userPostsData.data.user_projects.length);
+      const userPostsData = await getUserPosts(currPage);
+      setProjects(userPostsData.data.pagenatedProjects);
+      setTotalPageCount(userPostsData.data.pageSize);
     } catch (error) {
       console.error('유저가 작성한 포스팅을 가져오지 못했어요');
     } finally {
@@ -28,14 +28,14 @@ function Posts() {
     }
   };
 
-  const PER_PAGE = 5; // 한 페이지당 표시할 게시글 개수
+  // const PER_PAGE = 5; // 한 페이지당 표시할 게시글 개수
 
-  // 현재 페이지에 해당하는 게시글들을 자르기
-  const getCurrentPageProjects = () => {
-    const startIndex = currPage * PER_PAGE;
-    const endIndex = startIndex + PER_PAGE;
-    return projects.slice(startIndex, endIndex);
-  };
+  // // 현재 페이지에 해당하는 게시글들을 자르기
+  // const getCurrentPageProjects = () => {
+  //   const startIndex = currPage * PER_PAGE;
+  //   const endIndex = startIndex + PER_PAGE;
+  //   return projects.slice(startIndex, endIndex);
+  // };
 
   useEffect(() => {
     getUserPostsData();
@@ -49,7 +49,7 @@ function Posts() {
           {isLoading && <LoadingProject />}
           {projects.length > 0 &&
             !isLoading &&
-            getCurrentPageProjects().map((post) => {
+            projects.map((post) => {
               const {
                 project_id,
                 project_type,
@@ -95,7 +95,7 @@ function Posts() {
         <Pagination
           currPage={currPage}
           onClickPage={setCurrPage}
-          pageCount={Math.ceil(totalPageCount / PER_PAGE)}
+          pageCount={Math.ceil(totalPageCount / projects.length)}
         />
       </div>
     </div>

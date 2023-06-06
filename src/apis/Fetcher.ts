@@ -153,12 +153,13 @@ export async function getStackList(): Promise<{
 }
 
 // 유저 작성 게시글 불러오기
-export async function getUserPosts(): Promise<{
+export async function getUserPosts(page: number): Promise<{
   message: string;
-  data: { user_projects: ProjectType.TypeUserPosts };
+  data: { listLength: number; pageSize: number; pagenatedProjects: ProjectType.TypeUserPosts };
 }> {
   const params = `projects/user`;
-  return await Api.get(API_KEY, params, true);
+  const query = `page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
 }
 // n번 유저 작성 게시글 불러오기
 export async function getUserPostsById(userId: number): Promise<{
