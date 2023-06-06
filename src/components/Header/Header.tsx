@@ -9,7 +9,6 @@ import ProjectPostButton from '../common/ProjectPostButton';
 
 function Header() {
   const navigate = useNavigate();
-
   const [modalOpen, setModalOpen] = useState(false);
   const onClickLogout = () => {
     Token.removeToken();

@@ -1,0 +1,34 @@
+.container {
+  border-top: 1px solid rgba(226, 232, 240);
+  background-color: rgba(226, 232, 240, 0.3);
+  // height: 50vh;
+  padding-top: 1.4rem;
+}
+
+.contentCount {
+  color: #94a3b8;
+  font-weight: 500;
+  padding-left: 0.8rem;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 2rem 3rem 2rem;
+
+  ul {
+    width: 100%;
+  }
+
+  .image {
+    padding-top: 5rem;
+    width: 100px;
+    height: 100px;
+  }
+
+  .noContent {
+    color: #64748b;
+    margin-top: 2rem;
+  }
+}

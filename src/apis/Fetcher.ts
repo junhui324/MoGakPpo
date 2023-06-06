@@ -78,7 +78,7 @@ export async function putComment(
 }
 export async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
   const params = `comments/${commentId}`;
-  return await Api.delete(API_KEY, params, '', true);
+  return await Api.delete(API_KEY, params, {}, true);
 }
 
 // 모든 프로젝트 리스트 불러오기
@@ -140,6 +140,14 @@ export async function getUserProfile(): Promise<{
   const params = `users/profile`;
   return await Api.get(API_KEY, params);
 }
+// n번 유저 프로필 불러오기
+export async function getUserProfileById(userId: number): Promise<{
+  message: string;
+  data: UserType.TypeUserProfile;
+}> {
+  const params = `user/${userId}/profile.json`;
+  return await Api.get(domain, params);
+}
 
 // stack 전체 데이터 불러오기
 export async function getStackList(): Promise<{
@@ -157,6 +165,14 @@ export async function getUserPosts(): Promise<{
 }> {
   const params = `projects/user`;
   return await Api.get(API_KEY, params, true);
+}
+// n번 유저 작성 게시글 불러오기
+export async function getUserPostsById(userId: number): Promise<{
+  message: string;
+  data: { user_projects: ProjectType.TypeUserPosts };
+}> {
+  const params = `user/${userId}/projects.json`;
+  return await Api.get(domain, params, true);
 }
 
 // 유저 북마크 게시글 불러오기
@@ -184,4 +200,12 @@ export async function getUserComments(): Promise<{
 }> {
   const params = `comments/user`;
   return await Api.get(API_KEY, params);
+}
+// 유저 작성 댓글 불러오기
+export async function getUserCommentsById(userId: number): Promise<{
+  message: string;
+  data: { project_comments: CommentType.TypeMypageComments };
+}> {
+  const params = `user/${userId}/comments.json`;
+  return await Api.get(domain, params);
 }
