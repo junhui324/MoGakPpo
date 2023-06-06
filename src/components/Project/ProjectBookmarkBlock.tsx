@@ -42,7 +42,7 @@ export default function ProjectBookmarkBlock({
 }) {
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);
-  const [userImages, setUserImages] = useState<string[]>(['']);
+  const [userImages, setUserImages] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -127,6 +127,7 @@ export default function ProjectBookmarkBlock({
                 <div
                   className={styles.bookmarkUserImageCircle}
                   style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
+                  key={bookmarksData.project_bookmark_users[index]?.user_id}
                 >
                   <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
                 </div>
