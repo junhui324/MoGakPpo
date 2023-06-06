@@ -230,6 +230,7 @@ export default function Comment() {
                     <CommentModal
                       modalOpen={modalOpen && selectedCommentId === comment.comment_id}
                       setModalOpen={setModalOpen}
+                      isMyComment={comment.user_id === user?.user_id}
                     />
                   </div>
                 </div>
