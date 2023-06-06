@@ -41,6 +41,8 @@ export default function Comment() {
     if (editTextareaRef.current) {
       //@ts-ignore
       editTextareaRef.current.value = comment?.comment_content;
+      //@ts-ignore
+      editTextareaRef.current.focus();
     }
   }, [comments, editingCommentId]);
 
@@ -197,7 +199,7 @@ export default function Comment() {
                 console.log(error);
               }
             };
-
+            // 코멘트리스트 렌더링
             return (
               <li key={comment.comment_id} className={styles.comment}>
                 <div className={styles.header}>
@@ -218,12 +220,15 @@ export default function Comment() {
                   <TextareaAutosize
                     minRows={3}
                     maxRows={12}
-                    autoFocus
                     //@ts-ignore
                     ref={editTextareaRef}
                   />
                 ) : (
-                  <p className={styles.content}>{comment.comment_content}</p>
+                  <TextareaAutosize
+                    readOnly
+                    className={styles.content}
+                    value={comment.comment_content}
+                  />
                 )}
                 {/* 로그인한 유저가 작성한 댓글인 경우 수정/삭제버튼 노출 */}
                 {comment.user_id === user?.user_id &&
