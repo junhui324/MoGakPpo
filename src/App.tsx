@@ -40,7 +40,7 @@ function App() {
           {/* <Route path="/user/delete" element={}/> */}
           <Route path={ROUTES.MY_PAGE} element={<MyPage />} />
           <Route path={ROUTES.USER_UPDATE} element={<UpdateUser />} />
-          <Route path="/user/38" element={<UserPage />} />
+          <Route path={`${ROUTES.USER_PAGE}:id`} element={<UserPage />} />
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
         </Routes>

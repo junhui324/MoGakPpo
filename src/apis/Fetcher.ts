@@ -139,8 +139,8 @@ export async function getUserProfileById(userId: number): Promise<{
   message: string;
   data: UserType.TypeUserProfile;
 }> {
-  const params = `user/${userId}/profile.json`;
-  return await Api.get(domain, params);
+  const params = `users/profile/${userId}`;
+  return await Api.get(API_KEY, params);
 }
 
 // stack 전체 데이터 불러오기
