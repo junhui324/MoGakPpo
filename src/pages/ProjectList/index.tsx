@@ -30,11 +30,15 @@ function ProjectListMain() {
       );
       const pageSize = projectList.data.pageSize;
       setPageSize(pageSize);
-      setProjectList(projectList.data.pagenatedProjects);
       pageSize <= 1 && setMoreData(false);
-    } catch (error) {
-      setMoreData(false);
-      console.error('포스팅을 가져오지 못했어요');
+
+      setProjectList(projectList.data.pagenatedProjects);
+    } catch (error: any) {
+      if (error.message === '404') {
+        setMoreData(false);
+        setIsLoading(false);
+        setProjectList([]);
+      }
     } finally {
       setPageCount((prev) => prev + 1);
       setIsLoading(false);
@@ -50,12 +54,15 @@ function ProjectListMain() {
         pageCount
       );
       //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
-      pageSize - 1 <= pageCount && setMoreData(false);
+      pageSize <= pageCount && setMoreData(false);
       setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
       setPageCount((prev) => prev + 1);
-    } catch (error) {
-      setMoreData(false);
-      console.error('포스팅을 가져오지 못했어요');
+    } catch (error: any) {
+      if (error.message === '404') {
+        setMoreData(false);
+        setIsLoading(false);
+        setProjectList([]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +70,7 @@ function ProjectListMain() {
 
   const target = useInfiniteScroll(async (entry, observer) => {
     //토탈 페이지 수의 전 페이지까지만 다음 페이지 데이터 업데이트하기
-    pageSize > pageCount && (await getNextProjectListData());
+    pageSize >= pageCount && (await getNextProjectListData());
   });
 
   const handleCategoryClick = async (key: string) => {
@@ -78,12 +85,6 @@ function ProjectListMain() {
     setKeywordValue(keyword);
     setPageCount(1);
     setMoreData(true);
-    if (keywordValue.length > 0) {
-      setIsSearched(true);
-    }
-    if (keywordValue.length === 0) {
-      setIsSearched(false);
-    }
   };
 
   const handleRecruitingSelect = (value: string) => {
@@ -98,6 +99,15 @@ function ProjectListMain() {
   }, [selectedCategory, recruitingFilter]);
 
   useEffect(() => {
+    if (keywordValue.length > 0) {
+      setIsSearched(true);
+    }
+    if (keywordValue.length === 0) {
+      setIsSearched(false);
+    }
+  }, [keywordValue]);
+
+  useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       window.scroll(0, 0);
       if (isSearched === true) {
@@ -105,7 +115,7 @@ function ProjectListMain() {
       }
     }, 700); // 디바운스 타임 설정
     return () => clearTimeout(delayDebounceFn);
-  }, [keywordValue]);
+  }, [keywordValue, isSearched]);
 
   return (
     <div className={styles.container}>

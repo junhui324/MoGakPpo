@@ -19,7 +19,6 @@ function Posts() {
   const getUserPostsData = async () => {
     try {
       const userPostsData = await getUserPosts(currPage);
-
       setProjects(userPostsData.data.pagenatedProjects);
       setTotalPageCount(userPostsData.data.pageSize);
     } catch (error: any) {
