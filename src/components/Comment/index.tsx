@@ -10,6 +10,7 @@ import { getComment, postComment, putComment, deleteComment } from '../../apis/F
 import getUserInfo from '../../utils/getUserInfo';
 import getDateFormat from '../../utils/getDateFormat';
 import CommentModal from './CommentModal';
+import Pagination from '../../components/Pagination';
 //이미지,아이콘,CSS
 import styles from './Comment.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
@@ -22,7 +23,6 @@ export default function Comment() {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
-
   const [isListUpdated, setIsListUpdated] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const postTextareaRef = useRef('');
@@ -32,20 +32,24 @@ export default function Comment() {
   const location = useLocation();
   const navigate = useNavigate();
   const projectId = Number(params.id) || 0;
+  const [currPage, setCurrPage] = useState<number>(1);
+  const [totalPageCount, setTotalPageCount] = useState<number>(0);
 
   //코멘트 api get요청
   const getCommentData = async () => {
     try {
-      const commentList = await getComment(projectId, 1);
+      const commentList = await getComment(projectId, currPage);
       //@ts-ignore
       setComments(commentList.data);
+      //@ts-ignore
+      setTotalPageCount(commentList.data.pageSize);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     getCommentData();
-  }, [isListUpdated]);
+  }, [isListUpdated, currPage]);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     //@ts-ignore
@@ -294,6 +298,11 @@ export default function Comment() {
         </ul>
       )}
       {/* 댓글리스트 영역 끝 */}
+      <Pagination
+        currPage={currPage}
+        onClickPage={setCurrPage}
+        pageCount={Math.ceil(totalPageCount)}
+      />
       <div className={styles.inputArea}>{inputComponent}</div>
     </div>
   );
