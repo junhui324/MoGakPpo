@@ -1,0 +1,50 @@
+.container {
+  margin: 20px;
+}
+.middleContainer {
+  height: 600px;
+  background-color: lightblue;
+}
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+ol {
+  display: block;
+  list-style-type: decimal;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+pre {
+  white-space: pre-wrap;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding: 5px 10px;
+  background-color: #23241f;
+  color: #f8f8f2;
+  overflow: visible;
+}

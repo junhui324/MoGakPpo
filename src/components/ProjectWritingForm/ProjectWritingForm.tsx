@@ -20,6 +20,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import ROUTES from '../../constants/Routes';
 import * as Token from '../../apis/Token';
 import Editor from '../Editor/Editor';
+import Parser from 'html-react-parser';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -40,6 +41,7 @@ function ProjectWritingForm() {
   const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
 
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
@@ -244,6 +246,14 @@ function ProjectWritingForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleEditorChange = (content: string) => {
+    setDescription(content);
+  };
+
+  useEffect(() => {
+    console.log(description);
+  }, [description]);
+
   //console.log('project : ', project);
 
   useBeforeUnload();
@@ -371,7 +381,9 @@ function ProjectWritingForm() {
             onChange={handleProjectChange}
             placeholder={PLACEHOLDER_STRING.INTRODUCE}
           />
-          <Editor content={project.project_introduction}></Editor>
+          <Editor value={description} onChange={handleEditorChange}></Editor>
+          <div dangerouslySetInnerHTML={{ __html: description }}></div>
+          {/* <>{Parser(description)}</> */}
         </div>
       </div>
       <div className={styles.introHelpBox}>

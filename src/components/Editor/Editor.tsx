@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+import styles from './Editor.module.scss';
 
 interface EditorProps {
   value: string;
@@ -19,8 +20,8 @@ function Editor({ value, onChange }: EditorProps) {
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ color: [] }, { background: [] }],
           ['link', 'code-block'],
-          ['clean'],
         ],
       },
       theme: 'snow',
@@ -34,10 +35,8 @@ function Editor({ value, onChange }: EditorProps) {
   }, []);
 
   return (
-    <div>
-      <div ref={editorRef}>
-        <div dangerouslySetInnerHTML={{ __html: value }}></div>
-      </div>
+    <div className={styles.container}>
+      <div className={styles.middleContainer} ref={editorRef}></div>
     </div>
   );
 }
