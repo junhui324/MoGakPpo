@@ -41,9 +41,10 @@ $grey: #64748B;
     background-color: white;
     padding: 1.4rem;
     cursor: pointer;
-    
-    &:not(:first-of-type) {
-      margin: 2rem 0;
+    margin: 2rem 0;
+
+    &:first-of-type {
+      margin-top: 0;
     }
 
     &:hover {

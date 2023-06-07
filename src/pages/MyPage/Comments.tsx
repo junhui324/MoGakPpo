@@ -19,7 +19,6 @@ function Comments() {
   const getUserCommentData = async () => {
     try {
       const { data } = await getUserComments(offset);
-      console.log(data.pagenatedComments)
       setTotalComments(data.listLength);
       setComments(data.pagenatedComments);
       setTotalPageCount(data.pageSize);
