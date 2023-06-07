@@ -1,5 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as Token from './Token';
+import cookie from 'react-cookies';
 
 interface RequestParams<T> {
   endpoint: string | undefined;
@@ -8,6 +9,7 @@ interface RequestParams<T> {
   query?: string;
   data?: any;
   requiresToken?: boolean;
+  refreshToken?:boolean; // 추가
 }
 
 async function request<T>({
@@ -17,6 +19,7 @@ async function request<T>({
   query = '',
   data,
   requiresToken = true,
+  refreshToken = true, // 추가
 }: RequestParams<T>): Promise<T> {
   const apiUrl = params ? `${endpoint}/${params}?${query}` : endpoint;
 
@@ -41,7 +44,40 @@ async function request<T>({
       // 서버에서 오류를 받으면 오류 상태 코드를 보냅니다.
       console.log(error);
       const { status } = error.response;
+
+      //
+      if(status === 401){
+        refreshToken && (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
+
+        const refreshRes: AxiosResponse = await axios.request<T>({
+          url: apiUrl,
+          method,
+          headers,
+          data,
+          withCredentials: true,
+        });
+
+        const resData = refreshRes.data.data;
+        const accessToken = resData.newAccessToken;
+        cookie.save('accessToken', accessToken, {
+          path: '/',
+        });
+        
+        requiresToken && (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
+        
+        const originRes = await axios.request<T>({
+          url: apiUrl,
+          method,
+          headers,
+          data,
+          withCredentials: true,
+        });
+
+        return originRes.data;
+      }
+  
       throw new Error(status);
+      //
     } else {
       throw new Error('요청이 실패하였습니다.');
     }

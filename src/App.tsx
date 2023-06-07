@@ -9,7 +9,7 @@ import Project from './pages/Project';
 import MyPage from './pages/MyPage';
 import styles from './index.module.scss';
 import Login from './pages/Login';
-import Password from './pages/FindPassword';
+import Password from './pages/ChangePassword';
 import ProjectWriting from './pages/ProjectWriting';
 import UpdateUser from './pages/UpdateUser';
 import Register from './pages/Register';

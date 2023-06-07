@@ -75,6 +75,11 @@ function Login() {
           path: '/',
         });
 
+        const refreshToken = data.refreshToken;
+        cookie.save('refreshToken', refreshToken, {
+          path: '/',
+        });
+
         localStorage.setItem(
           'user',
           JSON.stringify({
