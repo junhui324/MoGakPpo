@@ -5,14 +5,21 @@ import ProjectTitle from '../Project/ProjectTitle';
 import ProjectBody from '../Project/ProjectBody';
 import * as ProjectType from '../../interfaces/Project.interface';
 import * as Fetcher from '../../apis/Fetcher';
+import ROUTES from '../../constants/Routes';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { projectState, classificationState, projectIdState } from '../../recoil/projectState';
+import {
+  projectState,
+  classificationState,
+  projectIdState,
+  modifyButtonClickState,
+} from '../../recoil/projectState';
 
 function ProjectPreview() {
   const [project, setProject] = useRecoilState(projectState);
   const classification = useRecoilValue(classificationState);
   const projectId = useRecoilValue(projectIdState);
+  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
   const resetProject = useResetRecoilState(projectState);
   const [titleData, setTitleData] = useState<any>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
@@ -61,9 +68,10 @@ function ProjectPreview() {
       } else if (project.project_type === 'STUDY') {
         pType = 'study';
       }
-      navigate(`/create/${pType}`);
+      setModifyButtonClick(true);
+      navigate(`${ROUTES.CREATE}${pType}`);
     } else if (classification === 'modify') {
-      navigate(`/modify`);
+      navigate(`${ROUTES.MODIFY_PROJECT}`);
     }
   };
 
@@ -72,14 +80,14 @@ function ProjectPreview() {
       (async () => {
         const res = await postProject();
         resetProject();
-        console.log('res: ', res);
-        navigate(`/project/${res}`);
+        //console.log('res: ', res);
+        navigate(`${ROUTES.PROJECT}${res}`);
       })();
     } else if (classification === 'modify') {
       (async () => {
         const res = await patchProject();
-        console.log('res: ', res);
-        navigate(`/project/${res}`);
+        //console.log('res: ', res);
+        navigate(`${ROUTES.PROJECT}${res}`);
       })();
     }
   };
@@ -88,7 +96,6 @@ function ProjectPreview() {
   const postProject = async () => {
     try {
       const res = await Fetcher.postProject(project);
-      // @ts-ignore
       return res.data.project_id;
     } catch (error) {
       console.log(`POST 요청 에러 : ${error}`);
@@ -99,7 +106,6 @@ function ProjectPreview() {
   const patchProject = async () => {
     try {
       const res = await Fetcher.patchProject(project, projectId);
-      // @ts-ignore
       return res.data.project_id;
     } catch (error) {
       console.log(`PATCH 요청 에러 : ${error}`);

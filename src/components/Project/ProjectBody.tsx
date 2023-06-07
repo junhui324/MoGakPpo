@@ -5,6 +5,7 @@ import { TypeProjectBody } from '../../interfaces/Project.interface';
 // 스타일 관련
 import { RoleIcon, StackIcon, TargetIcon, ClockIcon } from './ProjectBodyLogo';
 import styles from './ProjectBody.module.scss';
+import TextareaAutosize from 'react-textarea-autosize';
 // 상수
 import {
   PROJECT_GOAL,
@@ -19,7 +20,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         {/* 요약 */}
         <div>
           <div className={styles.paragraphTitle}>요약</div>
-          <div className={styles.paragraph}>{bodyData.project_summary}</div>
+          <TextareaAutosize className={styles.paragraph} disabled>
+            {bodyData.project_summary}
+          </TextareaAutosize>
         </div>
 
         {/* 모집 역할 */}
@@ -83,7 +86,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         {/* 소개 */}
         <div>
           <div className={styles.paragraphTitle}>소개</div>
-          <div className={styles.paragraph}>{bodyData.project_introduction}</div>
+          <TextareaAutosize className={styles.paragraph} disabled>
+            {bodyData.project_introduction}
+          </TextareaAutosize>
         </div>
       </div>
     );

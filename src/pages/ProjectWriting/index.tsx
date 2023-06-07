@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 function ProjectWriting() {
   const [classification, setClassification] = useRecoilState(classificationState);
   useEffect(() => {
-    console.log('create 저장');
     setClassification('create');
   }, [classification]);
   return <ProjectWritingForm />;

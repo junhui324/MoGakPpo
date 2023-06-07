@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Checkbox from './Checkbox';
-import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import * as Fetcher from '../../apis/Fetcher';
@@ -18,23 +17,26 @@ import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
+import ROUTES from '../../constants/Routes';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   projectState,
   stackListState,
   classificationState,
   projectIdState,
+  modifyButtonClickState,
 } from '../../recoil/projectState';
 
 function ProjectWritingForm() {
   const [project, setProject] = useRecoilState(projectState);
   const [classification, setClassification] = useRecoilState(classificationState);
   const projectId = useRecoilValue(projectIdState);
+  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
+  const resetProject = useResetRecoilState(projectState);
   const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
-  //const [stackList, setStackList] = useState<string[]>([]);
   const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
@@ -64,12 +66,25 @@ function ProjectWritingForm() {
 
   useEffect(() => {
     if (classification === 'create') {
-      console.log('게시글 작성 페이지');
+      if (modifyButtonClick) {
+        setModifyButtonClick(false);
+      } else {
+        resetProject();
+
+        const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
+        const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
+        console.log(projectTypeValue, key);
+        if (projectTypeValue && key) {
+          setProject((prevProject) => ({
+            ...prevProject,
+            project_type: key,
+          }));
+        }
+      }
     } else if (classification === 'modify') {
-      console.log('수정하기 페이지', classification);
       getProjectData();
     }
-  }, [classification]);
+  }, [classification, type]);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -190,7 +205,7 @@ function ProjectWritingForm() {
       },
     }));
 
-    navigate(`/preview`);
+    navigate(`${ROUTES.PREVIEW_PROJECT}`);
   };
 
   // 유효성 검사
@@ -343,7 +358,7 @@ function ProjectWritingForm() {
         </h2>
         <div>
           <TextareaAutosize
-            className="introduceTextarea"
+            className={styles.introduceTextarea}
             minRows={10}
             name="project_introduction"
             value={project.project_introduction}
