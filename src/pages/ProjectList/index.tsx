@@ -74,9 +74,9 @@ function ProjectListMain() {
   };
 
   const handleSearchChange = (keyword: string) => {
+    setSelectedCategory('all');
     setKeywordValue(keyword);
     setPageCount(1);
-    setSelectedCategory('all');
     setMoreData(true);
     if (keywordValue.length > 0) {
       setIsSearched(true);
@@ -95,16 +95,16 @@ function ProjectListMain() {
   useEffect(() => {
     window.scroll(0, 0);
     getProjectListData();
-  }, [selectedCategory, recruitingFilter, keywordValue]);
+  }, [selectedCategory, recruitingFilter]);
 
-  //검색 쓰로틀링
   useEffect(() => {
-    if (isSearched === true) {
-      setTimeout(() => {
+    const delayDebounceFn = setTimeout(() => {
+      window.scroll(0, 0);
+      if (isSearched === true) {
         getProjectListData();
-        window.scroll(0, 0);
-      }, 1000);
-    }
+      }
+    }, 800); // 디바운스 타임 설정
+    return () => clearTimeout(delayDebounceFn);
   }, [keywordValue]);
 
   return (
