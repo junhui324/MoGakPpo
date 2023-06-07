@@ -14,17 +14,13 @@ function Tab({ tabs, currTab, onClick }: TypeTab) {
         const activeTab = isActive ? `${styles.active}` : '';
 
         return (
-          <div 
-            key={`${tab}=${index}`}
-            className={activeTab}
-            onClick={() => onClick(tab)}
-          >
+          <div key={`${tab}=${index}`} className={activeTab} onClick={() => onClick(tab)}>
             {tab}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 export default Tab;
