@@ -7,7 +7,6 @@ function SummaryTextForm({ value, onChange }: SummaryTextFormProps) {
   return (
     <div>
       <label>
-        요약
         <input
           type="text"
           placeholder="프로젝트 요약을 입력해 주세요."
