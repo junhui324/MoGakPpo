@@ -35,9 +35,13 @@ export default function Comment() {
 
   //코멘트 api get요청
   const getCommentData = async () => {
-    const commentList = await getComment(projectId, 1);
-    //@ts-ignore
-    setComments(commentList.data.pagenatedComments);
+    try {
+      const commentList = await getComment(projectId, 1);
+      //@ts-ignore
+      setComments(commentList.data.pagenatedComments);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     getCommentData();
