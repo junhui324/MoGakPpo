@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './profile.module.scss';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfileById } from '../../apis/Fetcher';
@@ -7,12 +7,14 @@ import ROUTES from '../../constants/Routes';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function Profile() {
+  const params: { [key: string]: string | undefined } = useParams();
+  const userId: number = params.id ? Number(params.id) : 0;
   const [user, setUser] = useState<TypeUserProfile>();
   const navigate = useNavigate();
 
   const getUserData = async () => {
     try {
-      const { message, data } = await getUserProfileById(38);
+      const { message, data } = await getUserProfileById(userId);
       //console.log(message, data);
       setUser(data);
     } catch (error) {
