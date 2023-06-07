@@ -225,11 +225,23 @@ export default function Comment() {
             return (
               <li key={comment.comment_id} className={styles.comment}>
                 <div className={styles.header}>
-                  <Link to={`/user/${comment.user_id}`}>
+                  <Link
+                    to={
+                      comment.user_id === user?.user_id
+                        ? '/user/mypage'
+                        : `/user/${comment.user_id}`
+                    }
+                  >
                     <img src={comment.user_img || DefaultUserImg} alt="profile" />
                   </Link>
                   <div className={styles.subHeader}>
-                    <Link to={`/user/${comment.user_id}`}>
+                    <Link
+                      to={
+                        comment.user_id === user?.user_id
+                          ? '/user/mypage'
+                          : `/user/${comment.user_id}`
+                      }
+                    >
                       <h3>{comment.user_name}</h3>
                     </Link>
                     <p>{getDateFormat(comment.comment_created_at)}</p>
