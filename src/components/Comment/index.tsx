@@ -32,17 +32,20 @@ export default function Comment() {
   const location = useLocation();
   const navigate = useNavigate();
   const projectId = Number(params.id) || 0;
+  const [commentTotal, setCommentTotal] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
 
   //코멘트 api get요청
   const getCommentData = async () => {
     try {
-      const commentList = await getComment(projectId, currPage + 1);
+      const response = await getComment(projectId, currPage + 1);
       //@ts-ignore
-      setComments(commentList.data);
+      setComments(response.data.pagenatedComments);
       //@ts-ignore
-      setTotalPageCount(commentList.data.pageSize);
+      setCommentTotal(response.data.listLength);
+      //@ts-ignore
+      setTotalPageCount(response.data.pageSize);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +56,7 @@ export default function Comment() {
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     //@ts-ignore
-    const comment = comments.pagenatedComments?.find(
+    const comment = comments?.find(
       //@ts-ignore
       (comment) => comment.comment_id === editingCommentId
     );
@@ -167,11 +170,11 @@ export default function Comment() {
     <div className={styles.commentContainer}>
       <h3 className={styles.commentCount}>
         {/* @ts-ignore */}
-        댓글 <strong>{comments.listLength}</strong>
+        댓글 <strong>{commentTotal}</strong>
       </h3>
       {/* 댓글리스트 영역 */}
       {/* @ts-ignore */}
-      {comments.listLength === 0 ? (
+      {commentTotal === 0 ? (
         <div className={styles.noComment}>
           <img src={NoContentImage} alt="No Content" />
           <p>
@@ -181,65 +184,55 @@ export default function Comment() {
         </div>
       ) : (
         <ul className={styles.commentList}>
-          {/* @ts-ignore */}
-          {comments.pagenatedComments?.map((comment) => {
-            //수정, 삭제버튼 이벤트 처리
-            const isEditing = editingCommentId === comment.comment_id;
-            const handleDeleteButtonClick = async () => {
-              if (window.confirm('댓글을 삭제하시겠습니까?')) {
+          {comments &&
+            comments.map((comment) => {
+              //수정, 삭제버튼 이벤트 처리
+              const isEditing = editingCommentId === comment.comment_id;
+              const handleDeleteButtonClick = async () => {
+                if (window.confirm('댓글을 삭제하시겠습니까?')) {
+                  try {
+                    const response = await deleteComment(comment.comment_id);
+                    //@ts-ignore
+                    if (response.message === '댓글 삭제 성공') {
+                      setIsListUpdated(!isListUpdated);
+                    }
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }
+              };
+              const handleEditButtonClick = () => {
+                setEditingCommentId(comment.comment_id);
+              };
+              const handleEditSubmitButtonClick = async () => {
+                //@ts-ignore
+                if (!editTextareaRef.current.value) {
+                  alert('댓글을 입력해주세요.');
+                }
                 try {
-                  const response = await deleteComment(comment.comment_id);
                   //@ts-ignore
-                  if (response.message === '댓글 삭제 성공') {
+                  const response = await putComment(comment.comment_id, {
+                    //@ts-ignore
+                    comment_content: editTextareaRef.current.value,
+                  });
+                  //@ts-ignore
+                  if (response.message === '댓글 수정 성공') {
                     setIsListUpdated(!isListUpdated);
                   }
+                  setEditingCommentId(null);
                 } catch (error) {
                   console.log(error);
                 }
-              }
-            };
-            const handleEditButtonClick = () => {
-              setEditingCommentId(comment.comment_id);
-            };
-            const handleEditSubmitButtonClick = async () => {
-              //@ts-ignore
-              if (!editTextareaRef.current.value) {
-                alert('댓글을 입력해주세요.');
-              }
-              try {
-                //@ts-ignore
-                const response = await putComment(comment.comment_id, {
-                  //@ts-ignore
-                  comment_content: editTextareaRef.current.value,
-                });
-                //@ts-ignore
-                if (response.message === '댓글 수정 성공') {
-                  setIsListUpdated(!isListUpdated);
-                }
-                setEditingCommentId(null);
-              } catch (error) {
-                console.log(error);
-              }
-            };
-            const handleCopyButtonClick = async () => {
-              await navigator.clipboard.writeText(comment.comment_content);
-              alert('복사되었습니다.');
-              setModalOpen(false);
-            };
-            // 코멘트리스트 렌더링
-            return (
-              <li key={comment.comment_id} className={styles.comment}>
-                <div className={styles.header}>
-                  <Link
-                    to={
-                      comment.user_id === user?.user_id
-                        ? '/user/mypage'
-                        : `/user/${comment.user_id}`
-                    }
-                  >
-                    <img src={comment.user_img || DefaultUserImg} alt="profile" />
-                  </Link>
-                  <div className={styles.subHeader}>
+              };
+              const handleCopyButtonClick = async () => {
+                await navigator.clipboard.writeText(comment.comment_content);
+                alert('복사되었습니다.');
+                setModalOpen(false);
+              };
+              // 코멘트리스트 렌더링
+              return (
+                <li key={comment.comment_id} className={styles.comment}>
+                  <div className={styles.header}>
                     <Link
                       to={
                         comment.user_id === user?.user_id
@@ -247,55 +240,71 @@ export default function Comment() {
                           : `/user/${comment.user_id}`
                       }
                     >
-                      <h3>{comment.user_name}</h3>
+                      <img src={comment.user_img || DefaultUserImg} alt="profile" />
                     </Link>
-                    <p>{getDateFormat(comment.comment_created_at)}</p>
+                    <div className={styles.subHeader}>
+                      <Link
+                        to={
+                          comment.user_id === user?.user_id
+                            ? '/user/mypage'
+                            : `/user/${comment.user_id}`
+                        }
+                      >
+                        <h3>{comment.user_name}</h3>
+                      </Link>
+                      <p>{getDateFormat(comment.comment_created_at)}</p>
+                    </div>
+                    <div className={styles.dotButton}>
+                      <BsThreeDotsVertical
+                        onClick={() => {
+                          setSelectedCommentId(comment.comment_id);
+                          setModalOpen(true);
+                        }}
+                      />
+                      <CommentModal
+                        modalOpen={modalOpen && selectedCommentId === comment.comment_id}
+                        setModalOpen={setModalOpen}
+                        isMyComment={comment.user_id === user?.user_id}
+                        onClickEdit={handleEditButtonClick}
+                        onClickDelete={handleDeleteButtonClick}
+                        onClickCopy={handleCopyButtonClick}
+                      />
+                    </div>
                   </div>
-                  <div className={styles.dotButton}>
-                    <BsThreeDotsVertical
-                      onClick={() => {
-                        setSelectedCommentId(comment.comment_id);
-                        setModalOpen(true);
-                      }}
+                  {isEditing ? (
+                    <TextareaAutosize
+                      minRows={3}
+                      maxRows={12}
+                      //@ts-ignore
+                      ref={editTextareaRef}
                     />
-                    <CommentModal
-                      modalOpen={modalOpen && selectedCommentId === comment.comment_id}
-                      setModalOpen={setModalOpen}
-                      isMyComment={comment.user_id === user?.user_id}
-                      onClickEdit={handleEditButtonClick}
-                      onClickDelete={handleDeleteButtonClick}
-                      onClickCopy={handleCopyButtonClick}
+                  ) : (
+                    <TextareaAutosize
+                      readOnly
+                      className={styles.content}
+                      value={comment.comment_content}
                     />
-                  </div>
-                </div>
-                {isEditing ? (
-                  <TextareaAutosize
-                    minRows={3}
-                    maxRows={12}
-                    //@ts-ignore
-                    ref={editTextareaRef}
-                  />
-                ) : (
-                  <TextareaAutosize
-                    readOnly
-                    className={styles.content}
-                    value={comment.comment_content}
-                  />
-                )}
-                {/* 로그인한 유저가 작성한 댓글이면서, 수정버튼을 클릭한 경우 */}
-                {comment.user_id === user?.user_id && isEditing && (
-                  <div className={styles.buttonContainer}>
-                    <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
-                      등록
-                    </button>
-                    <button className={styles.lineButton} onClick={() => setEditingCommentId(null)}>
-                      취소
-                    </button>
-                  </div>
-                )}
-              </li>
-            );
-          })}
+                  )}
+                  {/* 로그인한 유저가 작성한 댓글이면서, 수정버튼을 클릭한 경우 */}
+                  {comment.user_id === user?.user_id && isEditing && (
+                    <div className={styles.buttonContainer}>
+                      <button
+                        className={styles.defaultButton}
+                        onClick={handleEditSubmitButtonClick}
+                      >
+                        등록
+                      </button>
+                      <button
+                        className={styles.lineButton}
+                        onClick={() => setEditingCommentId(null)}
+                      >
+                        취소
+                      </button>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
         </ul>
       )}
       {/* 댓글리스트 영역 끝 */}
