@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore
@@ -8,6 +8,8 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
+import { loginAtom } from '../../store/store';
+import { useRecoilState } from 'recoil';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -17,6 +19,7 @@ function Login() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
+  const [currentLoginData, setLoginData] = useRecoilState(loginAtom);
 
   function isEmailBlank(): Boolean {
     if (emailRef.current.value === '') {
@@ -67,7 +70,7 @@ function Login() {
 
       const data = res.data.data;
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         // const author = await res.headers['authorization'];
         // const token = author.split(' ')[1];
         const accessToken = data.accessToken;
@@ -89,6 +92,16 @@ function Login() {
           })
         );
         
+        setLoginData((prev) =>{
+          return {...prev,
+            user_id:data.user_id,
+            user_name:data.user_name,
+            user_img:data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+          }
+        });
+
+        console.log(currentLoginData);
+
         navigate('/');
       }
     } catch (e) {
