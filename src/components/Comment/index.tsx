@@ -38,7 +38,7 @@ export default function Comment() {
     try {
       const commentList = await getComment(projectId, 1);
       //@ts-ignore
-      setComments(commentList.data.pagenatedComments);
+      setComments(commentList.data);
     } catch (error) {
       console.log(error);
     }
@@ -46,10 +46,13 @@ export default function Comment() {
   useEffect(() => {
     getCommentData();
   }, [isListUpdated]);
-
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
-    const comment = comments.find((comment) => comment.comment_id === editingCommentId);
+    //@ts-ignore
+    const comment = comments.pagenatedComments?.find(
+      //@ts-ignore
+      (comment) => comment.comment_id === editingCommentId
+    );
     if (editTextareaRef.current) {
       //@ts-ignore
       editTextareaRef.current.value = comment?.comment_content;
@@ -158,11 +161,12 @@ export default function Comment() {
   return (
     <div className={styles.commentContainer}>
       <h3 className={styles.commentCount}>
-        댓글 <strong>{comments.length}</strong>
+        {/* @ts-ignore */}
+        댓글 <strong>{comments.listLength}</strong>
       </h3>
-
       {/* 댓글리스트 영역 */}
-      {comments.length === 0 ? (
+      {/* @ts-ignore */}
+      {comments.listLength === 0 ? (
         <div className={styles.noComment}>
           <img src={NoContentImage} alt="No Content" />
           <p>
@@ -172,7 +176,8 @@ export default function Comment() {
         </div>
       ) : (
         <ul className={styles.commentList}>
-          {comments.map((comment) => {
+          {/* @ts-ignore */}
+          {comments.pagenatedComments?.map((comment) => {
             //수정, 삭제버튼 이벤트 처리
             const isEditing = editingCommentId === comment.comment_id;
             const handleDeleteButtonClick = async () => {
@@ -220,11 +225,23 @@ export default function Comment() {
             return (
               <li key={comment.comment_id} className={styles.comment}>
                 <div className={styles.header}>
-                  <Link to={`/user/${comment.user_id}`}>
+                  <Link
+                    to={
+                      comment.user_id === user?.user_id
+                        ? '/user/mypage'
+                        : `/user/${comment.user_id}`
+                    }
+                  >
                     <img src={comment.user_img || DefaultUserImg} alt="profile" />
                   </Link>
                   <div className={styles.subHeader}>
-                    <Link to={`/user/${comment.user_id}`}>
+                    <Link
+                      to={
+                        comment.user_id === user?.user_id
+                          ? '/user/mypage'
+                          : `/user/${comment.user_id}`
+                      }
+                    >
                       <h3>{comment.user_name}</h3>
                     </Link>
                     <p>{getDateFormat(comment.comment_created_at)}</p>
