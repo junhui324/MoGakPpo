@@ -15,12 +15,12 @@ function Posts() {
   const params: { [key: string]: string | undefined } = useParams();
   const userId: number = params.id ? Number(params.id) : 0;
   const [isLoading, setIsLoading] = useState(false);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
   const getUserPostsData = async () => {
     try {
-      const userPostsData = await getUserPostsById(userId, currPage);
+      const userPostsData = await getUserPostsById(userId, currPage + 1);
       //@ts-ignore
       setProjects(userPostsData.data.pagenatedProjects);
       //@ts-ignore

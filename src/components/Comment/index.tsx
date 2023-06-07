@@ -32,13 +32,13 @@ export default function Comment() {
   const location = useLocation();
   const navigate = useNavigate();
   const projectId = Number(params.id) || 0;
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
 
   //코멘트 api get요청
   const getCommentData = async () => {
     try {
-      const commentList = await getComment(projectId, currPage);
+      const commentList = await getComment(projectId, currPage + 1);
       //@ts-ignore
       setComments(commentList.data);
       //@ts-ignore
