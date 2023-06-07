@@ -47,6 +47,7 @@ function Project({ projectData }: projectDataProps) {
       const updatedBookmark = !bookmark;
       setBookmark(updatedBookmark);
       try {
+        console.log(updatedBookmark, projectId);
         updatedBookmark
           ? await postProjectBookmark(projectId)
           : await deleteProjectBookmark(projectId);
