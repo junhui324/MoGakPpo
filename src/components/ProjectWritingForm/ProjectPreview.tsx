@@ -108,11 +108,10 @@ function ProjectPreview() {
           <ProjectBody bodyData={bodyData} />
         </div>
         <div className={styles.rightContainer}>
-          <button
-            className={`${styles.modify} ${classification === 'modify' ? styles.modifyTrue : ''}`}
-            onClick={handleModifyButton}
-          >
-            {classification === 'project' ? '프로젝트 편집' : '스터디 편집'}
+          <button className={`${styles.modify}`} onClick={handleModifyButton}>
+            {classification === 'project' || project.project_type === 'PROJECT'
+              ? '프로젝트 편집'
+              : '스터디 편집'}
           </button>
           <button className={styles.submit} onClick={handleSubmitButton}>
             등록하기
