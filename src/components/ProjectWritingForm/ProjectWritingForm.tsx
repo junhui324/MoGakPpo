@@ -34,8 +34,6 @@ function ProjectWritingForm() {
   const projectId = useRecoilValue(projectIdState);
   const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
   const resetProject = useResetRecoilState(projectState);
-  const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string | undefined>('');
-  const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
   const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
@@ -73,7 +71,6 @@ function ProjectWritingForm() {
 
         const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
         const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
-        console.log(projectTypeValue, key);
         if (projectTypeValue && key) {
           setProject((prevProject) => ({
             ...prevProject,
@@ -87,6 +84,7 @@ function ProjectWritingForm() {
   }, [classification, type]);
 
   const handleSetStackList = (stacks: string[]) => {
+    console.log(stacks);
     setStackList(stacks);
   };
 
@@ -94,7 +92,6 @@ function ProjectWritingForm() {
   useEffect(() => {
     const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
     const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
-    console.log(projectTypeValue, key);
     if (projectTypeValue && key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -104,7 +101,7 @@ function ProjectWritingForm() {
   }, [type]);
 
   useEffect(() => {
-    if (stackList.length === 0) {
+    if (stackList.length === 0 && project.project_required_stacks.stackList.length === 0) {
       setStackList(['미정']);
     }
     if (stackList[0] === '미정' && stackList.length === 2) {
@@ -134,7 +131,6 @@ function ProjectWritingForm() {
   const handleGoalRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const key = Object.keys(PROJECT_GOAL).find((key) => key === value);
-    setSelectedGoalRadioValue(key);
     if (key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -147,7 +143,6 @@ function ProjectWritingForm() {
   const handleTimeRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const key = Object.keys(PROJECT_PARTICIPATION_TIME).find((key) => key === value);
-    setSelectedTimeRadioValue(value);
     if (key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -238,8 +233,7 @@ function ProjectWritingForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  console.log('project : ', project);
-  //console.log('stackList : ', stackList);
+  //console.log('project : ', project);
 
   useBeforeUnload();
 
@@ -391,10 +385,7 @@ function ProjectWritingForm() {
       <div>
         <h2>기술 스택</h2>
         <div>
-          <Stack
-            selectedStack={project.project_required_stacks.stackList}
-            setStackList={handleSetStackList}
-          />
+          <Stack selectedStack={stackList} setStackList={handleSetStackList} />
         </div>
       </div>
 

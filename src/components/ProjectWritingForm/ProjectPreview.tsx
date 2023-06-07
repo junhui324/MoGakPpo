@@ -50,16 +50,6 @@ function ProjectPreview() {
   }, []);
 
   const handleModifyButton = () => {
-    // 체크 버튼, 라디오 버튼 초기화
-    // setProject((prevProject) => {
-    //   return {
-    //     ...prevProject,
-    //     project_recruitment_roles: { roleList: [] },
-    //     project_participation_time: '',
-    //     project_goal: '',
-    //   };
-    // });
-
     // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
     let pType = '';
     if (classification === 'create') {
@@ -80,13 +70,11 @@ function ProjectPreview() {
       (async () => {
         const res = await postProject();
         resetProject();
-        //console.log('res: ', res);
         navigate(`${ROUTES.PROJECT}${res}`);
       })();
     } else if (classification === 'modify') {
       (async () => {
         const res = await patchProject();
-        //console.log('res: ', res);
         navigate(`${ROUTES.PROJECT}${res}`);
       })();
     }
@@ -124,7 +112,7 @@ function ProjectPreview() {
             className={`${styles.modify} ${classification === 'modify' ? styles.modifyTrue : ''}`}
             onClick={handleModifyButton}
           >
-            프로젝트 편집
+            {classification === 'project' ? '프로젝트 편집' : '스터디 편집'}
           </button>
           <button className={styles.submit} onClick={handleSubmitButton}>
             등록하기
