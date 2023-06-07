@@ -146,7 +146,7 @@ export async function getUserProfileById(userId: number): Promise<{
 // stack 전체 데이터 불러오기
 export async function getStackList(): Promise<{
   message: string;
-  data: any;
+  data: StackType.TypeStacks;
 }> {
   const params = `stacks`;
   return await Api.get(API_KEY, params, false);

@@ -10,6 +10,7 @@ interface StackProps {
 
 function Stack({ selectedStack, setStackList }: StackProps) {
   const [selected, setSelected] = useState<string[]>([]);
+  const [bestStacks, setBestStacks] = useState<string[]>([]);
   const [stacks, setStacks] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -58,8 +59,8 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   useEffect(() => {
     const getStackData = async () => {
       try {
-        const { message, data } = await getStackList();
-        // console.log(data);
+        const { data } = await getStackList();
+        setBestStacks(data.stackList.bestStacks);
         setStacks(data.stackList.stacks);
       } catch (error) {
         console.error('스택을 가져오지 못했어요');
@@ -127,7 +128,7 @@ function Stack({ selectedStack, setStackList }: StackProps) {
       </div>
       <div className={styles.title}>인기 기술 스택</div>
       <div className={styles.stackContainer}>
-        {stacks.map((stack, id) => {
+        {bestStacks.map((stack, id) => {
           const isDuplicate = selected.includes(stack);
           const stackClassName = isDuplicate ? styles.duplicateStack : styles.uniqueStack;
           const handleClickStack = isDuplicate ? handleDelete : handleAdd;
