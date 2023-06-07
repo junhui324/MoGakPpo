@@ -36,8 +36,8 @@ function Editor({ value, onChange }: EditorProps) {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.middleContainer} ref={editorRef}>
+    <div className={styles.editorContainer}>
+      <div className={styles.editorMiddleContainer} ref={editorRef}>
         <div dangerouslySetInnerHTML={{ __html: value }}></div>
       </div>
     </div>
