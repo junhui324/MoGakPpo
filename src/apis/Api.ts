@@ -34,7 +34,7 @@ async function request<T>({
       method,
       headers,
       data,
-      withCredentials: true,
+      // withCredentials: true,
     });
 
     return response.data;
@@ -45,36 +45,71 @@ async function request<T>({
       const { status } = error.response;
 
       //
-      if(status === 401){
-        refreshToken && (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
+      if (status === 401) {
+        // refreshToken &&
+        //   (headers.cookie = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
 
-        const refreshRes: AxiosResponse = await axios.request<T>({
-          url: apiUrl,
-          method,
-          headers,
-          data,
-          withCredentials: true,
-        });
+        // const headers = {
+        //   // Athurization: `Bearer ${Token.getToken() ? Token.getToken() : ''}`,
+        //   cookie: `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`,
+        // };
 
-        const resData = refreshRes.data.data;
-        const accessToken = resData.newAccessToken;
-        cookie.save('accessToken', accessToken, {
-          path: '/',
-        });
-        
-        requiresToken && (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
-        
-        const originRes = await axios.request<T>({
-          url: apiUrl,
-          method,
-          headers,
-          data,
-          withCredentials: true,
-        });
+        console.log(headers);
 
-        return originRes.data;
+        // 1. 엑세스랑 리프레시 보내기
+        try {
+          // const refreshRes: AxiosResponse = await axios.post(
+          //   `${apiUrl}`,
+          //   {
+          //     refreshToken: Token.getRefreshToken(),
+          //   },
+          //   headers
+          // );
+
+          headers['X-Refresh-Token'] = Token.getRefreshToken() as string;
+          // headers.cookie = Token.getRefreshToken();
+          // Token.getRefreshToken() && (headers.cookie = Token.getRefreshToken());
+          console.log(headers);
+
+          const refreshRes: AxiosResponse = await axios.request<T>({
+            url: apiUrl,
+            method,
+            headers,
+            data,
+            withCredentials: true,
+          });
+
+          // 2. 새로운 엑세스 받기
+          const resData = refreshRes.data.data;
+          console.log('resData', resData);
+          const accessToken = resData.newAccessToken;
+
+          // 3. 현재 쿠키에 저장돼있는 엑세스 지우기
+          cookie.remove('accessToken', { path: '/' });
+
+          // 4. 새로운 엑세스 쿠키에 넣기
+          cookie.save('accessToken', accessToken, {
+            path: '/',
+          });
+
+          // 5. 새로운 엑세스로 재요청 보내기
+          requiresToken &&
+            (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
+
+          const originRes = await axios.request<T>({
+            url: apiUrl,
+            method,
+            headers,
+            data,
+            withCredentials: true,
+          });
+
+          return originRes.data;
+        } catch (error) {
+          console.log('리프레시 보내는데 에러발생', error);
+        }
       }
-  
+
       throw new Error(status);
       //
     } else {

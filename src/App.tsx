@@ -17,6 +17,7 @@ import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
+import {RecoilRoot} from 'recoil';
 
 function App() {
   return (
