@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
+import axios from 'axios';
 import Stack from "../../components/Stack";
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
@@ -16,6 +17,7 @@ function UpdateUser() {
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
+  const [tempfile, setTempFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputIntroRef = useRef<HTMLTextAreaElement>(null);
@@ -35,8 +37,10 @@ function UpdateUser() {
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
+    
     if (file) {
+      setTempFile(file);
+      console.log(file);
       const reader = new FileReader();
       reader.onload = () => {
         setImageSrc(reader.result as string);
@@ -78,24 +82,17 @@ function UpdateUser() {
     if (isValid && window.confirm('수정하시겠습니까?')) {
       try {
         const formData = new FormData();
-        formData.append('file', imageSrc);
-
-        const updatedUserData = {
-          user_name: inputName.trim(),
-          user_introduction: inputIntroRef.current?.value || '',
-          user_career_goal: inputCareerRef.current?.value || '',
-          user_stacks: {
-            stackList: userStack || [],
-          },
-        };
-        formData.append('data', JSON.stringify(updatedUserData));
-
-        // @ts-ignore
-        for (const pair of formData.entries()) {
-          console.log(pair[0], pair[1]);
+        if (tempfile) {
+          formData.append('user_img', tempfile);
         }
-        
-        // navigate(`${ROUTES.MY_PAGE}`);
+        formData.append('user_name', inputName.trim());
+        formData.append('user_introduction', inputIntroRef.current?.value as string);
+        formData.append('user_career_goal', inputCareerRef.current?.value as string);
+        formData.append('user_stacks', JSON.stringify(userStack || []));
+
+        const res = await updateUserProfile(formData);
+        console.log(res);
+        navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
         console.log(error);
       }
@@ -151,7 +148,7 @@ function UpdateUser() {
   return (
     <div className={styles.container}>
       {user && (
-        <form className={styles.form}>
+        <form className={styles.form} encType="multipart/form-data">
           <div className={styles.imageContainer}>
             <img
               className={styles.image}

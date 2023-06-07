@@ -58,8 +58,9 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   useEffect(() => {
     const getStackData = async () => {
       try {
-        const { data } = await getStackList();
-        setStacks(data.stackList);
+        const { message, data } = await getStackList();
+        // console.log(data);
+        setStacks(data.stackList.stacks);
       } catch (error) {
         console.error('스택을 가져오지 못했어요');
       }
@@ -124,7 +125,7 @@ function Stack({ selectedStack, setStackList }: StackProps) {
           </ul>
         )}
       </div>
-      <div className={styles.title}>전체 기술 스택</div>
+      <div className={styles.title}>인기 기술 스택</div>
       <div className={styles.stackContainer}>
         {stacks.map((stack, id) => {
           const isDuplicate = selected.includes(stack);
