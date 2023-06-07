@@ -21,7 +21,7 @@ function Editor({ value, onChange }: EditorProps) {
           ['bold', 'italic', 'underline', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
-          ['link', 'code-block'],
+          ['link', 'code-block', 'image'],
         ],
       },
       placeholder: '프로젝트 소개를 입력하세요.',
@@ -36,8 +36,10 @@ function Editor({ value, onChange }: EditorProps) {
   }, []);
 
   return (
-    <div className={styles.container} ref={editorRef}>
-      <div className={styles.middleContainer} dangerouslySetInnerHTML={{ __html: value }}></div>
+    <div className={styles.container}>
+      <div className={styles.middleContainer} ref={editorRef}>
+        <div dangerouslySetInnerHTML={{ __html: value }}></div>
+      </div>
     </div>
   );
 }

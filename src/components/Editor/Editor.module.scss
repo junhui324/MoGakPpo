@@ -1,9 +1,19 @@
 .container {
-  margin: 20px;
+  margin: 20px 0;
+  border-style: none;
 }
+
 .middleContainer {
-  height: 600px;
-  background-color: lightblue;
+  height: 100%;
+  min-height: 400px;
+  border-radius: 0 0 10px 10px;
+}
+
+div {
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 ul {

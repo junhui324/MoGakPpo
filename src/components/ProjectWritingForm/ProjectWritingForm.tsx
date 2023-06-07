@@ -83,6 +83,7 @@ function ProjectWritingForm() {
         setModifyButtonClick(false);
       } else {
         resetProject();
+        setDescription('');
 
         const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
         const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
