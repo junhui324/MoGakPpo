@@ -20,8 +20,13 @@ function BookMarks() {
       const userBookmarksData = await getUserBookmarks(currPage);
       setProjects(userBookmarksData.data.pagenatedProjects);
       setTotalPageCount(userBookmarksData.data.pageSize);
-    } catch (error) {
-      console.error('유저가 북마크 한 포스팅을 가져오지 못했어요');
+    } catch (error: any) {
+      const status = error.message;
+      if (status === '404') {
+        setIsLoading(false);
+      } else {
+        console.log(error);
+      }
     } finally {
       setIsLoading(false);
     }

@@ -11,6 +11,7 @@ export const ROUTES = {
   USER_UPDATE: '/user/update',
   MODIFY_PROJECT: '/modify',
   PREVIEW_PROJECT: '/preview',
+  PORTFOLIO_CREATE: '/portfolio/create/',
 };
 
 export default ROUTES;
