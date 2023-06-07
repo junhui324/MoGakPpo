@@ -49,14 +49,27 @@ $intro-color: #64748B;
     }
 
     .career {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       margin-bottom: 1.2rem;
       line-height : 2rem;
+
+      & > svg {
+        margin-right: 0.8rem;
+      }
     }
     
     .stacks {
       display: flex;
       flex-wrap: wrap;
-      margin-bottom: 1.2rem;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      & > svg {
+        margin-right: 0.8rem;
+        margin-bottom: 1rem;
+      }
       
       .stack {
         position: relative;

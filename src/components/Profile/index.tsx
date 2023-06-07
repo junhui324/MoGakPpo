@@ -5,6 +5,7 @@ import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import DefaultUserImg from '../../assets/DefaultUser.png';
+import { FcBriefcase, FcSupport } from "react-icons/fc";
 
 function Profile() {
   const [user, setUser] = useState<TypeUserProfile>();
@@ -40,8 +41,11 @@ function Profile() {
         <div className={styles.introWrapper}>
           <div className={styles.name}>{user?.user_name}</div>
           <div className={styles.intro}>{user?.user_introduction}</div>
-          <div className={styles.career}>{user?.user_career_goal}</div>
+          <div className={styles.career}>
+            <FcBriefcase/>{user?.user_career_goal}
+          </div>
           <div className={styles.stacks}>
+            <FcSupport />
             {user?.user_stacks?.stackList?.map((stack, index) => {
               return (
                 <div className={styles.stack} key={`${stack}-${index}`}>
