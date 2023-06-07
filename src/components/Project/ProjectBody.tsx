@@ -84,7 +84,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         </div>
 
         {/* 소개 */}
-        <div>
+        <div className={styles.introduction}>
           <div className={styles.paragraphTitle}>소개</div>
           <TextareaAutosize className={styles.paragraph} disabled>
             {bodyData.project_introduction}

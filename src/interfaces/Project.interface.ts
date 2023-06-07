@@ -19,7 +19,7 @@ interface Project {
   project_comments_count: number;
   project_views_count: number;
   project_created_at: string;
-  project_bookmark_users: { user_name: string; user_img: string }[];
+  project_bookmark_users: { user_id: number; user_name: string; user_img: string }[];
   user_id: number;
   user_name: string;
   user_introduction: string;

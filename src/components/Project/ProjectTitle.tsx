@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { TypeProjectTitle } from '../../interfaces/Project.interface';
+import { getIsNew } from '../../utils/getIsNew';
 
 //스타일
 import styles from './ProjectTitle.module.scss';
+
 // 상수
 import { PROJECT_TYPE, PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
 import ProjectShare from './ProjectShare';
+
 // 날짜 계산 상수
 const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
 const ONE_HOUR_TIME = 60 * 60 * 1000;
 const ONE_MINUTE_TIME = 60 * 1000;
 const TODAY = 0;
 const ONE_DAY = 1;
-const NEW_PROJECT = 7;
+const WEEK_DAY = 7;
+
 // 문자열 상수
 const RECRUITING = '모집 중';
 const COMPLETE = '모집 완료';
@@ -46,7 +50,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
           return `${fewHoursAgo}시간 전`;
         }
       } else if (fewDaysAgo === ONE_DAY) return '하루 전';
-      else if (fewDaysAgo <= NEW_PROJECT) return `${fewDaysAgo}일 전`;
+      else if (fewDaysAgo <= WEEK_DAY) return `${fewDaysAgo}일 전`;
       else return titleData.project_created_at.split(' ')[0];
     };
 
@@ -73,7 +77,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
           </span>
           <span className={styles.after}> | </span>
           <span className={styles.title}>{titleData.project_title}</span>
-          <span className={styles.new}>{fewDaysAgo <= NEW_PROJECT ? 'NEW' : ''}</span>
+          <span className={styles.new}>{getIsNew(titleData.project_created_at) ? 'NEW' : ''}</span>
         </div>
         {/* 프로젝트 정보 */}
         <div>

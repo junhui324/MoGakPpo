@@ -67,7 +67,7 @@ function Project() {
     try {
       const data = await Fetcher.getProject(projectId);
       setProjectIdRecoil(projectId);
-      console.log(projectIdRecoil);
+      // console.log(projectIdRecoil);
       setProjectData(data);
     } catch (loadingError) {
       if (loadingError instanceof Error && typeof loadingError.message === 'string') {
@@ -78,9 +78,9 @@ function Project() {
             break;
           default:
             alert(`${loadingError}: 예기치 못한 서버 오류입니다.`);
-            navigate(ROUTES.PROJECT_LIST);
         }
       }
+      navigate(ROUTES.PROJECT_LIST);
     } finally {
       setIsLoading(false);
     }
@@ -100,6 +100,12 @@ function Project() {
 
   // 데이터가 로딩되면 각 props데이터 할당함
   useEffect(() => {
+    // 삭제된 게시글은 projectId가 null을 가짐
+    if (projectData && !projectData.project_id) {
+      alert('삭제된 게시글입니다.');
+      navigate(ROUTES.PROJECT_LIST);
+    }
+
     setTitleData(() => {
       return projectData
         ? {
