@@ -77,18 +77,25 @@ function UpdateUser() {
 
     if (isValid && window.confirm('수정하시겠습니까?')) {
       try {
-          const updatedUserData = {
-            user_img: imageSrc || DefaultUserImg,
-            user_name: inputName.trim(),
-            user_introduction: inputIntroRef.current?.value || '',
-            user_career_goal: inputCareerRef.current?.value || '',
-            user_stacks: {
-              stackList: userStack || [],
-            },
-          };
-  
-          await updateUserProfile(updatedUserData);
-          navigate(`${ROUTES.MY_PAGE}`);
+        const formData = new FormData();
+        formData.append('file', imageSrc);
+
+        const updatedUserData = {
+          user_name: inputName.trim(),
+          user_introduction: inputIntroRef.current?.value || '',
+          user_career_goal: inputCareerRef.current?.value || '',
+          user_stacks: {
+            stackList: userStack || [],
+          },
+        };
+        formData.append('data', JSON.stringify(updatedUserData));
+
+        // @ts-ignore
+        for (const pair of formData.entries()) {
+          console.log(pair[0], pair[1]);
+        }
+        
+        // navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
         console.log(error);
       }

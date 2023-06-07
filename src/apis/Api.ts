@@ -9,7 +9,8 @@ interface RequestParams<T> {
   query?: string;
   data?: any;
   requiresToken?: boolean;
-  refreshToken?:boolean; // 추가
+  refreshToken?: boolean; // 추가
+  headers?: { [key: string]: string }; // 추가
 }
 
 async function request<T>({
@@ -74,7 +75,7 @@ async function request<T>({
 
         return originRes.data;
       }
-  
+
       throw new Error(status);
       //
     } else {
@@ -115,7 +116,21 @@ const patch = <T>(
   endpoint: string | undefined,
   params = '',
   data: any,
-  requiresToken = true
-): Promise<T> => request<T>({ endpoint, method: 'PATCH', params, data, requiresToken });
+  requiresToken = true,
+  isFormData = false // 추가
+): Promise<T> => {
+  const headers: { [key: string]: string } = {
+    'Content-Type': isFormData ? 'multipart/form-data' : 'application/json', // 수정
+  };
+
+  return request<T>({
+    endpoint,
+    method: 'PATCH',
+    params,
+    data,
+    requiresToken,
+    headers: headers
+  });
+};
 
 export { get, post, put, del as delete, patch };

@@ -181,11 +181,9 @@ export async function getUserBookmarks(page: number): Promise<{
 }
 
 // 유저 정보 수정하기
-export async function updateUserProfile(
-  data: UserType.TypeUserProfile
-): Promise<UserType.TypeUserProfile> {
+export async function updateUserProfile(data: FormData): Promise<UserType.TypeUserProfile> {
   const params = `users/profile`;
-  return await Api.patch(API_KEY, params, data);
+  return await Api.patch(API_KEY, params, data, true, true);
 }
 
 // 유저 작성 댓글 불러오기
