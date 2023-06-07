@@ -51,14 +51,14 @@ function ProjectPreview() {
 
   const handleModifyButton = () => {
     // 체크 버튼, 라디오 버튼 초기화
-    setProject((prevProject) => {
-      return {
-        ...prevProject,
-        project_recruitment_roles: { roleList: [] },
-        project_participation_time: '',
-        project_goal: '',
-      };
-    });
+    // setProject((prevProject) => {
+    //   return {
+    //     ...prevProject,
+    //     project_recruitment_roles: { roleList: [] },
+    //     project_participation_time: '',
+    //     project_goal: '',
+    //   };
+    // });
 
     // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
     let pType = '';

@@ -34,7 +34,7 @@ function ProjectWritingForm() {
   const projectId = useRecoilValue(projectIdState);
   const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
   const resetProject = useResetRecoilState(projectState);
-  const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
+  const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string | undefined>('');
   const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
   const { type } = useParams();
   const [stackList, setStackList] = useRecoilState(stackListState);
@@ -52,10 +52,10 @@ function ProjectWritingForm() {
         project_type: data.project_type,
         project_title: data.project_title,
         project_summary: data.project_summary,
-        project_recruitment_roles: { roleList: [] },
+        project_recruitment_roles: { roleList: [...data.project_recruitment_roles.roleList] },
         project_required_stacks: { stackList: [...data.project_required_stacks.stackList] },
-        project_goal: '',
-        project_participation_time: '',
+        project_goal: data.project_goal,
+        project_participation_time: data.project_participation_time,
         project_introduction: data.project_introduction,
         project_img: null,
       });
@@ -131,9 +131,10 @@ function ProjectWritingForm() {
   };
 
   //목표 라디오 버튼
-  const handleGoalRadioChange = (value: string) => {
-    const key = Object.keys(PROJECT_GOAL).find((key) => PROJECT_GOAL[key] === value);
-    setSelectedGoalRadioValue(value);
+  const handleGoalRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const key = Object.keys(PROJECT_GOAL).find((key) => key === value);
+    setSelectedGoalRadioValue(key);
     if (key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -143,10 +144,9 @@ function ProjectWritingForm() {
   };
 
   //참여 시간 라디오 버튼
-  const handleTimeRadioChange = (value: string) => {
-    const key = Object.keys(PROJECT_PARTICIPATION_TIME).find(
-      (key) => PROJECT_PARTICIPATION_TIME[key] === value
-    );
+  const handleTimeRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const key = Object.keys(PROJECT_PARTICIPATION_TIME).find((key) => key === value);
     setSelectedTimeRadioValue(value);
     if (key) {
       setProject((prevProject) => ({
@@ -238,7 +238,7 @@ function ProjectWritingForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  //console.log('project : ', project);
+  console.log('project : ', project);
   //console.log('stackList : ', stackList);
 
   useBeforeUnload();
@@ -302,6 +302,7 @@ function ProjectWritingForm() {
                 id={role}
                 label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
                 onChange={handleCheckboxChange}
+                isChecked={project.project_recruitment_roles.roleList.includes(role)}
               />
             ))}
           </div>
@@ -312,13 +313,13 @@ function ProjectWritingForm() {
             목적<span className={styles.essential}>*</span>
           </h2>
           <div className={styles.radioBox}>
-            {Object.values(PROJECT_GOAL).map((goal) => (
+            {Object.keys(PROJECT_GOAL).map((goal) => (
               <RadioButton
                 key={goal}
-                label={goal}
+                label={PROJECT_GOAL[goal as keyof typeof PROJECT_GOAL]}
                 value={goal}
                 name="PROJECT_GOAL"
-                checked={selectedGoalRadioValue === goal}
+                checked={project.project_goal === goal}
                 onChange={handleGoalRadioChange}
               />
             ))}
@@ -337,13 +338,13 @@ function ProjectWritingForm() {
           </div>
 
           <div className={styles.radioBox}>
-            {Object.values(PROJECT_PARTICIPATION_TIME).map((time) => (
+            {Object.keys(PROJECT_PARTICIPATION_TIME).map((time) => (
               <RadioButton
                 key={time}
-                label={time}
+                label={PROJECT_PARTICIPATION_TIME[time as keyof typeof PROJECT_PARTICIPATION_TIME]}
                 value={time}
                 name="PROJECT_PARTICIPATION_TIME"
-                checked={selectedTimeRadioValue === time}
+                checked={project.project_participation_time === time}
                 onChange={handleTimeRadioChange}
               />
             ))}
