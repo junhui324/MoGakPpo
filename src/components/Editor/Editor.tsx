@@ -24,6 +24,7 @@ function Editor({ value, onChange }: EditorProps) {
           ['link', 'code-block'],
         ],
       },
+      placeholder: '프로젝트 소개를 입력하세요.',
       theme: 'snow',
     });
 
@@ -35,8 +36,8 @@ function Editor({ value, onChange }: EditorProps) {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.middleContainer} ref={editorRef}></div>
+    <div className={styles.container} ref={editorRef}>
+      <div className={styles.middleContainer} dangerouslySetInnerHTML={{ __html: value }}></div>
     </div>
   );
 }

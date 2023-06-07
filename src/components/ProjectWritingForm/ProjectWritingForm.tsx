@@ -29,6 +29,7 @@ import {
   classificationState,
   projectIdState,
   modifyButtonClickState,
+  editorIntroductionState,
 } from '../../recoil/projectState';
 
 function ProjectWritingForm() {
@@ -41,7 +42,7 @@ function ProjectWritingForm() {
   const [stackList, setStackList] = useRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useRecoilState(editorIntroductionState);
   const navigate = useNavigate();
 
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
@@ -251,10 +252,13 @@ function ProjectWritingForm() {
   };
 
   useEffect(() => {
-    console.log(description);
+    setProject({
+      ...project,
+      project_introduction: description,
+    });
   }, [description]);
 
-  //console.log('project : ', project);
+  console.log('project : ', project);
 
   useBeforeUnload();
 
@@ -373,17 +377,16 @@ function ProjectWritingForm() {
           소개<span className={styles.essential}>*</span>
         </h2>
         <div>
-          <TextareaAutosize
+          {/* <TextareaAutosize
             className={styles.introduceTextarea}
             minRows={10}
             name="project_introduction"
             value={project.project_introduction}
             onChange={handleProjectChange}
             placeholder={PLACEHOLDER_STRING.INTRODUCE}
-          />
+          /> */}
           <Editor value={description} onChange={handleEditorChange}></Editor>
-          <div dangerouslySetInnerHTML={{ __html: description }}></div>
-          {/* <>{Parser(description)}</> */}
+          {/* <div>{Parser(description)}</div> */}
         </div>
       </div>
       <div className={styles.introHelpBox}>
