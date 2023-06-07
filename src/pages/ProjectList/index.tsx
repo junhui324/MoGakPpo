@@ -69,7 +69,7 @@ function ProjectListMain() {
   };
 
   const target = useInfiniteScroll(async (entry, observer) => {
-    //토탈 페이지 수의 전 페이지까지만 다음 페이지 데이터 업데이트하기
+    //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
     pageSize >= pageCount && (await getNextProjectListData());
   });
 

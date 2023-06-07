@@ -1,9 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import { EditorProps } from '../../interfaces/Editor.interface';
+// import { EditorProps } from '../../interfaces/Editor.interface';
 
-function Editor({ content }: EditorProps) {
+interface EditorProps {
+  value: string;
+  onChange: (content: string) => void;
+}
+function Editor({ value, onChange }: EditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -25,14 +29,14 @@ function Editor({ content }: EditorProps) {
 
     // 텍스트 변경 시 이벤트 처리
     quill.on('text-change', () => {
-      content = quill.root.innerHTML;
-      //console.log(content);
+      const value = quill.root.innerHTML;
+      onChange(value);
     });
   }, []);
 
   return (
     <div>
-      <div ref={editorRef}></div>
+      <div ref={editorRef}>{value}</div>
     </div>
   );
 }

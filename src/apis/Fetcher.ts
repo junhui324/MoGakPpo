@@ -204,3 +204,12 @@ export async function getUserCommentsById(userId: number): Promise<{
   const params = `user/${userId}/comments.json`;
   return await Api.get(domain, params);
 }
+
+// 포트폴리오 멤버 선택 시 유저 검색 정보 불러오기
+export async function getUsersByEmail(value: string): Promise<{
+  message: string;
+  data: { user_id: number; user_email: string; user_career_goal: string; user_img: string }[];
+}> {
+  const params = `user2.json`;
+  return await Api.get(domain, params);
+}
