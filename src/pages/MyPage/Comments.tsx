@@ -14,7 +14,7 @@ function Comments() {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const navigate = useNavigate();
-  
+
   const offset = currPage + 1;
   const getUserCommentData = async () => {
     try {
@@ -61,11 +61,7 @@ function Comments() {
               </div>
             );
           })}
-          <Pagination 
-            currPage={currPage}
-            onClickPage={setCurrPage}
-            pageCount={totalPageCount}
-          />
+          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={totalPageCount} />
         </div>
       )}
     </div>

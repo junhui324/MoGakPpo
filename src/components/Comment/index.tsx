@@ -25,8 +25,8 @@ export default function Comment() {
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
   const [isListUpdated, setIsListUpdated] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const postTextareaRef = useRef('');
-  const editTextareaRef = useRef('');
+  const postTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const editTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   //라우팅관련
   const params = useParams();
   const location = useLocation();
@@ -40,11 +40,8 @@ export default function Comment() {
   const getCommentData = async () => {
     try {
       const response = await getComment(projectId, currPage + 1);
-      //@ts-ignore
       setComments(response.data.pagenatedComments);
-      //@ts-ignore
       setCommentTotal(response.data.listLength);
-      //@ts-ignore
       setTotalPageCount(response.data.pageSize);
     } catch (error) {
       console.log(error);
@@ -55,15 +52,9 @@ export default function Comment() {
   }, [isListUpdated, currPage]);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
-    //@ts-ignore
-    const comment = comments?.find(
-      //@ts-ignore
-      (comment) => comment.comment_id === editingCommentId
-    );
+    const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
     if (editTextareaRef.current) {
-      //@ts-ignore
-      editTextareaRef.current.value = comment?.comment_content;
-      //@ts-ignore
+      editTextareaRef.current.value = comment?.comment_content || '';
       editTextareaRef.current.focus();
     }
   }, [comments, editingCommentId]);
@@ -93,16 +84,14 @@ export default function Comment() {
   //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
   const loggedInUserInputClicked = () => {
     const handleSubmitButtonClick = async () => {
-      //@ts-ignore
-      if (!postTextareaRef.current.value) {
+      if (!postTextareaRef.current?.value) {
         alert('댓글을 입력해주세요.');
       }
       //신규 댓글 등록
       try {
         const response = await postComment({
           project_id: projectId,
-          //@ts-ignore
-          comment_content: postTextareaRef.current.value,
+          comment_content: postTextareaRef.current?.value || '',
         });
 
         //@ts-ignore
@@ -121,7 +110,6 @@ export default function Comment() {
           minRows={3}
           maxRows={12}
           placeholder="댓글을 작성해보세요."
-          //@ts-ignore
           ref={postTextareaRef}
         />
         <div className={styles.buttonContainer}>
@@ -131,8 +119,7 @@ export default function Comment() {
           <button
             className={styles.lineButton}
             onClick={() => {
-              //@ts-ignore
-              postTextareaRef.current.value = '';
+              if (postTextareaRef.current) postTextareaRef.current.value = '';
               setIsInputClicked(!isInputClicked);
             }}
           >
@@ -169,11 +156,9 @@ export default function Comment() {
   return (
     <div className={styles.commentContainer}>
       <h3 className={styles.commentCount}>
-        {/* @ts-ignore */}
         댓글 <strong>{commentTotal}</strong>
       </h3>
       {/* 댓글리스트 영역 */}
-      {/* @ts-ignore */}
       {commentTotal === 0 ? (
         <div className={styles.noComment}>
           <img src={NoContentImage} alt="No Content" />
@@ -205,15 +190,12 @@ export default function Comment() {
                 setEditingCommentId(comment.comment_id);
               };
               const handleEditSubmitButtonClick = async () => {
-                //@ts-ignore
-                if (!editTextareaRef.current.value) {
+                if (!editTextareaRef.current?.value) {
                   alert('댓글을 입력해주세요.');
                 }
                 try {
-                  //@ts-ignore
                   const response = await putComment(comment.comment_id, {
-                    //@ts-ignore
-                    comment_content: editTextareaRef.current.value,
+                    comment_content: editTextareaRef.current?.value || '',
                   });
                   //@ts-ignore
                   if (response.message === '댓글 수정 성공') {
@@ -272,12 +254,7 @@ export default function Comment() {
                     </div>
                   </div>
                   {isEditing ? (
-                    <TextareaAutosize
-                      minRows={3}
-                      maxRows={12}
-                      //@ts-ignore
-                      ref={editTextareaRef}
-                    />
+                    <TextareaAutosize minRows={3} maxRows={12} ref={editTextareaRef} />
                   ) : (
                     <TextareaAutosize
                       readOnly
