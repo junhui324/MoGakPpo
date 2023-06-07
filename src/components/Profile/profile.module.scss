@@ -59,6 +59,11 @@ $intro-color: #64748B;
         margin-right: 0.8rem;
       }
     }
+
+    .emptyCareer {
+      color: $intro-color;
+      opacity: 0.4;
+    }
     
     .stacks {
       display: flex;
@@ -88,6 +93,12 @@ $intro-color: #64748B;
         background-color: $intro-color;
         opacity: 0.2;
         border-radius: 4px;
+      }
+
+      .emptyStack {
+        margin-bottom: 1rem;
+        color: $intro-color;
+        opacity: 0.4;
       }
     }
   }

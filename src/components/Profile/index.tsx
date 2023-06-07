@@ -42,17 +42,21 @@ function Profile() {
           <div className={styles.name}>{user?.user_name}</div>
           <div className={styles.intro}>{user?.user_introduction}</div>
           <div className={styles.career}>
-            <FcBriefcase/>{user?.user_career_goal}
+            <FcBriefcase/>
+            {user?.user_career_goal 
+            ? user.user_career_goal 
+            : <div className={styles.emptyCareer}>{user.user_name}님의 목표 직군이 비어있어요</div>}
           </div>
           <div className={styles.stacks}>
             <FcSupport />
-            {user?.user_stacks?.stackList?.map((stack, index) => {
+            {user?.user_stacks?.stackList?.length > 0 
+            ? user?.user_stacks?.stackList?.map((stack, index) => {
               return (
                 <div className={styles.stack} key={`${stack}-${index}`}>
                   {stack}
                 </div>
               );
-            })}
+            }) : <div className={styles.emptyStack}>{user.user_name}님의 기술 스택이 비어있어요</div>}
         </div>
         </div>
         </div>
