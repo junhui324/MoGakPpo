@@ -162,12 +162,20 @@ export async function getUserPosts(page: number): Promise<{
   return await Api.get(API_KEY, params, true, query);
 }
 // n번 유저 작성 게시글 불러오기
-export async function getUserPostsById(userId: number): Promise<{
+export async function getUserPostsById(
+  userId: number,
+  page: number
+): Promise<{
   message: string;
-  data: { user_projects: ProjectType.TypeUserPosts };
+  data: {
+    pagenatedProjects(pagenatedProjects: any): unknown;
+    pageSize(pageSize: any): unknown;
+    user_projects: ProjectType.TypeUserPosts;
+  };
 }> {
-  const params = `user/${userId}/projects.json`;
-  return await Api.get(domain, params, true);
+  const params = `projects/user/${userId}`;
+  const query = `page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
 }
 
 // 유저 북마크 게시글 불러오기
