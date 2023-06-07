@@ -18,6 +18,8 @@ import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 import ROUTES from '../../constants/Routes';
+import * as Token from '../../apis/Token';
+import Editor from '../Editor/Editor';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -57,8 +59,18 @@ function ProjectWritingForm() {
         project_introduction: data.project_introduction,
         project_img: null,
       });
-    } catch (loadingError) {
-      alert(loadingError);
+    } catch (error) {
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
     }
   };
 
@@ -84,7 +96,6 @@ function ProjectWritingForm() {
   }, [classification, type]);
 
   const handleSetStackList = (stacks: string[]) => {
-    console.log(stacks);
     setStackList(stacks);
   };
 
@@ -360,6 +371,7 @@ function ProjectWritingForm() {
             onChange={handleProjectChange}
             placeholder={PLACEHOLDER_STRING.INTRODUCE}
           />
+          <Editor content={project.project_introduction}></Editor>
         </div>
       </div>
       <div className={styles.introHelpBox}>

@@ -32,6 +32,10 @@
         color: rgba($color: #443f3f, $alpha: 1);
       }
     }
+    .modifyTrue {
+      display: none;
+    }
+
     .submit {
       @include btn;
       border-style: none;

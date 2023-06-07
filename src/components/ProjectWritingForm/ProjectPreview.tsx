@@ -6,6 +6,7 @@ import ProjectBody from '../Project/ProjectBody';
 import * as ProjectType from '../../interfaces/Project.interface';
 import * as Fetcher from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
+import * as Token from '../../apis/Token';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -65,18 +66,14 @@ function ProjectPreview() {
     }
   };
 
-  const handleSubmitButton = () => {
+  const handleSubmitButton = async () => {
     if (classification === 'create') {
-      (async () => {
-        const res = await postProject();
-        resetProject();
-        navigate(`${ROUTES.PROJECT}${res}`);
-      })();
+      const res = await postProject();
+      resetProject();
+      navigate(`${ROUTES.PROJECT}${res}`);
     } else if (classification === 'modify') {
-      (async () => {
-        const res = await patchProject();
-        navigate(`${ROUTES.PROJECT}${res}`);
-      })();
+      const res = await patchProject();
+      navigate(`${ROUTES.PROJECT}${res}`);
     }
   };
 
@@ -86,7 +83,20 @@ function ProjectPreview() {
       const res = await Fetcher.postProject(project);
       return res.data.project_id;
     } catch (error) {
-      console.log(`POST 요청 에러 : ${error}`);
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '400':
+            alert(`${error}: 요청 body에 모든 정보를 입력해 주세요.`);
+            break;
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
     }
   };
 
@@ -96,7 +106,20 @@ function ProjectPreview() {
       const res = await Fetcher.patchProject(project, projectId);
       return res.data.project_id;
     } catch (error) {
-      console.log(`PATCH 요청 에러 : ${error}`);
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '400':
+            alert(`${error}: project_id를 입력해 주세요.`);
+            break;
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
     }
   };
 
@@ -108,7 +131,10 @@ function ProjectPreview() {
           <ProjectBody bodyData={bodyData} />
         </div>
         <div className={styles.rightContainer}>
-          <button className={`${styles.modify}`} onClick={handleModifyButton}>
+          <button
+            className={`${styles.modify} ${classification === 'modify' ? styles.modifyTrue : ''}`}
+            onClick={handleModifyButton}
+          >
             {classification === 'project' || project.project_type === 'PROJECT'
               ? '프로젝트 편집'
               : '스터디 편집'}
