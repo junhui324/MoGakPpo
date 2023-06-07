@@ -5,12 +5,16 @@ import { TypeUserPosts } from '../../interfaces/Project.interface';
 import { getUserPostsById } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
+import { useParams } from 'react-router-dom';
 
 function Posts() {
+  const params: { [key: string]: string | undefined } = useParams();
+  // const userId: number = params.id ? Number(params.id) : 0;
   const [isLoading, setIsLoading] = useState(false);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
   const getUserPostsData = async () => {
     try {
+      // const userPostsData = await getUserPostsById(userId);
       const userPostsData = await getUserPostsById(38);
       setProjects(userPostsData.data.user_projects);
       setIsLoading(true);
