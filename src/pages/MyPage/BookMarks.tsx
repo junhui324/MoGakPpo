@@ -37,7 +37,7 @@ function BookMarks() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {totalLength}개</div>
+      <div className={styles.contentCount}>북마크 {totalLength}개</div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}

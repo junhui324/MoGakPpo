@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
-import debounce from '../../utils/debounce';
 import Stack from "../../components/Stack";
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
@@ -13,13 +12,12 @@ function UpdateUser() {
   const [user, setUser] = useState<TypeUserProfile>({} as TypeUserProfile);
   const [imageSrc, setImageSrc] = useState<string>(DefaultUserImg);
   const [userStack, setUserStack] = useState<string[]>([]);
-  const [inputNameLength, setInputNameLength] = useState<number>(0);
+  const [inputName, setInputName] = useState<string>('');
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
-  const [isInputChanged, setIsChanged] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const inputNameRef = useRef<HTMLInputElement>(null);
   const inputIntroRef = useRef<HTMLTextAreaElement>(null);
   const inputCareerRef = useRef<HTMLInputElement>(null);
 
@@ -53,13 +51,6 @@ function UpdateUser() {
     max: number
   ) => {
     switch (input.current?.name) {
-      case 'name': {
-        const { value } = e.target;
-        if (value.length <= max && input.current) {
-          setInputNameLength(input.current?.value.length);
-        }
-        break;
-      }
       case 'intro': {
         const { value } = e.target;
         if (value.length <= max && input.current) {
@@ -77,27 +68,20 @@ function UpdateUser() {
     }
   };
 
-  const debouncedHandleChange = useRef(debounce(handleChange, 300));
-
   const handleSetStackList = (stacks: string[]) => {
     setUserStack(stacks);
-  };
-
-  const isValidName = () => {
-    return inputNameRef.current && inputNameRef.current.value.trim().length > 0;
   };
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (isValidName() && isInputChanged && window.confirm('수정하시겠습니까?')) {
+    if (isValid && window.confirm('수정하시겠습니까?')) {
       try {
-        if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
           const updatedUserData = {
             user_img: imageSrc || DefaultUserImg,
-            user_name: inputNameRef.current.value.trim(),
-            user_introduction: inputIntroRef.current.value || '',
-            user_career_goal: inputCareerRef.current.value || '',
+            user_name: inputName.trim(),
+            user_introduction: inputIntroRef.current?.value || '',
+            user_career_goal: inputCareerRef.current?.value || '',
             user_stacks: {
               stackList: userStack || [],
             },
@@ -105,8 +89,6 @@ function UpdateUser() {
   
           await updateUserProfile(updatedUserData);
           navigate(`${ROUTES.MY_PAGE}`);
-        }
-
       } catch (error) {
         console.log(error);
       }
@@ -146,7 +128,7 @@ function UpdateUser() {
   
         setUser(data);
         setImageSrc(data.user_img || DefaultUserImg);
-        setInputNameLength(data.user_name.length);
+        setInputName(data.user_name);
       } catch (error) {
         console.log(error);
       }
@@ -156,26 +138,8 @@ function UpdateUser() {
   }, []);
 
   useEffect(() => {
-    const compareUserData = () => {
-      if (inputNameRef.current && inputIntroRef.current && inputCareerRef.current) {
-        const isNameChanged = inputNameRef.current.value.trim() !== user.user_name;
-        const isIntroChanged = inputIntroRef.current.value !== user.user_introduction;
-        const isCareerChanged = inputCareerRef.current.value !== user.user_career_goal;
-        const isStackChanged = JSON.stringify(userStack) !== JSON.stringify(user.user_stacks?.stackList);
-
-        setIsChanged(
-          isNameChanged ||
-          isIntroChanged ||
-          isCareerChanged ||
-          isStackChanged
-        );
-      }
-    };
-
-    compareUserData();
-  }, [inputNameRef.current, inputCareerRef.current, inputCareerRef.current]);
-
-  const buttonClassName = isValidName() && isInputChanged ? styles.submitButton : styles.disabledButton;
+    setIsValid(inputName.length !== 0);
+  }, [inputName]);
 
   return (
     <div className={styles.container}>
@@ -202,13 +166,12 @@ function UpdateUser() {
             <input
               type="text"
               name="name"
-              defaultValue={user.user_name}
-              ref={inputNameRef}
+              value={inputName}
               placeholder="이름을 입력해 주세요."
               maxLength={MAX_NAME_COUNT}
-              onChange={(e) => debouncedHandleChange.current(e, inputNameRef, MAX_NAME_COUNT)}
+              onChange={(e) => setInputName(e.target.value)}
             />
-            <p>{inputNameLength}/{MAX_NAME_COUNT}</p>
+            <p>{inputName.length}/{MAX_NAME_COUNT}</p>
           </div>
           <div className={styles.introContainer}>
             <label>자기소개</label>
@@ -218,7 +181,7 @@ function UpdateUser() {
               ref={inputIntroRef}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
-              onChange={(e) => debouncedHandleChange.current(e, inputIntroRef, MAX_INTRO_COUNT)}
+              onChange={(e) => handleChange(e, inputIntroRef, MAX_INTRO_COUNT)}
             />
             <p>{inputIntroLength}/{MAX_INTRO_COUNT}</p>
           </div>
@@ -231,15 +194,15 @@ function UpdateUser() {
               ref={inputCareerRef}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
-              onChange={(e) => debouncedHandleChange.current(e, inputCareerRef, MAX_CAREER_COUNT)}
+              onChange={(e) => handleChange(e, inputCareerRef, MAX_CAREER_COUNT)}
             />
             <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
           </div>
           <Stack selectedStack={userStack} setStackList={handleSetStackList} />
           <button 
-            className={buttonClassName} 
+            className={isValid ? styles.submitButton : styles.disabledButton} 
             onClick={handleSubmit} 
-            disabled={isValidName() === false || isInputChanged === false}
+            disabled={!isValid}
           >
             완료
           </button>

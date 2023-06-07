@@ -75,7 +75,7 @@ $intro-color: #64748B;
         position: relative;
         margin: 0 1rem 1rem 0;
         padding: 6px;
-        color: $main-color;
+        color: $intro-color;
       }
 
       .stack::before {
@@ -85,7 +85,7 @@ $intro-color: #64748B;
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: $main-color;
+        background-color: $intro-color;
         opacity: 0.2;
         border-radius: 4px;
       }
