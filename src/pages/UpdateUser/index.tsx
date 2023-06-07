@@ -113,8 +113,12 @@ function UpdateUser() {
     }
   };
 
-  const handleCancel = () => {
-    navigate(`${ROUTES.MY_PAGE}`);
+  const handleCancel = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    
+    if (window.confirm('취소 하시겠습니까?')) {
+      navigate(`${ROUTES.MY_PAGE}`);
+    }
   }
 
   useEffect(() => {
