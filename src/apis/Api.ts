@@ -25,6 +25,7 @@ async function request<T>({
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
   };
+
   requiresToken && (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
 
   try {

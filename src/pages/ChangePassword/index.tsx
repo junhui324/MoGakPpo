@@ -1,5 +1,7 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useContext, useEffect} from "react";
 import styles from "./change.password.module.scss";
+import { useRecoilValue } from "recoil";
+import { loginAtom } from "../../store/store";
 
 export default function ChangePassword(){
   const currentPasswordRef = useRef<any>(null);
@@ -8,6 +10,11 @@ export default function ChangePassword(){
   const [currentPassword, setCurrentPassword] = useState(false);
   const [newPassword, setNewPassword] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
+  const loginData = useRecoilValue(loginAtom);
+
+  useEffect(() =>{
+    console.log(loginData);
+  });
 
   function isCurrentPasswordBlank():Boolean{
     if(currentPasswordRef.current.value === ""){
