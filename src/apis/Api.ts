@@ -9,7 +9,7 @@ interface RequestParams<T> {
   query?: string;
   data?: any;
   requiresToken?: boolean;
-  refreshToken?:boolean; // 추가
+  refreshToken?: boolean; // 추가
 }
 
 async function request<T>({
@@ -45,8 +45,9 @@ async function request<T>({
       const { status } = error.response;
 
       //
-      if(status === 401){
-        refreshToken && (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
+      if (status === 401) {
+        refreshToken &&
+          (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
 
         const refreshRes: AxiosResponse = await axios.request<T>({
           url: apiUrl,
@@ -61,9 +62,10 @@ async function request<T>({
         cookie.save('accessToken', accessToken, {
           path: '/',
         });
-        
-        requiresToken && (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
-        
+
+        requiresToken &&
+          (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
+
         const originRes = await axios.request<T>({
           url: apiUrl,
           method,
@@ -74,7 +76,7 @@ async function request<T>({
 
         return originRes.data;
       }
-  
+
       throw new Error(status);
       //
     } else {

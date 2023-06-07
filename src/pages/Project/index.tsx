@@ -72,8 +72,8 @@ function Project() {
     } catch (loadingError) {
       if (loadingError instanceof Error && typeof loadingError.message === 'string') {
         switch (loadingError.message) {
-          case '401':
-            alert(`${loadingError}: 토큰이 만료되었습니다.`);
+          case '404':
+            alert(`${loadingError}: 존재하지 않는 요청입니다.`);
             Token.removeToken();
             break;
           default:
@@ -102,7 +102,7 @@ function Project() {
   useEffect(() => {
     // 삭제된 게시글은 projectId가 null을 가짐
     if (projectData && !projectData.project_id) {
-      alert('삭제된 게시글입니다.');
+      alert('존재하지 않는 게시글입니다.');
       navigate(ROUTES.PROJECT_LIST);
     }
 

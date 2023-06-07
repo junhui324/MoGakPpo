@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 // 타입
 import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
-import { AxiosResponse } from 'axios';
 
 // 스타일
 import styles from './ProjectBookmarkBlock.module.scss';
@@ -127,7 +126,7 @@ export default function ProjectBookmarkBlock({
                 <div
                   className={styles.bookmarkUserImageCircle}
                   style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
-                  key={bookmarksData.project_bookmark_users[index]?.user_id}
+                  key={index}
                 >
                   <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
                 </div>

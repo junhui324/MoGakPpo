@@ -22,6 +22,7 @@ const CompleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
     <ModalFullScreen setModalOpen={() => true} closeButton={false}>
       <div className={styles.modalContainer}>
         <p className={styles.modalText}>모집 완료하실 건가요?</p>
+        <p className={styles.modalWarningText}>*모집 완료 시 수정이 불가능합니다.</p>
         <div className={styles.modalButtonBox}>
           <button className={styles.completeButton} onClick={() => onClick(true)}>
             완료

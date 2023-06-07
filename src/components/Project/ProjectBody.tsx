@@ -12,6 +12,7 @@ import {
   PROJECT_PARTICIPATION_TIME,
   PROJECT_RECRUITMENT_ROLES,
 } from '../../constants/project';
+const DEFAULT_STACK = '미정';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (bodyData) {
@@ -20,9 +21,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         {/* 요약 */}
         <div>
           <div className={styles.paragraphTitle}>요약</div>
-          <TextareaAutosize className={styles.paragraph} disabled>
-            {bodyData.project_summary}
-          </TextareaAutosize>
+          <div className={styles.paragraph}>{bodyData.project_summary}</div>
         </div>
 
         {/* 모집 역할 */}
@@ -46,16 +45,25 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         <div>
           <div className={styles.paragraphTitle}>필수 기술 스택</div>
           <div className={styles.logoLine}>
-            {bodyData.project_required_stacks.stackList.map((stack) => {
-              return (
-                <div className={styles.logoBlock} key={stack}>
-                  <div className={styles.logoCircle}>
-                    <StackIcon stack={stack} />
+            {bodyData.project_required_stacks ? (
+              bodyData.project_required_stacks.stackList.map((stack) => {
+                return (
+                  <div className={styles.logoBlock} key={stack}>
+                    <div className={styles.logoCircle}>
+                      <StackIcon stack={stack} />
+                    </div>
+                    <p className={styles.logoText}>{stack}</p>
                   </div>
-                  <p className={styles.logoText}>{stack}</p>
+                );
+              })
+            ) : (
+              <div className={styles.logoBlock}>
+                <div className={styles.logoCircle}>
+                  <StackIcon stack={DEFAULT_STACK} />
                 </div>
-              );
-            })}
+                <p className={styles.logoText}>{DEFAULT_STACK}</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -86,9 +94,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         {/* 소개 */}
         <div className={styles.introduction}>
           <div className={styles.paragraphTitle}>소개</div>
-          <TextareaAutosize className={styles.paragraph} disabled>
-            {bodyData.project_introduction}
-          </TextareaAutosize>
+          <div className={styles.paragraph}>{bodyData.project_introduction}</div>
         </div>
       </div>
     );
