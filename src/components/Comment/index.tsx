@@ -144,6 +144,7 @@ export default function Comment() {
     return (
       <>
         <input
+          className={styles.loggedOutInput}
           type="text"
           placeholder="댓글을 작성해보세요."
           readOnly
