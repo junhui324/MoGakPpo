@@ -103,7 +103,7 @@ function ProjectListMain() {
       if (isSearched === true) {
         getProjectListData();
       }
-    }, 800); // 디바운스 타임 설정
+    }, 700); // 디바운스 타임 설정
     return () => clearTimeout(delayDebounceFn);
   }, [keywordValue]);
 

@@ -50,7 +50,13 @@ function Header() {
                 로그인
               </button>
               <span>|</span>
-              <button>회원가입</button>
+              <button
+                onClick={() => {
+                  navigate(ROUTES.REGISTER);
+                }}
+              >
+                회원가입
+              </button>
             </div>
           )}
           <ProjectPostButton />
