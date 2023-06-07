@@ -1,20 +1,26 @@
+import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import { getUsersByEmail } from '../../apis/Fetcher';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function MemberSelectForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [userList, setUserList] = useState([]);
-  //유저 검색 api 호출
+  const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
+  const [showSelectBox, setShowSelectBox] = useState();
 
   const handleSearchInputChange = (value: string) => {
     setSearchTerm(value);
   };
 
-  // const getUsersBySearchTerm = async () => {
-  //   const userListData = await getUsersByEmail(searchTerm);
-  //   setUserList(userListData.data);
-  // };
+  const getUsersBySearchTerm = async () => {
+    const userListData = await getUsersByEmail(searchTerm);
+    setUserList(userListData.data);
+  };
+
+  useEffect(() => {
+    console.log(userList);
+    getUsersBySearchTerm();
+  }, [searchTerm]);
 
   return (
     <div>
@@ -28,6 +34,23 @@ function MemberSelectForm() {
         />
       </label>
       <ul>
+        {userList.map((userData) => {
+          const {
+            user_id: id,
+            user_email: email,
+            user_name: name,
+            user_img: img,
+            user_career_goal: goal,
+          } = userData;
+          return (
+            <li key={id}>
+              <p>{email}</p>
+              <p>{name}</p>
+              <p>{goal}</p>
+              <img src={img} alt={`${name} 프로필`} />
+            </li>
+          );
+        })}
         {/* <li key={id}>
           <p>{email}</p>
           <p>{name}</p>

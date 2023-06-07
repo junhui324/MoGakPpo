@@ -9,7 +9,6 @@ function PortfolioWriting() {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [stacks, setStacks] = useState<string[]>([]);
-  const [editorValue, setEditorValue] = useState('');
   const [description, setDescription] = useState('');
   const [members, setMembers] = useState([]);
 
@@ -38,7 +37,7 @@ function PortfolioWriting() {
       <TitleTextForm value={title} onChange={handleTitleChange} />
       <SummaryTextForm value={summary} onChange={handleSummaryChange} />
       <Stack selectedStack={stacks} setStackList={handleStackSelect} />
-      <Editor value={editorValue} onChange={handleDescriptionChange} />
+      <Editor value={description} onChange={handleDescriptionChange} />
       <MemberSelectForm />
     </div>
   );

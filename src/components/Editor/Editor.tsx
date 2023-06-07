@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-// import { EditorProps } from '../../interfaces/Editor.interface';
 
 interface EditorProps {
   value: string;
@@ -36,7 +35,9 @@ function Editor({ value, onChange }: EditorProps) {
 
   return (
     <div>
-      <div ref={editorRef}>{value}</div>
+      <div ref={editorRef}>
+        <div dangerouslySetInnerHTML={{ __html: value }}></div>
+      </div>
     </div>
   );
 }
