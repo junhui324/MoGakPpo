@@ -12,12 +12,16 @@ import { useNavigate } from 'react-router-dom';
 function BookMarks() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [totalLength, setTotalLength] = useState<number>(0);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
+
+  const offset = currPage + 1;
   const getUserBookmarkData = async () => {
     try {
-      const userBookmarksData = await getUserBookmarks(currPage);
+      const userBookmarksData = await getUserBookmarks(offset);
+      setTotalLength(userBookmarksData.data.listLength);
       setProjects(userBookmarksData.data.pagenatedProjects);
       setTotalPageCount(userBookmarksData.data.pageSize);
     } catch (error) {
@@ -33,11 +37,11 @@ function BookMarks() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {projects.length}개</div>
+      <div className={styles.contentCount}>북마크 {totalLength}개</div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}
-          {projects.length > 0 &&
+          {totalLength > 0 &&
             !isLoading &&
             projects.map((post) => {
               return (
@@ -49,18 +53,18 @@ function BookMarks() {
                 </div>
               );
             })}
-          {projects.length === 0 && !isLoading && (
+          {totalLength === 0 && !isLoading && (
             <div className={styles.noContentContainer}>
               <img className={styles.image} src={NoContentImage} alt="No Content" />
               <div className={styles.noContent}>아직 북마크한 게시글이 없어요.</div>
             </div>
           )}
         </ul>
-        {projects.length > 0 && !isLoading && (
+        {totalLength > 0 && !isLoading && (
           <Pagination
             currPage={currPage}
             onClickPage={setCurrPage}
-            pageCount={Math.ceil(totalPageCount)}
+            pageCount={totalPageCount}
           />
         )}
       </div>

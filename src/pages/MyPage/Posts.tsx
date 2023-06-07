@@ -12,13 +12,16 @@ import ROUTES from '../../constants/Routes';
 function Posts() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [totalLength, setTotalLength] = useState<number>(0);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
 
+  const offset = currPage + 1;
   const getUserPostsData = async () => {
     try {
-      const userPostsData = await getUserPosts(currPage);
+      const userPostsData = await getUserPosts(offset);
+      setTotalLength(userPostsData.data.listLength);
       setProjects(userPostsData.data.pagenatedProjects);
       setTotalPageCount(userPostsData.data.pageSize);
     } catch (error) {
@@ -34,11 +37,11 @@ function Posts() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {projects.length}개</div>
+      <div className={styles.contentCount}>게시글 {totalLength}개</div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}
-          {projects.length > 0 &&
+          {totalLength > 0 &&
             !isLoading &&
             projects.map((post) => {
               return (
@@ -50,18 +53,18 @@ function Posts() {
                 </div>
               );
             })}
-          {projects.length === 0 && !isLoading && (
+          {totalLength === 0 && !isLoading && (
             <div className={styles.noContentContainer}>
               <img className={styles.image} src={NoContentImage} alt="No Content" />
               <div className={styles.noContent}>아직 작성한 게시글이 없어요.</div>
             </div>
           )}
         </ul>
-        {projects.length > 0 && !isLoading && (
+        {totalLength > 0 && !isLoading && (
           <Pagination
             currPage={currPage}
             onClickPage={setCurrPage}
-            pageCount={Math.ceil(totalPageCount)}
+            pageCount={totalPageCount}
           />
         )}
       </div>
