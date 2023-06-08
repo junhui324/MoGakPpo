@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './comments.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { TypeMypageComments } from '../../interfaces/Comment.interface';
-import { getUserComments } from '../../apis/Fetcher';
+import { getUserComments, getUserSelectComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
@@ -22,9 +22,28 @@ function Comments({ onError }: CommentsProps) {
   const navigate = useNavigate();
 
   const offset = currPage + 1;
+
+  // 전체 댓글 불러오던 함수
   const getUserCommentData = async () => {
     try {
       const { data } = await getUserComments(offset);
+      setTotalComments(data.listLength);
+      setComments(data.pagenatedComments);
+      setTotalPageCount(data.pageSize);
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+        }
+      }
+    }
+  };
+
+  const getUserSelectData = async () => {
+    try {
+      const { data } = await getUserSelectComments(recruitingFilter, offset);
       setTotalComments(data.listLength);
       setComments(data.pagenatedComments);
       setTotalPageCount(data.pageSize);
@@ -50,8 +69,9 @@ function Comments({ onError }: CommentsProps) {
   };
 
   useEffect(() => {
-    getUserCommentData();
-  }, [currPage]);
+    // getUserCommentData();
+    getUserSelectData();
+  }, [recruitingFilter, currPage]);
 
   return (
     <div className={styles.container}>

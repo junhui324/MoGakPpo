@@ -215,7 +215,7 @@ export async function getUserSelectComments(
     pagenatedComments: CommentType.TypeMypageComments
   }
 }> {
-  const params = `user/recruiting=${recruiting}&page=${page}.json`;
+  const params = `user/comments/recruiting=${recruiting}&page=${page}.json`;
   // const query = `recruiting=${recruiting}&page=${page}`;
   return await Api.get(domain, params);
 }
