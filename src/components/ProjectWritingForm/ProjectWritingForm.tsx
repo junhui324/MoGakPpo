@@ -20,7 +20,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import ROUTES from '../../constants/Routes';
 import * as Token from '../../apis/Token';
 import Editor from '../Editor/Editor';
-import Parser from 'html-react-parser';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
