@@ -15,95 +15,92 @@ import {
 const DEFAULT_STACK = '미정';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
-  if (bodyData) {
-    const bodyHTML = bodyData.project_introduction;
-    const sanitizedHTML = DOMPurify.sanitize(bodyHTML);
+  if (!bodyData) return <></>;
+  const bodyHTML = bodyData.project_introduction;
+  const sanitizedHTML = DOMPurify.sanitize(bodyHTML);
 
-    return (
-      <div className={styles.container}>
-        {/* 요약 */}
-        <div>
-          <div className={styles.paragraphTitle}>요약</div>
-          <div className={styles.paragraph}>{bodyData.project_summary}</div>
-        </div>
+  return (
+    <div className={styles.container}>
+      {/* 요약 */}
+      <div>
+        <div className={styles.paragraphTitle}>요약</div>
+        <div className={styles.paragraph}>{bodyData.project_summary}</div>
+      </div>
 
-        {/* 모집 역할 */}
-        <div>
-          <div className={styles.paragraphTitle}>모집 역할</div>
-          <div className={styles.logoLine}>
-            {bodyData.project_recruitment_roles.roleList.map((role) => {
-              return (
-                <div className={styles.logoBlock} key={role}>
-                  <div className={styles.logoCircle}>
-                    <RoleIcon role={PROJECT_RECRUITMENT_ROLES[role]} />
-                  </div>
-                  <p className={styles.logoText}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 필수 기술 스택 */}
-        <div>
-          <div className={styles.paragraphTitle}>필수 기술 스택</div>
-          <div className={styles.logoLine}>
-            {bodyData.project_required_stacks ? (
-              bodyData.project_required_stacks.stackList.map((stack) => {
-                return (
-                  <div className={styles.logoBlock} key={stack}>
-                    <div className={styles.logoCircle}>
-                      <StackIcon stack={stack} />
-                    </div>
-                    <p className={styles.logoText}>{stack}</p>
-                  </div>
-                );
-              })
-            ) : (
-              <div className={styles.logoBlock}>
+      {/* 모집 역할 */}
+      <div>
+        <div className={styles.paragraphTitle}>모집 역할</div>
+        <div className={styles.logoLine}>
+          {bodyData.project_recruitment_roles.roleList.map((role) => {
+            return (
+              <div className={styles.logoBlock} key={role}>
                 <div className={styles.logoCircle}>
-                  <StackIcon stack={DEFAULT_STACK} />
+                  <RoleIcon role={PROJECT_RECRUITMENT_ROLES[role]} />
                 </div>
-                <p className={styles.logoText}>{DEFAULT_STACK}</p>
+                <p className={styles.logoText}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* 목적 */}
-        <div>
-          <div className={styles.paragraphTitle}>목적</div>
-          <div className={styles.logoLine}>
-            <div className={styles.logoCircle}>
-              <TargetIcon />
-            </div>
-            <p className={styles.logoText}>{PROJECT_GOAL[bodyData.project_goal]}</p>
-          </div>
-        </div>
-
-        {/* 참여 시간 */}
-        <div>
-          <div className={styles.paragraphTitle}>참여 시간</div>
-          <div className={styles.logoLine}>
-            <div className={styles.logoCircle}>
-              <ClockIcon />
-            </div>
-            <p className={styles.logoText}>
-              {PROJECT_PARTICIPATION_TIME[bodyData.project_participation_time]}
-            </p>
-          </div>
-        </div>
-
-        {/* 소개 */}
-        <div className={styles.introduction}>
-          <div className={styles.paragraphTitle}>소개</div>
-          <div className={styles.paragraph}>
-            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
-          </div>
+            );
+          })}
         </div>
       </div>
-    );
-  } else {
-    return <></>;
-  }
+
+      {/* 필수 기술 스택 */}
+      <div>
+        <div className={styles.paragraphTitle}>필수 기술 스택</div>
+        <div className={styles.logoLine}>
+          {bodyData.project_required_stacks ? (
+            bodyData.project_required_stacks.stackList.map((stack) => {
+              return (
+                <div className={styles.logoBlock} key={stack}>
+                  <div className={styles.logoCircle}>
+                    <StackIcon stack={stack} />
+                  </div>
+                  <p className={styles.logoText}>{stack}</p>
+                </div>
+              );
+            })
+          ) : (
+            <div className={styles.logoBlock}>
+              <div className={styles.logoCircle}>
+                <StackIcon stack={DEFAULT_STACK} />
+              </div>
+              <p className={styles.logoText}>{DEFAULT_STACK}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 목적 */}
+      <div>
+        <div className={styles.paragraphTitle}>목적</div>
+        <div className={styles.logoLine}>
+          <div className={styles.logoCircle}>
+            <TargetIcon />
+          </div>
+          <p className={styles.logoText}>{PROJECT_GOAL[bodyData.project_goal]}</p>
+        </div>
+      </div>
+
+      {/* 참여 시간 */}
+      <div>
+        <div className={styles.paragraphTitle}>참여 시간</div>
+        <div className={styles.logoLine}>
+          <div className={styles.logoCircle}>
+            <ClockIcon />
+          </div>
+          <p className={styles.logoText}>
+            {PROJECT_PARTICIPATION_TIME[bodyData.project_participation_time]}
+          </p>
+        </div>
+      </div>
+
+      {/* 소개 */}
+      <div className={styles.introduction}>
+        <div className={styles.paragraphTitle}>소개</div>
+        <div className={styles.paragraph}>
+          <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+        </div>
+      </div>
+    </div>
+  );
 }

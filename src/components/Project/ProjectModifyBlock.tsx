@@ -127,7 +127,7 @@ export default function ProjectModifyBlock({
   const deleteProject = async () => {
     if (modifyData) {
       try {
-        const response: AxiosResponse = await Fetcher.deleteProject(modifyData.project_id);
+        await Fetcher.deleteProject(modifyData.project_id);
 
         // 오류를 반환받지 않으면 진행합니다.
         alert('게시글이 삭제되었습니다.');
@@ -160,31 +160,26 @@ export default function ProjectModifyBlock({
     navigate(`/modify`);
   };
 
-  if (modifyData) {
-    const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
+  if (!modifyData) return <></>;
 
-    return (
-      <>
-        <div className={styles.container}>
-          <RecruitmentCompleteButton
-            recruitmentStatus={recruitmentStatus}
-            onClick={() => setIsCompleteModalOpen(true)}
-          />
-          <div className={styles.modifyContainer}>
-            <ModifyButton
-              recruitmentStatus={recruitmentStatus}
-              onClick={() => handleModifyClick()}
-            />
-            <button className={styles.deleteButton} onClick={() => setIsDeleteModalOpen(true)}>
-              삭제
-            </button>
-          </div>
+  const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
+
+  return (
+    <>
+      <div className={styles.container}>
+        <RecruitmentCompleteButton
+          recruitmentStatus={recruitmentStatus}
+          onClick={() => setIsCompleteModalOpen(true)}
+        />
+        <div className={styles.modifyContainer}>
+          <ModifyButton recruitmentStatus={recruitmentStatus} onClick={() => handleModifyClick()} />
+          <button className={styles.deleteButton} onClick={() => setIsDeleteModalOpen(true)}>
+            삭제
+          </button>
         </div>
-        {isCompleteModalOpen ? <CompleteModal onClick={handleModalComplete} /> : ''}
-        {isDeleteModalOpen ? <DeleteModal onClick={handleModalDelete} /> : ''}
-      </>
-    );
-  } else {
-    return <></>;
-  }
+      </div>
+      {isCompleteModalOpen ? <CompleteModal onClick={handleModalComplete} /> : ''}
+      {isDeleteModalOpen ? <DeleteModal onClick={handleModalDelete} /> : ''}
+    </>
+  );
 }

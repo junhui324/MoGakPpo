@@ -48,6 +48,7 @@ export default function ProjectBookmarkBlock({
     if (bookmarksData) {
       setBookmarksCount(bookmarksData.project_bookmark_count);
       setIsBookmark(bookmarksData.is_bookmarked);
+
       // 북마크한 유저 이미지 3개를 저장합니다.
       setUserImages(() => {
         const newUserImages = [];
@@ -100,48 +101,43 @@ export default function ProjectBookmarkBlock({
     }
   };
 
-  if (bookmarksData) {
-    return (
-      <div className={styles.container}>
-        <button className={styles.bookmarkButton} onClick={handleBookmark}>
-          {isBookmark ? (
-            <>
-              <BookmarkLogo className={styles.bookmarkYes} />
-              <p className={styles.bookmarkName}>북마크 중</p>
-            </>
-          ) : (
-            <>
-              <BookmarkLogo className={styles.bookmarkNot} />
-              <p className={styles.bookmarkName}>북마크</p>
-            </>
-          )}
-        </button>
-        <div className={styles.bookmarkUserBox}>
-          <div
-            className={styles.bookmarkUserImages}
-            style={{ width: (userImages.length + 1) * 10 }}
-          >
-            {userImages.map((image, index) => {
-              return (
-                <div
-                  className={styles.bookmarkUserImageCircle}
-                  style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
-                  key={index}
-                >
-                  <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
-                </div>
-              );
-            })}
-          </div>
-          <p className={styles.bookmarkText}>
-            {bookmarksCount > 0
-              ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
-              : ''}
-          </p>
+  if (!bookmarksData) return <></>;
+
+  return (
+    <div className={styles.container}>
+      <button className={styles.bookmarkButton} onClick={handleBookmark}>
+        {isBookmark ? (
+          <>
+            <BookmarkLogo className={styles.bookmarkYes} />
+            <p className={styles.bookmarkName}>북마크 중</p>
+          </>
+        ) : (
+          <>
+            <BookmarkLogo className={styles.bookmarkNot} />
+            <p className={styles.bookmarkName}>북마크</p>
+          </>
+        )}
+      </button>
+      <div className={styles.bookmarkUserBox}>
+        <div className={styles.bookmarkUserImages} style={{ width: (userImages.length + 1) * 10 }}>
+          {userImages.map((image, index) => {
+            return (
+              <div
+                className={styles.bookmarkUserImageCircle}
+                style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
+                key={index}
+              >
+                <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
+              </div>
+            );
+          })}
         </div>
+        <p className={styles.bookmarkText}>
+          {bookmarksCount > 0
+            ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
+            : ''}
+        </p>
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    </div>
+  );
 }
