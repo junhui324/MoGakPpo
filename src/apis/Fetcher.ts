@@ -8,11 +8,16 @@ import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
 import { AxiosResponse } from 'axios';
 import * as Token from './Token';
+import { TypePortfolioList } from '../interfaces/Portfolio.interface';
 
 const domain = `/mock`;
 
 const DOMAIN = `http://34.64.242.119:5000/api/v1`;
 const API_KEY = process.env.REACT_APP_API_KEY;
+
+/*
+  프로젝트 관련
+*/
 
 // 개별 프로젝트 불러오기
 export async function getProject(projectId: number): Promise<ProjectType.TypeProject> {
@@ -224,4 +229,18 @@ export async function getUsersByEmail(value: string): Promise<{
 }> {
   const params = `users2.json`;
   return await Api.get(domain, params);
+}
+
+/*
+  포트폴리오 관련
+*/
+
+// 포트폴리오 리스트 불러오기
+export async function getPortfolioList(
+  page: number
+): Promise<{ pageSize: number; pagenatedPortfolios: TypePortfolioList[] }> {
+  // 실제 API const params = `portfolios?page=${page}`;
+  // mock 데이터
+  const params = `portfolios/page${page}.json`;
+  return await Api.get('/mock', params);
 }

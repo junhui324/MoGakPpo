@@ -1,0 +1,104 @@
+{
+  "pageSize": 2,
+  "pagenatedPortfolios": [
+    {
+      "portfolio_id": 1,
+      "img": null,
+      "title": "제목1",
+      "summary": "요약1",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 2,
+      "img": null,
+      "title": "제목2",
+      "summary": "요약2",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 3,
+      "img": null,
+      "title": "제목3",
+      "summary": "요약3",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 4,
+      "img": null,
+      "title": "제목4",
+      "summary": "요약4",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 5,
+      "img": null,
+      "title": "제목5",
+      "summary": "요약5",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 6,
+      "img": null,
+      "title": "제목6",
+      "summary": "요약6",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 7,
+      "img": null,
+      "title": "제목7",
+      "summary": "요약7",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 8,
+      "img": null,
+      "title": "제목8",
+      "summary": "요약8",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    },
+    {
+      "portfolio_id": 9,
+      "img": null,
+      "title": "제목9",
+      "summary": "요약9",
+      "stack": { "stackList": ["HTML"] },
+      "views": 1,
+      "comments": 1,
+      "bookmarks": 1,
+      "is_bookmarked": true
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
 import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
+import PortfolioList from './pages/PortfolioList';
 
 function App() {
   return (
@@ -45,6 +46,8 @@ function App() {
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
+          {/*포트폴리오 게시글 리스트*/}
+          <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
         </Routes>
       </div>
     </BrowserRouter>
