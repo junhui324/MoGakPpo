@@ -39,7 +39,7 @@ function Comments() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentConunt}>댓글 {totalComments}개</div>
+      <div className={styles.contentCount}>댓글 {totalComments}개</div>
       {totalComments === 0 ? (
         <div className={styles.noComment}>
           <img className={styles.image} src={NoContentImage} alt="No Content" />
