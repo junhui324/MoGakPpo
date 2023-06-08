@@ -2,7 +2,7 @@ import Stack from '../../../components/Stack';
 import SummaryTextForm from '../../../components/PortfolioWritingForm/SummaryTextForm';
 import TitleTextForm from '../../../components/PortfolioWritingForm/TitleTextForm';
 import { useEffect, useState } from 'react';
-import Editor from '../../../components/Editor/Editor';
+import Editor from '../../../components/Editor/ProjectEditor';
 import MemberSelectForm from '../../../components/PortfolioWritingForm/MemberSelectForm';
 import styles from './PortfolioCreateWriting.module.scss';
 import QuillEditor from '../../../components/Editor/Editor2';

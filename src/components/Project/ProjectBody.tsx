@@ -6,6 +6,7 @@ import { TypeProjectBody } from '../../interfaces/Project.interface';
 import { RoleIcon, StackIcon, TargetIcon, ClockIcon } from './ProjectBodyLogo';
 import styles from './ProjectBody.module.scss';
 import TextareaAutosize from 'react-textarea-autosize';
+import Parser from 'html-react-parser';
 // 상수
 import {
   PROJECT_GOAL,
@@ -86,9 +87,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         {/* 소개 */}
         <div className={styles.introduction}>
           <div className={styles.paragraphTitle}>소개</div>
-          <TextareaAutosize className={styles.paragraph} disabled>
-            {bodyData.project_introduction}
-          </TextareaAutosize>
+          <div className={styles.paragraph}>{Parser(bodyData.project_introduction)}</div>
         </div>
       </div>
     );
