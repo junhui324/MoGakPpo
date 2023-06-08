@@ -16,6 +16,7 @@ const ONE_MINUTE_TIME = 60 * 1000;
 const TODAY = 0;
 const ONE_DAY = 1;
 const WEEK_DAY = 7;
+const ADJUSTMENT_TIME = ONE_HOUR_TIME * 9 - ONE_MINUTE_TIME;
 
 // 문자열 상수
 const RECRUITING = '모집 중';
@@ -24,7 +25,7 @@ const COMPLETE = '모집 완료';
 export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitle | null }) {
   if (!titleData) return <></>;
 
-  const timestamp: number = Date.parse(titleData?.project_created_at);
+  const timestamp: number = Date.parse(titleData.project_created_at) + ADJUSTMENT_TIME;
   // 게시글 생성 시간에 대한 정리를 합니다.
   const now: Date = new Date();
   const passedTime: number = now.getTime() - timestamp;
