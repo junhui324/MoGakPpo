@@ -17,8 +17,8 @@ import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
-import Banner from './components/Banner';
 import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
+import Main from './pages/Main';
 
 function App() {
   return (
@@ -45,7 +45,7 @@ function App() {
           <Route path={`${ROUTES.USER_PAGE}:id`} element={<UserPage />} />
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
-          <Route path="/banner" element={<Banner />} />
+          <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
         </Routes>
       </div>
