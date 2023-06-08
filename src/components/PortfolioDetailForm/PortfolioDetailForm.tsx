@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './PortfolioDetailForm.module.scss';
 import DOMPurify from 'dompurify';
+import { BsGithub } from 'react-icons/bs';
 
 // api
 import * as Fetcher from '../../apis/Fetcher';
@@ -10,7 +11,7 @@ import * as Fetcher from '../../apis/Fetcher';
 import { useRecoilState } from 'recoil';
 import { portfolioState } from '../../recoil/portfolioState';
 
-import ShareButton from '../common/Share/ShareButton';
+import DetailShareButton from './DetailShareButton';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
@@ -130,12 +131,13 @@ function PortfolioDetailForm() {
 
         <div className={styles.link}>
           <button className={styles.linkButton}>
-            <p>깃허브 링크</p>
+            <BsGithub className={styles.logo} />
+            <span>깃허브 링크</span>
           </button>
         </div>
 
         <div className={styles.share}>
-          <ShareButton title="temp"></ShareButton>
+          <DetailShareButton title="temp"></DetailShareButton>
         </div>
 
         <div className={styles.participate}>

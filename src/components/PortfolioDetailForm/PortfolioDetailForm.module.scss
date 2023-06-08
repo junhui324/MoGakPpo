@@ -127,13 +127,28 @@ h2 {
 
   .link {
     margin-bottom: 30px;
+
     .linkButton {
       @include btn;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+
       border-style: none;
-      background-color: rgba($color: #7ec570, $alpha: 0.5);
+      background-color: rgba($color: #49b634, $alpha: 0.5);
       color: white;
       &:hover {
-        background-color: rgba($color: #7ec570, $alpha: 0.8);
+        background-color: rgba($color: #49b634, $alpha: 0.8);
+      }
+
+      .logo {
+        width: 15px;
+        height: 15px;
+      }
+      span {
+        padding-left: 10px;
       }
     }
   }
