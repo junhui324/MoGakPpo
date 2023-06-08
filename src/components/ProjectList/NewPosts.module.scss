@@ -1,0 +1,26 @@
+@import '/src/variables.scss';
+.newPosts {
+  margin: 40px 0;
+}
+.slideArea {
+  width: 1024px;
+  overflow: hidden;
+  .projectList {
+    display: flex;
+    .projectContainer {
+      flex: none;
+      width: 512px;
+      .project {
+        box-sizing: border-box;
+        background-color: rgb(212, 246, 234);
+        margin-right: 20px;
+      }
+      .newTag {
+        margin-left: 8px;
+        align-self: center;
+        font-size: 14px;
+        color: $blue;
+      }
+    }
+  }
+}
