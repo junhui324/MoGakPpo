@@ -17,6 +17,7 @@ import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
+import Banner from './components/Banner';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path={`${ROUTES.USER_PAGE}:id`} element={<UserPage />} />
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
+          <Route path="/banner" element={<Banner />} />
         </Routes>
       </div>
     </BrowserRouter>
