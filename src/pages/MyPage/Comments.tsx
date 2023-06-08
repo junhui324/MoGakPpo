@@ -32,8 +32,7 @@ function Comments({ onError }: CommentsProps) {
           case '403':
             onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
-          default:
-            onError('알 수 없는 오류가 발생했습니다.');
+          case '404': // 존재하는 모집 글이 없습니다.
             break;
         }
       }
