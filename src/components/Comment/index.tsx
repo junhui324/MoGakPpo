@@ -89,15 +89,11 @@ export default function Comment() {
       }
       //신규 댓글 등록
       try {
-        const response = await postComment({
+        await postComment({
           project_id: projectId,
           comment_content: postTextareaRef.current?.value || '',
         });
-
-        //@ts-ignore
-        if (response.message === '모집 글 댓글 등록 성공') {
-          setIsListUpdated(!isListUpdated);
-        }
+        setIsListUpdated(!isListUpdated);
         setIsInputClicked(!isInputClicked);
       } catch (error) {
         console.log(error);
@@ -176,11 +172,8 @@ export default function Comment() {
               const handleDeleteButtonClick = async () => {
                 if (window.confirm('댓글을 삭제하시겠습니까?')) {
                   try {
-                    const response = await deleteComment(comment.comment_id);
-                    //@ts-ignore
-                    if (response.message === '댓글 삭제 성공') {
-                      setIsListUpdated(!isListUpdated);
-                    }
+                    await deleteComment(comment.comment_id);
+                    setIsListUpdated(!isListUpdated);
                   } catch (error) {
                     console.log(error);
                   }
@@ -194,13 +187,10 @@ export default function Comment() {
                   alert('댓글을 입력해주세요.');
                 }
                 try {
-                  const response = await putComment(comment.comment_id, {
+                  await putComment(comment.comment_id, {
                     comment_content: editTextareaRef.current?.value || '',
                   });
-                  //@ts-ignore
-                  if (response.message === '댓글 수정 성공') {
-                    setIsListUpdated(!isListUpdated);
-                  }
+                  setIsListUpdated(!isListUpdated);
                   setEditingCommentId(null);
                 } catch (error) {
                   console.log(error);
