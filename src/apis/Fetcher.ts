@@ -75,8 +75,8 @@ export async function postComment(
 }
 export async function putComment(
   commentId: number,
-  data: CommentType.TypeComment
-): Promise<CommentType.TypeComment> {
+  data: CommentType.TypeCommentPut
+): Promise<CommentType.TypeCommentPut> {
   const params = `comments/${commentId}`;
   return await Api.put(API_KEY, params, data, true);
 }

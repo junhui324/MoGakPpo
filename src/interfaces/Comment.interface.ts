@@ -1,4 +1,5 @@
 interface Comment {
+  data?: any;
   comment_id: number;
   user_id: number;
   user_name: string;
@@ -14,7 +15,13 @@ interface MyPageComment extends Comment {
 
 export type TypeComment = Pick<
   Comment,
-  'comment_id' | 'user_id' | 'user_name' | 'user_img' | 'comment_content' | 'comment_created_at'
+  | 'comment_id'
+  | 'user_id'
+  | 'user_name'
+  | 'user_img'
+  | 'comment_content'
+  | 'comment_created_at'
+  | 'data'
 >;
 
 export type TypeMypageComment = Pick<
@@ -23,4 +30,5 @@ export type TypeMypageComment = Pick<
 >;
 
 export type TypeCommentPost = Pick<Comment, 'project_id' | 'comment_content' | 'status'>;
+export type TypeCommentPut = Pick<Comment, 'comment_content' | 'status'>;
 export type TypeMypageComments = TypeMypageComment[];
