@@ -27,7 +27,7 @@ export default function HotPortfolio() {
     setMove(() => ({ transform: `translateX(${currentId * -100}%)` }));
   }, [currentId]);
 
-  const totalItems = portfolioList.length / 2;
+  const totalItems = portfolioList.length / 3;
 
   const handleBack = () => {
     setCurrentId((curr) => (curr === 0 ? totalItems - 1 : curr - 1));
@@ -38,7 +38,7 @@ export default function HotPortfolio() {
   };
 
   return (
-    <div className={styles.newPosts}>
+    <div className={styles.HotPortfolio}>
       <h1>인기 포트폴리오🎉</h1>
       <p>인기 포트폴리오 자랑글을 확인해보세요!</p>
       <button>모두 보기</button>
@@ -47,12 +47,18 @@ export default function HotPortfolio() {
         <span>{currentId + 1}</span>
         <button onClick={handleNext}>▶️</button>
 
-        <div className={styles.projectList} style={move}>
+        <div className={styles.portfolioList} style={move}>
           {portfolioList.map((portfolio) => (
-            <div key={portfolio.portfolio_id} className={styles.projectContainer}>
-              <div className={styles.project}>
+            <div key={portfolio.portfolio_id} className={styles.portfolioContainer}>
+              <div className={styles.portfolio}>
                 {/* @ts-ignore */}
-                <img src={portfolio.img} alt="포트폴리오 썸네일" />
+                <img
+                  src={
+                    portfolio.img ||
+                    'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1'
+                  }
+                  alt="포트폴리오 썸네일"
+                />
                 <h1>{portfolio.title}</h1>
                 <h3>{portfolio.summary}</h3>
                 <p>{portfolio.stack.stackList}</p>
