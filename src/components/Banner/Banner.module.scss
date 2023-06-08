@@ -1,3 +1,18 @@
-div {
-  // background-color: aquamarine;
+.slideArea {
+  width: 1024px;
+  overflow: hidden;
+}
+.bannerList {
+  display: flex;
+  .bannerItem {
+    flex: none;
+    display: flex;
+    justify-content: space-between;
+    width: 1024px;
+    background-color: rgb(244, 244, 244);
+    .bannerText {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
