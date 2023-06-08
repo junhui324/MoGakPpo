@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
-import axios from 'axios';
 import Stack from "../../components/Stack";
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
@@ -17,7 +16,7 @@ function UpdateUser() {
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
-  const [tempfile, setTempFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputIntroRef = useRef<HTMLTextAreaElement>(null);
@@ -39,8 +38,7 @@ function UpdateUser() {
     const file = e.target.files?.[0];
     
     if (file) {
-      setTempFile(file);
-      console.log(file);
+      setImageFile(file);
       const reader = new FileReader();
       reader.onload = () => {
         setImageSrc(reader.result as string);
@@ -82,16 +80,14 @@ function UpdateUser() {
     if (isValid && window.confirm('수정하시겠습니까?')) {
       try {
         const formData = new FormData();
-        if (tempfile) {
-          formData.append('user_img', tempfile);
-        }
+
+        formData.append('user_img', imageFile as File);
         formData.append('user_name', inputName.trim());
         formData.append('user_introduction', inputIntroRef.current?.value as string);
         formData.append('user_career_goal', inputCareerRef.current?.value as string);
         formData.append('user_stacks', JSON.stringify(userStack || []));
 
-        const res = await updateUserProfile(formData);
-        console.log(res);
+        await updateUserProfile(formData);
         navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
         console.log(error);

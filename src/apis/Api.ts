@@ -9,8 +9,8 @@ interface RequestParams<T> {
   query?: string;
   data?: any;
   requiresToken?: boolean;
-  refreshToken?: boolean; // 추가
-  headers?: { [key: string]: string }; // 추가
+  refreshToken?: boolean;
+  isformDataHeader?: boolean;
 }
 
 async function request<T>({
@@ -20,12 +20,18 @@ async function request<T>({
   query = '',
   data,
   requiresToken = true,
-  refreshToken = true, // 추가
-}: RequestParams<T>): Promise<T> {
+
+  isformDataHeader = false,
+  }: RequestParams<T>): Promise<T> {
   const apiUrl = params ? `${endpoint}/${params}${query ? `?${query}` : ''}` : endpoint;
-  const headers: { [key: string]: string } = {
-    'Content-Type': 'application/json',
-  };
+  const headers: { [key: string]: string } = 
+  isformDataHeader
+    ? {
+      'Content-Type': 'multipart/form-data',
+    }
+    : {
+      'Content-Type': 'application/json',
+    };
 
   requiresToken && (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
 
@@ -47,7 +53,7 @@ async function request<T>({
 
       //
       if(status === 401){
-        refreshToken && (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
+        // refreshToken && (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
 
         const refreshRes: AxiosResponse = await axios.request<T>({
           url: apiUrl,
@@ -88,49 +94,40 @@ const get = <T>(
   endpoint: string | undefined,
   params = '',
   requiresToken = true,
-  query = ''
-): Promise<T> => request<T>({ endpoint, method: 'GET', params, requiresToken, query });
-
-const post = <T>(
-  endpoint: string | undefined,
-  params = '',
-  data: any,
-  requiresToken = true
-): Promise<T> => request<T>({ endpoint, method: 'POST', params, data, requiresToken });
-
-const put = <T>(
-  endpoint: string | undefined,
-  params = '',
-  data: any,
-  requiresToken = true
-): Promise<T> => request<T>({ endpoint, method: 'PUT', params, data, requiresToken });
-
-const del = <T>(
-  endpoint: string | undefined,
-  params = '',
-  data: any = {},
-  requiresToken = true
-): Promise<T> => request<T>({ endpoint, method: 'DELETE', params, data, requiresToken });
-
-const patch = <T>(
+  query = '',
+  isformDataHeader = false
+  ): Promise<T> => request<T>({ endpoint, method: 'GET', params, requiresToken, query, isformDataHeader });
+  
+  const post = <T>(
   endpoint: string | undefined,
   params = '',
   data: any,
   requiresToken = true,
-  isFormData = false // 추가
-): Promise<T> => {
-  const headers: { [key: string]: string } = {
-    'Content-Type': isFormData ? 'multipart/form-data' : 'application/json', // 수정
-  };
-
-  return request<T>({
-    endpoint,
-    method: 'PATCH',
-    params,
-    data,
-    requiresToken,
-    headers: headers
-  });
-};
+  isformDataHeader = false
+  ): Promise<T> => request<T>({ endpoint, method: 'POST', params, data, requiresToken, isformDataHeader });
+  
+  const put = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any,
+  requiresToken = true,
+  isformDataHeader = false
+  ): Promise<T> => request<T>({ endpoint, method: 'PUT', params, data, requiresToken, isformDataHeader });
+  
+  const del = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any = {},
+  requiresToken = true,
+  isformDataHeader = false,
+  ): Promise<T> => request<T>({ endpoint, method: 'DELETE', params, data, requiresToken, isformDataHeader });
+  
+  const patch = <T>(
+  endpoint: string | undefined,
+  params = '',
+  data: any,
+  requiresToken = true,
+  isformDataHeader = false,
+  ): Promise<T> => request<T>({ endpoint, method: 'PATCH', params, data, requiresToken, isformDataHeader });
 
 export { get, post, put, del as delete, patch };
