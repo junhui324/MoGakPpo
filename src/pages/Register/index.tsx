@@ -1,10 +1,12 @@
 //import axios from "axios";
+import { loginAtom } from '../../recoil/loginState';
 import axios from 'axios';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 //@ts-ignore
 import { Link, /*useNavigate*/ 
 Navigate,
 useNavigate} from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 //@ts-ignore
 import styles from './register.module.scss';
 
@@ -23,7 +25,11 @@ function Register() {
   const [isEmail, setIsEmail] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const loginData = useRecoilValue(loginAtom);
 
+  useEffect(() =>{
+    console.log(loginData);
+  });
   const navigate = useNavigate();
 
   function CheckEmail(str: any) {
@@ -83,6 +89,20 @@ function Register() {
 
       return false;
     }
+  }
+
+  const isAll = () =>{
+    if (
+      ageRef.current.checked === true &&
+      useInfoRef.current.checked === true && 
+      privacyRef.current.checked === true &&
+      marketingRef.current.checked === true){
+        allRef.current.checked = true;
+      }
+      else{
+        allRef.current.checked = false;
+      }
+
   }
 
   const register = async (e: any) => {
@@ -192,13 +212,13 @@ function Register() {
                   </label>
                 </div>
                 <div className={styles.allCheck}>
-                  <input type="checkbox" id="age" className={styles.all} ref={ageRef}></input>
+                  <input type="checkbox" id="age" className={styles.all} ref={ageRef} onChange={isAll}></input>
                   <label htmlFor="age" className={styles.checkLabel}>
                     (필수) 만 14세 이상입니다.
                   </label>
                 </div>
                 <div className={styles.allCheck}>
-                  <input type="checkbox" id="use" className={styles.all} ref={useInfoRef}></input>
+                  <input type="checkbox" id="use" className={styles.all} ref={useInfoRef} onChange={isAll}></input>
                   <label htmlFor="use" className={styles.checkLabel}>
                     (필수) 커리어리 이용약관 동의
                   </label>
@@ -209,6 +229,7 @@ function Register() {
                     id="privacy"
                     className={styles.all}
                     ref={privacyRef}
+                    onChange={isAll}
                   ></input>
                   <label htmlFor="privacy" className={styles.checkLabel}>
                     (필수) 개인정보 수집 및 이용 동의
@@ -220,6 +241,7 @@ function Register() {
                     id="marketing"
                     className={styles.all}
                     ref={marketingRef}
+                    onChange={isAll}
                   ></input>
                   <label htmlFor="marketing" className={styles.checkLabel}>
                     (선택) 마케팅 정보 수신 동의

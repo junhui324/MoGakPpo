@@ -35,3 +35,8 @@ export const modifyButtonClickState = atom<boolean>({
   key: 'modifyButtonClickState',
   default: false,
 });
+
+export const editorIntroductionState = atom<string>({
+  key: 'editorIntroductionState',
+  default: '',
+});

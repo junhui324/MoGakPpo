@@ -9,7 +9,11 @@ import Pagination from '../../components/Pagination';
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
 
-function BookMarks() {
+interface BookMarksProps {
+  onError: (errorMessage: string) => void;
+}
+
+function BookMarks({ onError }: BookMarksProps) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [totalLength, setTotalLength] = useState<number>(0);
@@ -24,8 +28,17 @@ function BookMarks() {
       setTotalLength(userBookmarksData.data.listLength);
       setProjects(userBookmarksData.data.pagenatedProjects);
       setTotalPageCount(userBookmarksData.data.pageSize);
-    } catch (error) {
-      console.error('유저가 북마크 한 포스팅을 가져오지 못했어요');
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+          default:
+            onError('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -61,11 +74,7 @@ function BookMarks() {
           )}
         </ul>
         {totalLength > 0 && !isLoading && (
-          <Pagination
-            currPage={currPage}
-            onClickPage={setCurrPage}
-            pageCount={totalPageCount}
-          />
+          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={totalPageCount} />
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore
@@ -8,6 +8,8 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginAtom } from '../../recoil/loginState';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -17,6 +19,7 @@ function Login() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
+  const setLoginData = useSetRecoilState(loginAtom);
 
   function isEmailBlank(): Boolean {
     if (emailRef.current.value === '') {
@@ -67,7 +70,7 @@ function Login() {
 
       const data = res.data.data;
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         // const author = await res.headers['authorization'];
         // const token = author.split(' ')[1];
         const accessToken = data.accessToken;
@@ -80,15 +83,26 @@ function Login() {
           path: '/',
         });
 
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            user_id: data.user_id,
-            user_name: data.user_name,
-            user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
-          })
-        );
+        // localStorage.setItem(
+        //   'user',
+        //   JSON.stringify({
+        //     user_id: data.user_id,
+        //     user_name: data.user_name,
+        //     user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+        //   })
+        // );
         
+        setLoginData((prev) =>{
+          return {...prev,
+            user_id:data.user_id,
+            user_name:data.user_name,
+            user_img:data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+            user_career_goal:data.user_career_goal,
+            user_stacks:data.user_stacks,
+            user_introduction:data.user_introduction,
+          }
+        });
+
         navigate('/');
       }
     } catch (e) {

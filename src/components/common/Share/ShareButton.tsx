@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { CgShare } from 'react-icons/cg';
 
 // 스타일
-import styles from './ProjectShare.module.scss';
-import ModalFullScreen from '../common/Modal/ModalFullScreen';
-import DefaultUserImage from '../../assets/DefaultUser.png';
+import styles from './ShareButton.module.scss';
+import ModalFullScreen from '../Modal/ModalFullScreen';
+import DefaultUserImage from '../../../assets/DefaultUser.png';
 
 //로고
 import { MdClose } from 'react-icons/md';
@@ -24,15 +24,10 @@ declare global {
 // 카카오 환경변수 키
 const KAKAO_SHARE_KEY = process.env.REACT_APP_KAKAO_SHARE_KEY;
 
-const ShareModal = ({
-  onClose,
-  title,
-  url,
-}: {
-  onClose: () => void;
-  title: string;
-  url: string;
-}) => {
+const ShareModal = ({ onClose, title }: { onClose: () => void; title: string }) => {
+  // 현재 주소
+  const url = window.location.href;
+
   const shareToKakaoTalk = () => {
     if (window.Kakao === undefined) {
       return;
@@ -108,15 +103,12 @@ ${title}
   );
 };
 
-export default function ProjectShare({ projectTitle }: { projectTitle: string }) {
+export default function ShareButton({ title }: { title: string }) {
   // 모달 설정
   const [isModal, setIsModal] = useState<boolean>(false);
   const handleModal = () => {
     setIsModal(false);
   };
-
-  // 현재 주소
-  const currentURL = window.location.href;
 
   // 카카오톡 sdk 추가
   useEffect(() => {
@@ -140,7 +132,7 @@ export default function ProjectShare({ projectTitle }: { projectTitle: string })
         </div>
         <p>공유하기</p>
       </div>
-      {isModal ? <ShareModal onClose={handleModal} title={projectTitle} url={currentURL} /> : ''}
+      {isModal ? <ShareModal onClose={handleModal} title={title} /> : ''}
     </>
   );
 }

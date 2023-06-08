@@ -16,6 +16,7 @@ function UpdateUser() {
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
+  const [imageFile, setImageFile] = useState<File>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const inputIntroRef = useRef<HTMLTextAreaElement>(null);
@@ -35,8 +36,9 @@ function UpdateUser() {
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
+    
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onload = () => {
         setImageSrc(reader.result as string);
@@ -77,18 +79,16 @@ function UpdateUser() {
 
     if (isValid && window.confirm('수정하시겠습니까?')) {
       try {
-          const updatedUserData = {
-            user_img: imageSrc || DefaultUserImg,
-            user_name: inputName.trim(),
-            user_introduction: inputIntroRef.current?.value || '',
-            user_career_goal: inputCareerRef.current?.value || '',
-            user_stacks: {
-              stackList: userStack || [],
-            },
-          };
-  
-          await updateUserProfile(updatedUserData);
-          navigate(`${ROUTES.MY_PAGE}`);
+        const formData = new FormData();
+
+        formData.append('user_img', imageFile as File);
+        formData.append('user_name', inputName.trim());
+        formData.append('user_introduction', inputIntroRef.current?.value as string);
+        formData.append('user_career_goal', inputCareerRef.current?.value as string);
+        formData.append('user_stacks', JSON.stringify(userStack || []));
+
+        await updateUserProfile(formData);
+        navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
         console.log(error);
       }
@@ -144,7 +144,7 @@ function UpdateUser() {
   return (
     <div className={styles.container}>
       {user && (
-        <form className={styles.form}>
+        <form className={styles.form} encType="multipart/form-data">
           <div className={styles.imageContainer}>
             <img
               className={styles.image}

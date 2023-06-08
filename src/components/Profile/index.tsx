@@ -7,7 +7,11 @@ import ROUTES from '../../constants/Routes';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import { FcBriefcase, FcSupport } from "react-icons/fc";
 
-function Profile() {
+interface ProfileProps {
+  onError: (errorMessage: string) => void;
+}
+
+function Profile({ onError }: ProfileProps) {
   const [user, setUser] = useState<TypeUserProfile>();
   const navigate = useNavigate();
 
@@ -19,8 +23,10 @@ function Profile() {
       if (loadingError instanceof Error && typeof loadingError.message === 'string') {
         switch (loadingError.message) {
           case '403':
-            alert(`잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.`);
-            navigate(`${ROUTES.LOGIN}`);
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+          default:
+            onError('알 수 없는 오류가 발생했습니다.');
             break;
         }
       }

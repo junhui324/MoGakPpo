@@ -1,5 +1,7 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useContext, useEffect} from "react";
 import styles from "./change.password.module.scss";
+import { useRecoilValue } from "recoil";
+import { loginAtom } from '../../recoil/loginState';
 
 export default function ChangePassword(){
   const currentPasswordRef = useRef<any>(null);
@@ -8,6 +10,11 @@ export default function ChangePassword(){
   const [currentPassword, setCurrentPassword] = useState(false);
   const [newPassword, setNewPassword] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
+  const loginData = useRecoilValue(loginAtom);
+
+  useEffect(() =>{
+    console.log(loginData);
+  });
 
   function isCurrentPasswordBlank():Boolean{
     if(currentPasswordRef.current.value === ""){
@@ -59,7 +66,7 @@ export default function ChangePassword(){
 
   return (<>
       <div className={styles.container}>
-        <div className={styles.title}>비밀번호를 잊으셨나요?</div>
+        <div className={styles.title}>비밀번호를 수정하실건가요?</div>
         <div className={styles.main}>
           <form onSubmit={(e) => {findPassword(e)}}>
           <div className={styles.sub}>현재 비밀번호</div>
