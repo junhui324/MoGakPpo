@@ -8,7 +8,7 @@ import styles from './PortfolioCreateWriting.module.scss';
 import QuillEditor from '../../../components/Editor/Editor2';
 import { TypeTeamProjectUser } from '../../../interfaces/User.interface';
 import LengthCheck from '../../../components/ProjectWritingForm/LengthCheck';
-import { base64sToFiles, findBase64 } from '../../../utils/base64Utils';
+import { base64imgParser, base64sToFiles, findBase64 } from '../../../utils/base64Utils';
 
 function PortfolioWriting() {
   const MAX_TITLE_LENGTH = 50;
@@ -58,7 +58,7 @@ function PortfolioWriting() {
 
   const handleSubmitClick = () => {
     const imgFiles = base64sToFiles(findBase64(description), `${new Date().getTime()}`);
-    console.log(imgFiles);
+    // console.log(imgFiles);
 
     // 1) 이미지파일들만 post API1(이미지를 서버에 올리고 URL을 받는 API)
     // response 값 확인
@@ -71,8 +71,10 @@ function PortfolioWriting() {
 
     //url 주소가 어떻게 오는지 확인
     //배열과 대조하여 img src=""에 주소 넣기
+    const urls = ['1', '2'];
 
-    console.log(description);
+    // console.log(description);
+    setDescription(base64imgParser(description, urls));
 
     const form = { title, summary, stacks, description, members };
     !title && alert('제목을 입력해 주세요.');
