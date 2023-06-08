@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import * as Token from './Token';
-import cookie from 'react-cookies';
 
 interface RequestParams<T> {
   endpoint: string | undefined;
@@ -9,7 +8,6 @@ interface RequestParams<T> {
   query?: string;
   data?: any;
   requiresToken?: boolean;
-  refreshToken?: boolean;
   isformDataHeader?: boolean;
 }
 
@@ -40,48 +38,57 @@ async function request<T>({
       method,
       headers,
       data,
-      withCredentials: true,
     });
 
     return response.data;
   } catch (error: any) {
     if (error.response) {
       // 서버에서 오류를 받으면 오류 상태 코드를 보냅니다.
-      console.log(error);
       const { status } = error.response;
 
       //
       if (status === 401) {
-        // refreshToken && (headers.refreshToken = `${Token.getRefreshToken() ? Token.getRefreshToken() : ''}`);
+        try {
+          // 1. 엑세스랑 리프레시 보내기
+          const refreshToken = Token.getRefreshToken();
+          refreshToken && (headers['X-Refresh-Token'] = refreshToken);
 
-        const refreshRes: AxiosResponse = await axios.request<T>({
-          url: apiUrl,
-          method,
-          headers,
-          data,
-          withCredentials: true,
-        });
+          const refreshRes: AxiosResponse = await axios.request<T>({
+            url: apiUrl,
+            method,
+            headers,
+            data,
+          });
 
-        const resData = refreshRes.data.data;
-        const accessToken = resData.newAccessToken;
-        cookie.save('accessToken', accessToken, {
-          path: '/',
-        });
+          // 2. 새로운 엑세스 받기
+          const resData = refreshRes.data.data;
+          const accessToken = resData.newAccessToken;
 
-        requiresToken &&
-          (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
+          // 3. 현재 쿠키에 저장돼있는 엑세스 지우기
+          Token.removeToken();
 
-        const originRes = await axios.request<T>({
-          url: apiUrl,
-          method,
-          headers,
-          data,
-          withCredentials: true,
-        });
+          // 4. 새로운 엑세스 쿠키에 넣기
+          Token.setToken(accessToken);
 
-        return originRes.data;
+          // 5. 새로운 엑세스로 재요청 보내기
+          requiresToken &&
+            (headers.Authorization = `Bearer ${Token.getToken() ? Token.getToken() : ''}`);
+
+          const originResponse = await axios.request<T>({
+            url: apiUrl,
+            method,
+            headers,
+            data,
+            withCredentials: true,
+          });
+
+          return originResponse.data;
+        } catch (error) {
+          console.log('리프레시 보내는데 에러발생', error);
+        }
       }
 
+      console.log(error);
       throw new Error(status);
       //
     } else {

@@ -22,6 +22,7 @@ const CompleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
     <ModalFullScreen setModalOpen={() => true} closeButton={false}>
       <div className={styles.modalContainer}>
         <p className={styles.modalText}>모집 완료하실 건가요?</p>
+        <p className={styles.modalWarningText}>*모집 완료 시 수정이 불가능합니다.</p>
         <div className={styles.modalButtonBox}>
           <button className={styles.completeButton} onClick={() => onClick(true)}>
             완료
@@ -101,7 +102,7 @@ export default function ProjectModifyBlock({
   fetchData,
 }: {
   modifyData: TypeProjectModify | null;
-  fetchData: () => Promise<void>;
+  fetchData: () => void;
 }) {
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -126,7 +127,7 @@ export default function ProjectModifyBlock({
   const deleteProject = async () => {
     if (modifyData) {
       try {
-        const response: AxiosResponse = await Fetcher.deleteProject(modifyData.project_id);
+        await Fetcher.deleteProject(modifyData.project_id);
 
         // 오류를 반환받지 않으면 진행합니다.
         alert('게시글이 삭제되었습니다.');
@@ -159,31 +160,26 @@ export default function ProjectModifyBlock({
     navigate(`/modify`);
   };
 
-  if (modifyData) {
-    const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
+  if (!modifyData) return <></>;
 
-    return (
-      <>
-        <div className={styles.container}>
-          <RecruitmentCompleteButton
-            recruitmentStatus={recruitmentStatus}
-            onClick={() => setIsCompleteModalOpen(true)}
-          />
-          <div className={styles.modifyContainer}>
-            <ModifyButton
-              recruitmentStatus={recruitmentStatus}
-              onClick={() => handleModifyClick()}
-            />
-            <button className={styles.deleteButton} onClick={() => setIsDeleteModalOpen(true)}>
-              삭제
-            </button>
-          </div>
+  const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[modifyData.project_recruitment_status];
+
+  return (
+    <>
+      <div className={styles.container}>
+        <RecruitmentCompleteButton
+          recruitmentStatus={recruitmentStatus}
+          onClick={() => setIsCompleteModalOpen(true)}
+        />
+        <div className={styles.modifyContainer}>
+          <ModifyButton recruitmentStatus={recruitmentStatus} onClick={() => handleModifyClick()} />
+          <button className={styles.deleteButton} onClick={() => setIsDeleteModalOpen(true)}>
+            삭제
+          </button>
         </div>
-        {isCompleteModalOpen ? <CompleteModal onClick={handleModalComplete} /> : ''}
-        {isDeleteModalOpen ? <DeleteModal onClick={handleModalDelete} /> : ''}
-      </>
-    );
-  } else {
-    return <></>;
-  }
+      </div>
+      {isCompleteModalOpen ? <CompleteModal onClick={handleModalComplete} /> : ''}
+      {isDeleteModalOpen ? <DeleteModal onClick={handleModalDelete} /> : ''}
+    </>
+  );
 }
