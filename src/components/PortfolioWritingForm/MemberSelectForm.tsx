@@ -38,7 +38,7 @@ function MemberSelectForm({
     <div className={styles.container}>
       <h4>프로젝트에 참여한 멤버를 선택해 주세요</h4>
       <div className={styles.secondContainer}>
-        <div>
+        <div className={styles.searchUserListContainer}>
           <input
             type="text"
             placeholder="이메일로 검색해 주세요."
@@ -46,7 +46,7 @@ function MemberSelectForm({
             onChange={(e) => handleSearchInputChange(e.target.value)}
           />
           {showSelectBox && (
-            <ul className={styles.searchUserListContainer}>
+            <ul>
               {userList.map((userData) => {
                 const {
                   user_id: id,
@@ -73,10 +73,10 @@ function MemberSelectForm({
             </ul>
           )}
         </div>
-        <div>
+        <div className={styles.selectedUsersContainer}>
           <h4>선택 한 멤버</h4>
           {selectedUserList && (
-            <ul className={styles.selectedUsersContainer}>
+            <ul>
               {selectedUserList.map((userData) => {
                 const {
                   user_id: id,

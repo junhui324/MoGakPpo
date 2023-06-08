@@ -9,20 +9,42 @@
     display: flex;
     gap: 32px;
   }
-  .selectedUsersContainer {
-    display: flex;
-    flex-direction: column;
-  }
+
   .searchUserListContainer {
-    padding: 6px;
     display: flex;
     flex-direction: column;
+    // flex-grow: 1;
+    width: 100%;
     gap: 16px;
-    height: 250px;
-    overflow: scroll;
-    overflow-x: hidden;
-    border-radius: 12px;
-    border: 1px solid #d8d8d8;
+    input {
+      width: 100%;
+    }
+    ul {
+      width: 100%;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 250px;
+      overflow: scroll;
+      overflow-x: hidden;
+      border-radius: 12px;
+      border: 1px solid #d8d8d8;
+      li {
+      }
+    }
+  }
+  .selectedUsersContainer {
+    padding: 8px;
+    // flex-grow: 1;
+    background-color: aliceblue;
+    border-radius: 8px;
+    ul {
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
   }
   .userProfile {
     display: flex;

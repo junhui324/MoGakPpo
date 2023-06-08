@@ -6,14 +6,12 @@ interface SummaryTextFormProps {
 function SummaryTextForm({ value, onChange }: SummaryTextFormProps) {
   return (
     <div>
-      <label>
-        <input
-          type="text"
-          placeholder="프로젝트 요약을 입력해 주세요."
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </label>
+      <input
+        type="text"
+        placeholder="프로젝트 요약을 입력해 주세요."
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
     </div>
   );
 }
