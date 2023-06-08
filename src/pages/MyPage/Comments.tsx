@@ -8,7 +8,11 @@ import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
 
-function Comments() {
+interface CommentsProps {
+  onError: (errorMessage: string) => void;
+}
+
+function Comments({ onError }: CommentsProps) {
   const [comments, setComments] = useState<TypeMypageComments>([]);
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
@@ -22,8 +26,17 @@ function Comments() {
       setTotalComments(data.listLength);
       setComments(data.pagenatedComments);
       setTotalPageCount(data.pageSize);
-    } catch (error) {
-      console.error('유저가 작성한 댓글을 가져오지 못했어요');
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+          default:
+            onError('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
+      }
     }
   };
 
