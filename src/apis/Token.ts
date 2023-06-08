@@ -16,7 +16,7 @@ function removeToken(): void {
 }
 
 // 쿠키에 저장된 리프레시 토큰을 반환합니다.
-function getRefreshToken(): string | null{
+function getRefreshToken(): string | null {
   return cookie.load('refreshToken');
 }
 

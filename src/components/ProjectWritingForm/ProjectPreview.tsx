@@ -6,6 +6,7 @@ import ProjectBody from '../Project/ProjectBody';
 import * as ProjectType from '../../interfaces/Project.interface';
 import * as Fetcher from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
+import * as Token from '../../apis/Token';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -50,16 +51,6 @@ function ProjectPreview() {
   }, []);
 
   const handleModifyButton = () => {
-    // 체크 버튼, 라디오 버튼 초기화
-    setProject((prevProject) => {
-      return {
-        ...prevProject,
-        project_recruitment_roles: { roleList: [] },
-        project_participation_time: '',
-        project_goal: '',
-      };
-    });
-
     // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
     let pType = '';
     if (classification === 'create') {
@@ -75,20 +66,14 @@ function ProjectPreview() {
     }
   };
 
-  const handleSubmitButton = () => {
+  const handleSubmitButton = async () => {
     if (classification === 'create') {
-      (async () => {
-        const res = await postProject();
-        resetProject();
-        //console.log('res: ', res);
-        navigate(`${ROUTES.PROJECT}${res}`);
-      })();
+      const res = await postProject();
+      resetProject();
+      navigate(`${ROUTES.PROJECT}${res}`);
     } else if (classification === 'modify') {
-      (async () => {
-        const res = await patchProject();
-        //console.log('res: ', res);
-        navigate(`${ROUTES.PROJECT}${res}`);
-      })();
+      const res = await patchProject();
+      navigate(`${ROUTES.PROJECT}${res}`);
     }
   };
 
@@ -98,7 +83,20 @@ function ProjectPreview() {
       const res = await Fetcher.postProject(project);
       return res.data.project_id;
     } catch (error) {
-      console.log(`POST 요청 에러 : ${error}`);
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '400':
+            alert(`${error}: 요청 body에 모든 정보를 입력해 주세요.`);
+            break;
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
     }
   };
 
@@ -108,7 +106,20 @@ function ProjectPreview() {
       const res = await Fetcher.patchProject(project, projectId);
       return res.data.project_id;
     } catch (error) {
-      console.log(`PATCH 요청 에러 : ${error}`);
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '400':
+            alert(`${error}: project_id를 입력해 주세요.`);
+            break;
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
     }
   };
 
@@ -124,7 +135,9 @@ function ProjectPreview() {
             className={`${styles.modify} ${classification === 'modify' ? styles.modifyTrue : ''}`}
             onClick={handleModifyButton}
           >
-            프로젝트 편집
+            {classification === 'project' || project.project_type === 'PROJECT'
+              ? '프로젝트 편집'
+              : '스터디 편집'}
           </button>
           <button className={styles.submit} onClick={handleSubmitButton}>
             등록하기

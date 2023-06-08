@@ -75,8 +75,8 @@ export async function postComment(
 }
 export async function putComment(
   commentId: number,
-  data: CommentType.TypeComment
-): Promise<CommentType.TypeComment> {
+  data: CommentType.TypeCommentPut
+): Promise<CommentType.TypeCommentPut> {
   const params = `comments/${commentId}`;
   return await Api.put(API_KEY, params, data, true);
 }
@@ -149,7 +149,7 @@ export async function getStackList(): Promise<{
   data: StackType.TypeStacks;
 }> {
   const params = `stacks`;
-  return await Api.get(DOMAIN, params, false);
+  return await Api.get(API_KEY, params, false);
 }
 
 // 유저 작성 게시글 불러오기
@@ -189,11 +189,9 @@ export async function getUserBookmarks(page: number): Promise<{
 }
 
 // 유저 정보 수정하기
-export async function updateUserProfile(
-  data: UserType.TypeUserProfile
-): Promise<UserType.TypeUserProfile> {
+export async function updateUserProfile(data: FormData): Promise<UserType.TypeUserProfile> {
   const params = `users/profile`;
-  return await Api.patch(API_KEY, params, data);
+  return await Api.patch(API_KEY, params, data, true, true);
 }
 
 // 유저 작성 댓글 불러오기
@@ -210,5 +208,20 @@ export async function getUserCommentsById(userId: number): Promise<{
   data: { project_comments: CommentType.TypeMypageComments };
 }> {
   const params = `user/${userId}/comments.json`;
+  return await Api.get(domain, params);
+}
+
+// 포트폴리오 멤버 선택 시 유저 검색 정보 불러오기
+export async function getUsersByEmail(value: string): Promise<{
+  message: string;
+  data: {
+    user_id: number;
+    user_email: string;
+    user_name: string;
+    user_career_goal: string;
+    user_img: string;
+  }[];
+}> {
+  const params = `users2.json`;
   return await Api.get(domain, params);
 }

@@ -8,23 +8,35 @@ import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
 
-function Comments() {
+interface CommentsProps {
+  onError: (errorMessage: string) => void;
+}
+
+function Comments({ onError }: CommentsProps) {
   const [comments, setComments] = useState<TypeMypageComments>([]);
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const navigate = useNavigate();
-  
+
   const offset = currPage + 1;
   const getUserCommentData = async () => {
     try {
       const { data } = await getUserComments(offset);
-      console.log(data.pagenatedComments)
       setTotalComments(data.listLength);
       setComments(data.pagenatedComments);
       setTotalPageCount(data.pageSize);
-    } catch (error) {
-      console.error('유저가 작성한 댓글을 가져오지 못했어요');
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+          default:
+            onError('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
+      }
     }
   };
 
@@ -40,7 +52,7 @@ function Comments() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentConunt}>댓글 {totalComments}개</div>
+      <div className={styles.contentCount}>댓글 {totalComments}개</div>
       {totalComments === 0 ? (
         <div className={styles.noComment}>
           <img className={styles.image} src={NoContentImage} alt="No Content" />
@@ -62,11 +74,7 @@ function Comments() {
               </div>
             );
           })}
-          <Pagination 
-            currPage={currPage}
-            onClickPage={setCurrPage}
-            pageCount={totalPageCount}
-          />
+          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={totalPageCount} />
         </div>
       )}
     </div>
