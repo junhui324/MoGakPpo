@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Banner.module.scss';
 import BannerItem from './BannerItem';
 
 export default function Banner() {
   const [currentId, setCurrentId] = useState(0);
-  const [move, setMove] = useState();
+  const [move, setMove] = useState<React.CSSProperties>();
 
   useEffect(() => {
-    //@ts-ignore
     setMove(() => ({ transform: `translateX(-${currentId * 100}%)` }));
   }, [currentId]);
 
