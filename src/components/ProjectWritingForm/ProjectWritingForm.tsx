@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 import ROUTES from '../../constants/Routes';
 import * as Token from '../../apis/Token';
-import Editor from '../Editor/Editor';
+import Editor from '../Editor/ProjectEditor';
 import Parser from 'html-react-parser';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
@@ -40,9 +40,11 @@ function ProjectWritingForm() {
   const resetProject = useResetRecoilState(projectState);
   const { type } = useParams();
   const [stackList, setStackList] = useRecoilState(stackListState);
+  const resetStackList = useResetRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
   const [description, setDescription] = useRecoilState(editorIntroductionState);
+  const resetDescription = useResetRecoilState(editorIntroductionState);
   const navigate = useNavigate();
 
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
@@ -62,6 +64,8 @@ function ProjectWritingForm() {
         project_introduction: data.project_introduction,
         project_img: null,
       });
+      setDescription(data.project_introduction);
+      setStackList(data.project_required_stacks.stackList);
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
@@ -83,7 +87,8 @@ function ProjectWritingForm() {
         setModifyButtonClick(false);
       } else {
         resetProject();
-        setDescription('');
+        resetDescription();
+        resetStackList();
 
         const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
         const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
@@ -96,6 +101,8 @@ function ProjectWritingForm() {
       }
     } else if (classification === 'modify') {
       getProjectData();
+      setDescription(project.project_introduction);
+      setStackList(project.project_required_stacks.stackList);
     }
   }, [classification, type]);
 
@@ -260,6 +267,8 @@ function ProjectWritingForm() {
   }, [description]);
 
   console.log('project : ', project);
+  console.log('desc: ', description);
+  console.log('class: ', classification);
 
   useBeforeUnload();
 

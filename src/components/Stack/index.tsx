@@ -3,6 +3,9 @@ import { RiCloseFill, RiSearchLine } from 'react-icons/ri';
 import { getStackList } from '../../apis/Fetcher';
 import styles from './stack.module.scss';
 
+import { useRecoilValue } from 'recoil';
+import { classificationState } from '../../recoil/projectState';
+
 interface StackProps {
   selectedStack: string[];
   setStackList: (stacks: string[]) => void;
@@ -13,6 +16,7 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   const [stacks, setStacks] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const classification = useRecoilValue(classificationState);
 
   const handleDelete = (stack: string) => {
     setSelected((prevSelected) => prevSelected.filter((selectedStack) => selectedStack !== stack));
@@ -23,18 +27,18 @@ function Stack({ selectedStack, setStackList }: StackProps) {
       setSelected((prevSelected) => [...prevSelected, stack]);
     }
   };
-  
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchWord(value);
-    
+
     const filteredSuggestions = getSuggestions(value);
     setSuggestions(filteredSuggestions);
   };
-  
+
   const handleClickInputCross = () => {
     setSearchWord('');
-  }
+  };
 
   const handleSuggestionClick = (suggestion: string) => {
     setSearchWord(suggestion);
@@ -77,7 +81,7 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   // setStackList 매개변수에 selected 담아주기
   useEffect(() => {
     setStackList(selected);
-  }, [selected]);
+  }, [selected, classificationState]);
 
   return (
     <div className={styles.container}>
@@ -106,10 +110,11 @@ function Stack({ selectedStack, setStackList }: StackProps) {
           onChange={handleInputChange}
           placeholder="기술 스택을 검색해 보세요."
         />
-        {searchWord 
-          ? <RiCloseFill className={styles.searchButton} onClick={handleClickInputCross}/>
-          : <RiSearchLine className={styles.searchButton} /> 
-        }
+        {searchWord ? (
+          <RiCloseFill className={styles.searchButton} onClick={handleClickInputCross} />
+        ) : (
+          <RiSearchLine className={styles.searchButton} />
+        )}
         {suggestions.length > 0 && searchWord.trim().length > 0 && (
           <ul className={styles.suggestionContainer}>
             {suggestions.map((suggestion, index) => (
