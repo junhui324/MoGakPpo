@@ -18,6 +18,7 @@ import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
 import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
+import PortfolioDetail from './pages/PortfolioDetail';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
+          <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
         </Routes>
       </div>
     </BrowserRouter>

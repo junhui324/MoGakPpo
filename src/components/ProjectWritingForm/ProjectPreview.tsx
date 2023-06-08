@@ -27,7 +27,6 @@ function ProjectPreview() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(project);
     setTitleData(() => {
       return {
         project_type: project.project_type,

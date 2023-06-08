@@ -83,7 +83,7 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   // setStackList 매개변수에 selected 담아주기
   useEffect(() => {
     setStackList(selected);
-  }, [selected, classificationState]);
+  }, [selected, classification]);
 
   return (
     <div className={styles.container}>

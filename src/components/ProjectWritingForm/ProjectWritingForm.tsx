@@ -50,7 +50,6 @@ function ProjectWritingForm() {
   const getProjectData = async () => {
     try {
       const data = await Fetcher.getProject(projectId);
-      console.log(data);
       setProject({
         ...project,
         project_type: data.project_type,
@@ -264,10 +263,6 @@ function ProjectWritingForm() {
       project_introduction: description,
     });
   }, [description]);
-
-  console.log('project : ', project);
-  console.log('desc: ', description);
-  console.log('class: ', classification);
 
   useBeforeUnload();
 

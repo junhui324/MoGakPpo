@@ -12,6 +12,7 @@ export const ROUTES = {
   MODIFY_PROJECT: '/modify',
   PREVIEW_PROJECT: '/preview',
   PORTFOLIO_CREATE: '/portfolio/create/',
+  PORTFOLIO_DETAIL: '/portfolio/',
 };
 
 export default ROUTES;
