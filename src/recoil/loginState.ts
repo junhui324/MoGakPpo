@@ -16,7 +16,7 @@ export const loginAtom = atom<LoginData>({
   }
 });
 
-export const stackListState = atom<string[]>({
-  key: 'stackListState',
+export const userStackListState = atom<string[]>({
+  key: 'userStackListState',
   default: [],
 });

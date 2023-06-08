@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { loginAtom, stackListState } from '../../recoil/loginState';
+import { loginAtom, userStackListState } from '../../recoil/loginState';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from "../../components/Stack";
@@ -10,7 +10,7 @@ import styles from './updateUser.module.scss';
 
 function UpdateUser() {
   const [userInfo, setUserInfo] = useRecoilState(loginAtom);
-  const [stackList, setStackList] = useRecoilState(stackListState);
+  const [stackList, setStackList] = useRecoilState(userStackListState);
   const [imageFile, setImageFile] = useState<File>();
   const [isValid, setIsValid] = useState<boolean>(true);
 
