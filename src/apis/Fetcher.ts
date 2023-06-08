@@ -231,7 +231,7 @@ export async function getUserSelectBookMarks(
     pagenatedProjects: ProjectType.TypeUserPosts
   }
 }> {
-  const params = `user/recruiting=${recruiting}&page=${page}.json`;
+  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
   // const query = `recruiting=${recruiting}&page=${page}`;
   return await Api.get(domain, params);
 }
