@@ -1,11 +1,11 @@
 import React from 'react';
+import DOMPurify from 'dompurify';
 
 // 타입
 import { TypeProjectBody } from '../../interfaces/Project.interface';
 // 스타일 관련
 import { RoleIcon, StackIcon, TargetIcon, ClockIcon } from './ProjectBodyLogo';
 import styles from './ProjectBody.module.scss';
-import TextareaAutosize from 'react-textarea-autosize';
 // 상수
 import {
   PROJECT_GOAL,
@@ -16,6 +16,9 @@ const DEFAULT_STACK = '미정';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (bodyData) {
+    const bodyHTML = bodyData.project_introduction;
+    const sanitizedHTML = DOMPurify.sanitize(bodyHTML);
+
     return (
       <div className={styles.container}>
         {/* 요약 */}
@@ -94,7 +97,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
         {/* 소개 */}
         <div className={styles.introduction}>
           <div className={styles.paragraphTitle}>소개</div>
-          <div className={styles.paragraph}>{bodyData.project_introduction}</div>
+          <div className={styles.paragraph}>
+            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+          </div>
         </div>
       </div>
     );
