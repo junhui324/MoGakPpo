@@ -6,6 +6,7 @@ import { getUserPosts } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
 import Pagination from '../../components/Pagination';
+import ContentsFilter from './ContentsFilter';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 
@@ -20,6 +21,7 @@ function Posts({ onError }: PostsProps) {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
 
   const offset = currPage + 1;
   const getUserPostsData = async () => {
@@ -41,13 +43,20 @@ function Posts({ onError }: PostsProps) {
     }
   };
 
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
+  };
+
   useEffect(() => {
     getUserPostsData();
   }, [currPage]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {totalLength}개</div>
+      <div className={styles.topContainer}>
+        <div className={styles.contentCount}>게시글 {totalLength}개</div>
+        <ContentsFilter onChange={handleRecruitingSelect}/>
+      </div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}

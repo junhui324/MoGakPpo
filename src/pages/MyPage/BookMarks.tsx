@@ -8,6 +8,7 @@ import LoadingProject from '../../components/ProjectList/LoadingProject';
 import Pagination from '../../components/Pagination';
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
+import ContentsFilter from './ContentsFilter';
 
 interface BookMarksProps {
   onError: (errorMessage: string) => void;
@@ -20,6 +21,7 @@ function BookMarks({ onError }: BookMarksProps) {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
 
   const offset = currPage + 1;
   const getUserBookmarkData = async () => {
@@ -34,13 +36,15 @@ function BookMarks({ onError }: BookMarksProps) {
           case '403':
             onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
-          case '404': // 존재하는 모집 글이 없습니다.
-            break;
         }
       }
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
   };
 
   useEffect(() => {
@@ -49,7 +53,10 @@ function BookMarks({ onError }: BookMarksProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>북마크 {totalLength}개</div>
+      <div className={styles.topContainer}>
+        <div className={styles.contentCount}>북마크 {totalLength}개</div>
+        <ContentsFilter onChange={handleRecruitingSelect}/>
+      </div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}

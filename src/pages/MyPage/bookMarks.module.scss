@@ -4,12 +4,18 @@
   height: 50vh;
   padding-top: 1.4rem;
   min-height: 480px;
-}
 
-.contentConunt {
-  color: #94a3b8;
-  font-weight: 500;
-  padding-left: 0.8rem;
+  .topContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .contentCount {
+    color: #94a3b8;
+    font-weight: 500;
+    padding-left: 0.8rem;
+  }
 }
 
 .postType {

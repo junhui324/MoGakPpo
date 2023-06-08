@@ -7,6 +7,7 @@ import { getUserComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
+import ContentsFilter from './ContentsFilter';
 
 interface CommentsProps {
   onError: (errorMessage: string) => void;
@@ -17,6 +18,7 @@ function Comments({ onError }: CommentsProps) {
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
   const navigate = useNavigate();
 
   const offset = currPage + 1;
@@ -32,8 +34,6 @@ function Comments({ onError }: CommentsProps) {
           case '403':
             onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
-          case '404': // 존재하는 모집 글이 없습니다.
-            break;
         }
       }
     }
@@ -45,13 +45,20 @@ function Comments({ onError }: CommentsProps) {
     navigate(`${ROUTES.PROJECT}${project_id}`);
   };
 
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
+  };
+
   useEffect(() => {
     getUserCommentData();
   }, [currPage]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>댓글 {totalComments}개</div>
+      <div className={styles.topContainer}>
+        <div className={styles.contentCount}>댓글 {totalComments}개</div>
+        <ContentsFilter onChange={handleRecruitingSelect}/>
+      </div>
       {totalComments === 0 ? (
         <div className={styles.noComment}>
           <img className={styles.image} src={NoContentImage} alt="No Content" />

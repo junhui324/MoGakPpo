@@ -3,13 +3,20 @@
   background-color: rgba(226, 232, 240, 0.3);
   min-height: 480px;
   padding-top: 1.4rem;
+  
+  .topContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .contentCount {
+    color: #94a3b8;
+    font-weight: 500;
+    padding-left: 0.8rem;
+  }
 }
 
-.contentCount {
-  color: #94a3b8;
-  font-weight: 500;
-  padding-left: 0.8rem;
-}
 
 .posts {
   display: flex;
