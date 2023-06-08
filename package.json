@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.195",
     "@types/quill": "^2.0.10",
     "sass": "^1.62.1"
   }

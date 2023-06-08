@@ -27,7 +27,7 @@ export function base64sToFiles(base64Images: string[], fileName: string) {
   return imageFiles;
 }
 
-export function base64imgParser(htmlCode: string, urls: string[]) {
+export function base64imgSrcParser(htmlCode: string, urls: string[]) {
   let currentIndex = 0;
   const updatedHtmlCode = htmlCode.replace(base64Regex, (match, src) => {
     const replacedSrc = urls[currentIndex]; // 배열에서 현재 인덱스에 해당하는 URL을 가져옵니다.
