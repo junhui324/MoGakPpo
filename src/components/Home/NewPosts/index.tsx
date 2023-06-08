@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getProjects } from '../../apis/Fetcher';
-import { TypeProjectList } from '../../interfaces/Project.interface';
+import { getProjects } from '../../../apis/Fetcher';
+import { TypeProjectList } from '../../../interfaces/Project.interface';
 import styles from './NewPosts.module.scss';
-import { getIsNew } from '../../utils/getIsNew';
+import { getIsNew } from '../../../utils/getIsNew';
 
 export default function NewPosts() {
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);

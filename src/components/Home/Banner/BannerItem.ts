@@ -1,6 +1,6 @@
-import Banner1 from '../../assets/Banner/Banner1.png';
-import Banner2 from '../../assets/Banner/Banner2.png';
-import Banner3 from '../../assets/Banner/Banner3.png';
+import Banner1 from '../../../assets/Banner/Banner1.png';
+import Banner2 from '../../../assets/Banner/Banner2.png';
+import Banner3 from '../../../assets/Banner/Banner3.png';
 
 const BannerItem = [
   {

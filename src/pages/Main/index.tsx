@@ -1,5 +1,5 @@
-import Banner from '../../components/Banner';
-import NewPosts from '../../components/ProjectList/NewPosts';
+import Banner from '../../components/Home/Banner';
+import NewPosts from '../../components/Home/NewPosts';
 export default function () {
   return (
     <>
