@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { loginAtom } from '../../recoil/loginState';
+import { loginAtom, stackListState } from '../../recoil/loginState';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from "../../components/Stack";
@@ -10,8 +10,7 @@ import styles from './updateUser.module.scss';
 
 function UpdateUser() {
   const [userInfo, setUserInfo] = useRecoilState(loginAtom);
-  const [userStack, setUserStack] = useState<string[]>([]);
-  const [imageSrc, setImageSrc] = useState<string>('');
+  const [stackList, setStackList] = useRecoilState(stackListState);
   const [imageFile, setImageFile] = useState<File>();
   const [isValid, setIsValid] = useState<boolean>(true);
 
@@ -36,14 +35,17 @@ function UpdateUser() {
       setImageFile(file);
       const reader = new FileReader();
       reader.onload = () => {
-        setImageSrc(reader.result as string);
+        setUserInfo((prev) => ({
+          ...prev,
+          user_img: reader.result as string,
+        }));
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSetStackList = (stacks: string[]) => {
-    setUserStack(stacks);
+    setStackList(stacks);
   };
 
   const handleChange = (
@@ -70,7 +72,7 @@ function UpdateUser() {
         formData.append('user_name', userInfo.user_name.trim());
         formData.append('user_introduction', userInfo.user_introduction);
         formData.append('user_career_goal', userInfo.user_career_goal);
-        formData.append('user_stacks', JSON.stringify(userStack || []));
+        formData.append('user_stacks', JSON.stringify(stackList || []));
 
         await updateUserProfile(formData);
 
@@ -103,7 +105,7 @@ function UpdateUser() {
             user_introduction:data.user_introduction,
           }
         });
-        setImageSrc(data.user_img);
+        setStackList(data.user_stacks.stackList);
       } catch (error) {
         console.log(error);
       }
@@ -123,7 +125,7 @@ function UpdateUser() {
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
-              src={imageSrc}
+              src={userInfo.user_img}
               alt={userInfo.user_name}
               onClick={handleImageChange}
             />
@@ -171,7 +173,7 @@ function UpdateUser() {
             />
             <p>{userInfo.user_career_goal.length}/{MAX_CAREER_COUNT}</p>
           </div>
-          <Stack selectedStack={userStack} setStackList={handleSetStackList} />
+          <Stack selectedStack={stackList} setStackList={handleSetStackList} />
           <button 
             className={isValid ? styles.submitButton : styles.disabledButton} 
             onClick={handleSubmit} 

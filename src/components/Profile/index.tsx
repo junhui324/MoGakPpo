@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './profile.module.scss';
 import { getUserProfile } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import { FcBriefcase, FcSupport } from "react-icons/fc";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
 
 interface ProfileProps {
@@ -12,15 +12,14 @@ interface ProfileProps {
 }
 
 function Profile({ onError }: ProfileProps) {
-  const loginUser = useRecoilValue(loginAtom);
-  const setLoginData = useSetRecoilState(loginAtom);
+  const [loginUser, setLoginUser] = useRecoilState(loginAtom);
   const navigate = useNavigate();
 
   const getUserData = async () => {
     try {
       const { data } = await getUserProfile();
 
-      setLoginData((prev) => {
+      setLoginUser((prev) => {
         return {
           ...prev,
           user_name: data.user_name,
