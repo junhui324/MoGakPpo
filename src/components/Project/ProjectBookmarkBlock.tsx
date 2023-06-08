@@ -37,7 +37,7 @@ export default function ProjectBookmarkBlock({
   fetchData,
 }: {
   bookmarksData: TypeProjectBookmarks | null;
-  fetchData: () => Promise<void>;
+  fetchData: () => void;
 }) {
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);

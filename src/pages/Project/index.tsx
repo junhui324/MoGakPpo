@@ -51,14 +51,16 @@ function Project() {
   const projectId: number = params.id ? Number(params.id) : 0;
   const [projectData, setProjectData] = useState<ProjectType.TypeProject | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
   // 각 컴포넌트 데이터
   const [titleData, setTitleData] = useState<ProjectType.TypeProjectTitle | null>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
   const [authorData, setAuthorData] = useState<ProjectType.TypeProjectAuthor | null>(null);
   const [bookmarksData, setBookmarksData] = useState<ProjectType.TypeProjectBookmarks | null>(null);
   const [modifyData, setModifyData] = useState<ProjectType.TypeProjectModify | null>(null);
+  // 업데이트 필요 시에 변경되는 상태
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
+  // Recoil State
   const [projectIdRecoil, setProjectIdRecoil] = useRecoilState(projectIdState);
 
   // 데이터 API 호출 함수
@@ -67,7 +69,6 @@ function Project() {
     try {
       const data = await Fetcher.getProject(projectId);
       setProjectIdRecoil(projectId);
-      // console.log(projectIdRecoil);
       setProjectData(data);
     } catch (loadingError) {
       if (loadingError instanceof Error && typeof loadingError.message === 'string') {
@@ -96,7 +97,12 @@ function Project() {
   // 게시글 아이디에 맞게 로딩할 것
   useEffect(() => {
     fetchData();
-  }, []);
+
+    // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
+    return () => {
+      setIsUpdate(false);
+    };
+  }, [isUpdate]);
 
   // 데이터가 로딩되면 각 props데이터 할당함
   useEffect(() => {
@@ -171,12 +177,10 @@ function Project() {
         </div>
         <div className={styles.rightContainer}>
           <ProjectAuthorProfile authorData={authorData} />
-          <ProjectBookmarkBlock bookmarksData={bookmarksData} fetchData={fetchData} />
+          <ProjectBookmarkBlock bookmarksData={bookmarksData} fetchData={() => setIsUpdate(true)} />
           {/* ProjectModifyBlock은 현재 유저가 글 작성자일때만 활성화됨 */}
-          {isAuthor() ? (
-            <ProjectModifyBlock modifyData={modifyData} fetchData={fetchData} />
-          ) : (
-            <></>
+          {isAuthor() && (
+            <ProjectModifyBlock modifyData={modifyData} fetchData={() => setIsUpdate(true)} />
           )}
         </div>
       </div>
@@ -184,7 +188,7 @@ function Project() {
     </>
   ) : (
     <>
-      <div>{isLoading ? <Loading /> : error}</div>
+      <div>{isLoading && <Loading />}</div>
     </>
   );
 }

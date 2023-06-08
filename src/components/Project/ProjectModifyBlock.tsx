@@ -102,7 +102,7 @@ export default function ProjectModifyBlock({
   fetchData,
 }: {
   modifyData: TypeProjectModify | null;
-  fetchData: () => Promise<void>;
+  fetchData: () => void;
 }) {
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
