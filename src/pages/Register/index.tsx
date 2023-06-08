@@ -1,10 +1,12 @@
 //import axios from "axios";
+import { loginAtom } from '../../recoil/loginState';
 import axios from 'axios';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 //@ts-ignore
 import { Link, /*useNavigate*/ 
 Navigate,
 useNavigate} from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 //@ts-ignore
 import styles from './register.module.scss';
 
@@ -23,7 +25,11 @@ function Register() {
   const [isEmail, setIsEmail] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const loginData = useRecoilValue(loginAtom);
 
+  useEffect(() =>{
+    console.log(loginData);
+  });
   const navigate = useNavigate();
 
   function CheckEmail(str: any) {

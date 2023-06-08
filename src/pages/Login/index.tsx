@@ -8,8 +8,8 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
-import { loginAtom } from '../../store/store';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginAtom } from '../../recoil/loginState';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -19,7 +19,7 @@ function Login() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const navigate = useNavigate();
-  const [currentLoginData, setLoginData] = useRecoilState(loginAtom);
+  const setLoginData = useSetRecoilState(loginAtom);
 
   function isEmailBlank(): Boolean {
     if (emailRef.current.value === '') {
@@ -83,24 +83,25 @@ function Login() {
           path: '/',
         });
 
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            user_id: data.user_id,
-            user_name: data.user_name,
-            user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
-          })
-        );
+        // localStorage.setItem(
+        //   'user',
+        //   JSON.stringify({
+        //     user_id: data.user_id,
+        //     user_name: data.user_name,
+        //     user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+        //   })
+        // );
         
         setLoginData((prev) =>{
           return {...prev,
             user_id:data.user_id,
             user_name:data.user_name,
             user_img:data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+            user_career_goal:data.user_career_goal,
+            user_stacks:data.user_stacks,
+            user_introduction:data.user_introduction,
           }
         });
-
-        console.log(currentLoginData);
 
         navigate('/');
       }
