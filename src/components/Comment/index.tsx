@@ -43,8 +43,12 @@ export default function Comment() {
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const status = error.message;
+      if (status === '404') {
+        console.log('존재하는 댓글이 없습니다.');
+        setCommentTotal(0);
+      }
     }
   };
   useEffect(() => {
@@ -170,12 +174,15 @@ export default function Comment() {
               //수정, 삭제버튼 이벤트 처리
               const isEditing = editingCommentId === comment.comment_id;
               const handleDeleteButtonClick = async () => {
-                if (window.confirm('댓글을 삭제하시겠습니까?')) {
+                if (window.confirm('댓글을 삭제하시겠습니까?' + comment.comment_id)) {
                   try {
                     await deleteComment(comment.comment_id);
                     setIsListUpdated(!isListUpdated);
-                  } catch (error) {
-                    console.log(error);
+                  } catch (error: any) {
+                    const status = error.message;
+                    if (status === '404') {
+                      console.log('이미 삭제 된 댓글입니다.');
+                    }
                   }
                 }
               };
