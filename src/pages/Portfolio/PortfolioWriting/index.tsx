@@ -2,7 +2,7 @@ import Stack from '../../../components/Stack';
 import SummaryTextForm from '../../../components/PortfolioWritingForm/SummaryTextForm';
 import TitleTextForm from '../../../components/PortfolioWritingForm/TitleTextForm';
 import { useEffect, useState } from 'react';
-import Editor from '../../../components/Editor/ProjectEditor';
+import Editor from '../../../components/Editor/Editor';
 import MemberSelectForm from '../../../components/PortfolioWritingForm/MemberSelectForm';
 import styles from './PortfolioCreateWriting.module.scss';
 import QuillEditor from '../../../components/Editor/Editor2';
@@ -59,12 +59,13 @@ function PortfolioWriting() {
   const handleSubmitClick = () => {
     const imgFiles = base64sToFiles(findBase64(description), `${new Date().getTime()}`);
     console.log(imgFiles);
-    // 1) 이미지파일들만 post
-    // response 값 확인
-    // description 상태 내 base64 코드 찾아서 src=""로 대체
-    // 대체된 des 값과 나머지 폼 데이터를 post로 쏴주기
 
-    // 2)description base64 코드를 특정 코드로 대체
+    // 1) 이미지파일들만 post API1(이미지를 서버에 올리고 URL을 받는 API)
+    // response 값 확인
+    // description 상태 내 base64 코드 찾아서 src="response[0]"로 대체
+    // 대체된 des 값과 나머지 폼 데이터를 post로 쏴주기 API2
+
+    // 2)description base64 코드를 특정 코드로 '새미' 대체
     // imgFiles와 des와 나머지 폼데이터와 post
     // 백엔드에서 des필드의 'img'값을 src=""로 대체하여 디비에 저장
 

@@ -9,23 +9,35 @@ import Pagination from '../../components/Pagination';
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
 
-function BookMarks() {
+interface BookMarksProps {
+  onError: (errorMessage: string) => void;
+}
+
+function BookMarks({ onError }: BookMarksProps) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [totalLength, setTotalLength] = useState<number>(0);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
+
+  const offset = currPage + 1;
   const getUserBookmarkData = async () => {
     try {
-      const userBookmarksData = await getUserBookmarks(currPage);
+      const userBookmarksData = await getUserBookmarks(offset);
+      setTotalLength(userBookmarksData.data.listLength);
       setProjects(userBookmarksData.data.pagenatedProjects);
       setTotalPageCount(userBookmarksData.data.pageSize);
-    } catch (error: any) {
-      const status = error.message;
-      if (status === '404') {
-        setIsLoading(false);
-      } else {
-        console.log(error);
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+          default:
+            onError('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
       }
     } finally {
       setIsLoading(false);
@@ -38,11 +50,11 @@ function BookMarks() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {projects.length}개</div>
+      <div className={styles.contentCount}>북마크 {totalLength}개</div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}
-          {projects.length > 0 &&
+          {totalLength > 0 &&
             !isLoading &&
             projects.map((post) => {
               return (
@@ -54,19 +66,15 @@ function BookMarks() {
                 </div>
               );
             })}
-          {projects.length === 0 && !isLoading && (
+          {totalLength === 0 && !isLoading && (
             <div className={styles.noContentContainer}>
               <img className={styles.image} src={NoContentImage} alt="No Content" />
               <div className={styles.noContent}>아직 북마크한 게시글이 없어요.</div>
             </div>
           )}
         </ul>
-        {projects.length > 0 && !isLoading && (
-          <Pagination
-            currPage={currPage}
-            onClickPage={setCurrPage}
-            pageCount={Math.ceil(totalPageCount)}
-          />
+        {totalLength > 0 && !isLoading && (
+          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={totalPageCount} />
         )}
       </div>
     </div>

@@ -8,7 +8,7 @@ $grey: #64748B;
   min-height: 480px;
 }
 
-.contentConunt {
+.contentCount {
   color: $count-color;
   font-weight: 500;
   padding-left: 0.8rem;
@@ -41,14 +41,15 @@ $grey: #64748B;
     background-color: white;
     padding: 1.4rem;
     cursor: pointer;
-    transition: all 0.2s;
-    
-    &:not(:first-of-type) {
-      margin: 2rem 0;
+    margin: 2rem 0;
+
+    &:first-of-type {
+      margin-top: 0;
     }
 
     &:hover {
-      background-color: rgba(#e8e8e8, 0.2);
+      border-color: #d0dee0;
+      box-shadow: 0 0 15px #e2eaf1;
     }
 
     .title {

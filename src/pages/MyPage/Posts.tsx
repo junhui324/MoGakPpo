@@ -9,24 +9,35 @@ import Pagination from '../../components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 
-function Posts() {
+interface PostsProps {
+  onError: (errorMessage: string) => void;
+}
+
+function Posts({ onError }: PostsProps) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [currPage, setCurrPage] = useState<number>(1);
+  const [totalLength, setTotalLength] = useState<number>(0);
+  const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
 
+  const offset = currPage + 1;
   const getUserPostsData = async () => {
     try {
-      const userPostsData = await getUserPosts(currPage);
+      const userPostsData = await getUserPosts(offset);
+      setTotalLength(userPostsData.data.listLength);
       setProjects(userPostsData.data.pagenatedProjects);
       setTotalPageCount(userPostsData.data.pageSize);
-    } catch (error: any) {
-      const status = error.message;
-      if (status === '404') {
-        setIsLoading(false);
-      } else {
-        console.log(error);
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+            break;
+          default:
+            onError('알 수 없는 오류가 발생했습니다.');
+            break;
+        }
       }
     } finally {
       setIsLoading(false);
@@ -39,11 +50,11 @@ function Posts() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {projects.length}개</div>
+      <div className={styles.contentCount}>게시글 {totalLength}개</div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}
-          {projects.length > 0 &&
+          {totalLength > 0 &&
             !isLoading &&
             projects.map((post) => {
               return (
@@ -55,19 +66,15 @@ function Posts() {
                 </div>
               );
             })}
-          {projects.length === 0 && !isLoading && (
+          {totalLength === 0 && !isLoading && (
             <div className={styles.noContentContainer}>
               <img className={styles.image} src={NoContentImage} alt="No Content" />
               <div className={styles.noContent}>아직 작성한 게시글이 없어요.</div>
             </div>
           )}
         </ul>
-        {projects.length > 0 && !isLoading && (
-          <Pagination
-            currPage={currPage}
-            onClickPage={setCurrPage}
-            pageCount={Math.ceil(totalPageCount)}
-          />
+        {totalLength > 0 && !isLoading && (
+          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={totalPageCount} />
         )}
       </div>
     </div>
