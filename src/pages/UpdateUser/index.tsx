@@ -1,17 +1,18 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { loginAtom } from '../../recoil/loginState';
 import { RiAddCircleFill } from 'react-icons/ri';
-import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from "../../components/Stack";
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
-import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
-  const [user, setUser] = useState<TypeUserProfile>({} as TypeUserProfile);
-  const [imageSrc, setImageSrc] = useState<string>(DefaultUserImg);
+  const [userInfo, setUserInfo] = useRecoilState(loginAtom);
+
   const [userStack, setUserStack] = useState<string[]>([]);
+  const [imageSrc, setImageSrc] = useState<string>('');
   const [inputName, setInputName] = useState<string>('');
   const [inputIntroLength, setInputIntroLength] = useState<number>(0);
   const [inputCareerLength, setInputCareerLength] = useState<number>(0);
@@ -88,9 +89,23 @@ function UpdateUser() {
         formData.append('user_stacks', JSON.stringify(userStack || []));
 
         await updateUserProfile(formData);
+
+        setUserInfo((prev) => {
+          return {
+            ...prev,
+            user_name: inputName.trim(),
+            user_img: imageSrc,
+            user_career_goal: inputCareerRef.current?.value as string,
+            user_stacks: {
+              stackList: userStack || []
+            },
+            user_introduction: inputIntroRef.current?.value as string
+          }
+        });
+
         navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
-        console.log(error);
+        alert('수정을 실패했습니다.');
       }
     }
   };
@@ -107,28 +122,20 @@ function UpdateUser() {
     const getUserData = async () => {
       try {
         const { data } = await getUserProfile();
-  
-        if (data.user_stacks && data.user_stacks.stackList) {
-          setUserStack(data.user_stacks.stackList);
-        } else {
-          setUserStack([]);
-        }
-
-        if (data.user_introduction) {
-          setInputIntroLength(data.user_introduction.length);
-        } else {
-          setInputIntroLength(0);
-        }
-
-        if (data.user_career_goal) {
-          setInputCareerLength(data.user_career_goal.length);
-        } else {
-          setInputCareerLength(0);
-        }
-  
-        setUser(data);
-        setImageSrc(data.user_img || DefaultUserImg);
+        setUserInfo((prev) => {
+          return {
+            ...prev,
+            user_name: data.user_name,
+            user_img: data.user_img,
+            user_career_goal: data.user_career_goal,
+            user_stacks: data.user_stacks,
+            user_introduction:data.user_introduction,
+          }
+        });
+        setImageSrc(data.user_img);
         setInputName(data.user_name);
+        setInputIntroLength(data.user_introduction.length);
+        setInputCareerLength(data.user_career_goal.length);
       } catch (error) {
         console.log(error);
       }
@@ -143,13 +150,13 @@ function UpdateUser() {
 
   return (
     <div className={styles.container}>
-      {user && (
+      {userInfo && (
         <form className={styles.form} encType="multipart/form-data">
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
-              src={imageSrc || DefaultUserImg}
-              alt={user.user_name}
+              src={imageSrc}
+              alt={userInfo.user_name}
               onClick={handleImageChange}
             />
             <input
@@ -177,7 +184,7 @@ function UpdateUser() {
             <label>자기소개</label>
             <textarea
               name="intro"
-              defaultValue={user.user_introduction}
+              defaultValue={userInfo.user_introduction}
               ref={inputIntroRef}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
@@ -190,7 +197,7 @@ function UpdateUser() {
             <input
               type="text"
               name="career"
-              defaultValue={user.user_career_goal}
+              defaultValue={userInfo.user_career_goal}
               ref={inputCareerRef}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
