@@ -1,3 +1,4 @@
+import HotPortfolio from '../../components/Home/HotPortfolio';
 import Banner from '../../components/Home/Banner';
 import NewPosts from '../../components/Home/NewPosts';
 export default function () {
@@ -5,6 +6,7 @@ export default function () {
     <>
       <Banner />
       <NewPosts />
+      <HotPortfolio />
     </>
   );
 }
