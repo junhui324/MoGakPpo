@@ -12,6 +12,9 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
   const quillRef = useRef<Quill | null>(null);
 
   useEffect(() => {
+    if (quillRef.current) {
+      return;
+    }
     quillRef.current = new Quill('#editor-container', {
       modules: {
         toolbar: [
