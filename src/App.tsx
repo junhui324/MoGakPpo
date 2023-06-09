@@ -19,6 +19,7 @@ import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
 import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
 import Main from './pages/Main';
+import HighlightEditor from './components/Editor/HighlightEditor';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
           <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
+          <Route path='/highlight' element={<HighlightEditor/>}></Route>
         </Routes>
       </div>
     </BrowserRouter>
