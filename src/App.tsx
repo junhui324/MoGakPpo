@@ -6,6 +6,7 @@ import ProjectListMain from './pages/ProjectList';
 // import Comment from './components/Comment';
 import Header from './components/Header/Header';
 import Error from './components/common/Error';
+import ChatBot from './components/ChatBot';
 import Project from './pages/Project';
 import MyPage from './pages/MyPage';
 import styles from './index.module.scss';
@@ -56,6 +57,7 @@ function App() {
           {/*포트폴리오 게시글 리스트*/}
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
         </Routes>
+        <ChatBot />
       </div>
     </BrowserRouter>
   );
