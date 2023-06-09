@@ -7,7 +7,7 @@ import axios from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
 import { userInfo } from 'os';
-import { RiKakaoTalkFill } from 'react-icons/ri';
+import {RiKakaoTalkFill} from "react-icons/ri"; 
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
@@ -23,16 +23,18 @@ function Login() {
   const [isKakaoLoading, setIsKakaoLoading] = useState(false);
   const navigate = useNavigate();
   const setLoginData = useSetRecoilState(loginAtom);
-  useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
-
-    if (code === null) {
-      console.log('code empty');
-    } else {
+  useEffect(() =>{
+    const code = new URL(window.location.href).searchParams.get("code");
+    
+    if(code === null){
+      console.log("code empty");
+    }
+    else{
       console.log(code);
       setIsKakaoLoading(true);
     }
-  });
+
+    });
 
   function isEmailBlank(): Boolean {
     if (emailRef.current.value === '') {
@@ -107,17 +109,16 @@ function Login() {
         //     user_introduction:data.user_introduction,
         //   })
         // );
-
-        setLoginData((prev) => {
-          return {
-            ...prev,
-            user_id: data.user_id,
-            user_name: data.user_name,
-            user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
-            user_career_goal: data.user_career_goal,
-            user_stacks: data.user_stacks,
-            user_introduction: data.user_introduction,
-          };
+        
+        setLoginData((prev) =>{
+          return {...prev,
+            user_id:data.user_id,
+            user_name:data.user_name,
+            user_img:data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+            user_career_goal:data.user_career_goal,
+            user_stacks:data.user_stacks,
+            user_introduction:data.user_introduction,
+          }
         });
 
         navigate('/');
@@ -128,13 +129,27 @@ function Login() {
     }
   };
 
-  const kakaoLogin = () => {
-    const redirect_uri = 'http://localhost:3000/login';
+  const kakaoLogin = () =>{
+    const redirect_uri = "http://localhost:3000/login";
     const kakaoURL = `
     https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
 
     window.location.href = kakaoURL;
   };
+
+  if(isKakaoLoading){
+    return (
+      <>
+          <div className={styles.loadingContainer}>
+              <div className={styles.loadingComponent}>
+              <h3>정보를 가져오는 중 ...</h3>
+              <TailSpin color="#6636DA" height={50} width={50}/>
+              </div>
+          </div>
+      </>
+
+    );
+  }
 
   return (
     <>
@@ -185,10 +200,7 @@ function Login() {
 
           <div className={styles.kakaoContainer}>
             <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
-              <div className={styles.kakaoContainer}>
-                <RiKakaoTalkFill className={styles.kakaoImage} size="20" />
-                <span className={styles.kakaoDesc}>카카오로 계속하기</span>
-              </div>
+              <div className={styles.kakaoContainer}><RiKakaoTalkFill className={styles.kakaoImage} size="20"/><span className={styles.kakaoDesc}>카카오로 계속하기</span></div>
             </button>
           </div>
 
