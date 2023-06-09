@@ -307,10 +307,12 @@ export async function getPortfolioUsers(): Promise<{
 
 // 포트폴리오 리스트 불러오기
 export async function getPortfolioList(
-  page: number
-): Promise<{ pageSize: number; pagenatedPortfolios: TypePortfolioList[] }> {
-  // 실제 API const params = `portfolios?page=${page}`;
-  // mock 데이터
-  const params = `portfolios/page${page}.json`;
-  return await Api.get('/mock', params);
+  page: number,
+  keyword: string = ''
+): Promise<{ pageSize: number; pagenatedPortfolio: TypePortfolioList[] }> {
+  keyword === '' && (keyword = 'false');
+
+  const params = `portfolios?keyword=${keyword}&page=${page}`;
+  const response: AxiosResponse = await Api.get(API_KEY, params);
+  return response.data;
 }

@@ -33,25 +33,25 @@ function PortfolioCell({
 
   return (
     <div className={styles.container} onClick={() => navigate(`${ROUTES.PORTFOLIO_DETAIL}${87}`)}>
-      {portfolio.img ? (
-        <img className={styles.image} src={portfolio.img} alt="포트폴리오 섬네일" />
+      {portfolio.portfolio_thumbnail ? (
+        <img className={styles.image} src={portfolio.portfolio_thumbnail} alt="포트폴리오 섬네일" />
       ) : (
         ''
       )}
-      <p className={styles.title}>{portfolio.title}</p>
-      <p className={styles.summary}>{portfolio.summary}</p>
+      <p className={styles.title}>{portfolio.portfolio_title}</p>
+      <p className={styles.summary}>{portfolio.portfolio_summary}</p>
       <p className={styles.stacks}>
-        {portfolio.stack &&
-          portfolio.stack.stackList.map((stack) => {
+        {portfolio.portfolio_stacks.stackList &&
+          portfolio.portfolio_stacks.stackList.map((stack) => {
             return <span key={stack}>{stack}</span>;
           })}
       </p>
       <p className={styles.informations}>
-        <span>{portfolio.views}</span>
+        <span>{portfolio.portfolio_views_count}</span>
         <span> · </span>
-        <span>{portfolio.comments}</span>
+        <span>{portfolio.portfolio_comments_count}</span>
         <span> · </span>
-        <span>{portfolio.bookmarks}</span>
+        <span>{portfolio.portfolio_bookmark_count}</span>
       </p>
     </div>
   );
