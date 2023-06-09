@@ -117,8 +117,7 @@ function PortfolioWriting() {
 
     const postData = async () => {
       try {
-        portfolioPost(formData);
-        alert('등록 성공!');
+        await portfolioPost(formData);
       } catch (error: any) {
         console.log(error.message);
         if (error.message === '401') {
@@ -129,6 +128,7 @@ function PortfolioWriting() {
           console.log(error);
         }
       }
+      alert('등록 성공!');
     };
 
     if (!title) {

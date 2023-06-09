@@ -277,7 +277,7 @@ export async function getUsersByEmail(value: string): Promise<{
 // 포트폴리오 포스팅
 export async function portfolioPost(data: FormData): Promise<any> {
   console.log(data);
-  const params = `portfolios/posts`;
+  const params = `portfolios`;
   return await Api.post(API_KEY, params, data, true, true);
 }
 
