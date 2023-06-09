@@ -1,11 +1,15 @@
 import { getPortfolioList } from '../../../apis/Fetcher';
+import { useNavigate } from 'react-router-dom';
 import { getIsNew } from '../../../utils/getIsNew';
 import { useState, useEffect } from 'react';
 import styles from './HotPortfolio.module.scss';
 import { TypePortfolioList } from '../../../interfaces/Portfolio.interface';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ROUTES from '../../../constants/Routes';
 
 export default function HotPortfolio() {
+  const navigate = useNavigate();
+
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
   const getPortfolioListData = async (): Promise<void> => {
     try {
