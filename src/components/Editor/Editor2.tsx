@@ -30,6 +30,11 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
       placeholder: '내용을 입력하세요...',
       theme: 'snow',
     });
+
+    const codeBlockElements = document.querySelectorAll('.ql-syntax');
+    codeBlockElements.forEach((element) => {
+      element.classList.add('code-block');
+    });
   }, []);
 
   // 텍스트 변경 시 상위 컴포넌트의 이벤트 처리

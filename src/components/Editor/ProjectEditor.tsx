@@ -41,6 +41,11 @@ function Editor({ value, onChange }: EditorProps) {
       const content = quillRef.current?.root.innerHTML || '';
       onChange(content);
     });
+
+    const codeBlockElements = document.querySelectorAll('.ql-syntax');
+    codeBlockElements.forEach((element) => {
+      element.classList.add('code-block');
+    });
   }, []);
 
   useEffect(() => {

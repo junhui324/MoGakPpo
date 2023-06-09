@@ -43,6 +43,24 @@
     font-style: italic;
   }
 
+  .code-block {
+    background-color: rgba(grey, 0.1) !important; 
+    color: black !important;
+    overflow: visible !important;
+  }
+
+  .ql-snow .ql-editor pre.ql-syntax {
+    background-color: rgba(grey, 0.1) !important;
+    color: black !important;
+    overflow: visible !important;
+  }
+
+  pre {
+    background-color: rgba(grey, 0.1) !important; 
+    color: black !important;
+    overflow: visible !important;
+  }
+
   // pre {
   //   white-space: pre-wrap;
   //   margin-bottom: 5px;
