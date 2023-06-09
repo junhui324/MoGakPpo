@@ -13,7 +13,7 @@ export const ROUTES = {
   PREVIEW_PROJECT: '/preview',
   PORTFOLIO_CREATE: '/portfolio/create/',
   KAKAO_AUTH: '/kakao/auth',
-  PORTFOLIO_DETAIL: '/portfolio/',
+  PORTFOLIO_DETAIL: '/portfolios/',
   PORTFOLIO_LIST: '/portfolios',
 };
 

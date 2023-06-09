@@ -1,10 +1,10 @@
 import { getPortfolioList } from '../../../apis/Fetcher';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getIsNew } from '../../../utils/getIsNew';
 import { useState, useEffect } from 'react';
 import styles from './HotPortfolio.module.scss';
 import { TypePortfolioList } from '../../../interfaces/Portfolio.interface';
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ROUTES from '../../../constants/Routes';
 
 export default function HotPortfolio() {
@@ -52,46 +52,46 @@ export default function HotPortfolio() {
         <button onClick={() => navigate(`${ROUTES.PORTFOLIO_LIST}`)}>모두 보기</button>
       </div>
       <div className={styles.slideArea}>
-
         <div className={styles.portfolioList} style={move}>
           {portfolioList.map((portfolio) => (
-            <div key={portfolio.portfolio_id} className={styles.portfolioContainer}>
-              <div className={styles.portfolio}>
-                {/* @ts-ignore */}
-                <img
-                  src={
-                    portfolio.img ||
-                    'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1'
-                  }
-                  alt="포트폴리오 썸네일"
-                />
-                <div className={styles.contentWrapper}>
-                  <h1 className={styles.title}>{portfolio.title}</h1>
-                  <h3 className={styles.summary}>{portfolio.summary}</h3>
-                  <div className={styles.stack}>
-                    {portfolio.stack.stackList?.map((stack, index) => (
-                      <p key={`${stack}-${index}`}>{stack}</p>
-                    ))}
-                  </div>
-                  <div className={styles.viewWrapper}>
-                    <span>👀</span>
-                    <span className={styles.count}>{portfolio.views}</span>
-                    <span>💬</span>
-                    <span className={styles.count}>{portfolio.comments}</span>
-                    <span>📌</span>
-                    <span className={styles.count}>{portfolio.bookmarks}</span>
+            <Link to={`/portfolios/${portfolio.portfolio_id}`}>
+              <div key={portfolio.portfolio_id} className={styles.portfolioContainer}>
+                <div className={styles.portfolio}>
+                  <img
+                    src={
+                      portfolio.img ||
+                      'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1'
+                    }
+                    alt="포트폴리오 썸네일"
+                  />
+                  <div className={styles.contentWrapper}>
+                    <h1 className={styles.title}>{portfolio.title}</h1>
+                    <h3 className={styles.summary}>{portfolio.summary}</h3>
+                    <div className={styles.stack}>
+                      {portfolio.stack.stackList?.map((stack, index) => (
+                        <p key={`${stack}-${index}`}>{stack}</p>
+                      ))}
+                    </div>
+                    <div className={styles.viewWrapper}>
+                      <span>👀</span>
+                      <span className={styles.count}>{portfolio.views}</span>
+                      <span>💬</span>
+                      <span className={styles.count}>{portfolio.comments}</span>
+                      <span>📌</span>
+                      <span className={styles.count}>{portfolio.bookmarks}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
         <button className={styles.leftArrow} onClick={handleBack}>
-          {currentId === 0 ? '' : <IoIosArrowBack /> }
+          {currentId === 0 ? '' : <IoIosArrowBack />}
         </button>
         <button className={styles.rightArrow} onClick={handleNext}>
-          {currentId ===  totalItems - 1 ? '' : <IoIosArrowForward />}
+          {currentId === totalItems - 1 ? '' : <IoIosArrowForward />}
         </button>
       </div>
     </div>
