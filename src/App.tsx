@@ -22,7 +22,6 @@ import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
 import KakaoAuth from './pages/Auth';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
-import HighlightEditor from './components/Editor/HighlightEditor';
 import PortfolioList from './pages/PortfolioList';
 
 function App() {
@@ -52,7 +51,6 @@ function App() {
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
           <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
-          <Route path='/highlight' element={<HighlightEditor/>}></Route>
           <Route path={ROUTES.KAKAO_AUTH} element={<KakaoAuth />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
           {/*포트폴리오 게시글 리스트*/}

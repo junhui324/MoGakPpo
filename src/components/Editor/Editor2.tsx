@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import './editor.css';
 import 'quill/dist/quill.snow.css';
+import { HighlightModules } from './Highlight';
 import styles from './Editor.module.scss';
 
 interface QuillEditorProps {
@@ -12,14 +13,16 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
   const quillRef = useRef<Quill | null>(null);
 
   useEffect(() => {
-    quillRef.current = new Quill('#editor-container', {
+    quillRef.current = new Quill('#editor-container', 
+    {
       modules: {
+        ...HighlightModules,
         toolbar: [
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
-          ['link', 'code-block'],
+          ['link', { 'code-block': 'highlight' }],
           ['image'],
           [{ imageDrop: true, imagePaste: true }],
         ],

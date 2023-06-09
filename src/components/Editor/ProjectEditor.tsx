@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import styles from './Editor.module.scss';
-
+import { HighlightModules } from './Highlight';
 import { useRecoilValue } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import { useParams } from 'react-router-dom';
@@ -23,12 +23,13 @@ function Editor({ value, onChange }: EditorProps) {
 
     quillRef.current = new Quill(editorElement, {
       modules: {
+        ...HighlightModules,
         toolbar: [
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
-          ['link', 'code-block', 'image'],
+          ['link', { 'code-block': 'highlight' }, 'image'],
         ],
       },
       placeholder: '프로젝트 소개를 입력하세요.',
