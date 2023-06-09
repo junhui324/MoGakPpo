@@ -29,7 +29,7 @@ function PortfolioWriting() {
   const [savedDes, setSavedDes] = useState('');
   const [description, setDescription] = useState('');
   const [members, setMembers] = useState<TypeTeamProjectUser[]>([]);
-  const [savedPost, setSavedPost] = useState<any>({});
+  const [isPostSaved, setIsPostSaved] = useState<boolean>(false);
   const [thumbnailFile, setThumbnailFile] = useState<File>();
   const [gitHubUrl, setGitHubUrl] = useState('');
 
@@ -169,7 +169,7 @@ function PortfolioWriting() {
   //로컬스토리지에 postData가 있으면 savedPost 상태 저장
   useEffect(() => {
     const savedPostData = localStorage.getItem('savedPortfolioPost');
-    setSavedPost(savedPostData && JSON.parse(savedPostData));
+    savedPostData && setIsPostSaved(true);
   }, []);
 
   const handleImportSavedPost = () => {
@@ -252,7 +252,7 @@ function PortfolioWriting() {
         </div>
       </div>
       <div className={styles.buttonsContainer}>
-        {savedPost && (
+        {isPostSaved && (
           <button className={styles.importButton} onClick={handleImportSavedPost}>
             임시저장 글 불러오기
           </button>
