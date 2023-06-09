@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styles from './comments.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { TypeMypageComments } from '../../interfaces/Comment.interface';
-import { getUserComments } from '../../apis/Fetcher';
+import { getUserComments, getUserSelectComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
+import ContentsFilter from './ContentsFilter';
 
 interface CommentsProps {
   onError: (errorMessage: string) => void;
@@ -17,9 +18,12 @@ function Comments({ onError }: CommentsProps) {
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
   const navigate = useNavigate();
 
   const offset = currPage + 1;
+
+  // 전체 댓글 불러오던 함수
   const getUserCommentData = async () => {
     try {
       const { data } = await getUserComments(offset);
@@ -32,8 +36,22 @@ function Comments({ onError }: CommentsProps) {
           case '403':
             onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
-          default:
-            onError('알 수 없는 오류가 발생했습니다.');
+        }
+      }
+    }
+  };
+
+  const getUserSelectData = async () => {
+    try {
+      const { data } = await getUserSelectComments(recruitingFilter, offset);
+      setTotalComments(data.listLength);
+      setComments(data.pagenatedComments);
+      setTotalPageCount(data.pageSize);
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
         }
       }
@@ -46,13 +64,21 @@ function Comments({ onError }: CommentsProps) {
     navigate(`${ROUTES.PROJECT}${project_id}`);
   };
 
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
+  };
+
   useEffect(() => {
-    getUserCommentData();
-  }, [currPage]);
+    // getUserCommentData();
+    getUserSelectData();
+  }, [recruitingFilter, currPage]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>댓글 {totalComments}개</div>
+      <div className={styles.topContainer}>
+        <div className={styles.contentCount}>댓글 {totalComments}개</div>
+        <ContentsFilter onChange={handleRecruitingSelect}/>
+      </div>
       {totalComments === 0 ? (
         <div className={styles.noComment}>
           <img className={styles.image} src={NoContentImage} alt="No Content" />

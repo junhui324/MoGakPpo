@@ -1,0 +1,40 @@
+.userProfile {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+
+  img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-right: 16px;
+
+    p:nth-child(1) {
+      color: #6636da;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    p:nth-child(2) {
+      font-size: 14px;
+    }
+    p:nth-child(3) {
+      font-size: 12px;
+      color: #939393;
+    }
+  }
+  .unselectButton {
+    align-self: center;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: rgb(180, 180, 180);
+    color: rgb(255, 255, 255);
+  }
+  cursor: pointer;
+}

@@ -3,10 +3,9 @@
 @font-face {
   font-family: 'Noto Sans KR';
   font-style: normal;
-  src: local('Noto Sans KR'),  
-      url('../src/fonts/NotoSansKR-Medium.woff2') format('woff2'),
-      url('../src/fonts/NotoSansKR-Medium.woff') format('woff'),
-      url('../src/fonts/NotoSansKR-Medium.otf') format('opentype');
+  src: local('Noto Sans KR'), url('../src/fonts/NotoSansKR-Medium.woff2') format('woff2'),
+    url('../src/fonts/NotoSansKR-Medium.woff') format('woff'),
+    url('../src/fonts/NotoSansKR-Medium.otf') format('opentype');
 }
 
 *,
@@ -17,4 +16,5 @@ body {
 .container {
   margin-top: $header-height;
   max-width: 1024px;
+  flex-grow: 1;
 }

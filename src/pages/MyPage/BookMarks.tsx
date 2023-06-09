@@ -1,13 +1,14 @@
 import styles from './posts.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { useEffect, useState } from 'react';
-import { getUserBookmarks } from '../../apis/Fetcher';
+import { getUserBookmarks, getUserSelectBookMarks } from '../../apis/Fetcher';
 import { TypeUserPosts } from '../../interfaces/Project.interface';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
 import Pagination from '../../components/Pagination';
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
+import ContentsFilter from './ContentsFilter';
 
 interface BookMarksProps {
   onError: (errorMessage: string) => void;
@@ -20,8 +21,11 @@ function BookMarks({ onError }: BookMarksProps) {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
 
   const offset = currPage + 1;
+
+  // 전체 북마크 불러오던 함수
   const getUserBookmarkData = async () => {
     try {
       const userBookmarksData = await getUserBookmarks(offset);
@@ -34,8 +38,24 @@ function BookMarks({ onError }: BookMarksProps) {
           case '403':
             onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
-          default:
-            onError('알 수 없는 오류가 발생했습니다.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getUserSelectData = async () => {
+    try {
+      const userPostsData = await getUserSelectBookMarks(recruitingFilter, offset);
+      setTotalLength(userPostsData.data.listLength);
+      setProjects(userPostsData.data.pagenatedProjects);
+      setTotalPageCount(userPostsData.data.pageSize);
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
         }
       }
@@ -44,13 +64,21 @@ function BookMarks({ onError }: BookMarksProps) {
     }
   };
 
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
+  };
+
   useEffect(() => {
-    getUserBookmarkData();
-  }, [currPage]);
+    // getUserBookmarkData();
+    getUserSelectData();
+  }, [recruitingFilter, currPage]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>북마크 {totalLength}개</div>
+      <div className={styles.topContainer}>
+        <div className={styles.contentCount}>북마크 {totalLength}개</div>
+        <ContentsFilter onChange={handleRecruitingSelect}/>
+      </div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}

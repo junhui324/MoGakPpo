@@ -2,6 +2,8 @@ import React, {useState, useRef, useContext, useEffect} from "react";
 import styles from "./change.password.module.scss";
 import { useRecoilValue } from "recoil";
 import { loginAtom } from '../../recoil/loginState';
+import { patchPasswordReset } from "../../apis/Fetcher";
+import { useNavigate } from "react-router-dom";
 
 export default function ChangePassword(){
   const currentPasswordRef = useRef<any>(null);
@@ -11,6 +13,7 @@ export default function ChangePassword(){
   const [newPassword, setNewPassword] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const loginData = useRecoilValue(loginAtom);
+  const navigate = useNavigate();
 
   useEffect(() =>{
     console.log(loginData);
@@ -55,13 +58,36 @@ export default function ChangePassword(){
     }
   }
 
-  const findPassword = (e:any) =>{
+  const findPassword = async (e:any) =>{
     e.preventDefault();
 
     if(isCurrentPasswordBlank() || isNewPasswordBlank() || isPasswordConfirmBlank()){
       return;
     }
 
+    try{
+      const res = await patchPasswordReset({
+        user_password:currentPasswordRef.current.value,
+        user_new_password:newPasswordRef.current.value,
+      });
+
+      if(res.status === 200){
+        alert("비밀번호 변경이 완료되었습니다.");
+        
+        navigate("/login");
+      }
+
+    }
+    catch (error) {
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '403':
+            alert("비밀번호를 다시 입력해주세요.");
+            currentPasswordRef.current.value = "";
+            currentPasswordRef.current.focus();
+        }
+      }
+    } 
   }
 
   return (<>

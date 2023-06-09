@@ -6,7 +6,7 @@ function Home() {
   const navigate = useNavigate();
   useEffect(() => {
     navigate(ROUTES.PROJECT_LIST);
-
+    
   }, []);
 
   return null;

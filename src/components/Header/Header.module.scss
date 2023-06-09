@@ -30,6 +30,15 @@
         font-size: 28px;
         font-weight: 800;
       }
+
+      ul {
+        align-self: center;
+        display: flex;
+        gap: 24px;
+        li {
+          cursor: pointer;
+        }
+      }
       a {
         text-decoration: none;
         height: 100%;
@@ -79,6 +88,8 @@
         }
       }
       .userButton {
+        width: 48px;
+        height: 48px;
         text-align: center;
         padding: 0 8px;
         display: flex;
@@ -86,10 +97,11 @@
         color: #252525;
         cursor: pointer;
         background-color: unset;
-        svg {
+        img {
+          width: 48px;
+          height: 48px;
           border: 2px solid $main-color;
           border-radius: 50%;
-          font-size: 40px;
           color: #87929c;
           align-self: center;
         }

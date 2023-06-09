@@ -2,6 +2,7 @@ import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import { getUsersByEmail } from '../../apis/Fetcher';
 import { useEffect, useState } from 'react';
 import styles from './MemberSelectForm.module.scss';
+import UserProfileList from '../common/User/UserProfileList';
 
 interface MemberSelectFormProps {
   selectedUserList: TypeTeamProjectUser[];
@@ -47,29 +48,13 @@ function MemberSelectForm({
           />
           {showSelectBox && (
             <ul>
-              {userList.map((userData) => {
-                const {
-                  user_id: id,
-                  user_email: email,
-                  user_name: name,
-                  user_img: img,
-                  user_career_goal: goal,
-                } = userData;
-                return (
-                  <li
-                    className={styles.userProfile}
-                    key={id}
-                    onClick={() => onMemberSelect(userData)}
-                  >
-                    <img src={img} alt={`${name} 프로필`} />
-                    <div>
-                      <p>{name}</p>
-                      <p>{email}</p>
-                      <p>{goal}</p>
-                    </div>
-                  </li>
-                );
-              })}
+              {userList.map((userData) => (
+                <UserProfileList
+                  key={userData.user_id}
+                  userData={userData}
+                  onUserClick={onMemberSelect}
+                />
+              ))}
             </ul>
           )}
         </div>
@@ -77,26 +62,13 @@ function MemberSelectForm({
           <h4>선택 한 멤버</h4>
           {selectedUserList && (
             <ul>
-              {selectedUserList.map((userData) => {
-                const {
-                  user_id: id,
-                  user_email: email,
-                  user_name: name,
-                  user_img: img,
-                  user_career_goal: goal,
-                } = userData;
-                return (
-                  <li className={styles.userProfile} key={id}>
-                    <img src={img} alt={`${name} 프로필`} />
-                    <div>
-                      <p>{name}</p>
-                      <p>{email}</p>
-                      <p>{goal}</p>
-                    </div>
-                    <button onClick={() => onMemberUnselect(id)}>X</button>
-                  </li>
-                );
-              })}
+              {selectedUserList.map((userData) => (
+                <UserProfileList
+                  key={userData.user_id}
+                  userData={userData}
+                  onUserUnselect={onMemberUnselect}
+                />
+              ))}
             </ul>
           )}
         </div>

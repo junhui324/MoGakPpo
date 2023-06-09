@@ -2,10 +2,11 @@ import styles from './posts.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { useEffect, useState } from 'react';
 import { TypeUserPosts } from '../../interfaces/Project.interface';
-import { getUserPosts } from '../../apis/Fetcher';
+import { getUserPosts, getUserSelectPosts } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
 import Pagination from '../../components/Pagination';
+import ContentsFilter from './ContentsFilter';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 
@@ -20,8 +21,11 @@ function Posts({ onError }: PostsProps) {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
 
   const offset = currPage + 1;
+
+  // 전체 게시글 불러오던 함수
   const getUserPostsData = async () => {
     try {
       const userPostsData = await getUserPosts(offset);
@@ -34,8 +38,24 @@ function Posts({ onError }: PostsProps) {
           case '403':
             onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
-          default:
-            onError('알 수 없는 오류가 발생했습니다.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getUserSelectData = async () => {
+    try {
+      const userPostsData = await getUserSelectPosts(recruitingFilter, offset);
+      setTotalLength(userPostsData.data.listLength);
+      setProjects(userPostsData.data.pagenatedProjects);
+      setTotalPageCount(userPostsData.data.pageSize);
+    } catch (loadingError) {
+      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+        switch (loadingError.message) {
+          case '403':
+            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
             break;
         }
       }
@@ -44,13 +64,21 @@ function Posts({ onError }: PostsProps) {
     }
   };
 
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
+  };
+
   useEffect(() => {
-    getUserPostsData();
-  }, [currPage]);
+    // getUserPostsData();
+    getUserSelectData();
+  }, [recruitingFilter , currPage]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentCount}>게시글 {totalLength}개</div>
+      <div className={styles.topContainer}>
+        <div className={styles.contentCount}>게시글 {totalLength}개</div>
+        <ContentsFilter onChange={handleRecruitingSelect}/>
+      </div>
       <div className={styles.posts}>
         <ul>
           {isLoading && <LoadingProject />}

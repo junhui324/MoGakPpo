@@ -30,6 +30,7 @@ function Register() {
   useEffect(() =>{
     console.log(loginData);
   });
+  
   const navigate = useNavigate();
 
   function CheckEmail(str: any) {
@@ -191,7 +192,7 @@ function Register() {
                   <input
                     type="password"
                     className={styles.inputMethod}
-                    placeholder="영문, 숫자 포함 6자 이상"
+                    placeholder="6자 이상 입력해주세요"
                     onBlur={isPasswordBlank}
                     ref={passwordRef}
                   ></input>

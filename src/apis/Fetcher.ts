@@ -101,34 +101,26 @@ export async function getProjects(
   data: { pageSize: number; pagenatedProjects: ProjectType.TypeProjectList[] };
 }> {
   const params = `projects`;
-  const query = `cate=${cate}&recruiting=${recruiting}&keyword=${keyword ?? false}&page=${page}`;
+  const newKeyword = keyword === '' ? 'false' : keyword;
+  const query = `cate=${cate}&recruiting=${recruiting}&keyword=${newKeyword}&page=${page}`;
   return await Api.get(API_KEY, params, true, query);
-}
-
-// 모집 중 프로젝트 리스트 불러오기
-export async function getRecruitingProjects(categoryId: string): Promise<{
-  message: string;
-  data: ProjectType.TypeProjectList[];
-}> {
-  const params = `projects/cate=${categoryId}&recruiting=true.json`;
-  return await Api.get(domain, params, false);
 }
 
 // 게시물 post
 export async function postProject(
-  data: ProjectType.TypeProjectPost
+  data: FormData
 ): Promise<{ message: string; data: { project_id: number } }> {
   const params = `projects/recruitment`;
-  return await Api.post(API_KEY, params, data, true);
+  return await Api.post(API_KEY, params, data, true, true);
 }
 
 // 게시물 수정
 export async function patchProject(
-  data: ProjectType.TypeProjectPost,
+  data: FormData,
   project_id: number
 ): Promise<{ message: string; data: { project_id: number } }> {
   const params = `projects/recruitment/${project_id}`;
-  return await Api.patch(API_KEY, params, data, true);
+  return await Api.patch(API_KEY, params, data, true, true);
 }
 
 // 유저 프로필 불러오기
@@ -193,6 +185,57 @@ export async function getUserBookmarks(page: number): Promise<{
   return await Api.get(API_KEY, params, true, query);
 }
 
+// 유저 게시글 중 선택한 게시글 불러오기
+export async function getUserSelectPosts(
+  recruiting: string,
+  page: number
+): Promise<{
+  message: string;
+  data: {
+    listLength: number;
+    pageSize: number;
+    pagenatedProjects: ProjectType.TypeUserPosts;
+  };
+}> {
+  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
+  // const query = `recruiting=${recruiting}&page=${page}`;
+  return await Api.get(domain, params);
+}
+
+// 유저 댓글 중 선택한 댓글 불러오기
+export async function getUserSelectComments(
+  recruiting: string,
+  page: number
+): Promise<{
+  message: string;
+  data: {
+    listLength: number;
+    pageSize: number;
+    pagenatedComments: CommentType.TypeMypageComments;
+  };
+}> {
+  const params = `user/comments/recruiting=${recruiting}&page=${page}.json`;
+  // const query = `recruiting=${recruiting}&page=${page}`;
+  return await Api.get(domain, params);
+}
+
+// 유저 북마크 중 선택한 북마크 불러오기
+export async function getUserSelectBookMarks(
+  recruiting: string,
+  page: number
+): Promise<{
+  message: string;
+  data: {
+    listLength: number;
+    pageSize: number;
+    pagenatedProjects: ProjectType.TypeUserPosts;
+  };
+}> {
+  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
+  // const query = `recruiting=${recruiting}&page=${page}`;
+  return await Api.get(domain, params);
+}
+
 // 유저 정보 수정하기
 export async function updateUserProfile(data: FormData): Promise<UserType.TypeUserProfile> {
   const params = `users/profile`;
@@ -231,9 +274,36 @@ export async function getUsersByEmail(value: string): Promise<{
   return await Api.get(domain, params);
 }
 
-/*
-  포트폴리오 관련
-*/
+export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
+  const params = `/users/password/reset`;
+  const data = {
+    user_password: value.user_password,
+    user_new_password: value.user_new_password,
+  };
+  const response: AxiosResponse = await Api.patch(API_KEY, params, data);
+  return response;
+}
+
+// 포트폴리오 포스팅
+export async function portfolioPost(data: FormData): Promise<any> {
+  console.log(data);
+  const params = `portfolios/posts`;
+  return await Api.post(API_KEY, params, data, true, true);
+}
+
+// 포트폴리오 멤버 정보 불러오기
+export async function getPortfolioUsers(): Promise<{
+  data: {
+    user_id: number;
+    user_email: string;
+    user_name: string;
+    user_career_goal: string;
+    user_img: string;
+  }[];
+}> {
+  const params = `users2.json`;
+  return await Api.get(domain, params);
+}
 
 // 포트폴리오 리스트 불러오기
 export async function getPortfolioList(

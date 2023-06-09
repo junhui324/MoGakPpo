@@ -1,15 +1,17 @@
 @import '/src/variables.scss';
-$input-border-color: #94A3B8;
+$input-border-color: #94a3b8;
 
 .container {
   margin-top: 2rem;
+  margin: 0 auto;
+  width: 500px;
 
   .imageContainer {
     position: relative;
     display: flex;
     justify-content: center;
     margin: 1rem 0;
-    
+
     .image {
       width: 120px;
       height: 120px;
@@ -47,7 +49,7 @@ $input-border-color: #94A3B8;
         padding: 1rem 0;
 
         &::after {
-          content: "*";
+          content: '*';
           color: red;
           margin-left: 3px;
         }
@@ -58,7 +60,7 @@ $input-border-color: #94A3B8;
         right: 0;
         padding: 1.4rem 0;
         color: $input-border-color;
-        font-size: 12px
+        font-size: 12px;
       }
     }
 
@@ -82,7 +84,7 @@ $input-border-color: #94A3B8;
         right: 0;
         padding: 1.4rem 0;
         color: $input-border-color;
-        font-size: 12px
+        font-size: 12px;
       }
     }
 
@@ -96,7 +98,7 @@ $input-border-color: #94A3B8;
         right: 0;
         padding: 1.4rem 0;
         color: $input-border-color;
-        font-size: 12px
+        font-size: 12px;
       }
     }
 
@@ -126,16 +128,16 @@ $input-border-color: #94A3B8;
       margin: 1rem 0;
       cursor: pointer;
       transition: all 0.2s;
-    
+
       &:hover {
         background-color: rgba($main-color, 0.7);
       }
     }
-    
+
     .submitButton {
       @extend .button;
     }
-    
+
     .disabledButton {
       @extend .button;
       cursor: not-allowed;

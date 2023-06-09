@@ -12,7 +12,7 @@ export const projectState = atom<TypeProjectPost>({
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
-    project_img: null,
+    project_img: undefined,
   },
 });
 

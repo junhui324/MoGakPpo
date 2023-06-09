@@ -1,24 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './profile.module.scss';
-import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
-import DefaultUserImg from '../../assets/DefaultUser.png';
 import { FcBriefcase, FcSupport } from "react-icons/fc";
+import { useRecoilState } from 'recoil';
+import { loginAtom } from '../../recoil/loginState';
 
 interface ProfileProps {
   onError: (errorMessage: string) => void;
 }
 
 function Profile({ onError }: ProfileProps) {
-  const [user, setUser] = useState<TypeUserProfile>();
+  const [loginUser, setLoginUser] = useRecoilState(loginAtom);
   const navigate = useNavigate();
 
   const getUserData = async () => {
     try {
       const { data } = await getUserProfile();
-      setUser(data);
+
+      setLoginUser((prev) => {
+        return {
+          ...prev,
+          user_name: data.user_name,
+          user_img: data.user_img,
+          user_career_goal: data.user_career_goal,
+          user_stacks: data.user_stacks,
+          user_introduction:data.user_introduction,
+        }
+      });
     } catch (loadingError) {
       if (loadingError instanceof Error && typeof loadingError.message === 'string') {
         switch (loadingError.message) {
@@ -44,30 +54,30 @@ function Profile({ onError }: ProfileProps) {
   return (
     <div className={styles.profileContainer}> 
       <div className={styles.imageWrapper}>
-        <img className={styles.image} src={user?.user_img || DefaultUserImg} alt={user?.user_name}></img>
+        <img className={styles.image} src={loginUser.user_img} alt={loginUser.user_name}></img>
         <button className={styles.updateButton} onClick={handleClickEdit}>
           편집
         </button>
       </div>
       <div className={styles.introWrapper}>
-        <div className={styles.name}>{user?.user_name}</div>
-        <div className={styles.intro}>{user?.user_introduction}</div>
+        <div className={styles.name}>{loginUser.user_name}</div>
+        <div className={styles.intro}>{loginUser.user_introduction}</div>
         <div className={styles.career}>
           <FcBriefcase/>
-          {user?.user_career_goal 
-          ? user.user_career_goal 
-          : <div className={styles.emptyCareer}>{user?.user_name}님의 목표 직군이 비어있어요</div>}
+          {loginUser.user_career_goal 
+          ? loginUser.user_career_goal 
+          : <div className={styles.emptyCareer}>{loginUser.user_name}님의 목표 직군이 비어있어요</div>}
         </div>
         <div className={styles.stacks}>
           <FcSupport />
-          {user?.user_stacks?.stackList && user?.user_stacks?.stackList?.length > 0 
-          ? user?.user_stacks?.stackList?.map((stack, index) => {
+          {loginUser.user_stacks?.stackList && loginUser.user_stacks?.stackList?.length > 0 
+          ? loginUser.user_stacks?.stackList?.map((stack, index) => {
             return (
               <div className={styles.stack} key={`${stack}-${index}`}>
                 {stack}
               </div>
             );
-          }) : <div className={styles.emptyStack}>{user?.user_name}님의 기술 스택이 비어있어요</div>}
+          }) : <div className={styles.emptyStack}>{loginUser.user_name}님의 기술 스택이 비어있어요</div>}
       </div>
       </div>
     </div>

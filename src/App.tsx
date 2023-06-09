@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectListMain from './pages/ProjectList';
 // import Comment from './components/Comment';
 import Header from './components/Header/Header';
+import Error from './components/common/Error';
 import Project from './pages/Project';
 import MyPage from './pages/MyPage';
 import styles from './index.module.scss';
@@ -18,8 +19,11 @@ import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
 import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
+import KakaoAuth from './pages/Auth';
+import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
 import HighlightEditor from './components/Editor/HighlightEditor';
+import PortfolioList from './pages/PortfolioList';
 
 function App() {
   return (
@@ -27,7 +31,7 @@ function App() {
       <Header />
       <div className={styles.container}>
         <Routes>
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Error />} />
           <Route path="/" element={<Home />} />
           {/* 메인 게시글 리스트*/}
           <Route path={ROUTES.PROJECT_LIST} element={<ProjectListMain />} />
@@ -49,6 +53,10 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
           <Route path='/highlight' element={<HighlightEditor/>}></Route>
+          <Route path={ROUTES.KAKAO_AUTH} element={<KakaoAuth />} />
+          <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
+          {/*포트폴리오 게시글 리스트*/}
+          <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
         </Routes>
       </div>
     </BrowserRouter>
