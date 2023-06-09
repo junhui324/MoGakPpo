@@ -49,6 +49,7 @@
       margin-right: 12px;
       cursor: pointer;
 
+      
       .project {
         box-sizing: border-box;
         height: 100%;
@@ -56,7 +57,12 @@
         padding: 24px 24px 24px 24px;
         border: 1px solid #e8e8e8;
         border-radius: 16px;
-
+        
+        &:hover {
+          border-color: #d0dee0;
+          box-shadow: 0 0 15px #e2eaf1;
+        }
+        
         .type {
           margin-right: 8px;
           padding: 4px 6px 4px 6px;
