@@ -1,5 +1,5 @@
 import Stack from '../../../components/Stack';
-import SummaryTextForm from '../../../components/PortfolioWritingForm/SummaryTextForm';
+import BasicTextForm from '../../../components/PortfolioWritingForm/BasicTextForm';
 import TitleTextForm from '../../../components/PortfolioWritingForm/TitleTextForm';
 import { useEffect, useState } from 'react';
 import Editor from '../../../components/Editor/Editor';
@@ -9,11 +9,14 @@ import QuillEditor from '../../../components/Editor/Editor2';
 import { TypeTeamProjectUser } from '../../../interfaces/User.interface';
 import LengthCheck from '../../../components/ProjectWritingForm/LengthCheck';
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../../utils/base64Utils';
+import ThumbnailInput from '../../../components/PortfolioWritingForm/ThumbnailInput';
 
 function PortfolioWriting() {
   const MAX_TITLE_LENGTH = 50;
-  const MAX_SUMMARY_LENGTH = 50;
-  const MAX_MEMBERS_LENGTH = 5;
+  const MAX_SUMMARY_LENGTH = 150;
+  const MAX_MEMBERS_LENGTH = 10;
+  const MAX_GITHUB_LENGTH = 100;
+
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [stacks, setStacks] = useState<string[]>([]);
@@ -21,6 +24,12 @@ function PortfolioWriting() {
   const [description, setDescription] = useState('');
   const [members, setMembers] = useState<TypeTeamProjectUser[]>([]);
   const [savedPost, setSavedPost] = useState<any>({});
+  const [thumbnailFile, setThumbnailFile] = useState<File>();
+  const [gitHubUrl, setGitHubUrl] = useState('');
+
+  const handleThumbnailSelect = (file: File) => {
+    setThumbnailFile(file);
+  };
 
   const handleTitleChange = (value: string) => {
     if (title.length < MAX_TITLE_LENGTH) {
@@ -31,6 +40,12 @@ function PortfolioWriting() {
   const handleSummaryChange = (value: string) => {
     if (summary.length < MAX_SUMMARY_LENGTH) {
       setSummary(value);
+    }
+  };
+
+  const handleGitHubUrlChange = (value: string) => {
+    if (summary.length < MAX_GITHUB_LENGTH) {
+      setGitHubUrl(value);
     }
   };
 
@@ -60,26 +75,28 @@ function PortfolioWriting() {
   };
 
   const handleSubmitClick = () => {
+    // 에디터 이미지 파일로 변환
     const imgFiles = base64sToFiles(findBase64(description), `${new Date().getTime()}`);
     console.log(imgFiles);
 
-    // 1) 이미지파일들만 post API1(이미지를 서버에 올리고 URL을 받는 API)
-    // response 값 확인
-    // description 상태 내 base64 코드 찾아서 src="response[0]"로 대체
-    // 대체된 des 값과 나머지 폼 데이터를 post로 쏴주기 API2
-
-    // 2)description base64 코드를 특정 코드로 '새미' 대체
-    // imgFiles와 des와 나머지 폼데이터와 post
-    // 백엔드에서 des필드의 'img'값을 src=""로 대체하여 디비에 저장
-
-    //url 주소가 어떻게 오는지 확인
-    //배열과 대조하여 img src=""에 주소 넣기
-
+    // 에디터 이미지 서버 경로 추출
     const urls = imgFiles.map((file) => `src/images/${file.name}.${file.type.split('/')[1]}`);
 
-    console.log(base64imgSrcParser(description, urls));
+    // base64 => 에디터 이미지 서버 경로로 대체
+    const newDescription = base64imgSrcParser(description, urls);
 
-    const form = { title, summary, stacks, description, members };
+    const formData = new FormData();
+    formData.append('portfolio_title', title);
+    formData.append('portfolio_summary', summary);
+    formData.append('portfolio_stacks', JSON.stringify(stacks || []));
+    // formData.append('portfolio_des_imgs',imgFiles);
+    formData.append('portfolio_description', newDescription);
+    // formData.append('portfolio_members',members);
+    // formData.append('portfolio_thumbnail',thumbnailFile);
+
+    console.log(formData);
+
+    const form = { title, summary, stacks, description, members, thumbnailFile };
     !title && alert('제목을 입력해 주세요.');
     !summary && alert('요약을 입력해 주세요.');
     !description && alert('내용을 입력해 주세요.');
@@ -118,6 +135,7 @@ function PortfolioWriting() {
 
     if (confirm) {
       setTitle(postData.title);
+      //썸네일 임시저장은 어떻게.......?
       setSummary(postData.summary);
       setSavedDes(postData.description);
       setStacks(postData.stacks);
@@ -127,40 +145,65 @@ function PortfolioWriting() {
 
   return (
     <div className={styles.container}>
-      <h1>프로젝트 소개 작성</h1>
-      <div className={styles.formContainer}>
-        <div className={styles.mainFormContainer}>
-          <label>
-            <h3>제목</h3>
+      <h1 className={styles.title}>프로젝트 자랑 작성</h1>
+      <div className={styles.mainFormContainer}>
+        <label>
+          <div className={styles.inputTop}>
+            <h3>프로젝트 제목</h3>
             <LengthCheck valueLength={title.length} maxLength={MAX_TITLE_LENGTH} />
-            <TitleTextForm value={title} onChange={handleTitleChange} />
-          </label>
-          <label>
+          </div>
+          <TitleTextForm value={title} onChange={handleTitleChange} />
+        </label>
+        <label>
+          <div className={styles.inputTop}>
             <h3>요약</h3>
             <LengthCheck valueLength={summary.length} maxLength={MAX_SUMMARY_LENGTH} />
-            <SummaryTextForm value={summary} onChange={handleSummaryChange} />
-          </label>
-          <div>
-            <h3>내용</h3>
-            {/* <Editor value={description} onChange={handleDescriptionChange} /> */}
-            <QuillEditor savedValue={savedDes} onEditorValueChange={handleDescriptionChange} />
           </div>
-          <div>
-            <h3>사용 기술스택</h3>
-            <Stack selectedStack={stacks} setStackList={handleStackSelect} />
+          <BasicTextForm
+            value={summary}
+            onChange={handleSummaryChange}
+            placeholder={'프로젝트를 짧게 설명해 주세요.'}
+          />
+        </label>
+        <div>
+          <h3>썸네일</h3>
+          <ThumbnailInput imgFile={thumbnailFile!} onInputChange={handleThumbnailSelect} />
+        </div>
+        <div>
+          <h3>내용</h3>
+          {/* <Editor value={description} onChange={handleDescriptionChange} /> */}
+          <QuillEditor savedValue={savedDes} onEditorValueChange={handleDescriptionChange} />
+        </div>
+        <label>
+          <div className={styles.inputTop}>
+            <h3>깃허브 레포지토리 링크</h3>
+            <LengthCheck valueLength={gitHubUrl.length} maxLength={MAX_GITHUB_LENGTH} />
           </div>
-          <div>
+          <BasicTextForm
+            value={gitHubUrl}
+            onChange={handleGitHubUrlChange}
+            placeholder={'URL을 입력해 주세요.'}
+          />
+        </label>
+        <div>
+          <h3>사용 기술스택</h3>
+          <Stack selectedStack={stacks} setStackList={handleStackSelect} />
+        </div>
+        <div>
+          <div className={styles.inputTop}>
             <h3>참여 멤버</h3>
             <LengthCheck valueLength={members.length} maxLength={MAX_MEMBERS_LENGTH} />
-            <MemberSelectForm
-              selectedUserList={members}
-              onMemberSelect={handleUserSelect}
-              onMemberUnselect={handleUserUnselect}
-            />
           </div>
+          <MemberSelectForm
+            selectedUserList={members}
+            onMemberSelect={handleUserSelect}
+            onMemberUnselect={handleUserUnselect}
+          />
         </div>
-        <div className={styles.buttonsContainer}>
-          {savedPost && <button onClick={handleImportSavedPost}>임시저장 글 불러오기</button>}
+      </div>
+      <div className={styles.buttonsContainer}>
+        {savedPost && <button onClick={handleImportSavedPost}>임시저장 글 불러오기</button>}
+        <div>
           <button onClick={handleSaveClick}>임시 저장</button>
           <button onClick={handleSubmitClick}>작성 완료</button>
         </div>
