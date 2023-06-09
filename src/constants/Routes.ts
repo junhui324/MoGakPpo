@@ -2,7 +2,7 @@ export const ROUTES = {
   HOME: '/',
   PROJECT_LIST: '/projects',
   CREATE: '/create/',
-  PROJECT: '/project/',
+  PROJECT: '/projects/',
   LOGIN: '/login',
   EDIT_PASSWORD: '/user/editpw',
   MY_PAGE: '/user/mypage',

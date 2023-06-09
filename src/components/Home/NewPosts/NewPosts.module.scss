@@ -1,0 +1,172 @@
+@import '/src/variables.scss';
+
+.newPosts {
+  margin: 40px 0;
+  position: relative;
+
+  .titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .titleTextWrapper {
+      & > h1 {
+        font-size: 24px;
+        font-weight: 600;
+        padding: 1rem 0;
+      }
+    
+      & > p {
+        font-size: 14px;
+        padding-bottom: 2rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    & > button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.7);
+      }
+    }
+  }
+
+  .slideArea {
+    width: 1024px;
+    overflow: hidden;
+    
+    .projectList {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    .projectContainer {
+      flex: none;
+      width: 500px;
+      margin-right: 12px;
+      cursor: pointer;
+
+      
+      .project {
+        position: relative;
+        box-sizing: border-box;
+        height: 220px;
+        padding: 20px;
+        padding: 24px 24px 24px 24px;
+        border: 1px solid #e8e8e8;
+        border-radius: 16px;
+        
+        &:hover {
+          border-color: #d0dee0;
+          box-shadow: 0 0 15px #e2eaf1;
+        }
+
+        .type {
+          margin-right: 8px;
+          padding: 4px 6px 4px 6px;
+          color: rgb(148 163 184);
+          font-size: 14px;
+          border-radius: 4px;
+          background-color: rgb(241 245 249);
+        }
+
+        .goal {
+          padding: 4px 6px 4px 6px;
+          color: rgb(148 163 184);
+          font-size: 14px;
+          border-radius: 4px;
+          background-color: rgb(241 245 249);
+        }
+        
+        .summary {
+          margin: 1rem 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .role {
+          display: flex;
+          margin: 0.8rem 0;
+          & > p {
+            margin-right: 0.4rem;
+            font-size: 12px;
+            padding: 4px 8px;
+            border: 1px solid $main-color;
+            background-color: unset;
+            color: $main-color;
+            border-radius: 30px;
+          }
+        }
+
+        .titleWrapper {
+          display: flex;
+          margin: 1.4rem 0;
+          font-size: 20px;
+
+          .title {
+            font-weight: 500;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .newTag {
+            align-self: center;
+            font-size: 14px;
+            color: blue;
+            margin-left: 0.6rem;
+          }
+        }
+
+        .viewWrapper {
+          position: absolute;
+          bottom: 24px;
+
+          & > * {
+            font-size: 14px;
+          }
+          
+          .count {
+            margin: 0 0.4rem;
+            color: rgb(168, 180, 197);
+
+            &::after {
+              margin-left: 4px;
+              margin-right: 4px;
+              content: '·';
+            }
+            &:last-child::after {
+              content: none;
+            }
+          }
+        }
+      }
+    }
+
+    .leftArrow {
+      position: absolute;
+      top: 190px;
+      left: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .rightArrow {
+      position: absolute;
+      top: 190px;
+      right: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+}

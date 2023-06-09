@@ -20,6 +20,7 @@ import Preview from './pages/ProjectPreview';
 import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
 import KakaoAuth from './pages/Auth';
 import PortfolioDetail from './pages/PortfolioDetail';
+import Main from './pages/Main';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path={`${ROUTES.USER_PAGE}:id`} element={<UserPage />} />
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
+          <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
           <Route path={ROUTES.KAKAO_AUTH} element={<KakaoAuth />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
