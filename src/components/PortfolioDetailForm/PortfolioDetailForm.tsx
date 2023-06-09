@@ -88,7 +88,7 @@ function PortfolioDetailForm() {
         <div className={styles.stack}>
           <h2>프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
-            {portfolio.project_required_stacks.stackList ? (
+            {portfolio.project_required_stacks?.stackList ? (
               portfolio.project_required_stacks.stackList.map((stack) => {
                 return (
                   <div className={styles.logoBlock} key={stack}>
