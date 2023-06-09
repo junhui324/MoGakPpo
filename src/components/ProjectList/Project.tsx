@@ -107,18 +107,20 @@ function Project({ projectData }: projectDataProps) {
       {summary && <p className={styles.summary}>{summary}</p>}{' '}
       {recruitmentRoles && (
         <ul className={styles.roleContainer}>
-          {recruitmentRoles.roleList.map((role, index) => (
-            <li key={index}>{PROJECT_RECRUITMENT_ROLES[role]}</li>
-          ))}
+          {recruitmentRoles.roleList &&
+            recruitmentRoles.roleList.map((role, index) => (
+              <li key={`role-${index}`}>{PROJECT_RECRUITMENT_ROLES[role] ?? role}</li>
+            ))}
         </ul>
       )}
       {requiredStacks && (
         <ul className={styles.stacksContainer}>
           <span>기술스택</span>
           <ul>
-            {requiredStacks.stackList.map((stack, index) => (
-              <li key={index}>{stack}</li>
-            ))}
+            {requiredStacks.stackList &&
+              requiredStacks.stackList.map((stack, index) => (
+                <li key={`stack-${index}`}>{stack}</li>
+              ))}
           </ul>
         </ul>
       )}
