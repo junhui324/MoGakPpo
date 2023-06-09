@@ -380,17 +380,8 @@ function ProjectWritingForm() {
         <h2 className={styles.introduction}>
           소개<span className={styles.essential}>*</span>
         </h2>
-        <div>
-          {/* <TextareaAutosize
-            className={styles.introduceTextarea}
-            minRows={10}
-            name="project_introduction"
-            value={project.project_introduction}
-            onChange={handleProjectChange}
-            placeholder={PLACEHOLDER_STRING.INTRODUCE}
-          /> */}
+        <div className={styles.editorBox}>
           <Editor value={description} onChange={handleEditorChange}></Editor>
-          {/* <div>{Parser(description)}</div> */}
         </div>
       </div>
       <div className={styles.introHelpBox}>

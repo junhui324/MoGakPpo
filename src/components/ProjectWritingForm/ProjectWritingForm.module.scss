@@ -207,6 +207,13 @@ h2 {
   color: red;
 }
 
+.editorBox {
+  img {
+    max-width: 100%;
+    max-height: 80%;
+  }
+}
+
 /*여기서부터 말풍선 css*/
 
 .speechBubble {
