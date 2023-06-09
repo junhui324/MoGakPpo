@@ -25,6 +25,9 @@ function Header() {
     //todo - 라우터 주소로 수정할 것
     navigate('/main');
   };
+  const handleNavLinkClick = () => {
+    setClassification('/');
+  };
 
   return (
     <div className={styles.container}>
@@ -33,11 +36,19 @@ function Header() {
           <span className={styles.logo} onClick={handleLogoClick}>
             모프 🪄
           </span>
-          <NavLink to="/projects" className={({ isActive }) => (isActive ? styles.active : '')}>
+          <NavLink
+            to="/projects"
+            className={({ isActive }) => (isActive ? styles.active : '')}
+            onClick={handleNavLinkClick}
+          >
             <span>멤버 모집</span>
           </NavLink>
           {/* todo - 프로젝트자랑 게시판 링크로 수정 */}
-          <NavLink to="/portfolios" className={({ isActive }) => (isActive ? styles.active : '')}>
+          <NavLink
+            to="/portfolios"
+            className={({ isActive }) => (isActive ? styles.active : '')}
+            onClick={handleNavLinkClick}
+          >
             <span> 프로젝트 자랑</span>
           </NavLink>
         </div>

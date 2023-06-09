@@ -33,7 +33,7 @@ import {
 
 function ProjectWritingForm() {
   const [project, setProject] = useRecoilState(projectState);
-  const [classification, setClassification] = useRecoilState(classificationState);
+  const classification = useRecoilValue(classificationState);
   const projectId = useRecoilValue(projectIdState);
   const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
   const resetProject = useResetRecoilState(projectState);
