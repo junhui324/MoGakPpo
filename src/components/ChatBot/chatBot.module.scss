@@ -18,11 +18,17 @@
 
     .header {
       display: flex;
-      flex-direction: row-reverse;
+      justify-content: space-between;
       align-items: center;
       background-color: $main-color;
       border-radius: 20px 20px 0 0;
       height: 60px;
+
+      & > div {
+        color: white;
+        font-weight: 600;
+        margin-left: 1rem;
+      }
 
       & > svg {
         fill: white;
@@ -45,22 +51,27 @@
         margin: 1rem;
       }
 
-      .questionButton {
-        width: fit-content;
-        border-radius: 40px;
-        padding: 0.4rem 0.8rem;
-        margin: 1rem;
-        color: rgba($main-color, 0.7);
-        background-color: white;
-        border: 1px solid rgba($main-color, 0.7);
-        transition: all 0.2s;
-        cursor: pointer;
+      .questionWrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0 1rem;
 
-        &:hover {
-          color: white;
-          background-color: rgba($main-color, 0.7);
+        .questionButton {
+          border-radius: 40px;
+          padding: 0.4rem 0.8rem;
+          margin: 0 0.6rem 0.4rem 0;
+          color: rgba($main-color, 0.7);
+          background-color: white;
+          border: 1px solid rgba($main-color, 0.7);
+          transition: all 0.2s;
+          cursor: pointer;
+  
+          &:hover {
+            color: white;
+            background-color: rgba($main-color, 0.7);
+          }
         }
-    
       }
 
       .answer {
