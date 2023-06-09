@@ -11,6 +11,8 @@ import styles from './updateUser.module.scss';
 function UpdateUser() {
   const [userInfo, setUserInfo] = useRecoilState(loginAtom);
   const [stackList, setStackList] = useRecoilState(userStackListState);
+  const [inputName, setInputName] = useState<string>('');
+  const [imageSrc, setImageSrc] = useState<string>('');
   const [imageFile, setImageFile] = useState<File>();
   const [isValid, setIsValid] = useState<boolean>(true);
 
@@ -35,10 +37,7 @@ function UpdateUser() {
       setImageFile(file);
       const reader = new FileReader();
       reader.onload = () => {
-        setUserInfo((prev) => ({
-          ...prev,
-          user_img: reader.result as string,
-        }));
+        setImageSrc(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -50,7 +49,11 @@ function UpdateUser() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
     const { name, value } = e.target;
-    if (value.length <= max) {
+    if (name === 'user_name' && value.length <= max) {
+      setInputName(e.target.value);
+    }
+
+    else if (name !== 'user_name' && value.length <= max) {
       setUserInfo((prev) => ({
         ...prev,
         [name]: value,
@@ -66,7 +69,7 @@ function UpdateUser() {
         const formData = new FormData();
 
         formData.append('user_img', imageFile as File);
-        formData.append('user_name', userInfo.user_name.trim());
+        formData.append('user_name', inputName.trim());
         formData.append('user_introduction', userInfo.user_introduction);
         formData.append('user_career_goal', userInfo.user_career_goal);
         formData.append('user_stacks', JSON.stringify(stackList || []));
@@ -103,6 +106,8 @@ function UpdateUser() {
           };
         });
         setStackList(data.user_stacks.stackList);
+        setInputName(data.user_name);
+        setImageSrc(data.user_img);
       } catch (error) {
         console.log(error);
       }
@@ -112,8 +117,8 @@ function UpdateUser() {
   }, []);
 
   useEffect(() => {
-    setIsValid(userInfo.user_name.length !== 0);
-  }, [userInfo.user_name]);
+    setIsValid(inputName.length !== 0);
+  }, [inputName]);
 
   return (
     <div className={styles.container}>
@@ -122,7 +127,7 @@ function UpdateUser() {
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
-              src={userInfo.user_img}
+              src={imageSrc}
               alt={userInfo.user_name}
               onClick={handleImageChange}
             />
@@ -140,13 +145,13 @@ function UpdateUser() {
             <input
               type="text"
               name="user_name"
-              value={userInfo.user_name}
+              value={inputName}
               placeholder="이름을 입력해 주세요."
               maxLength={MAX_NAME_COUNT}
               onChange={(e) => handleChange(e, MAX_NAME_COUNT)}
             />
             <p>
-              {userInfo.user_name.length}/{MAX_NAME_COUNT}
+              {inputName.length}/{MAX_NAME_COUNT}
             </p>
           </div>
           <div className={styles.introContainer}>
