@@ -22,6 +22,7 @@ import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
 import KakaoAuth from './pages/Auth';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
+import PortfolioList from './pages/PortfolioList';
 
 function App() {
   return (
@@ -52,6 +53,8 @@ function App() {
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
           <Route path={ROUTES.KAKAO_AUTH} element={<KakaoAuth />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
+          {/*포트폴리오 게시글 리스트*/}
+          <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
         </Routes>
       </div>
     </BrowserRouter>
