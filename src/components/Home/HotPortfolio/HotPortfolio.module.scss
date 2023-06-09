@@ -1,30 +1,134 @@
+@import '/src/variables.scss';
+
 .HotPortfolio {
   margin: 40px 0;
-}
-// 레이아웃
-.slideArea {
-  width: 1024px;
-  overflow: hidden;
-  .portfolioList {
+  position: relative;
+
+  .titleContainer {
     display: flex;
-    .portfolioContainer {
-      flex: none;
-      width: calc(1024px / 3);
-      .portfolio {
-        box-sizing: border-box;
-        background-color: rgb(212, 246, 234);
-        margin-right: 16px;
-        padding: 20px;
-        height: 360px;
-        img {
-          width: 100%;
-          height: 60%;
-        }
+    justify-content: space-between;
+    align-items: center;
+
+    .titleTextWrapper {
+      & > h1 {
+        font-size: 30px;
+        font-weight: 600;
+        padding: 1rem 0;
+      }
+    
+      & > p {
+        font-size: 18px;
+        padding-bottom: 2rem;
+      }
+    }
+
+    & > button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.7);
       }
     }
   }
-}
 
-//스타일링
-.portfolio {
+  .slideArea {
+    width: 1024px;
+    overflow: hidden;
+
+    .portfolioList {
+      display: flex;
+
+      .portfolioContainer {
+        flex: none;
+        width: calc(1024px / 3);
+        
+        .portfolio {
+          border-radius: 16px;
+          box-sizing: border-box;
+          border: 1px solid #e8e8e8;
+          margin-right: 16px;
+          height: 380px;
+          cursor: pointer;
+
+          &:hover {
+            border-color: #d0dee0;
+            box-shadow: 0 0 15px #e2eaf1;
+          }
+
+          img {
+            border-radius: 16px 16px 0 0;
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+          }
+
+          .contentWrapper {
+            padding: 0 1rem;
+
+            .title {
+              margin: 1rem 0;
+              font-size: 20px;
+              font-weight: 600;
+
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .summary {
+              margin: 0.4rem 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .stack {
+              display: flex;
+              margin: 0.8rem 0;
+              & > p {
+                margin-right: 0.4rem;
+                font-size: 12px;
+                padding: 4px 8px;
+                border: 1px solid $main-color;
+                background-color: unset;
+                color: $main-color;
+                border-radius: 30px;
+              }
+            }
+            
+            .viewWrapper {
+              .count {
+                margin: 0 1rem 0 0.2rem;
+              }
+            }
+          }
+
+
+        }
+      }
+    }
+
+    .leftArrow {
+      position: absolute;
+      top: 260px;
+      left: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .rightArrow {
+      position: absolute;
+      top: 260px;
+      right: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
 }
