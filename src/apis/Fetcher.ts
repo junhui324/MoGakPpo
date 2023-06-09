@@ -185,6 +185,54 @@ export async function getUserBookmarks(page: number): Promise<{
   return await Api.get(API_KEY, params, true, query);
 }
 
+// 유저 게시글 중 선택한 게시글 불러오기
+export async function getUserSelectPosts(
+  recruiting: string, page: number
+): Promise<{
+  message: string;
+  data: {
+    listLength: number,
+    pageSize: number,
+    pagenatedProjects: ProjectType.TypeUserPosts
+  }
+}> {
+  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
+  // const query = `recruiting=${recruiting}&page=${page}`;
+  return await Api.get(domain, params);
+}
+
+// 유저 댓글 중 선택한 댓글 불러오기
+export async function getUserSelectComments(
+  recruiting: string, page: number
+): Promise<{
+  message: string;
+  data: {
+    listLength: number,
+    pageSize: number,
+    pagenatedComments: CommentType.TypeMypageComments
+  }
+}> {
+  const params = `user/comments/recruiting=${recruiting}&page=${page}.json`;
+  // const query = `recruiting=${recruiting}&page=${page}`;
+  return await Api.get(domain, params);
+}
+
+// 유저 북마크 중 선택한 북마크 불러오기
+export async function getUserSelectBookMarks(
+  recruiting: string, page: number
+): Promise<{
+  message: string;
+  data: {
+    listLength: number,
+    pageSize: number,
+    pagenatedProjects: ProjectType.TypeUserPosts
+  }
+}> {
+  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
+  // const query = `recruiting=${recruiting}&page=${page}`;
+  return await Api.get(domain, params);
+}
+
 // 유저 정보 수정하기
 export async function updateUserProfile(data: FormData): Promise<UserType.TypeUserProfile> {
   const params = `users/profile`;

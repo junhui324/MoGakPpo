@@ -1,26 +1,20 @@
 import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { loginAtom, userStackListState } from '../../recoil/loginState';
 import { RiAddCircleFill } from 'react-icons/ri';
-import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from '../../components/Stack';
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
-import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
-  const [user, setUser] = useState<TypeUserProfile>({} as TypeUserProfile);
-  const [imageSrc, setImageSrc] = useState<string>(DefaultUserImg);
-  const [userStack, setUserStack] = useState<string[]>([]);
-  const [inputName, setInputName] = useState<string>('');
-  const [inputIntroLength, setInputIntroLength] = useState<number>(0);
-  const [inputCareerLength, setInputCareerLength] = useState<number>(0);
-  const [isValid, setIsValid] = useState<boolean>(true);
+  const [userInfo, setUserInfo] = useRecoilState(loginAtom);
+  const [stackList, setStackList] = useRecoilState(userStackListState);
   const [imageFile, setImageFile] = useState<File>();
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const inputIntroRef = useRef<HTMLTextAreaElement>(null);
-  const inputCareerRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
@@ -41,37 +35,27 @@ function UpdateUser() {
       setImageFile(file);
       const reader = new FileReader();
       reader.onload = () => {
-        setImageSrc(reader.result as string);
+        setUserInfo((prev) => ({
+          ...prev,
+          user_img: reader.result as string,
+        }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    input: React.RefObject<HTMLInputElement | HTMLTextAreaElement>,
-    max: number
-  ) => {
-    switch (input.current?.name) {
-      case 'intro': {
-        const { value } = e.target;
-        if (value.length <= max && input.current) {
-          setInputIntroLength(input.current?.value.length);
-        }
-        break;
-      }
-      case 'career': {
-        const { value } = e.target;
-        if (value.length <= max && input.current) {
-          setInputCareerLength(input.current?.value.length);
-        }
-        break;
-      }
-    }
+  const handleSetStackList = (stacks: string[]) => {
+    setStackList(stacks);
   };
 
-  const handleSetStackList = (stacks: string[]) => {
-    setUserStack(stacks);
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
+    const { name, value } = e.target;
+    if (value.length <= max) {
+      setUserInfo((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -82,15 +66,16 @@ function UpdateUser() {
         const formData = new FormData();
 
         formData.append('user_img', imageFile as File);
-        formData.append('user_name', inputName.trim());
-        formData.append('user_introduction', inputIntroRef.current?.value as string);
-        formData.append('user_career_goal', inputCareerRef.current?.value as string);
-        formData.append('user_stacks', JSON.stringify(userStack || []));
+        formData.append('user_name', userInfo.user_name.trim());
+        formData.append('user_introduction', userInfo.user_introduction);
+        formData.append('user_career_goal', userInfo.user_career_goal);
+        formData.append('user_stacks', JSON.stringify(stackList || []));
 
         await updateUserProfile(formData);
+
         navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
-        console.log(error);
+        alert('수정을 실패했습니다.');
       }
     }
   };
@@ -107,28 +92,17 @@ function UpdateUser() {
     const getUserData = async () => {
       try {
         const { data } = await getUserProfile();
-
-        if (data.user_stacks && data.user_stacks.stackList) {
-          setUserStack(data.user_stacks.stackList);
-        } else {
-          setUserStack([]);
-        }
-
-        if (data.user_introduction) {
-          setInputIntroLength(data.user_introduction.length);
-        } else {
-          setInputIntroLength(0);
-        }
-
-        if (data.user_career_goal) {
-          setInputCareerLength(data.user_career_goal.length);
-        } else {
-          setInputCareerLength(0);
-        }
-
-        setUser(data);
-        setImageSrc(data.user_img || DefaultUserImg);
-        setInputName(data.user_name);
+        setUserInfo((prev) => {
+          return {
+            ...prev,
+            user_name: data.user_name,
+            user_img: data.user_img,
+            user_career_goal: data.user_career_goal,
+            user_stacks: data.user_stacks,
+            user_introduction: data.user_introduction,
+          };
+        });
+        setStackList(data.user_stacks.stackList);
       } catch (error) {
         console.log(error);
       }
@@ -138,18 +112,18 @@ function UpdateUser() {
   }, []);
 
   useEffect(() => {
-    setIsValid(inputName.length !== 0);
-  }, [inputName]);
+    setIsValid(userInfo.user_name.length !== 0);
+  }, [userInfo.user_name]);
 
   return (
     <div className={styles.container}>
-      {user && (
+      {userInfo && (
         <form className={styles.form} encType="multipart/form-data">
           <div className={styles.imageContainer}>
             <img
               className={styles.image}
-              src={imageSrc || DefaultUserImg}
-              alt={user.user_name}
+              src={userInfo.user_img}
+              alt={userInfo.user_name}
               onClick={handleImageChange}
             />
             <input
@@ -165,46 +139,44 @@ function UpdateUser() {
             <label className={styles.name}>이름</label>
             <input
               type="text"
-              name="name"
-              value={inputName}
+              name="user_name"
+              value={userInfo.user_name}
               placeholder="이름을 입력해 주세요."
               maxLength={MAX_NAME_COUNT}
-              onChange={(e) => setInputName(e.target.value)}
+              onChange={(e) => handleChange(e, MAX_NAME_COUNT)}
             />
             <p>
-              {inputName.length}/{MAX_NAME_COUNT}
+              {userInfo.user_name.length}/{MAX_NAME_COUNT}
             </p>
           </div>
           <div className={styles.introContainer}>
             <label>자기소개</label>
             <textarea
-              name="intro"
-              defaultValue={user.user_introduction}
-              ref={inputIntroRef}
+              name="user_introduction"
+              value={userInfo.user_introduction}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
-              onChange={(e) => handleChange(e, inputIntroRef, MAX_INTRO_COUNT)}
+              onChange={(e) => handleChange(e, MAX_INTRO_COUNT)}
             />
             <p>
-              {inputIntroLength}/{MAX_INTRO_COUNT}
+              {userInfo.user_introduction.length}/{MAX_INTRO_COUNT}
             </p>
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
             <input
               type="text"
-              name="career"
-              defaultValue={user.user_career_goal}
-              ref={inputCareerRef}
+              name="user_career_goal"
+              value={userInfo.user_career_goal}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
-              onChange={(e) => handleChange(e, inputCareerRef, MAX_CAREER_COUNT)}
+              onChange={(e) => handleChange(e, MAX_CAREER_COUNT)}
             />
             <p>
-              {inputCareerLength}/{MAX_CAREER_COUNT}
+              {userInfo.user_career_goal.length}/{MAX_CAREER_COUNT}
             </p>
           </div>
-          <Stack selectedStack={userStack} setStackList={handleSetStackList} />
+          <Stack selectedStack={stackList} setStackList={handleSetStackList} />
           <button
             className={isValid ? styles.submitButton : styles.disabledButton}
             onClick={handleSubmit}

@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectListMain from './pages/ProjectList';
 // import Comment from './components/Comment';
 import Header from './components/Header/Header';
+import Error from './components/common/Error';
 import Project from './pages/Project';
 import MyPage from './pages/MyPage';
 import styles from './index.module.scss';
@@ -28,7 +29,7 @@ function App() {
       <Header />
       <div className={styles.container}>
         <Routes>
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Error />} />
           <Route path="/" element={<Home />} />
           {/* 메인 게시글 리스트*/}
           <Route path={ROUTES.PROJECT_LIST} element={<ProjectListMain />} />

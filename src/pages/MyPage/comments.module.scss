@@ -6,13 +6,20 @@ $grey: #64748B;
   background-color: rgba(226, 232, 240, 0.3);
   padding-top: 1.4rem;
   min-height: 480px;
+  
+  .topContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .contentCount {
+    color: $count-color;
+    font-weight: 500;
+    padding-left: 0.8rem;
+  }
 }
 
-.contentCount {
-  color: $count-color;
-  font-weight: 500;
-  padding-left: 0.8rem;
-}
 
 .noComment {
   display: flex;
