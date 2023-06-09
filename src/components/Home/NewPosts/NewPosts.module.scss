@@ -10,10 +10,13 @@
     .projectContainer {
       flex: none;
       width: 512px;
+      height: 180px;
       .project {
         box-sizing: border-box;
         background-color: rgb(212, 246, 234);
         margin-right: 20px;
+        height: 100%;
+        padding: 20px;
       }
       .newTag {
         margin-left: 8px;
