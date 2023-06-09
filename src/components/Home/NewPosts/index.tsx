@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getProjects } from '../../../apis/Fetcher';
 import { TypeProjectList } from '../../../interfaces/Project.interface';
 import styles from './NewPosts.module.scss';
 import { getIsNew } from '../../../utils/getIsNew';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ROUTES from '../../../constants/Routes';
 
 export default function NewPosts() {
+  const navigate = useNavigate();
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const getProjectListData = async (): Promise<void> => {
     try {
@@ -45,12 +48,15 @@ export default function NewPosts() {
           <h1>새로운 프로젝트🎉</h1>
           <p>새로 업데이트된 모집글을 확인해보세요!</p>
         </div>
-        <button>모두 보기</button>
+        <button onClick={() => navigate(`${ROUTES.PROJECT}`)}>모두 보기</button>
       </div>
       <div className={styles.slideArea}>
         <div className={styles.projectList} style={move}>
           {projectList.map((project) => (
-            <div key={project.project_id} className={styles.projectContainer}>
+            <div 
+              key={project.project_id} 
+              className={styles.projectContainer}
+            >
               <div className={styles.project}>
                 <span className={styles.type}>{project.project_type}</span>
                 <span className={styles.goal}>{project.project_goal}</span>

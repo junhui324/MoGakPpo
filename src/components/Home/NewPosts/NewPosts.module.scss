@@ -41,13 +41,13 @@
     .projectList {
       display: flex;
       transition: transform 0.5s ease-in-out;
-
     }
     
     .projectContainer {
       flex: none;
       width: 500px;
       margin-right: 12px;
+      cursor: pointer;
 
       .project {
         box-sizing: border-box;
@@ -126,7 +126,7 @@
 
     .leftArrow {
       position: absolute;
-      top: 160px;
+      top: 190px;
       left: -40px;
       border: none;
       background-color: transparent;
@@ -136,7 +136,7 @@
 
     .rightArrow {
       position: absolute;
-      top: 160px;
+      top: 190px;
       right: -40px;
       border: none;
       background-color: transparent;
