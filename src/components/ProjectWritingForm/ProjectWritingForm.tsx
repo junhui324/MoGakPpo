@@ -50,7 +50,6 @@ function ProjectWritingForm() {
   const getProjectData = async () => {
     try {
       const data = await Fetcher.getProject(projectId);
-      console.log(data);
       setProject({
         ...project,
         project_type: data.project_type,
@@ -61,7 +60,7 @@ function ProjectWritingForm() {
         project_goal: data.project_goal,
         project_participation_time: data.project_participation_time,
         project_introduction: data.project_introduction,
-        project_img: null,
+        project_img: undefined,
       });
       setDescription(data.project_introduction);
       setStackList(data.project_required_stacks.stackList);
@@ -265,10 +264,6 @@ function ProjectWritingForm() {
     });
   }, [description]);
 
-  console.log('project : ', project);
-  console.log('desc: ', description);
-  console.log('class: ', classification);
-
   useBeforeUnload();
 
   return (
@@ -385,17 +380,8 @@ function ProjectWritingForm() {
         <h2 className={styles.introduction}>
           소개<span className={styles.essential}>*</span>
         </h2>
-        <div>
-          {/* <TextareaAutosize
-            className={styles.introduceTextarea}
-            minRows={10}
-            name="project_introduction"
-            value={project.project_introduction}
-            onChange={handleProjectChange}
-            placeholder={PLACEHOLDER_STRING.INTRODUCE}
-          /> */}
+        <div className={styles.editorBox}>
           <Editor value={description} onChange={handleEditorChange}></Editor>
-          {/* <div>{Parser(description)}</div> */}
         </div>
       </div>
       <div className={styles.introHelpBox}>

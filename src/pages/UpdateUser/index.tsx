@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { RiAddCircleFill } from 'react-icons/ri';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
-import Stack from "../../components/Stack";
+import Stack from '../../components/Stack';
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
@@ -36,7 +36,7 @@ function UpdateUser() {
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    
+
     if (file) {
       setImageFile(file);
       const reader = new FileReader();
@@ -97,17 +97,17 @@ function UpdateUser() {
 
   const handleCancel = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    
+
     if (window.confirm('취소 하시겠습니까?')) {
       navigate(`${ROUTES.MY_PAGE}`);
     }
-  }
+  };
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         const { data } = await getUserProfile();
-  
+
         if (data.user_stacks && data.user_stacks.stackList) {
           setUserStack(data.user_stacks.stackList);
         } else {
@@ -125,7 +125,7 @@ function UpdateUser() {
         } else {
           setInputCareerLength(0);
         }
-  
+
         setUser(data);
         setImageSrc(data.user_img || DefaultUserImg);
         setInputName(data.user_name);
@@ -133,7 +133,7 @@ function UpdateUser() {
         console.log(error);
       }
     };
-  
+
     getUserData();
   }, []);
 
@@ -171,7 +171,9 @@ function UpdateUser() {
               maxLength={MAX_NAME_COUNT}
               onChange={(e) => setInputName(e.target.value)}
             />
-            <p>{inputName.length}/{MAX_NAME_COUNT}</p>
+            <p>
+              {inputName.length}/{MAX_NAME_COUNT}
+            </p>
           </div>
           <div className={styles.introContainer}>
             <label>자기소개</label>
@@ -183,7 +185,9 @@ function UpdateUser() {
               maxLength={MAX_INTRO_COUNT}
               onChange={(e) => handleChange(e, inputIntroRef, MAX_INTRO_COUNT)}
             />
-            <p>{inputIntroLength}/{MAX_INTRO_COUNT}</p>
+            <p>
+              {inputIntroLength}/{MAX_INTRO_COUNT}
+            </p>
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
@@ -196,12 +200,14 @@ function UpdateUser() {
               maxLength={MAX_CAREER_COUNT}
               onChange={(e) => handleChange(e, inputCareerRef, MAX_CAREER_COUNT)}
             />
-            <p>{inputCareerLength}/{MAX_CAREER_COUNT}</p>
+            <p>
+              {inputCareerLength}/{MAX_CAREER_COUNT}
+            </p>
           </div>
           <Stack selectedStack={userStack} setStackList={handleSetStackList} />
-          <button 
-            className={isValid ? styles.submitButton : styles.disabledButton} 
-            onClick={handleSubmit} 
+          <button
+            className={isValid ? styles.submitButton : styles.disabledButton}
+            onClick={handleSubmit}
             disabled={!isValid}
           >
             완료

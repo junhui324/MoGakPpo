@@ -103,19 +103,19 @@ export async function getProjects(
 
 // 게시물 post
 export async function postProject(
-  data: ProjectType.TypeProjectPost
+  data: FormData
 ): Promise<{ message: string; data: { project_id: number } }> {
   const params = `projects/recruitment`;
-  return await Api.post(API_KEY, params, data, true);
+  return await Api.post(API_KEY, params, data, true, true);
 }
 
 // 게시물 수정
 export async function patchProject(
-  data: ProjectType.TypeProjectPost,
+  data: FormData,
   project_id: number
 ): Promise<{ message: string; data: { project_id: number } }> {
   const params = `projects/recruitment/${project_id}`;
-  return await Api.patch(API_KEY, params, data, true);
+  return await Api.patch(API_KEY, params, data, true, true);
 }
 
 // 유저 프로필 불러오기
@@ -233,4 +233,18 @@ export async function portfolioPost(data: FormData): Promise<any> {
   console.log(data);
   const params = `portfolios/posts`;
   return await Api.post(API_KEY, params, data, true, true);
+}
+
+// 포트폴리오 멤버 정보 불러오기
+export async function getPortfolioUsers(): Promise<{
+  data: {
+    user_id: number;
+    user_email: string;
+    user_name: string;
+    user_career_goal: string;
+    user_img: string;
+  }[];
+}> {
+  const params = `users2.json`;
+  return await Api.get(domain, params);
 }

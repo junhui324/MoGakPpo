@@ -2,10 +2,7 @@
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
 
-.editorContainer {
-  margin-top: 30px;
-  margin-bottom: 50px;
-  border-style: none;
+@mixin basicCSS {
   div {
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -55,6 +52,13 @@
     color: #f8f8f2;
     overflow: visible;
   }
+}
+
+.editorContainer {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  border-style: none;
+  @include basicCSS;
 }
 
 .editorMiddleContainer {

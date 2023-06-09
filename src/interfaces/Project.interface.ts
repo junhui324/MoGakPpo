@@ -14,7 +14,7 @@ interface Project {
   project_goal: string;
   project_participation_time: string;
   project_introduction: string;
-  project_img: string | null;
+  project_img: string | undefined;
   project_bookmark_count: number;
   project_comments_count: number;
   project_views_count: number;
