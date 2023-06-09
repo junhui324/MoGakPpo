@@ -48,7 +48,7 @@ export async function postProjectBookmark(projectId: number): Promise<{ bookmark
   // 비회원 오류 이슈가 있었으므로 추가하였음.
   if (!Token.getToken()) throw new Error('로그인이 필요한 요청입니다.');
 
-  const params = `bookmarks`;
+  const params = `bookmarks/project`;
   const data = {
     project_id: projectId,
   };
@@ -58,7 +58,7 @@ export async function postProjectBookmark(projectId: number): Promise<{ bookmark
 
 // 프로젝트 북마크 취소
 export async function deleteProjectBookmark(projectId: number): Promise<{ bookmark_id: number }> {
-  const params = `bookmarks/${projectId}`;
+  const params = `bookmarks/project/${projectId}`;
   const response: AxiosResponse = await Api.delete(API_KEY, params);
   return response.data;
 }
