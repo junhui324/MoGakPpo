@@ -1,4 +1,8 @@
 import ModalBasic from '../common/Modal/ModalBasic';
+import styles from './CommentModal.module.scss';
+import { FiEdit3 } from 'react-icons/fi';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { FiCopy } from 'react-icons/fi';
 
 interface ModalBasicProps {
   modalOpen: boolean;
@@ -18,17 +22,26 @@ export default function CommentModal({
   onClickCopy,
 }: ModalBasicProps) {
   return (
-    <div>
+    <div className={styles.modalContainer}>
       {modalOpen && (
         <ModalBasic setModalOpen={setModalOpen} closeButton={false}>
-          <ul>
+          <ul className={styles.modalList}>
             {isMyComment && (
               <>
-                <li onClick={onClickEdit}>수정</li>
-                <li onClick={onClickDelete}>삭제</li>
+                <li onClick={onClickEdit}>
+                  <FiEdit3 />
+                  수정
+                </li>
+                <li onClick={onClickDelete}>
+                  <RiDeleteBinLine />
+                  삭제
+                </li>
               </>
             )}
-            <li onClick={onClickCopy}>댓글 복사</li>
+            <li onClick={onClickCopy}>
+              <FiCopy />
+              복사
+            </li>
           </ul>
         </ModalBasic>
       )}
