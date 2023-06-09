@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Banner.module.scss';
 import BannerItem from './BannerItem';
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export default function Banner() {
   const [currentId, setCurrentId] = useState(0);
@@ -21,12 +20,8 @@ export default function Banner() {
 
   const totalItems = BannerItem.length;
 
-  const handleBack = () => {
-    setCurrentId((curr) => (curr === 0 ? totalItems - 1 : curr - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentId((curr) => (curr === totalItems - 1 ? 0 : curr + 1));
+  const handleIndicatorClick = (id: number) => {
+    setCurrentId(id);
   };
 
   return (
@@ -43,12 +38,15 @@ export default function Banner() {
           </div>
         ))}
       </div>
-      <button className={styles.leftArrow} onClick={handleBack}>
-        <IoIosArrowBack />
-      </button>
-      <button className={styles.rightArrow} onClick={handleNext}>
-        <IoIosArrowForward />
-      </button>
+      <div className={styles.indicatorContainer}>
+        {BannerItem.map((item, index) => (
+          <div
+            key={item.id}
+            className={`${styles.indicator} ${currentId === index ? styles.active : ''}`}
+            onClick={() => handleIndicatorClick(index)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

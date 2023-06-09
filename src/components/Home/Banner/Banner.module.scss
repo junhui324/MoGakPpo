@@ -2,6 +2,7 @@
   width: 1024px;
   overflow: hidden;
   position: relative;
+  
   .bannerList {
     display: flex;
     transition: transform 1s ease;
@@ -36,26 +37,22 @@
     }
   }
 
-  .leftArrow {
+  .indicatorContainer {
+    display: flex;
+    justify-content: center;
     position: absolute;
-    padding-left: 1rem;
-    top: 150px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
 
-    & > svg {
-      font-size: 20px;
-    }
-  }
-
-  .rightArrow {
-    @extend .leftArrow;
-    right: 0;
-    padding-right: 1rem;
-
-    & > svg {
-      font-size: 20px;
+    .indicator {
+      border: none;
+      background-color: rgb(0, 0, 0, 0.2);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 1rem;
+      cursor: pointer;
     }
   }
 }
