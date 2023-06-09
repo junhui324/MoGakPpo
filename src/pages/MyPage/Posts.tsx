@@ -69,8 +69,12 @@ function Posts({ onError }: PostsProps) {
   };
 
   useEffect(() => {
-    // getUserPostsData();
-    getUserSelectData();
+    if (recruitingFilter === 'recruit') {
+      // 구인 일 때만 임시로 1차 구현 fetcher로 
+      getUserPostsData();
+    } else {
+      getUserSelectData();
+    }
   }, [recruitingFilter , currPage]);
 
   return (

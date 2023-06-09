@@ -32,7 +32,7 @@ export default function HotPortfolio() {
     setMove(() => ({ transform: `translateX(${currentId * -100}%)` }));
   }, [currentId]);
 
-  const totalItems = portfolioList.length / 3;
+  const totalItems = Math.ceil(portfolioList.length / 3);
 
   const handleBack = () => {
     setCurrentId((curr) => (curr === 0 ? totalItems - 1 : curr - 1));

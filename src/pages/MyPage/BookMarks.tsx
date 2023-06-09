@@ -69,8 +69,12 @@ function BookMarks({ onError }: BookMarksProps) {
   };
 
   useEffect(() => {
-    // getUserBookmarkData();
-    getUserSelectData();
+    if (recruitingFilter === 'recruit') {
+      // 구인 일 때만 임시로 1차 구현 fetcher로 
+      getUserBookmarkData();
+    } else {
+      getUserSelectData();
+    }
   }, [recruitingFilter, currPage]);
 
   return (

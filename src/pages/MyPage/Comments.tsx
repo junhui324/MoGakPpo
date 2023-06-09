@@ -69,8 +69,12 @@ function Comments({ onError }: CommentsProps) {
   };
 
   useEffect(() => {
-    // getUserCommentData();
-    getUserSelectData();
+    if (recruitingFilter === 'recruit') {
+      // 구인 일 때만 임시로 1차 구현 fetcher로 
+      getUserCommentData();
+    } else {
+      getUserSelectData();
+    }
   }, [recruitingFilter, currPage]);
 
   return (
