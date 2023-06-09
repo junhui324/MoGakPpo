@@ -1,10 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //타입
 import { TypePortfolioList } from '../../interfaces/Portfolio.interface';
 
 // 스타일
 import styles from './PortfolioCell.module.scss';
+import ROUTES from '../../constants/Routes';
 
 function PortfolioCell({
   isLoading = false,
@@ -13,6 +15,8 @@ function PortfolioCell({
   isLoading?: boolean;
   portfolio?: TypePortfolioList | null;
 }) {
+  const navigate = useNavigate();
+
   // 로딩 중이면 스켈레톤 UI를 반환
   if (isLoading)
     return (
@@ -28,7 +32,7 @@ function PortfolioCell({
   if (!portfolio) return <></>;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={() => navigate(`${ROUTES.PORTFOLIO_DETAIL}${87}`)}>
       {portfolio.img ? (
         <img className={styles.image} src={portfolio.img} alt="포트폴리오 섬네일" />
       ) : (
