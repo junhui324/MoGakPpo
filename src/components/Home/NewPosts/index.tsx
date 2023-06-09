@@ -53,8 +53,8 @@ export default function NewPosts() {
       <div className={styles.slideArea}>
         <div className={styles.projectList} style={move}>
           {projectList.map((project) => (
-            <Link to={`/projects/${project.project_id}`}>
-              <div key={project.project_id} className={styles.projectContainer}>
+            <Link to={`/projects/${project.project_id}`} key={project.project_id}>
+              <div className={styles.projectContainer}>
                 <div className={styles.project}>
                   <span className={styles.type}>{project.project_type}</span>
                   <span className={styles.goal}>{project.project_goal}</span>
