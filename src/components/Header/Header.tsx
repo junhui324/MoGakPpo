@@ -14,9 +14,9 @@ function Header() {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [classification, setClassification] = useRecoilState(classificationState);
+
   const onClickLogout = () => {
     Token.removeToken();
-    //window.location.reload();
     navigate(`${ROUTES.HOME}`);
   };
   const handleLogoClick = () => {
@@ -31,6 +31,10 @@ function Header() {
           <span className={styles.logo} onClick={handleLogoClick}>
             모프 🪄
           </span>
+          <ul>
+            <li onClick={() => navigate(ROUTES.PROJECT_LIST)}>멤버 모집</li>
+            <li onClick={() => navigate(ROUTES.PROJECT_LIST)}>프로젝트 자랑</li>
+          </ul>
         </div>
         <div className={styles.rightContainer}>
           {Token.getToken() ? (
@@ -68,7 +72,7 @@ function Header() {
               </button>
             </div>
           )}
-          <ProjectPostButton />
+          {/* <ProjectPostButton /> */}
         </div>
       </div>
     </div>

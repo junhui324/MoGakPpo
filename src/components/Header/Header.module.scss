@@ -19,14 +19,22 @@
     justify-content: space-between;
     .leftContainer {
       display: flex;
-      flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
+      gap: 48px;
 
       .logo {
         cursor: pointer;
         font-size: 28px;
         font-weight: 800;
+      }
+
+      ul {
+        align-self: center;
+        display: flex;
+        gap: 24px;
+        li {
+          cursor: pointer;
+        }
       }
     }
     .rightContainer {

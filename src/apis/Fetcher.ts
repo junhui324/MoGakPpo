@@ -96,17 +96,9 @@ export async function getProjects(
   data: { pageSize: number; pagenatedProjects: ProjectType.TypeProjectList[] };
 }> {
   const params = `projects`;
-  const query = `cate=${cate}&recruiting=${recruiting}&keyword=${keyword ?? false}&page=${page}`;
+  const newKeyword = keyword === '' ? 'false' : keyword;
+  const query = `cate=${cate}&recruiting=${recruiting}&keyword=${newKeyword}&page=${page}`;
   return await Api.get(API_KEY, params, true, query);
-}
-
-// 모집 중 프로젝트 리스트 불러오기
-export async function getRecruitingProjects(categoryId: string): Promise<{
-  message: string;
-  data: ProjectType.TypeProjectList[];
-}> {
-  const params = `projects/cate=${categoryId}&recruiting=true.json`;
-  return await Api.get(domain, params, false);
 }
 
 // 게시물 post
