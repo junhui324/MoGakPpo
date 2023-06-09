@@ -7,11 +7,11 @@ import { TypePortfolioList } from '../../interfaces/Portfolio.interface';
 import styles from './PortfolioCell.module.scss';
 
 function PortfolioCell({
-  isLoading,
-  portfolio,
+  isLoading = false,
+  portfolio = null,
 }: {
-  isLoading: boolean;
-  portfolio: TypePortfolioList | null;
+  isLoading?: boolean;
+  portfolio?: TypePortfolioList | null;
 }) {
   // 로딩 중이면 스켈레톤 UI를 반환
   if (isLoading)

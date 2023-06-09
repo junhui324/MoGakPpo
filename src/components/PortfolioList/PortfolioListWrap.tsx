@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // component
 import PortfolioCell from './PortfolioCell';
@@ -15,22 +15,44 @@ import styles from './PortfolioListWrap.module.scss';
 // 상수
 const INITIAL_PAGE = 1;
 
+function Loading() {
+  return <div>로딩중</div>;
+}
+
 function PortfolioListWrap() {
+  // 상태관리
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [data, setData] = useState<TypePortfolioList[] | null>(null);
-  const [isNext, setIsNext] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(INITIAL_PAGE);
-  const [maxPage, setMaxPage] = useState<number>(INITIAL_PAGE);
+  const [totalPage, setTotalPage] = useState<number>(INITIAL_PAGE);
+  const page = useRef<number>(INITIAL_PAGE);
+
+  // Intersection Oberserver API
+  const targetRef = useRef<HTMLDivElement>(null); // 옵저버 엔트리
+  const options = {
+    // 기본 root인 사용자 뷰포트로 관찰
+    root: null,
+    rootMargin: '0px',
+    threshold: 1.0,
+  };
+  const infiniteScroll = () => {
+    console.log('호출', page);
+
+    page.current++;
+    page.current <= totalPage && fetchData();
+  };
+  let observer: IntersectionObserver;
 
   const fetchData = async () => {
-    try {
-      // 데이터를 불러와서 저장합니다.
-      console.log('page', page);
+    // 로딩중 상태를 true로 변경합니다.
+    setIsLoading(true);
 
-      const data = await Fetcher.getPortfolioList(page);
+    console.log(page);
+
+    try {
+      const data = await Fetcher.getPortfolioList(page.current);
 
       // 데이터에 맞게 페이지 최대 사이즈와 데이터를 설정합니다.
-      setMaxPage(data.pageSize);
+      setTotalPage(data.pageSize);
       setData((prev) => {
         if (prev) return [...prev, ...data.pagenatedPortfolios];
         return data.pagenatedPortfolios;
@@ -40,37 +62,48 @@ function PortfolioListWrap() {
     } finally {
       // 로딩 완료
       setIsLoading(false);
-      // 현재 페이지를 설정합니다.
-      setPage((prev) => prev + 1);
     }
   };
 
-  // 페이지에 따라 데이터 로딩 (여러 번 호출되는 경우 있으면 안됨)
   useEffect(() => {
-    setIsLoading(true);
     fetchData();
+  }, []);
+
+  // totalPage가 갱신될때마다 observer 갱신
+  useEffect(() => {
+    // 새로운 옵저버 생성
+    observer = new IntersectionObserver(infiniteScroll, options);
+    // 옵저버 등록
+    targetRef.current && observer.observe(targetRef.current);
 
     return () => {
-      setIsNext(false);
+      // 갱신할 때 기존 observer를 disconnet함
+      observer.disconnect();
     };
-  }, [isNext]);
+  }, [totalPage]);
 
   return (
-    <div className={styles.container}>
-      {/* 로딩이 끝나면 실제로 화면에 표시 */}
-      {!isLoading &&
-        (data ? (
+    <>
+      <div className={styles.container}>
+        {/* 로딩되어있는 데이터 표시 */}
+        {data ? (
           data.map((portfolio) => {
-            return (
-              <PortfolioCell key={portfolio.portfolio_id} isLoading={false} portfolio={portfolio} />
-            );
+            return <PortfolioCell key={portfolio.portfolio_id} portfolio={portfolio} />;
           })
         ) : (
           <p>'포스트없음'</p>
-        ))}
-      {/* 로딩 중일때는 현재 내용에 로딩중 컴포넌트를 붙입니다. */}
-      {isLoading && <PortfolioCell isLoading={true} portfolio={null} />}
-    </div>
+        )}
+        {/* 로딩 중일때는 현재 내용에 로딩중 컴포넌트를 붙입니다. */}
+        {isLoading && <PortfolioCell isLoading={true} />}
+      </div>
+      <div
+        style={{ display: isLoading ? 'none' : 'block' }}
+        className={styles.observer}
+        ref={targetRef}
+      >
+        Observer
+      </div>
+    </>
   );
 }
 
