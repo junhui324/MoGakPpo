@@ -37,7 +37,7 @@ function Header() {
             <span>멤버 모집</span>
           </NavLink>
           {/* todo - 프로젝트자랑 게시판 링크로 수정 */}
-          <NavLink to="/main" className={({ isActive }) => (isActive ? styles.active : '')}>
+          <NavLink to="/portfolios" className={({ isActive }) => (isActive ? styles.active : '')}>
             <span> 프로젝트 자랑</span>
           </NavLink>
         </div>
