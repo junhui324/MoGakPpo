@@ -43,12 +43,8 @@ export default function Comment() {
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
-    } catch (error: any) {
-      const status = error.message;
-      if (status === '404') {
-        console.log('존재하는 댓글이 없습니다.');
-        setCommentTotal(0);
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -178,11 +174,8 @@ export default function Comment() {
                   try {
                     await deleteComment(comment.comment_id);
                     setIsListUpdated(!isListUpdated);
-                  } catch (error: any) {
-                    const status = error.message;
-                    if (status === '404') {
-                      console.log('이미 삭제 된 댓글입니다.');
-                    }
+                  } catch (error) {
+                    console.log(error);
                   }
                 }
               };
