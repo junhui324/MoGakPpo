@@ -14,7 +14,7 @@
       .bannerText {
         display: flex;
         flex-direction: column;
-        padding: 3rem 3rem;
+        padding: 3rem 4rem;
         .tag {
           margin: 2rem 0;
           font-size: 30px;
@@ -38,7 +38,7 @@
   .leftArrow {
     position: absolute;
     padding-left: 1rem;
-    top: 45%;
+    top: 150px;
     background-color: transparent;
     border: none;
     cursor: pointer;

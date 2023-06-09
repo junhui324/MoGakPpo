@@ -1,29 +1,147 @@
 @import '/src/variables.scss';
+
 .newPosts {
   margin: 40px 0;
-}
-.slideArea {
-  width: 1024px;
-  overflow: hidden;
-  .projectList {
+  position: relative;
+
+  .titleContainer {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .titleTextWrapper {
+      & > h1 {
+        font-size: 30px;
+        font-weight: 600;
+        padding: 1rem 0;
+      }
+    
+      & > p {
+        font-size: 18px;
+        padding-bottom: 1rem;
+      }
+    }
+
+    & > button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.7);
+      }
+    }
+  }
+
+  .slideArea {
+    width: 1024px;
+    overflow: hidden;
+    
+    .projectList {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+
+    }
+    
     .projectContainer {
       flex: none;
-      width: 512px;
-      height: 180px;
+      width: 500px;
+      margin-right: 12px;
+
       .project {
         box-sizing: border-box;
-        background-color: rgb(212, 246, 234);
-        margin-right: 20px;
         height: 100%;
         padding: 20px;
+        padding: 24px 24px 24px 24px;
+        border: 1px solid #e8e8e8;
+        border-radius: 16px;
+
+        .type {
+          margin-right: 8px;
+          padding: 4px 6px 4px 6px;
+          color: rgb(148 163 184);
+          font-size: 14px;
+          border-radius: 4px;
+          background-color: rgb(241 245 249);
+        }
+
+        .goal {
+          padding: 4px 6px 4px 6px;
+          color: rgb(148 163 184);
+          font-size: 14px;
+          border-radius: 4px;
+          background-color: rgb(241 245 249);
+        }
+        
+        .summary {
+          margin: 1rem 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .role {
+          display: flex;
+          margin: 0.8rem 0;
+          & > p {
+            margin-right: 0.4rem;
+            font-size: 12px;
+            padding: 4px 8px;
+            border: 1px solid $main-color;
+            background-color: unset;
+            color: $main-color;
+            border-radius: 30px;
+          }
+        }
+
+        .titleWrapper {
+          display: flex;
+          margin: 1.4rem 0;
+          font-size: 20px;
+
+          .title {
+            font-weight: 500;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .newTag {
+            align-self: center;
+            font-size: 14px;
+            color: blue;
+            margin-left: 0.6rem;
+          }
+        }
+
+        .viewWrapper {
+          .count {
+            margin: 0 1rem 0 0.2rem;
+          }
+        }
       }
-      .newTag {
-        margin-left: 8px;
-        align-self: center;
-        font-size: 14px;
-        color: $blue;
-      }
+    }
+
+    .leftArrow {
+      position: absolute;
+      top: 160px;
+      left: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .rightArrow {
+      position: absolute;
+      top: 160px;
+      right: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
     }
   }
 }
