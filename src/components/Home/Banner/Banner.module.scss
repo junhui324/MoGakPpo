@@ -1,19 +1,23 @@
+.bannerContainer {
+  position: relative;
+  margin: 0 calc((100vw - 100%) * -0.5);
+  background-color: rgb(244, 244, 244);
+}
 .slideArea {
   width: 1024px;
   overflow: hidden;
   position: relative;
-  margin-top: 2rem;
-  
+  margin: 0 auto;
+
   .bannerList {
     display: flex;
     transition: transform 1s ease;
-    
+
     .bannerItem {
       flex: none;
       display: flex;
       justify-content: space-between;
       width: 1024px;
-      background-color: rgb(244, 244, 244);
 
       .bannerText {
         display: flex;
@@ -25,13 +29,13 @@
           font-size: 30px;
           font-weight: 600;
         }
-  
+
         .mainTitle {
           font-size: 18px;
           font-weight: 400;
           margin: 0.8rem 0;
         }
-  
+
         .subTitle {
           font-size: 18px;
           font-weight: 200;

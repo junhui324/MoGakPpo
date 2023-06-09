@@ -15,7 +15,7 @@
         font-weight: 600;
         padding: 1rem 0;
       }
-    
+
       & > p {
         font-size: 14px;
         padding-bottom: 2rem;
@@ -42,11 +42,15 @@
     .portfolioList {
       display: flex;
       transition: transform 0.5s ease-in-out;
+      a {
+        text-decoration: 0;
+        color: black;
+      }
 
       .portfolioContainer {
         flex: none;
         width: calc(1028px / 3);
-        
+
         .portfolio {
           position: relative;
           border-radius: 16px;
@@ -101,19 +105,19 @@
                 border-radius: 30px;
               }
             }
-            
+
             .viewWrapper {
               position: absolute;
               bottom: 24px;
-    
+
               & > * {
                 font-size: 14px;
               }
-              
+
               .count {
                 margin: 0 0.4rem;
                 color: rgb(168, 180, 197);
-    
+
                 &::after {
                   margin-left: 4px;
                   margin-right: 4px;
@@ -125,8 +129,6 @@
               }
             }
           }
-
-
         }
       }
     }
