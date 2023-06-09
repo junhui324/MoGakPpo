@@ -274,16 +274,6 @@ export async function getUsersByEmail(value: string): Promise<{
   return await Api.get(domain, params);
 }
 
-export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
-  const params = `/users/password/reset`;
-  const data = {
-    user_password: value.user_password,
-    user_new_password: value.user_new_password,
-  };
-  const response: AxiosResponse = await Api.patch(API_KEY, params, data);
-  return response;
-}
-
 // 포트폴리오 포스팅
 export async function portfolioPost(data: FormData): Promise<any> {
   console.log(data);
@@ -315,4 +305,15 @@ export async function getPortfolioList(
   const params = `portfolios?keyword=${keyword}&page=${page}`;
   const response: AxiosResponse = await Api.get(API_KEY, params);
   return response.data;
+}
+// 사용자 비밀번호 변경하기
+export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
+  const params = `/users/password/reset`;
+  const data = {
+    user_id: value.user_id,
+    user_password: value.user_password,
+    user_new_password: value.user_new_password,
+  };
+  const response: AxiosResponse = await Api.patch(API_KEY, params, data);
+  return response;
 }
