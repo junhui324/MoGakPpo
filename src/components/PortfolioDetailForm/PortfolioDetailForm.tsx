@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from './PortfolioDetailForm.module.scss';
 import DOMPurify from 'dompurify';
 import { BsGithub } from 'react-icons/bs';
@@ -34,7 +34,6 @@ function PortfolioDetailForm() {
     try {
       const data = await Fetcher.getProject(Number(id));
       setPortfolio(data);
-      //console.log('project 87번 데이터 가져오기: ', portfolio.project_required_stacks.stackList);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +43,6 @@ function PortfolioDetailForm() {
     try {
       const data = await Fetcher.getPortfolioUsers();
       setUserList(data.data);
-      //console.log(userList);
     } catch (error) {
       console.log(error);
     }

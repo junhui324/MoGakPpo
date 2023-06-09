@@ -181,8 +181,6 @@ function ProjectPreview() {
     }
   };
 
-  console.log(project);
-
   return (
     <>
       <div className={styles.container}>

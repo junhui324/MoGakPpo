@@ -5,7 +5,7 @@ $middle-font-size: 16px;
 
 @mixin subtitle {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 23px;
   margin-bottom: 40px;
 }
 
@@ -25,14 +25,16 @@ h2 {
   max-width: 1024px;
   border: 1px solid rgb(234, 234, 234);
   display: grid;
-  padding: 20px;
+  padding: 15px;
+  padding-top: 50px;
+  padding-bottom: 90px;
   grid-template-columns: 1fr 424px;
   @include basicCSS;
 }
 
 .leftContainer {
   display: grid;
-  margin: 20px 50px 10px 10px;
+  margin: 20px 20px 10px 20px;
   grid-template-areas:
     'title'
     'summary'
@@ -42,17 +44,21 @@ h2 {
   row-gap: 30px;
 
   .title {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     h2 {
-      font-weight: bold;
-      font-size: 35px;
+      font-weight: 700;
+      font-size: 37px;
       margin-bottom: 10px;
+      margin-left: 30px;
       color: $main-color;
     }
   }
 
   .summary {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     .paragraph {
       font-size: $middle-font-size;
       font-weight: 400;
@@ -62,9 +68,10 @@ h2 {
   }
 
   .etc {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     span {
       padding-right: 10px;
+      font-size: 20px;
     }
     .count {
       font-weight: 700;
@@ -72,7 +79,7 @@ h2 {
   }
 
   .stack {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     .logoCircle {
       display: flex;
       justify-content: center;
@@ -105,7 +112,7 @@ h2 {
   }
 
   .mainText {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     .paragraph {
       font-size: $middle-font-size;
       font-weight: 400;
@@ -116,7 +123,7 @@ h2 {
 }
 
 .rightContainer {
-  margin: 20px 10px 10px 70px;
+  margin: 90px 0 10px 90px;
 
   .profile {
   }
@@ -156,23 +163,29 @@ h2 {
     margin-bottom: 30px;
   }
   .participate {
-    margin-top: 50px;
+    margin-top: 60px;
     h2 {
       margin-bottom: 10px;
+      margin-left: 10px;
     }
 
     .userBox {
       height: auto;
       border: 2px solid #f5f5f5;
+      border-radius: 7px;
 
       display: flex;
       flex-direction: column;
       gap: 12px;
 
+      width: 300px;
+
       .userInfoBox {
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-top: 10px;
+        margin-left: 20px;
 
         img {
           border-radius: 50%;
