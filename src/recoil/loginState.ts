@@ -1,5 +1,8 @@
 import { LoginData } from "../interfaces/Login.interface";
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const {persistAtom} = recoilPersist();
 
 export const loginAtom = atom<LoginData>({
   key:"loginAtom",
@@ -12,5 +15,6 @@ export const loginAtom = atom<LoginData>({
       stackList: []
     },
     user_introduction:"",
-  }
+  },
+  effects_UNSTABLE:[persistAtom],
 });
