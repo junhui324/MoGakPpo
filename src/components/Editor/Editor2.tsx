@@ -42,7 +42,6 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
 
   // 임시저장 된 값||수정이 필요한 값 이 있는 경우 불러오기
   useEffect(() => {
-    console.log(1);
     if (quillRef.current) {
       quillRef.current.root.innerHTML = savedValue;
     }

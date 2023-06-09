@@ -115,19 +115,7 @@ function PortfolioWriting() {
     console.log(form);
     // formData.append('portfolio_members',members);
 
-    if (!title) {
-      alert('제목을 입력해 주세요.');
-      return;
-    } else if (!summary) {
-      alert('요약을 입력해 주세요.');
-      return;
-    } else if (!thumbnailFile) {
-      alert('썸네일을 등록해 주세요.');
-      return;
-    } else if (!description) {
-      alert('내용을 입력해 주세요.');
-      return;
-    } else {
+    const postData = async () => {
       try {
         portfolioPost(formData);
         alert('등록 성공!');
@@ -141,6 +129,22 @@ function PortfolioWriting() {
           console.log(error);
         }
       }
+    };
+
+    if (!title) {
+      alert('제목을 입력해 주세요.');
+      return;
+    } else if (!summary) {
+      alert('요약을 입력해 주세요.');
+      return;
+    } else if (!thumbnailFile) {
+      alert('썸네일을 등록해 주세요.');
+      return;
+    } else if (!description) {
+      alert('내용을 입력해 주세요.');
+      return;
+    } else {
+      postData();
     }
   };
 
@@ -149,6 +153,7 @@ function PortfolioWriting() {
       title.length === 0 &&
       summary.length === 0 &&
       description.length === 0 &&
+      gitHubUrl.length === 0 &&
       stacks.length === 0 &&
       members.length === 0
     ) {
@@ -156,7 +161,7 @@ function PortfolioWriting() {
       return;
     }
 
-    const form = { title, summary, stacks, description, members };
+    const form = { title, summary, stacks, description, gitHubUrl, members };
     localStorage.setItem('savedPortfolioPost', JSON.stringify(form));
     alert('임시저장 성공');
   };
