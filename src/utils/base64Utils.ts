@@ -5,6 +5,21 @@ export const findBase64 = (editorContent: string) => {
   return base64DataArray;
 };
 
+function getExtensionFromMimeType(mimeType: string): string {
+  // MIME 유형을 기반으로 파일 확장자를 결정합니다.
+  switch (mimeType) {
+    case 'image/jpeg':
+      return 'jpg';
+    case 'image/png':
+      return 'png';
+    case 'image/gif':
+      return 'gif';
+    // 다른 유형의 파일에 대한 처리를 추가할 수 있습니다.
+    default:
+      return 'unknown';
+  }
+}
+
 export function base64sToFiles(base64Images: string[], fileName: string) {
   const imageFiles: File[] = [];
   base64Images.forEach((base64Image, index) => {
@@ -20,7 +35,8 @@ export function base64sToFiles(base64Images: string[], fileName: string) {
     const blob = new Blob([ab], { type: mimeString });
 
     // Blob 객체를 File 객체로 변환합니다.
-    const file = new File([blob], `${fileName}-${index}`, { type: mimeString });
+    const extension = getExtensionFromMimeType(mimeString);
+    const file = new File([blob], `${fileName}-${index}.${extension}`, { type: mimeString });
 
     imageFiles.push(file);
   });

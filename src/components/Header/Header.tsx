@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
-import { FaUserCircle } from 'react-icons/fa';
-import ProjectPostButton from '../common/ProjectPostButton';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { classificationState } from '../../recoil/projectState';

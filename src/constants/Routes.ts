@@ -12,6 +12,7 @@ export const ROUTES = {
   MODIFY_PROJECT: '/modify',
   PREVIEW_PROJECT: '/preview',
   PORTFOLIO_CREATE: '/portfolio/create/',
+  KAKAO_AUTH:'/kakao/auth',
 };
 
 export default ROUTES;

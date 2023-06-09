@@ -10,6 +10,11 @@ import { TypeTeamProjectUser } from '../../../interfaces/User.interface';
 import LengthCheck from '../../../components/ProjectWritingForm/LengthCheck';
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../../utils/base64Utils';
 import ThumbnailInput from '../../../components/PortfolioWritingForm/ThumbnailInput';
+import { loginAtom } from '../../../recoil/loginState';
+import { useRecoilValue } from 'recoil';
+import { portfolioPost } from '../../../apis/Fetcher';
+
+const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
 
 function PortfolioWriting() {
   const MAX_TITLE_LENGTH = 50;
@@ -17,6 +22,7 @@ function PortfolioWriting() {
   const MAX_MEMBERS_LENGTH = 10;
   const MAX_GITHUB_LENGTH = 100;
 
+  const loginData = useRecoilValue(loginAtom);
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [stacks, setStacks] = useState<string[]>([]);
@@ -44,7 +50,7 @@ function PortfolioWriting() {
   };
 
   const handleGitHubUrlChange = (value: string) => {
-    if (summary.length < MAX_GITHUB_LENGTH) {
+    if (gitHubUrl.length < MAX_GITHUB_LENGTH) {
       setGitHubUrl(value);
     }
   };
@@ -76,31 +82,66 @@ function PortfolioWriting() {
 
   const handleSubmitClick = () => {
     // 에디터 이미지 파일로 변환
-    const imgFiles = base64sToFiles(findBase64(description), `${new Date().getTime()}`);
-    console.log(imgFiles);
+    const editorImgFiles = base64sToFiles(
+      findBase64(description),
+      `${loginData ? loginData.user_id : 'e'}-${new Date().getTime()}`
+    );
 
     // 에디터 이미지 서버 경로 추출
-    const urls = imgFiles.map((file) => `src/images/${file.name}.${file.type.split('/')[1]}`);
+    const urls = editorImgFiles.map((file) => `${IMG_DOMAIN}/static/portfolio/${file.name}}`);
 
     // base64 => 에디터 이미지 서버 경로로 대체
     const newDescription = base64imgSrcParser(description, urls);
-
     const formData = new FormData();
+
     formData.append('portfolio_title', title);
     formData.append('portfolio_summary', summary);
+    formData.append('portfolio_github', gitHubUrl || 'null');
     formData.append('portfolio_stacks', JSON.stringify(stacks || []));
-    // formData.append('portfolio_des_imgs',imgFiles);
+    formData.append('portfolio_img', thumbnailFile as File);
     formData.append('portfolio_description', newDescription);
+    editorImgFiles.length > 0 &&
+      editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
+
+    const form = {
+      title,
+      summary,
+      gitHubUrl,
+      stacks,
+      thumbnailFile,
+      newDescription,
+      editorImgFiles,
+    };
+    console.log(form);
     // formData.append('portfolio_members',members);
-    // formData.append('portfolio_thumbnail',thumbnailFile);
 
-    console.log(formData);
-
-    const form = { title, summary, stacks, description, members, thumbnailFile };
-    !title && alert('제목을 입력해 주세요.');
-    !summary && alert('요약을 입력해 주세요.');
-    !description && alert('내용을 입력해 주세요.');
-    title && summary && description && console.log(form);
+    if (!title) {
+      alert('제목을 입력해 주세요.');
+      return;
+    } else if (!summary) {
+      alert('요약을 입력해 주세요.');
+      return;
+    } else if (!thumbnailFile) {
+      alert('썸네일을 등록해 주세요.');
+      return;
+    } else if (!description) {
+      alert('내용을 입력해 주세요.');
+      return;
+    } else {
+      try {
+        portfolioPost(formData);
+        alert('등록 성공!');
+      } catch (error: any) {
+        console.log(error.message);
+        if (error.message === '401') {
+          alert('로그인 후 이용해 주세요.');
+        } else if (error.message === '400') {
+          alert('입력되지 않은 정보를 확인해 주세요.');
+        } else {
+          console.log(error);
+        }
+      }
+    }
   };
 
   const handleSaveClick = () => {
@@ -147,30 +188,34 @@ function PortfolioWriting() {
     <div className={styles.container}>
       <h1 className={styles.title}>프로젝트 자랑 작성</h1>
       <div className={styles.mainFormContainer}>
-        <label>
-          <div className={styles.inputTop}>
-            <h3>프로젝트 제목</h3>
-            <LengthCheck valueLength={title.length} maxLength={MAX_TITLE_LENGTH} />
+        <div className={styles.topContainer}>
+          <div>
+            <h3 className={styles.required}>썸네일</h3>
+            <ThumbnailInput imgFile={thumbnailFile!} onInputChange={handleThumbnailSelect} />
           </div>
-          <TitleTextForm value={title} onChange={handleTitleChange} />
-        </label>
-        <label>
-          <div className={styles.inputTop}>
-            <h3>요약</h3>
-            <LengthCheck valueLength={summary.length} maxLength={MAX_SUMMARY_LENGTH} />
+          <div>
+            <label>
+              <div className={styles.inputTop}>
+                <h3 className={styles.required}>프로젝트 제목</h3>
+                <LengthCheck valueLength={title.length} maxLength={MAX_TITLE_LENGTH} />
+              </div>
+              <TitleTextForm value={title} onChange={handleTitleChange} />
+            </label>
+            <label>
+              <div className={styles.inputTop}>
+                <h3 className={styles.required}>요약</h3>
+                <LengthCheck valueLength={summary.length} maxLength={MAX_SUMMARY_LENGTH} />
+              </div>
+              <BasicTextForm
+                value={summary}
+                onChange={handleSummaryChange}
+                placeholder={'프로젝트를 짧게 설명해 주세요.'}
+              />
+            </label>
           </div>
-          <BasicTextForm
-            value={summary}
-            onChange={handleSummaryChange}
-            placeholder={'프로젝트를 짧게 설명해 주세요.'}
-          />
-        </label>
-        <div>
-          <h3>썸네일</h3>
-          <ThumbnailInput imgFile={thumbnailFile!} onInputChange={handleThumbnailSelect} />
         </div>
         <div>
-          <h3>내용</h3>
+          <h3 className={styles.required}>내용</h3>
           {/* <Editor value={description} onChange={handleDescriptionChange} /> */}
           <QuillEditor savedValue={savedDes} onEditorValueChange={handleDescriptionChange} />
         </div>
@@ -185,8 +230,8 @@ function PortfolioWriting() {
             placeholder={'URL을 입력해 주세요.'}
           />
         </label>
-        <div>
-          <h3>사용 기술스택</h3>
+        <div className={styles.stacksContainer}>
+          <h3 className={styles.stacksTitle}>사용 기술스택</h3>
           <Stack selectedStack={stacks} setStackList={handleStackSelect} />
         </div>
         <div>
@@ -202,10 +247,18 @@ function PortfolioWriting() {
         </div>
       </div>
       <div className={styles.buttonsContainer}>
-        {savedPost && <button onClick={handleImportSavedPost}>임시저장 글 불러오기</button>}
+        {savedPost && (
+          <button className={styles.importButton} onClick={handleImportSavedPost}>
+            임시저장 글 불러오기
+          </button>
+        )}
         <div>
-          <button onClick={handleSaveClick}>임시 저장</button>
-          <button onClick={handleSubmitClick}>작성 완료</button>
+          <button className={styles.saveButton} onClick={handleSaveClick}>
+            임시 저장
+          </button>
+          <button className={styles.submitButton} onClick={handleSubmitClick}>
+            작성 완료
+          </button>
         </div>
       </div>
     </div>

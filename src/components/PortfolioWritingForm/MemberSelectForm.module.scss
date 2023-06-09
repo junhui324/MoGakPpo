@@ -1,6 +1,9 @@
 .container {
+  margin: 0 0 12px 0;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+
   label {
     display: flex;
     flex-direction: column;
@@ -8,55 +11,54 @@
   .secondContainer {
     display: flex;
     gap: 32px;
-  }
-
-  .searchUserListContainer {
-    display: flex;
-    flex-direction: column;
-    // flex-grow: 1;
-    width: 100%;
-    gap: 16px;
-    input {
-      width: 100%;
-    }
-    ul {
-      width: 100%;
-      padding: 8px;
+    .searchUserListContainer {
       display: flex;
       flex-direction: column;
+      width: 50%;
       gap: 16px;
-      height: 250px;
-      overflow: scroll;
-      overflow-x: hidden;
-      border-radius: 12px;
-      border: 1px solid #d8d8d8;
-      li {
+      input {
+        height: 42px;
+        font-weight: normal;
+        font-size: normal;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        padding: 4px 12px;
+      }
+      ul {
+        flex-grow: 1;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 250px;
+        overflow: scroll;
+        overflow-x: hidden;
+        border-radius: 12px;
+        border: 1px solid #d8d8d8;
+        li {
+        }
       }
     }
-  }
-  .selectedUsersContainer {
-    padding: 8px;
-    // flex-grow: 1;
-    background-color: aliceblue;
-    border-radius: 8px;
-    ul {
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .selectedUsersContainer {
+      h4 {
+        font-size: 18px;
+        margin-bottom: 16px;
+      }
+
+      padding: 8px;
+      width: 50%;
+      background-color: rgb(245, 251, 255);
+      border-radius: 8px;
+      ul {
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
     }
-  }
-  .userProfile {
-    display: flex;
-    gap: 12px;
-    img {
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+
+    .searchUserListContainer::-webkit-scrollbar-track {
+      background-color: transparent;
     }
-    cursor: pointer;
-  }
-  .searchUserListContainer::-webkit-scrollbar-track {
-    background-color: transparent;
   }
 }

@@ -12,6 +12,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
+const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
 
 function Login() {
   const emailRef = useRef<any>(null);
@@ -89,6 +90,9 @@ function Login() {
         //     user_id: data.user_id,
         //     user_name: data.user_name,
         //     user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+        //     user_career_goal:data.user_career_goal,
+        //     user_stacks:data.user_stacks,
+        //     user_introduction:data.user_introduction,
         //   })
         // );
         
@@ -109,6 +113,16 @@ function Login() {
       alert('사용자 정보를 다시 확인해주세요.');
       return;
     }
+  };
+
+  const kakaoLogin = () =>{
+    const redirect_uri = "http://localhost:3000/kakao/auth";
+    const kakaoURL = `
+    https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&
+    redirect_uri=${redirect_uri}&response_type=code
+    `;
+
+    window.location.href = kakaoURL;
   };
 
   return (
@@ -159,7 +173,7 @@ function Login() {
           </form>
 
           <div className={styles.kakaoContainer}>
-            <button type="button" className={styles.kakaoLogin}>
+            <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
               <div className={styles.kakaoContainer}><RiKakaoTalkFill className={styles.kakaoImage} size="20"/><span className={styles.kakaoDesc}>카카오로 계속하기</span></div>
             </button>
           </div>

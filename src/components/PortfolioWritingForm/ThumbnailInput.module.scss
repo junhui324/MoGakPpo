@@ -1,0 +1,33 @@
+.container {
+  margin: 12px 0;
+  div {
+    position: relative;
+    border-radius: 14px;
+    background-color: aliceblue;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    input {
+      display: inline-block;
+      z-index: 1;
+      width: fit-content;
+      font-weight: normal;
+    }
+    // input[type='file' i] {
+    //   text-align: center;
+    //   display: inline-block;
+    // }
+    // input[type='file-upload-button'] {
+    //   background-color: aqua;
+    // }
+  }
+}

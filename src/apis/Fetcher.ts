@@ -217,3 +217,20 @@ export async function getUsersByEmail(value: string): Promise<{
   const params = `users2.json`;
   return await Api.get(domain, params);
 }
+
+export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
+  const params = `/users/password/reset`;
+  const data = {
+    user_password: value.user_password,
+    user_new_password: value.user_new_password,
+  };
+  const response: AxiosResponse = await Api.patch(API_KEY, params, data);
+  return response;
+}
+
+// 포트폴리오 포스팅
+export async function portfolioPost(data: FormData): Promise<any> {
+  console.log(data);
+  const params = `portfolios/posts`;
+  return await Api.post(API_KEY, params, data, true, true);
+}

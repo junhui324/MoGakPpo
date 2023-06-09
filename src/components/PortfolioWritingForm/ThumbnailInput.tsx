@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import styles from './ThumbnailInput.module.scss';
 
 interface ThumbnailInputProps {
   onInputChange: (file: File) => void;
@@ -18,14 +19,16 @@ function ThumbnailInput({ onInputChange, imgFile }: ThumbnailInputProps) {
   }, [imgFile]);
 
   return (
-    <div>
-      <div>{thumbnailSrc && <img src={thumbnailSrc} alt="썸네일 미리보기" />}</div>
-      <input
-        type="file"
-        onChange={(e) => {
-          e.target.files && onInputChange(e.target.files?.[0]);
-        }}
-      />
+    <div className={styles.container}>
+      <div>
+        <input
+          type="file"
+          onChange={(e) => {
+            e.target.files && onInputChange(e.target.files?.[0]);
+          }}
+        />
+        {thumbnailSrc && <img src={thumbnailSrc} alt="썸네일 미리보기" />}
+      </div>
     </div>
   );
 }
