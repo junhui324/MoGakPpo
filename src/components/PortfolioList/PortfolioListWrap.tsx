@@ -15,7 +15,7 @@ import styles from './PortfolioListWrap.module.scss';
 // 상수
 const INITIAL_PAGE = 1;
 
-function PortfolioListWrap() {
+function PortfolioListWrap({ keyword }: { keyword: string }) {
   // 상태관리
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [data, setData] = useState<TypePortfolioList[] | null>(null);
@@ -38,15 +38,16 @@ function PortfolioListWrap() {
   const fetchData = async () => {
     // 로딩중 상태를 true로 변경합니다.
     setIsLoading(true);
+    console.log(page, totalPage);
 
     try {
-      const data = await Fetcher.getPortfolioList(page.current);
+      const data = await Fetcher.getPortfolioList(page.current, keyword);
 
       // 데이터에 맞게 페이지 최대 사이즈와 데이터를 설정합니다.
       setTotalPage(data.pageSize);
       setData((prev) => {
-        if (prev) return [...prev, ...data.pagenatedPortfolios];
-        return data.pagenatedPortfolios;
+        if (prev) return [...prev, ...data.pagenatedPortfolio];
+        return data.pagenatedPortfolio;
       });
 
       // 페이지 위치 증가
@@ -62,6 +63,15 @@ function PortfolioListWrap() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   // 키워드가 입력되면 모든 결과를 초기화합니다.
+  //   setData(null);
+  //   setTotalPage(INITIAL_PAGE);
+  //   page.current = INITIAL_PAGE;
+
+  //   fetchData();
+  // }, [keyword]);
 
   // totalPage가 갱신될때마다 observer 갱신
   useEffect(() => {
