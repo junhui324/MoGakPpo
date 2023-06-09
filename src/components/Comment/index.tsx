@@ -4,10 +4,8 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
 import { TypeComment } from '../../interfaces/Comment.interface';
-import { TypeUser } from '../../interfaces/User.interface';
 import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
 //util,모듈,컴포넌트
-import getUserInfo from '../../utils/getUserInfo';
 import getDateFormat from '../../utils/getDateFormat';
 import CommentModal from './CommentModal';
 import Pagination from '../../components/Pagination';
@@ -16,10 +14,13 @@ import styles from './Comment.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import NoContentImage from '../../assets/NoContent.png';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { loginAtom } from '../../recoil/loginState';
+import { useRecoilState } from 'recoil';
 
 export default function Comment() {
+  const LoginData = useRecoilState(loginAtom);
+  const user = LoginData[0];
   const [comments, setComments] = useState<TypeComment[]>([]);
-  const [user, setUser] = useState<TypeUser | null>(null);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
@@ -43,12 +44,8 @@ export default function Comment() {
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
-    } catch (error: any) {
-      const status = error.message;
-      if (status === '404') {
-        console.log('존재하는 댓글이 없습니다.');
-        setCommentTotal(0);
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -62,12 +59,6 @@ export default function Comment() {
       editTextareaRef.current.focus();
     }
   }, [comments, editingCommentId]);
-
-  //유저 정보 localStorage에서 받아오기
-  useEffect(() => {
-    const user = getUserInfo();
-    setUser(user);
-  }, []);
 
   //로그인 한 유저일 경우 렌더링되는 인풋영역
   const loggedInUserInput = () => {
@@ -174,15 +165,12 @@ export default function Comment() {
               //수정, 삭제버튼 이벤트 처리
               const isEditing = editingCommentId === comment.comment_id;
               const handleDeleteButtonClick = async () => {
-                if (window.confirm('댓글을 삭제하시겠습니까?' + comment.comment_id)) {
+                if (window.confirm('댓글을 삭제하시겠습니까?')) {
                   try {
                     await deleteComment(comment.comment_id);
                     setIsListUpdated(!isListUpdated);
-                  } catch (error: any) {
-                    const status = error.message;
-                    if (status === '404') {
-                      console.log('이미 삭제 된 댓글입니다.');
-                    }
+                  } catch (error) {
+                    console.log(error);
                   }
                 }
               };
@@ -214,7 +202,7 @@ export default function Comment() {
                   <div className={styles.header}>
                     <Link
                       to={
-                        comment.user_id === user?.user_id
+                        comment.user_id === Number(user?.user_id)
                           ? '/user/mypage'
                           : `/user/${comment.user_id}`
                       }
@@ -224,7 +212,7 @@ export default function Comment() {
                     <div className={styles.subHeader}>
                       <Link
                         to={
-                          comment.user_id === user?.user_id
+                          comment.user_id === Number(user?.user_id)
                             ? '/user/mypage'
                             : `/user/${comment.user_id}`
                         }
@@ -243,7 +231,7 @@ export default function Comment() {
                       <CommentModal
                         modalOpen={modalOpen && selectedCommentId === comment.comment_id}
                         setModalOpen={setModalOpen}
-                        isMyComment={comment.user_id === user?.user_id}
+                        isMyComment={comment.user_id === Number(user?.user_id)}
                         onClickEdit={handleEditButtonClick}
                         onClickDelete={handleDeleteButtonClick}
                         onClickCopy={handleCopyButtonClick}
@@ -260,7 +248,7 @@ export default function Comment() {
                     />
                   )}
                   {/* 로그인한 유저가 작성한 댓글이면서, 수정버튼을 클릭한 경우 */}
-                  {comment.user_id === user?.user_id && isEditing && (
+                  {comment.user_id === Number(user?.user_id) && isEditing && (
                     <div className={styles.buttonContainer}>
                       <button
                         className={styles.defaultButton}
