@@ -60,7 +60,7 @@ function ProjectWritingForm() {
         project_goal: data.project_goal,
         project_participation_time: data.project_participation_time,
         project_introduction: data.project_introduction,
-        project_img: null,
+        project_img: undefined,
       });
       setDescription(data.project_introduction);
       setStackList(data.project_required_stacks.stackList);

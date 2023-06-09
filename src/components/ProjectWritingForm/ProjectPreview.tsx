@@ -8,6 +8,8 @@ import * as Fetcher from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import * as Token from '../../apis/Token';
 
+import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
+
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   projectState,
@@ -15,6 +17,8 @@ import {
   projectIdState,
   modifyButtonClickState,
 } from '../../recoil/projectState';
+
+const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
 
 function ProjectPreview() {
   const [project, setProject] = useRecoilState(projectState);
@@ -79,7 +83,35 @@ function ProjectPreview() {
   //백엔드에 게시물 데이터 전송하는 POST 함수
   const postProject = async () => {
     try {
-      const res = await Fetcher.postProject(project);
+      // 에디터 이미지 파일로 변환
+      const imgFiles = base64sToFiles(
+        findBase64(project.project_introduction),
+        `${new Date().getTime()}`
+      );
+      // 에디터 이미지 서버 경로 추출
+      const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
+      // base64 => 에디터 이미지 서버 경로로 대체
+      const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
+
+      const formData = new FormData();
+
+      formData.append('project_type', project.project_type);
+      formData.append('project_title', project.project_title);
+      formData.append('project_summary', project.project_summary);
+      formData.append(
+        'project_recruitment_roles',
+        JSON.stringify(project.project_recruitment_roles.roleList)
+      );
+      formData.append(
+        'project_required_stacks',
+        JSON.stringify(project.project_required_stacks.stackList)
+      );
+      formData.append('project_goal', project.project_goal);
+      formData.append('project_participation_time', project.project_participation_time);
+      formData.append('project_introduction', newIntroduction);
+      imgFiles.forEach((file) => formData.append('project_img', file as File));
+
+      const res = await Fetcher.postProject(formData);
       return res.data.project_id;
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
@@ -102,7 +134,34 @@ function ProjectPreview() {
   //백엔드에 게시물 데이터 전송하는 PATCH 함수
   const patchProject = async () => {
     try {
-      const res = await Fetcher.patchProject(project, projectId);
+      const imgFiles = base64sToFiles(
+        findBase64(project.project_introduction),
+        `${new Date().getTime()}`
+      );
+      // 에디터 이미지 서버 경로 추출
+      const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
+      // base64 => 에디터 이미지 서버 경로로 대체
+      const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
+
+      const formData = new FormData();
+
+      formData.append('project_type', project.project_type);
+      formData.append('project_title', project.project_title);
+      formData.append('project_summary', project.project_summary);
+      formData.append(
+        'project_recruitment_roles',
+        JSON.stringify(project.project_recruitment_roles.roleList)
+      );
+      formData.append(
+        'project_required_stacks',
+        JSON.stringify(project.project_required_stacks.stackList)
+      );
+      formData.append('project_goal', project.project_goal);
+      formData.append('project_participation_time', project.project_participation_time);
+      formData.append('project_introduction', newIntroduction);
+      imgFiles.forEach((file) => formData.append('project_img', file as File));
+
+      const res = await Fetcher.patchProject(formData, projectId);
       return res.data.project_id;
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
@@ -121,6 +180,8 @@ function ProjectPreview() {
       navigate(ROUTES.HOME);
     }
   };
+
+  console.log(project);
 
   return (
     <>

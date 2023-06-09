@@ -15,7 +15,7 @@ export const portfolioState = atom<TypeProject>({
     project_goal: '',
     project_participation_time: '',
     project_introduction: '',
-    project_img: null,
+    project_img: undefined,
     project_bookmark_count: 0,
     project_comments_count: 0,
     project_views_count: 0,

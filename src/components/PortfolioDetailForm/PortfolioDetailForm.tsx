@@ -7,6 +7,9 @@ import { BsGithub } from 'react-icons/bs';
 // api
 import * as Fetcher from '../../apis/Fetcher';
 
+// 타입
+import { TypeTeamProjectUser } from '../../interfaces/User.interface';
+
 //recoil
 import { useRecoilState } from 'recoil';
 import { portfolioState } from '../../recoil/portfolioState';
@@ -21,22 +24,36 @@ const DEFAULT_STACK = '미정';
 function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
   const { id } = useParams();
+
+  const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
+
   // 업데이트 필요 시에 변경되는 상태
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-
-  useEffect(() => {
-    getPortfolio();
-  }, []);
 
   const getPortfolio = async () => {
     try {
       const data = await Fetcher.getProject(Number(id));
       setPortfolio(data);
-      console.log('project 87번 데이터 가져오기: ', portfolio);
+      //console.log('project 87번 데이터 가져오기: ', portfolio.project_required_stacks.stackList);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getUser = async () => {
+    try {
+      const data = await Fetcher.getPortfolioUsers();
+      setUserList(data.data);
+      //console.log(userList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPortfolio();
+    getUser();
+  }, []);
 
   // 게시글 아이디에 맞게 로딩할 것
   useEffect(() => {
@@ -143,13 +160,16 @@ function PortfolioDetailForm() {
         <div className={styles.participate}>
           <h2>프로젝트에 참여한 유저</h2>
           <div className={styles.userBox}>
-            <p>이새미</p>
-            <p>김차미</p>
-            <p>박지원</p>
-            <p>송현수</p>
-            <p>신혜지</p>
-            <p>이주영</p>
-            <p>장준희</p>
+            {userList.map((user, index) => (
+              <div className={styles.userInfoBox} key={index}>
+                <img src={user.user_img} alt={`${user.user_name} 프로필`} />
+                <div className={styles.userInfo}>
+                  <p>{user.user_name}</p>
+                  <p>{user.user_email}</p>
+                  <p>{user.user_career_goal}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
