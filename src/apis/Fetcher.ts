@@ -226,9 +226,11 @@ export async function getUsersByEmail(value: string): Promise<{
   return await Api.get(domain, params);
 }
 
+// 사용자 비밀번호 변경하기
 export async function patchPasswordReset(value:any):Promise<AxiosResponse>{
   const params = `/users/password/reset`;
   const data = {
+    user_id:value.user_id,
     user_password:value.user_password,
     user_new_password:value.user_new_password,
   }

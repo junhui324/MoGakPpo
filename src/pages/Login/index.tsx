@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef, useEffect } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore
@@ -10,6 +10,7 @@ import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
+import { TailSpin } from 'react-loader-spinner';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
@@ -19,8 +20,21 @@ function Login() {
   const passwordRef = useRef<any>(null);
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const [isKakaoLoading, setIsKakaoLoading] = useState(false);
   const navigate = useNavigate();
   const setLoginData = useSetRecoilState(loginAtom);
+  useEffect(() =>{
+    const code = new URL(window.location.href).searchParams.get("code");
+    
+    if(code === null){
+      console.log("code empty");
+    }
+    else{
+      console.log(code);
+      setIsKakaoLoading(true);
+    }
+
+    });
 
   function isEmailBlank(): Boolean {
     if (emailRef.current.value === '') {
@@ -116,14 +130,26 @@ function Login() {
   };
 
   const kakaoLogin = () =>{
-    const redirect_uri = "http://localhost:3000/kakao/auth";
+    const redirect_uri = "http://localhost:3000/login";
     const kakaoURL = `
-    https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&
-    redirect_uri=${redirect_uri}&response_type=code
-    `;
+    https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
 
     window.location.href = kakaoURL;
   };
+
+  if(isKakaoLoading){
+    return (
+      <>
+          <div className={styles.loadingContainer}>
+              <div className={styles.loadingComponent}>
+              <h3>정보를 가져오는 중 ...</h3>
+              <TailSpin color="#6636DA" height={50} width={50}/>
+              </div>
+          </div>
+      </>
+
+    );
+  }
 
   return (
     <>

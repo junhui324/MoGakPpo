@@ -67,6 +67,7 @@ export default function ChangePassword(){
 
     try{
       const res = await patchPasswordReset({
+        user_id:loginData.user_id,
         user_password:currentPasswordRef.current.value,
         user_new_password:newPasswordRef.current.value,
       });
