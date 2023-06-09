@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import './editor.css';
 import 'quill/dist/quill.snow.css';
+import { HighlightModules } from './Highlight';
 import styles from './Editor.module.scss';
 
 interface QuillEditorProps {
@@ -17,18 +18,24 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
     }
     quillRef.current = new Quill('#editor-container', {
       modules: {
+        ...HighlightModules,
         toolbar: [
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
-          ['link', 'code-block'],
+          ['link', { 'code-block': 'highlight' }],
           ['image'],
           [{ imageDrop: true, imagePaste: true }],
         ],
       },
       placeholder: '내용을 입력하세요...',
       theme: 'snow',
+    });
+
+    const codeBlockElements = document.querySelectorAll('.ql-syntax');
+    codeBlockElements.forEach((element) => {
+      element.classList.add('code-block');
     });
   }, []);
 
@@ -50,7 +57,7 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
     }
   }, [savedValue]);
 
-  return <div id="editor-container" />;
+  return <div className={styles.editor} id="editor-container" />;
 };
 
 export default QuillEditor;
