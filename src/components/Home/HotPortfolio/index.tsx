@@ -88,10 +88,10 @@ export default function HotPortfolio() {
         </div>
 
         <button className={styles.leftArrow} onClick={handleBack}>
-          <IoIosArrowBack />
+          {currentId === 0 ? '' : <IoIosArrowBack /> }
         </button>
         <button className={styles.rightArrow} onClick={handleNext}>
-          <IoIosArrowForward />
+          {currentId ===  totalItems - 1 ? '' : <IoIosArrowForward />}
         </button>
       </div>
     </div>
