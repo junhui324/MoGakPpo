@@ -13,10 +13,11 @@
 
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
     }
     input {
+      position: absolute;
       display: inline-block;
       z-index: 1;
       width: fit-content;
