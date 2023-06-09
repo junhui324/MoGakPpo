@@ -6,11 +6,13 @@ import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
 import { FaUserCircle } from 'react-icons/fa';
 import ProjectPostButton from '../common/ProjectPostButton';
-
-import { useRecoilState } from 'recoil';
+import { loginAtom } from '../../recoil/loginState';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
+import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function Header() {
+  const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [classification, setClassification] = useRecoilState(classificationState);
@@ -39,13 +41,15 @@ function Header() {
         <div className={styles.rightContainer}>
           {Token.getToken() ? (
             <>
+              {loginData.user_name && <p>{loginData.user_name}님 안녕하세요!</p>}{' '}
               <button
                 className={styles.userButton}
                 onClick={() => {
                   setModalOpen(true);
                 }}
               >
-                <FaUserCircle />
+                {<img src={loginData.user_img || DefaultUserImg} alt="유저 프로필" />}
+                {/* <FaUserCircle /> */}
               </button>
               <MyPageModal
                 modalOpen={modalOpen}
