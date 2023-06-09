@@ -2,40 +2,59 @@
   width: 1024px;
   overflow: hidden;
   position: relative;
-}
-.bannerList {
-  display: flex;
-  
-  .bannerItem {
-    flex: none;
+  .bannerList {
     display: flex;
-    justify-content: space-between;
-    width: 1024px;
-    background-color: rgb(244, 244, 244);
-    .bannerText {
+    
+    .bannerItem {
+      flex: none;
       display: flex;
-      flex-direction: column;
-      padding: 3rem 3rem;
-      .tag {
-        margin: 2rem 0;
-        font-size: 30px;
-        font-weight: 600;
-      }
-
-      .mainTitle {
-        font-size: 18px;
-        font-weight: 400;
-        margin: 0.8rem 0;
-      }
-
-      .subTitle {
-        font-size: 18px;
-        font-weight: 200;
+      justify-content: space-between;
+      width: 1024px;
+      background-color: rgb(244, 244, 244);
+      .bannerText {
+        display: flex;
+        flex-direction: column;
+        padding: 3rem 3rem;
+        .tag {
+          margin: 2rem 0;
+          font-size: 30px;
+          font-weight: 600;
+        }
+  
+        .mainTitle {
+          font-size: 18px;
+          font-weight: 400;
+          margin: 0.8rem 0;
+        }
+  
+        .subTitle {
+          font-size: 18px;
+          font-weight: 200;
+        }
       }
     }
   }
 
   .leftArrow {
+    position: absolute;
+    padding-left: 1rem;
+    top: 45%;
     background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    & > svg {
+      font-size: 20px;
+    }
+  }
+
+  .rightArrow {
+    @extend .leftArrow;
+    right: 0;
+    padding-right: 1rem;
+
+    & > svg {
+      font-size: 20px;
+    }
   }
 }

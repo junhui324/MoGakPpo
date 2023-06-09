@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Banner.module.scss';
 import BannerItem from './BannerItem';
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export default function Banner() {
   const [currentId, setCurrentId] = useState(0);
@@ -34,9 +35,12 @@ export default function Banner() {
           </div>
         ))}
       </div>
-      <button className={styles.leftArrow} onClick={handleBack}>◀️</button>
-      <span>{currentId + 1}</span>
-      <button className={styles.rightArrow} onClick={handleNext}>▶️</button>
+      <button className={styles.leftArrow} onClick={handleBack}>
+        <IoIosArrowBack />
+      </button>
+      <button className={styles.rightArrow} onClick={handleNext}>
+        <IoIosArrowForward />
+      </button>
     </div>
   );
 }
