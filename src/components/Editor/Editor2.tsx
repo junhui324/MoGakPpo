@@ -56,7 +56,7 @@ const QuillEditor = ({ savedValue, onEditorValueChange }: QuillEditorProps) => {
     }
   }, [savedValue]);
 
-  return <div id="editor-container" />;
+  return <div className={styles.editor} id="editor-container" />;
 };
 
 export default QuillEditor;

@@ -71,6 +71,11 @@
   // }
 }
 
+// Editor2 에서 사용하는 scss
+.editor {
+  @include basicCSS;
+}
+
 .editorContainer {
   margin-top: 30px;
   margin-bottom: 50px;
