@@ -2,10 +2,10 @@
   "pageSize": 3,
   "pagenatedPortfolios": [
     {
-      "portfolio_id": 10,
+      "portfolio_id": 19,
       "img": null,
-      "title": "제목10",
-      "summary": "요약10",
+      "title": "제목19",
+      "summary": "요약19",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -13,10 +13,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 11,
+      "portfolio_id": 20,
       "img": null,
-      "title": "제목11",
-      "summary": "요약11",
+      "title": "제목20",
+      "summary": "요약20",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -24,10 +24,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 12,
+      "portfolio_id": 21,
       "img": null,
-      "title": "제목12",
-      "summary": "요약12",
+      "title": "제목21",
+      "summary": "요약21",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -35,10 +35,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 13,
+      "portfolio_id": 22,
       "img": null,
-      "title": "제목13",
-      "summary": "요약13",
+      "title": "제목22",
+      "summary": "요약22",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -46,10 +46,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 14,
+      "portfolio_id": 23,
       "img": null,
-      "title": "제목14",
-      "summary": "요약14",
+      "title": "제목23",
+      "summary": "요약23",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -57,10 +57,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 15,
+      "portfolio_id": 24,
       "img": null,
-      "title": "제목15",
-      "summary": "요약15",
+      "title": "제목24",
+      "summary": "요약24",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -68,10 +68,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 16,
+      "portfolio_id": 25,
       "img": null,
-      "title": "제목16",
-      "summary": "요약16",
+      "title": "제목25",
+      "summary": "요약25",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -79,10 +79,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 17,
+      "portfolio_id": 26,
       "img": null,
-      "title": "제목17",
-      "summary": "요약17",
+      "title": "제목26",
+      "summary": "요약26",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
@@ -90,10 +90,10 @@
       "is_bookmarked": false
     },
     {
-      "portfolio_id": 18,
+      "portfolio_id": 27,
       "img": null,
-      "title": "제목18",
-      "summary": "요약18",
+      "title": "제목27",
+      "summary": "요약27",
       "stack": { "stackList": ["CSS"] },
       "views": 2,
       "comments": 2,
