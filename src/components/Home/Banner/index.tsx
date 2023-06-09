@@ -25,27 +25,29 @@ export default function Banner() {
   };
 
   return (
-    <div className={styles.slideArea}>
-      <div className={styles.bannerList} style={move}>
-        {BannerItem.map((item) => (
-          <div key={item.id} className={styles.bannerItem}>
-            <div className={styles.bannerText}>
-              <p className={styles.tag}>{item.tag}</p>
-              <h1 className={styles.mainTitle}>{item.main_title}</h1>
-              <p className={styles.subTitle}>{item.sub_title}</p>
+    <div className={styles.bannerContainer}>
+      <div className={styles.slideArea}>
+        <div className={styles.bannerList} style={move}>
+          {BannerItem.map((item) => (
+            <div key={item.id} className={styles.bannerItem}>
+              <div className={styles.bannerText}>
+                <p className={styles.tag}>{item.tag}</p>
+                <h1 className={styles.mainTitle}>{item.main_title}</h1>
+                <p className={styles.subTitle}>{item.sub_title}</p>
+              </div>
+              <img src={item.img} alt="배너" />
             </div>
-            <img src={item.img} alt="배너" />
-          </div>
-        ))}
-      </div>
-      <div className={styles.indicatorContainer}>
-        {BannerItem.map((item, index) => (
-          <div
-            key={item.id}
-            className={`${styles.indicator} ${currentId === index ? styles.active : ''}`}
-            onClick={() => handleIndicatorClick(index)}
-          />
-        ))}
+          ))}
+        </div>
+        <div className={styles.indicatorContainer}>
+          {BannerItem.map((item, index) => (
+            <div
+              key={item.id}
+              className={`${styles.indicator} ${currentId === index ? styles.active : ''}`}
+              onClick={() => handleIndicatorClick(index)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
