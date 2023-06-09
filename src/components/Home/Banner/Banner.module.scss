@@ -1,9 +1,11 @@
 .slideArea {
   width: 1024px;
   overflow: hidden;
+  position: relative;
 }
 .bannerList {
   display: flex;
+  
   .bannerItem {
     flex: none;
     display: flex;
@@ -13,6 +15,27 @@
     .bannerText {
       display: flex;
       flex-direction: column;
+      padding: 3rem 3rem;
+      .tag {
+        margin: 2rem 0;
+        font-size: 30px;
+        font-weight: 600;
+      }
+
+      .mainTitle {
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0.8rem 0;
+      }
+
+      .subTitle {
+        font-size: 18px;
+        font-weight: 200;
+      }
     }
+  }
+
+  .leftArrow {
+    background-color: transparent;
   }
 }

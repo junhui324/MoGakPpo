@@ -26,17 +26,17 @@ export default function Banner() {
         {BannerItem.map((item) => (
           <div key={item.id} className={styles.bannerItem}>
             <div className={styles.bannerText}>
-              <p>{item.tag}</p>
-              <h1>{item.main_title}</h1>
-              <p>{item.sub_title}</p>
+              <p className={styles.tag}>{item.tag}</p>
+              <h1 className={styles.mainTitle}>{item.main_title}</h1>
+              <p className={styles.subTitle}>{item.sub_title}</p>
             </div>
             <img src={item.img} alt="배너" />
           </div>
         ))}
       </div>
-      <button onClick={handleBack}>◀️</button>
+      <button className={styles.leftArrow} onClick={handleBack}>◀️</button>
       <span>{currentId + 1}</span>
-      <button onClick={handleNext}>▶️</button>
+      <button className={styles.rightArrow} onClick={handleNext}>▶️</button>
     </div>
   );
 }
