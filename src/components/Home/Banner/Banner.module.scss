@@ -4,6 +4,7 @@
   position: relative;
   .bannerList {
     display: flex;
+    transition: transform 1s ease;
     
     .bannerItem {
       flex: none;

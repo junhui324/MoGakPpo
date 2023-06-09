@@ -8,6 +8,14 @@ export default function Banner() {
   const [move, setMove] = useState<React.CSSProperties>();
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentId((curr) => (curr === totalItems - 1 ? 0 : curr + 1));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     setMove(() => ({ transform: `translateX(-${currentId * 100}%)` }));
   }, [currentId]);
 
