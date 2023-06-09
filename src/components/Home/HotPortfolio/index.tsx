@@ -46,7 +46,7 @@ export default function HotPortfolio() {
     <div className={styles.HotPortfolio}>
       <div className={styles.titleContainer}>
         <div className={styles.titleTextWrapper}>
-          <h1>인기 포트폴리오🎉</h1>
+          <h1>인기 포트폴리오</h1>
           <p>인기 포트폴리오 자랑글을 확인해보세요!</p>
         </div>
         <button>모두 보기</button>

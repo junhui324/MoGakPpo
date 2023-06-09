@@ -11,14 +11,15 @@
 
     .titleTextWrapper {
       & > h1 {
-        font-size: 30px;
+        font-size: 24px;
         font-weight: 600;
         padding: 1rem 0;
       }
     
       & > p {
-        font-size: 18px;
+        font-size: 14px;
         padding-bottom: 2rem;
+        color: rgba(0, 0, 0, 0.5);
       }
     }
 
@@ -47,6 +48,7 @@
         width: calc(1024px / 3);
         
         .portfolio {
+          position: relative;
           border-radius: 16px;
           box-sizing: border-box;
           border: 1px solid #e8e8e8;
@@ -101,8 +103,25 @@
             }
             
             .viewWrapper {
+              position: absolute;
+              bottom: 24px;
+    
+              & > * {
+                font-size: 14px;
+              }
+              
               .count {
-                margin: 0 1rem 0 0.2rem;
+                margin: 0 0.4rem;
+                color: rgb(168, 180, 197);
+    
+                &::after {
+                  margin-left: 4px;
+                  margin-right: 4px;
+                  content: '·';
+                }
+                &:last-child::after {
+                  content: none;
+                }
               }
             }
           }

@@ -11,14 +11,15 @@
 
     .titleTextWrapper {
       & > h1 {
-        font-size: 30px;
+        font-size: 24px;
         font-weight: 600;
         padding: 1rem 0;
       }
     
       & > p {
-        font-size: 18px;
+        font-size: 14px;
         padding-bottom: 2rem;
+        color: rgba(0, 0, 0, 0.5);
       }
     }
 
@@ -51,8 +52,9 @@
 
       
       .project {
+        position: relative;
         box-sizing: border-box;
-        height: 100%;
+        height: 220px;
         padding: 20px;
         padding: 24px 24px 24px 24px;
         border: 1px solid #e8e8e8;
@@ -123,8 +125,25 @@
         }
 
         .viewWrapper {
+          position: absolute;
+          bottom: 24px;
+
+          & > * {
+            font-size: 14px;
+          }
+          
           .count {
-            margin: 0 1rem 0 0.2rem;
+            margin: 0 0.4rem;
+            color: rgb(168, 180, 197);
+
+            &::after {
+              margin-left: 4px;
+              margin-right: 4px;
+              content: '·';
+            }
+            &:last-child::after {
+              content: none;
+            }
           }
         }
       }

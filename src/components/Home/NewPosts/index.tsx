@@ -45,7 +45,7 @@ export default function NewPosts() {
     <div className={styles.newPosts}>
       <div className={styles.titleContainer}>
         <div className={styles.titleTextWrapper}>
-          <h1>새로운 프로젝트🎉</h1>
+          <h1>새로운 프로젝트</h1>
           <p>새로 업데이트된 모집글을 확인해보세요!</p>
         </div>
         <button onClick={() => navigate(`${ROUTES.PROJECT}`)}>모두 보기</button>
