@@ -243,6 +243,8 @@ function ProjectWritingForm() {
         }
       } else if (!project[field as keyof typeof project]) {
         missingFields.push(field);
+      } else if (description === '<p><br></p>') {
+        missingFields.push(field);
       }
     });
 
@@ -263,6 +265,8 @@ function ProjectWritingForm() {
       project_introduction: description,
     });
   }, [description]);
+
+  console.log(description, project.project_introduction);
 
   useBeforeUnload();
 

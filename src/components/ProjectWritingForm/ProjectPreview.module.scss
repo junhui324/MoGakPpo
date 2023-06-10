@@ -9,7 +9,8 @@
 
 .container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  //grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 700px 424px;
   margin-top: $header-height;
 
   .leftContainer {
