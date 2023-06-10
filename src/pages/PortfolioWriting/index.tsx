@@ -20,6 +20,7 @@ const MAX_TITLE_LENGTH = 50;
 const MAX_SUMMARY_LENGTH = 150;
 export const MAX_MEMBERS_LENGTH = 10;
 const MAX_GITHUB_LENGTH = 100;
+const DEFAULT_EDITOR_LENGTH = 7;
 
 function PortfolioWriting() {
   const loginData = useRecoilValue(loginAtom);
@@ -28,9 +29,21 @@ function PortfolioWriting() {
   const [stacks, setStacks] = useState<string[]>([]);
   const [members, setMembers] = useState<TypeTeamProjectUser[]>([]);
   const [isPostSaved, setIsPostSaved] = useState<boolean>(false);
-  const [thumbnailFile, setThumbnailFile] = useState<File>();
+  const [thumbnailSrc, setThumbnailSrc] = useState('');
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [gitHubUrl, setGitHubUrl] = useState('');
   const quillRef = useRef<any>(null);
+
+  // 썸네일 src
+  useEffect(() => {
+    if (thumbnailFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setThumbnailSrc(reader.result as string);
+      };
+      reader.readAsDataURL(thumbnailFile);
+    }
+  }, [thumbnailFile]);
 
   //  퀼에디터 추가
   useEffect(() => {
@@ -57,6 +70,22 @@ function PortfolioWriting() {
     });
     return () => {};
   }, []);
+
+  const postData = async (formData: FormData) => {
+    try {
+      await portfolioPost(formData);
+    } catch (error: any) {
+      console.log(error.message);
+      if (error.message === '401') {
+        alert('로그인 후 이용해 주세요.');
+      } else if (error.message === '400') {
+        alert('입력되지 않은 정보를 확인해 주세요.');
+      } else {
+        console.log(error);
+      }
+    }
+    alert('등록 성공!');
+  };
 
   const handleThumbnailSelect = (file: File) => {
     setThumbnailFile(file);
@@ -116,48 +145,41 @@ function PortfolioWriting() {
     );
 
     // 에디터 이미지 서버 경로 추출
-    const urls = editorImgFiles.map((file) => `${IMG_DOMAIN}/static/portfolio/${file.name}}`);
+    const urls = editorImgFiles.map((file) => `${IMG_DOMAIN}/static/portfolio/${file.name}`);
 
     // base64 => 에디터 이미지 서버 경로로 대체
     const newDescription = base64imgSrcParser(editorHTML, urls);
     const formData = new FormData();
 
+    // 임시 저장 글 불러왔을 때 썸네일 이미지 파일로 변환
+    const newThumbnailFile = !thumbnailFile
+      ? base64sToFiles(
+          findBase64(thumbnailSrc),
+          `thumbnail-${loginData ? loginData.user_id : 'e'}-${new Date().getTime()}`
+        )[0]
+      : thumbnailFile;
+
+    formData.append('portfolio_img', newThumbnailFile as File);
     formData.append('portfolio_title', title);
     formData.append('portfolio_summary', summary);
     formData.append('portfolio_github', gitHubUrl || 'null');
     formData.append('portfolio_stacks', JSON.stringify(stacks || []));
-    formData.append('portfolio_img', thumbnailFile as File);
     formData.append('portfolio_description', newDescription);
     editorImgFiles.length > 0 &&
       editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
+    // formData.append('portfolio_members',members);
 
     const form = {
       title,
       summary,
       gitHubUrl,
       stacks,
-      thumbnailFile,
+      newThumbnailFile,
       newDescription,
       editorImgFiles,
     };
     console.log(form);
-    // formData.append('portfolio_members',members);
-
-    const postData = async () => {
-      try {
-        await portfolioPost(formData);
-      } catch (error: any) {
-        console.log(error.message);
-        if (error.message === '401') {
-          alert('로그인 후 이용해 주세요.');
-        } else if (error.message === '400') {
-          alert('입력되지 않은 정보를 확인해 주세요.');
-        } else {
-          console.log(error);
-        }
-      }
-      alert('등록 성공!');
-    };
+    console.log(editorHTML.length);
 
     if (!title) {
       alert('제목을 입력해 주세요.');
@@ -168,17 +190,15 @@ function PortfolioWriting() {
     } else if (!thumbnailFile) {
       alert('썸네일을 등록해 주세요.');
       return;
-    } else if (!editorHTML) {
-      alert('내용을 입력해 주세요.');
-      return;
     } else {
-      postData();
+      postData(formData);
     }
   };
 
   const handleSaveClick = () => {
     const editorHTML = quillRef.current!.root.innerHTML;
     if (
+      thumbnailSrc.length === 0 &&
       title.length === 0 &&
       summary.length === 0 &&
       editorHTML.length === 0 &&
@@ -190,7 +210,15 @@ function PortfolioWriting() {
       return;
     }
 
-    const form = { title, summary, stacks, description: editorHTML, gitHubUrl, members };
+    const form = {
+      thumbnailSrc,
+      title,
+      summary,
+      stacks,
+      description: editorHTML,
+      gitHubUrl,
+      members,
+    };
     localStorage.setItem('savedPortfolioPost', JSON.stringify(form));
     alert('임시저장 성공');
   };
@@ -209,14 +237,13 @@ function PortfolioWriting() {
     );
 
     if (confirm) {
-      // const editorHTML = quillRef.current!.querySelector('.ql-editor').innerHTML;
-
+      setThumbnailSrc(postData.thumbnailSrc);
+      setThumbnailFile(null);
       setTitle(postData.title);
-      //썸네일 임시저장은 어떻게.......?
       setSummary(postData.summary);
-      // setSavedDes(postData.description);
       setStacks(postData.stacks);
       setMembers(postData.members);
+      // 에디터 내용 불러오기
       quillRef.current.root.innerHTML = postData.description;
     }
   };
@@ -228,7 +255,11 @@ function PortfolioWriting() {
         <div className={styles.topContainer}>
           <div>
             <h3 className={styles.required}>썸네일</h3>
-            <ThumbnailInput imgFile={thumbnailFile!} onInputChange={handleThumbnailSelect} />
+            <ThumbnailInput
+              imgFile={thumbnailFile!}
+              onInputChange={handleThumbnailSelect}
+              thumbnailSrc={thumbnailSrc}
+            />
           </div>
           <div>
             <label>

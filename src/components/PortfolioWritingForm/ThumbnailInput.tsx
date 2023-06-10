@@ -1,15 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from './ThumbnailInput.module.scss';
 
 interface ThumbnailInputProps {
   onInputChange: (file: File) => void;
   imgFile: File;
+  thumbnailSrc: string;
 }
-function ThumbnailInput({ onInputChange, imgFile }: ThumbnailInputProps) {
-  const [thumbnailSrc, setThumbnailSrc] = useState('');
-  const [buttonShow, setButtonShow] = useState(true);
-
+function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc }: ThumbnailInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [buttonShow, setButtonShow] = useState(true);
 
   const onMouseHandler = () => {
     imgFile && setButtonShow(true);
@@ -18,16 +17,6 @@ function ThumbnailInput({ onInputChange, imgFile }: ThumbnailInputProps) {
   const leaveMouseHandler = () => {
     imgFile && setButtonShow(false);
   };
-
-  useEffect(() => {
-    if (imgFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setThumbnailSrc(reader.result as string);
-      };
-      reader.readAsDataURL(imgFile);
-    }
-  }, [imgFile]);
 
   return (
     <div className={styles.container}>
