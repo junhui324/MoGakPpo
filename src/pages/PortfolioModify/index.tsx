@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import PortfolioWritingForm from '../../components/PortfolioWritingForm/PortfolioWritingForm';
 import * as Fetcher from '../../apis/Fetcher';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as Interface from '../../interfaces/Portfolio.interface';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilValue } from 'recoil';
@@ -13,7 +13,7 @@ function PortfolioWriting() {
   const loginData = useRecoilValue(loginAtom);
   const params = useParams();
   const [portflioData, setPortfolioData] = useState<Interface.TypePortfolioDetail>();
-  const getPortfolioData = async () => {
+  const getPortfolioData = useCallback(async () => {
     try {
       const response = await Fetcher.getPortfolio(params.id!);
       const data = response.data;
@@ -26,10 +26,10 @@ function PortfolioWriting() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
   useEffect(() => {
     getPortfolioData();
-  }, []);
+  }, [getPortfolioData]);
 
   useEffect(() => {
     console.log(portflioData);
