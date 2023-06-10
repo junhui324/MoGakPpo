@@ -24,7 +24,9 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
       {/* 요약 */}
       <div>
         <div className={styles.paragraphTitle}>요약</div>
-        <div className={styles.paragraph}>{bodyData.project_summary}</div>
+        <div className={styles.paragraph}>
+          <div className={styles.paragraphChild}>{bodyData.project_summary}</div>
+        </div>
       </div>
 
       {/* 모집 역할 */}

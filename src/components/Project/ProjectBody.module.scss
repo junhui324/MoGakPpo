@@ -50,12 +50,16 @@ $middle-font-size: 16px;
       line-height: 24px;
       white-space: pre-wrap;
 
-      div {
-        max-width: 100%;
+      width: 700px;
+
+      .paragraphChild {
+        width: 100%;
+        word-break: break-all;
       }
 
       p {
         max-width: 100%;
+        word-break: break-all;
       }
 
       img {
