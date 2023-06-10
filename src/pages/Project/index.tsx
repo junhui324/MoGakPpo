@@ -23,7 +23,7 @@ import { BiDotsVertical } from 'react-icons/bi';
 import ROUTES from '../../constants/Routes';
 
 //recoil
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { projectIdState } from '../../recoil/projectState';
 
 const LOADING_LOGO_SIZE: number = 32;
@@ -61,7 +61,7 @@ function Project() {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   // Recoil State
-  const [projectIdRecoil, setProjectIdRecoil] = useRecoilState(projectIdState);
+  const setProjectIdRecoil = useSetRecoilState(projectIdState);
 
   // 데이터 API 호출 함수
   const fetchData = async () => {
