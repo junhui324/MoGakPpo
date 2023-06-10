@@ -1,18 +1,17 @@
-import Stack from '../../../components/Stack';
-import BasicTextForm from '../../../components/PortfolioWritingForm/BasicTextForm';
-import TitleTextForm from '../../../components/PortfolioWritingForm/TitleTextForm';
-import { useEffect, useState } from 'react';
-import Editor from '../../../components/Editor/Editor';
-import MemberSelectForm from '../../../components/PortfolioWritingForm/MemberSelectForm';
+import Stack from '../../components/Stack';
+import BasicTextForm from '../../components/PortfolioWritingForm/BasicTextForm';
+import TitleTextForm from '../../components/PortfolioWritingForm/TitleTextForm';
+import { useEffect, useRef, useState } from 'react';
+import MemberSelectForm from '../../components/PortfolioWritingForm/MemberSelectForm';
 import styles from './PortfolioCreateWriting.module.scss';
-import QuillEditor from '../../../components/Editor/Editor2';
-import { TypeTeamProjectUser } from '../../../interfaces/User.interface';
-import LengthCheck from '../../../components/ProjectWritingForm/LengthCheck';
-import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../../utils/base64Utils';
-import ThumbnailInput from '../../../components/PortfolioWritingForm/ThumbnailInput';
-import { loginAtom } from '../../../recoil/loginState';
+import QuillEditor from '../../components/Editor/Editor2';
+import { TypeTeamProjectUser } from '../../interfaces/User.interface';
+import LengthCheck from '../../components/ProjectWritingForm/LengthCheck';
+import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
+import ThumbnailInput from '../../components/PortfolioWritingForm/ThumbnailInput';
+import { loginAtom } from '../../recoil/loginState';
 import { useRecoilValue } from 'recoil';
-import { portfolioPost } from '../../../apis/Fetcher';
+import { portfolioPost } from '../../apis/Fetcher';
 
 const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
 
@@ -30,10 +29,12 @@ function PortfolioWriting() {
   const [description, setDescription] = useState('');
   const [members, setMembers] = useState<TypeTeamProjectUser[]>([]);
   const [isPostSaved, setIsPostSaved] = useState<boolean>(false);
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File>();
   const [gitHubUrl, setGitHubUrl] = useState('');
 
   const handleThumbnailSelect = (file: File) => {
+    // console.log(file);
     setThumbnailFile(file);
   };
 

@@ -19,7 +19,7 @@ import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
-import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
+import PortfolioWriting from './pages/PortfolioWriting';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
