@@ -42,6 +42,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [gitHubUrl, setGitHubUrl] = useState('');
   const quillRef = useRef<any>(null);
 
+  // 로그인 여부 확인
   useEffect(() => {
     if (!Token.getToken()) {
       alert('로그인 후 사용 가능합니다.');
@@ -110,7 +111,9 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
 
   const postData = async (formData: FormData) => {
     try {
-      const response = await Fetcher.postPortfolio(formData);
+      const response = editMode
+        ? await Fetcher.patchPortfolio(publishedPostData!.portfolio_id.toString(), formData)
+        : await Fetcher.postPortfolio(formData);
       navigate(`${ROUTES.PORTFOLIO_DETAIL}${response.data.portfolio_id}`);
     } catch (error: any) {
       console.log(error.message);
