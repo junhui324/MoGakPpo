@@ -1,6 +1,8 @@
 @import '/src/variables.scss';
 
 .listContainer {
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   margin-bottom: 32px;
   flex-direction: column;
@@ -73,6 +75,7 @@
       color: #d0d8de;
     }
     .title {
+      word-break: break-all;
       display: inline;
     }
     .newTag {
@@ -84,6 +87,8 @@
   }
 
   .summary {
+    word-break: break-all;
+    width: inherit;
     font-size: 18px;
     line-height: 1.6rem;
   }
@@ -104,6 +109,7 @@
   }
 
   .stacksContainer {
+    word-break: break-all;
     display: inline;
     line-height: 1.5rem;
     font-size: 16px;
