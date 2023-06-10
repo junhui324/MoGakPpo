@@ -1,5 +1,5 @@
 //패키지
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
@@ -32,7 +32,6 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.pathname.split('/')[1]); // /로 split해서첫번째 스트링이 projects =>project type을 스테이트로 만들어서
   const projectId = Number(params.id) || 0;
   const [postType, setPostType] = useState('');
   const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -48,7 +47,7 @@ export default function Comment() {
   }, []);
 
   //코멘트 api get요청
-  const getCommentData = async () => {
+  const getCommentData = useCallback(async () => {
     try {
       const getPostType = location.pathname.split('/')[1];
       const response = await getComment(getPostType, projectId, currPage + 1);
@@ -58,10 +57,10 @@ export default function Comment() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [isListUpdated, projectId, currPage]);
   useEffect(() => {
     getCommentData();
-  }, [isListUpdated, currPage]);
+  }, [getCommentData]);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
