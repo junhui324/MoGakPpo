@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
@@ -20,58 +20,59 @@ function ProjectListMain() {
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
 
-  const getProjectListData = async (): Promise<void> => {
-    try {
-      const projectList = await getProjects(
-        selectedCategory,
-        recruitingFilter,
-        keywordValue,
-        pageCount
-      );
-      const pageSize = projectList.data.pageSize;
-      setPageSize(pageSize);
-      pageSize <= 1 && setMoreData(false);
-
-      setProjectList(projectList.data.pagenatedProjects);
-    } catch (error: any) {
-      if (error.message === '404') {
-        setMoreData(false);
+  const getProjectListData = useCallback(
+    async (isPagenation?: boolean): Promise<void> => {
+      try {
+        const projectList = await getProjects(
+          selectedCategory,
+          recruitingFilter,
+          keywordValue,
+          pageCount
+        );
+        if (isPagenation) {
+          // 무한스크롤을 위한 다음 페이지 데이터 get
+          pageSize <= pageCount && setMoreData(false);
+          setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
+          setPageCount((prev) => prev + 1);
+        } else {
+          // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
+          const pageSize = projectList.data.pageSize;
+          setPageSize(pageSize);
+          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreDat 컴포넌트 렌더링x
+          pageSize <= 1 && setMoreData(false);
+          setProjectList(projectList.data.pagenatedProjects);
+          setPageCount((prev) => prev + 1);
+        }
+      } catch (error: any) {
+        if (error.message === '404') {
+          setMoreData(false);
+          setIsLoading(false);
+          setProjectList([]);
+        }
+      } finally {
         setIsLoading(false);
-        setProjectList([]);
       }
-    } finally {
-      setPageCount((prev) => prev + 1);
-      setIsLoading(false);
-    }
-  };
-
-  const getNextProjectListData = async (): Promise<void> => {
-    try {
-      const projectList = await getProjects(
-        selectedCategory,
-        recruitingFilter,
-        keywordValue,
-        pageCount
-      );
-      //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
-      pageSize <= pageCount && setMoreData(false);
-      setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
-      setPageCount((prev) => prev + 1);
-    } catch (error: any) {
-      if (error.message === '404') {
-        setMoreData(false);
-        setIsLoading(false);
-        setProjectList([]);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [selectedCategory, recruitingFilter, keywordValue, pageCount, pageSize]
+  );
 
   const target = useInfiniteScroll(async (entry, observer) => {
     //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
-    pageSize >= pageCount && (await getNextProjectListData());
+    pageSize >= pageCount && (await getProjectListData(true));
   });
+
+  useEffect(() => {
+    window.scroll(0, 0);
+    getProjectListData();
+  }, [selectedCategory, recruitingFilter]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      window.scroll(0, 0);
+      getProjectListData();
+    }, 700); // 디바운스 타임 설정
+    return () => clearTimeout(delayDebounceFn);
+  }, [keywordValue]);
 
   const handleCategoryClick = async (key: string) => {
     setSelectedCategory(key);
@@ -85,6 +86,7 @@ function ProjectListMain() {
     setKeywordValue(keyword);
     setPageCount(1);
     setMoreData(true);
+    setIsSearched(true);
   };
 
   const handleRecruitingSelect = (value: string) => {
@@ -92,25 +94,6 @@ function ProjectListMain() {
     setPageCount(1);
     setMoreData(true);
   };
-
-  useEffect(() => {
-    window.scroll(0, 0);
-    getProjectListData();
-  }, [selectedCategory, recruitingFilter]);
-
-  useEffect(() => {
-    setIsSearched(true);
-  }, [keywordValue]);
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      window.scroll(0, 0);
-      if (isSearched === true) {
-        getProjectListData();
-      }
-    }, 700); // 디바운스 타임 설정
-    return () => clearTimeout(delayDebounceFn);
-  }, [keywordValue, isSearched]);
 
   return (
     <div className={styles.container}>
