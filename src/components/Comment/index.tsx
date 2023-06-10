@@ -32,7 +32,7 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const projectId = Number(params.id) || 0;
+  const postId = Number(params.id) || 0;
   const [postType, setPostType] = useState('');
   const [commentTotal, setCommentTotal] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
@@ -50,14 +50,14 @@ export default function Comment() {
   const getCommentData = useCallback(async () => {
     try {
       const getPostType = location.pathname.split('/')[1];
-      const response = await getComment(getPostType, projectId, currPage + 1);
+      const response = await getComment(getPostType, postId, currPage + 1);
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
     } catch (error) {
       console.log(error);
     }
-  }, [isListUpdated, projectId, currPage]);
+  }, [isListUpdated, postId, currPage]);
   useEffect(() => {
     getCommentData();
   }, [getCommentData]);
@@ -94,10 +94,21 @@ export default function Comment() {
       }
       //신규 댓글 등록
       try {
-        await postComment(postType, {
-          project_id: projectId,
-          comment_content: postTextareaRef.current?.value || '',
-        });
+        switch (postType) {
+          case 'project':
+            await postComment(postType, {
+              project_id: postId,
+              comment_content: postTextareaRef.current?.value || '',
+            });
+            break;
+          case 'portfolio':
+            await postComment(postType, {
+              //@ts-ignore
+              portfolio_id: postId,
+              comment_content: postTextareaRef.current?.value || '',
+            });
+            break;
+        }
         setIsListUpdated(!isListUpdated);
         setIsInputClicked(!isInputClicked);
       } catch (error) {
