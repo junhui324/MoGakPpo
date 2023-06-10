@@ -99,12 +99,7 @@ function ProjectListMain() {
   }, [selectedCategory, recruitingFilter]);
 
   useEffect(() => {
-    if (keywordValue.length > 0) {
-      setIsSearched(true);
-    }
-    if (keywordValue.length === 0) {
-      setIsSearched(false);
-    }
+    setIsSearched(true);
   }, [keywordValue]);
 
   useEffect(() => {
