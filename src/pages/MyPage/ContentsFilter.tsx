@@ -9,7 +9,6 @@ function ContentsFilter({ onChange }: ContentsFilterProps) {
     <div className={styles.container}>
       <label>
         <select onChange={(e) => onChange(e.target.value)}>
-          <option value="all">전체</option>
           <option value="project">프로젝트</option>
           <option value="portfolio">포트폴리오</option>
         </select>

@@ -18,7 +18,7 @@ function Comments({ onError }: CommentsProps) {
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
-  const [selectedOption, setSelectedOption] = useState('all');
+  const [selectedOption, setSelectedOption] = useState('project');
   const navigate = useNavigate();
 
   const offset = currPage + 1;
@@ -49,7 +49,8 @@ function Comments({ onError }: CommentsProps) {
 
   const handleRecruitingSelect = (value: string) => {
     setSelectedOption(value);
-  };
+    setCurrPage(0);
+  }
 
   useEffect(() => {
     getUserCommentData();
