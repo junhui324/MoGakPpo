@@ -33,7 +33,7 @@ export default function Comment() {
   const location = useLocation();
   const navigate = useNavigate();
   const postId = Number(params.id) || 0;
-  const [postType, setPostType] = useState('');
+  const [postType, setPostType] = useState<'project' | 'portfolio'>('project');
   const [commentTotal, setCommentTotal] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
@@ -103,7 +103,6 @@ export default function Comment() {
             break;
           case 'portfolio':
             await postComment(postType, {
-              //@ts-ignore
               portfolio_id: postId,
               comment_content: postTextareaRef.current?.value || '',
             });

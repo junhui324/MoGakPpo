@@ -73,10 +73,14 @@ export async function getComment(
   const query = `page=${pageNumber}`;
   return await Api.get(API_KEY, params, false, query);
 }
-export async function postComment(
-  postType: string,
-  data: CommentType.TypeCommentPost
-): Promise<CommentType.TypeCommentPost> {
+export async function postComment<T extends 'project' | 'portfolio'>(
+  postType: T,
+  data: T extends 'project'
+    ? CommentType.TypeProjectCommentPost
+    : CommentType.TypePortfolioCommentPost
+): Promise<
+  T extends 'project' ? CommentType.TypeProjectCommentPost : CommentType.TypePortfolioCommentPost
+> {
   const params = `comments/${postType}`;
   return await Api.post(API_KEY, params, data, true);
 }
@@ -88,10 +92,12 @@ export async function putComment(
   const params = `comments/${postType}/${commentId}`;
   return await Api.put(API_KEY, params, data, true);
 }
-export async function deleteComment(
-  postType: string,
+export async function deleteComment<T extends 'project' | 'portfolio'>(
+  postType: T,
   commentId: number
-): Promise<CommentType.TypeCommentPost> {
+): Promise<
+  T extends 'project' ? CommentType.TypeProjectCommentPost : CommentType.TypePortfolioCommentPost
+> {
   const params = `comments/${postType}/${commentId}`;
   return await Api.delete(API_KEY, params, {}, true);
 }
@@ -232,12 +238,17 @@ export async function updateUserProfile(data: FormData): Promise<UserType.TypeUs
 }
 
 // 유저 작성 댓글 불러오기
-export async function getUserComments(type: string, page: number): Promise<{
+export async function getUserComments(
+  type: string,
+  page: number
+): Promise<{
   message: string;
-  data: { 
-    listLength: number; 
-    pageSize: number; 
-    pagenatedComments: CommentType.TypeMypageProjectComments | CommentType.TypeMypagePortfolioComments
+  data: {
+    listLength: number;
+    pageSize: number;
+    pagenatedComments:
+      | CommentType.TypeMypageProjectComments
+      | CommentType.TypeMypagePortfolioComments;
   };
 }> {
   const params = `comments/${type}/user?page=${page}`;
