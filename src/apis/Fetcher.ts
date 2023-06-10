@@ -8,7 +8,7 @@ import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
 import { AxiosResponse } from 'axios';
 import * as Token from './Token';
-import { TypePortfolioList } from '../interfaces/Portfolio.interface';
+import { TypePortfolioList, TypePortfolio } from '../interfaces/Portfolio.interface';
 
 const domain = `/mock`;
 
@@ -310,4 +310,10 @@ export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
   };
   const response: AxiosResponse = await Api.patch(API_KEY, params, data);
   return response;
+}
+// 포트폴리오 상세 정보 조회
+export async function getPortfolio(portfolioId: number): Promise<TypePortfolio> {
+  const params = `portfolios/info/${portfolioId}`;
+  const response: AxiosResponse = await Api.get(API_KEY, params);
+  return response.data;
 }

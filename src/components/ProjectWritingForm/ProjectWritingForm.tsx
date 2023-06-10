@@ -243,6 +243,8 @@ function ProjectWritingForm() {
         }
       } else if (!project[field as keyof typeof project]) {
         missingFields.push(field);
+      } else if (description === '<p><br></p>') {
+        missingFields.push(field);
       }
     });
 
@@ -265,6 +267,8 @@ function ProjectWritingForm() {
   }, [description]);
 
   useBeforeUnload();
+
+  console.log(description);
 
   return (
     <div className={styles.container}>

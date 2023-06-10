@@ -18,6 +18,7 @@ import DetailShareButton from './DetailShareButton';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
+import Comment from '../Comment/index';
 
 const DEFAULT_STACK = '미정';
 
@@ -32,7 +33,7 @@ function PortfolioDetailForm() {
 
   const getPortfolio = async () => {
     try {
-      const data = await Fetcher.getProject(Number(id));
+      const data = await Fetcher.getPortfolio(Number(id));
       setPortfolio(data);
     } catch (error) {
       console.log(error);
@@ -67,29 +68,29 @@ function PortfolioDetailForm() {
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
-          <h2>{portfolio.project_title}</h2>
+          <h2>{portfolio.portfolio_title}</h2>
         </div>
 
         <div className={styles.summary}>
           <h2>프로젝트 요약</h2>
-          <div className={styles.paragraph}>{portfolio.project_summary}</div>
+          <div className={styles.paragraph}>{portfolio.portfolio_summary}</div>
         </div>
 
         <div className={styles.etc}>
           <h2>이 프로젝트의 인기는?</h2>
           <span>👀</span>
-          <span className={styles.count}>{portfolio.project_views_count}</span>
+          <span className={styles.count}>{portfolio.portfolio_views_count}</span>
           <span>💬</span>
-          <span className={styles.count}>{portfolio.project_comments_count}</span>
+          <span className={styles.count}>{portfolio.portfolio_comments_count}</span>
           <span>📌</span>
-          <span className={styles.count}>{portfolio.project_bookmark_count}</span>
+          <span className={styles.count}>{portfolio.portfolio_bookmark_count}</span>
         </div>
 
         <div className={styles.stack}>
           <h2>프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
-            {portfolio.project_required_stacks?.stackList ? (
-              portfolio.project_required_stacks.stackList.map((stack) => {
+            {portfolio.portfolio_stacks?.stackList ? (
+              portfolio.portfolio_stacks.stackList.map((stack) => {
                 return (
                   <div className={styles.logoBlock} key={stack}>
                     <div className={styles.logoCircle}>
@@ -114,7 +115,9 @@ function PortfolioDetailForm() {
           <h2>프로젝트 상세 설명</h2>
           <div
             className={styles.paragraph}
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(portfolio.project_introduction) }}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(portfolio.portfolio_description),
+            }}
           ></div>
         </div>
       </div>
@@ -134,11 +137,11 @@ function PortfolioDetailForm() {
         <div className={styles.bookmark}>
           <ProjectBookmarkBlock
             bookmarksData={{
-              project_id: portfolio.project_id,
+              project_id: portfolio.portfolio_id,
               is_bookmarked: portfolio.is_bookmarked,
-              project_bookmark_count: portfolio.project_bookmark_count,
-              project_type: portfolio.project_type,
-              project_bookmark_users: portfolio.project_bookmark_users,
+              project_bookmark_count: portfolio.portfolio_bookmark_count,
+              project_type: 'portfolio',
+              project_bookmark_users: portfolio.portfolio_bookmark_users,
             }}
             fetchData={() => setIsUpdate(true)}
           />
