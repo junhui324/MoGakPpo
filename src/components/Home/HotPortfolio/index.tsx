@@ -14,7 +14,7 @@ export default function HotPortfolio() {
     try {
       const response = await getPortfolioList(1);
       //@ts-ignore
-      setPortfolioList(response.pagenatedPortfolio);
+      setPortfolioList(response.pagenatedPortfolios);
     } catch (error: any) {
       if (error.message === '404') {
         setPortfolioList([]);
@@ -67,10 +67,12 @@ export default function HotPortfolio() {
                   <div className={styles.contentWrapper}>
                     <h1 className={styles.title}>{portfolio.portfolio_title}</h1>
                     <h3 className={styles.summary}>{portfolio.portfolio_summary}</h3>
-                    <div className={styles.stack}>
-                      {portfolio.portfolio_stacks.stackList?.map((stack, index) => (
-                        <p key={`${stack}-${index}`}>{stack}</p>
-                      ))}
+                    <div className={styles.stackContainer}>
+                      <div className={styles.stack}>
+                        {portfolio.portfolio_stacks.stackList?.map((stack, index) => (
+                          <p key={`${stack}-${index}`}>{stack}</p>
+                        ))}
+                      </div>
                     </div>
                     <div className={styles.viewWrapper}>
                       <span>👀</span>
