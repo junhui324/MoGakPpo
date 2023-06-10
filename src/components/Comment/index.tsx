@@ -32,15 +32,26 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  console.log(location.pathname.split('/')[1]); // /로 split해서첫번째 스트링이 projects =>project type을 스테이트로 만들어서
   const projectId = Number(params.id) || 0;
+  const [postType, setPostType] = useState('');
   const [commentTotal, setCommentTotal] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
+  useEffect(() => {
+    if (location.pathname.split('/')[1] === 'projects') {
+      setPostType('project');
+    }
+    if (location.pathname.split('/')[1] === 'portfolios') {
+      setPostType('portfolio');
+    }
+  }, []);
 
   //코멘트 api get요청
   const getCommentData = async () => {
     try {
-      const response = await getComment(projectId, currPage + 1);
+      const getPostType = location.pathname.split('/')[1];
+      const response = await getComment(getPostType, projectId, currPage + 1);
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
@@ -84,7 +95,7 @@ export default function Comment() {
       }
       //신규 댓글 등록
       try {
-        await postComment({
+        await postComment(postType, {
           project_id: projectId,
           comment_content: postTextareaRef.current?.value || '',
         });
@@ -167,7 +178,7 @@ export default function Comment() {
               const handleDeleteButtonClick = async () => {
                 if (window.confirm('댓글을 삭제하시겠습니까?')) {
                   try {
-                    await deleteComment(comment.comment_id);
+                    await deleteComment(postType, comment.comment_id);
                     setIsListUpdated(!isListUpdated);
                   } catch (error) {
                     console.log(error);
@@ -182,7 +193,7 @@ export default function Comment() {
                   alert('댓글을 입력해주세요.');
                 }
                 try {
-                  await putComment(comment.comment_id, {
+                  await putComment(postType, comment.comment_id, {
                     comment_content: editTextareaRef.current?.value || '',
                   });
                   setIsListUpdated(!isListUpdated);
