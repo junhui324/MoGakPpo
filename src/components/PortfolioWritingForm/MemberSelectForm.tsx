@@ -3,6 +3,8 @@ import { getUsersByEmail } from '../../apis/Fetcher';
 import { useEffect, useState } from 'react';
 import styles from './MemberSelectForm.module.scss';
 import UserProfileList from '../common/User/UserProfileList';
+import LengthCheck from '../ProjectWritingForm/LengthCheck';
+import { MAX_MEMBERS_LENGTH } from '../../pages/PortfolioWriting';
 
 interface MemberSelectFormProps {
   selectedUserList: TypeTeamProjectUser[];
@@ -59,7 +61,10 @@ function MemberSelectForm({
           )}
         </div>
         <div className={styles.selectedUsersContainer}>
-          <h4>선택 한 멤버</h4>
+          <div className={styles.topContainer}>
+            <h4>선택 한 멤버</h4>
+            <LengthCheck valueLength={selectedUserList.length} maxLength={MAX_MEMBERS_LENGTH} />
+          </div>
           {selectedUserList && (
             <ul>
               {selectedUserList.map((userData) => (

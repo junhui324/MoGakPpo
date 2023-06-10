@@ -1,3 +1,4 @@
+import { MdCancel } from 'react-icons/md';
 import { TypeTeamProjectUser } from '../../../interfaces/User.interface';
 import styles from './UserProfileList.module.scss';
 
@@ -21,15 +22,17 @@ export default function UserProfileList({ userData, onUserClick, onUserUnselect 
       key={`user-${id}`}
       onClick={onUserClick ? () => onUserClick(userData) : undefined}
     >
-      <img src={img} alt={`${name} 프로필`} />
-      <div>
-        <p>{name}</p>
-        <p>{email}</p>
-        <p>{goal}</p>
+      <div className={styles.leftContainer}>
+        <img src={img} alt={`${name} 프로필`} />
+        <div>
+          <p>{name}</p>
+          <p>{email}</p>
+          <p>{goal}</p>
+        </div>
       </div>
       {onUserUnselect && (
         <button className={styles.unselectButton} onClick={() => onUserUnselect(id)}>
-          X
+          <MdCancel />
         </button>
       )}
     </li>
