@@ -47,7 +47,7 @@ function Comments({ onError }: CommentsProps) {
     navigate(`${ROUTES.PROJECT}${project_id}`);
   };
 
-  const handleRecruitingSelect = (value: string) => {
+  const handleSelectFilter = (value: string) => {
     setSelectedOption(value);
     setCurrPage(0);
   }
@@ -60,7 +60,7 @@ function Comments({ onError }: CommentsProps) {
     <div className={styles.container}>
       <div className={styles.topContainer}>
         <div className={styles.contentCount}>댓글 {totalComments}개</div>
-        <ContentsFilter onChange={handleRecruitingSelect}/>
+        <ContentsFilter onChange={handleSelectFilter}/>
       </div>
       {totalComments === 0 ? (
         <div className={styles.noComment}>
