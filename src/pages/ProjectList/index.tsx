@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
@@ -20,7 +20,7 @@ function ProjectListMain() {
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
 
-  const getProjectListData = async (): Promise<void> => {
+  const getProjectListData = useCallback(async (): Promise<void> => {
     try {
       const projectList = await getProjects(
         selectedCategory,
@@ -43,9 +43,9 @@ function ProjectListMain() {
       setPageCount((prev) => prev + 1);
       setIsLoading(false);
     }
-  };
+  }, [selectedCategory, recruitingFilter, keywordValue]);
 
-  const getNextProjectListData = async (): Promise<void> => {
+  const getNextProjectListData = useCallback(async (): Promise<void> => {
     try {
       const projectList = await getProjects(
         selectedCategory,
@@ -66,7 +66,7 @@ function ProjectListMain() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedCategory, recruitingFilter, keywordValue, pageCount]);
 
   const target = useInfiniteScroll(async (entry, observer) => {
     //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
@@ -85,6 +85,7 @@ function ProjectListMain() {
     setKeywordValue(keyword);
     setPageCount(1);
     setMoreData(true);
+    setIsSearched(true);
   };
 
   const handleRecruitingSelect = (value: string) => {
@@ -99,15 +100,6 @@ function ProjectListMain() {
   }, [selectedCategory, recruitingFilter]);
 
   useEffect(() => {
-    if (keywordValue.length > 0) {
-      setIsSearched(true);
-    }
-    if (keywordValue.length === 0) {
-      setIsSearched(false);
-    }
-  }, [keywordValue]);
-
-  useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       window.scroll(0, 0);
       if (isSearched === true) {
@@ -116,6 +108,14 @@ function ProjectListMain() {
     }, 700); // 디바운스 타임 설정
     return () => clearTimeout(delayDebounceFn);
   }, [keywordValue, isSearched]);
+
+  useEffect(() => {
+    console.log('1');
+  }, [getNextProjectListData]);
+
+  useEffect(() => {
+    console.log('2');
+  }, [getProjectListData]);
 
   return (
     <div className={styles.container}>
