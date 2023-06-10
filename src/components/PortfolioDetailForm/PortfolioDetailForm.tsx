@@ -18,7 +18,9 @@ import DetailShareButton from './DetailShareButton';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
+import ProjectModifyBlock from '../Project/ProjectModifyBlock';
 import Comment from '../Comment/index';
+import getUserInfo from '../../utils/getUserInfo';
 
 const DEFAULT_STACK = '미정';
 
@@ -47,6 +49,13 @@ function PortfolioDetailForm() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // 글 작성자가 현재 작성자인지 확인하는 함수
+  const isAuthor = (): boolean => {
+    // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
+    const userId = Number(getUserInfo()?.user_id);
+    return userId === portfolio?.user_id ? true : false;
   };
 
   useEffect(() => {
@@ -145,6 +154,16 @@ function PortfolioDetailForm() {
             }}
             fetchData={() => setIsUpdate(true)}
           />
+          {isAuthor() && (
+            <ProjectModifyBlock
+              modifyData={{
+                project_id: portfolio.portfolio_id,
+                user_id: portfolio.user_id,
+                project_recruitment_status: '',
+              }}
+              fetchData={() => setIsUpdate(true)}
+            />
+          )}
         </div>
 
         <div className={styles.link}>
