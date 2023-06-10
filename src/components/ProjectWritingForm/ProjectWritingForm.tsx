@@ -266,9 +266,9 @@ function ProjectWritingForm() {
     });
   }, [description]);
 
-  console.log(description, project.project_introduction);
-
   useBeforeUnload();
+
+  console.log(description);
 
   return (
     <div className={styles.container}>

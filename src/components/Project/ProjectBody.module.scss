@@ -50,6 +50,14 @@ $middle-font-size: 16px;
       line-height: 24px;
       white-space: pre-wrap;
 
+      div {
+        max-width: 100%;
+      }
+
+      p {
+        max-width: 100%;
+      }
+
       img {
         max-width: 100%;
         max-height: 80%;

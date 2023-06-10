@@ -1,6 +1,5 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
-import TextareaAutosize from 'react-textarea-autosize';
 
 // 타입
 import { TypeProjectBody } from '../../interfaces/Project.interface';
@@ -25,7 +24,7 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
       {/* 요약 */}
       <div>
         <div className={styles.paragraphTitle}>요약</div>
-        <TextareaAutosize className={styles.paragraph}>{bodyData.project_summary}</TextareaAutosize>
+        <div className={styles.paragraph}>{bodyData.project_summary}</div>
       </div>
 
       {/* 모집 역할 */}
@@ -99,7 +98,10 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
       <div className={styles.introduction}>
         <div className={styles.paragraphTitle}>소개</div>
         <div className={styles.paragraph}>
-          <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+          <div
+            className={styles.introductionParagraph}
+            dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+          />
         </div>
       </div>
     </div>
