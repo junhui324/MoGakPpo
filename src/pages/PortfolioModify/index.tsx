@@ -14,7 +14,6 @@ function PortfolioWriting() {
   const params = useParams();
   const [portflioData, setPortfolioData] = useState<Interface.TypePortfolioDetail>();
   const getPortfolioData = async () => {
-    console.log(loginData.user_id);
     try {
       const response = await Fetcher.getPortfolio(params.id!);
       const data = response.data;
