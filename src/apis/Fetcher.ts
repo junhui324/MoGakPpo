@@ -202,23 +202,6 @@ export async function getUserSelectPosts(
   return await Api.get(domain, params);
 }
 
-// 유저 댓글 중 선택한 댓글 불러오기
-export async function getUserSelectComments(
-  recruiting: string,
-  page: number
-): Promise<{
-  message: string;
-  data: {
-    listLength: number;
-    pageSize: number;
-    pagenatedComments: CommentType.TypeMypageComments;
-  };
-}> {
-  const params = `user/comments/recruiting=${recruiting}&page=${page}.json`;
-  // const query = `recruiting=${recruiting}&page=${page}`;
-  return await Api.get(domain, params);
-}
-
 // 유저 북마크 중 선택한 북마크 불러오기
 export async function getUserSelectBookMarks(
   recruiting: string,
@@ -243,17 +226,22 @@ export async function updateUserProfile(data: FormData): Promise<UserType.TypeUs
 }
 
 // 유저 작성 댓글 불러오기
-export async function getUserComments(page: number): Promise<{
+export async function getUserComments(type: string, page: number): Promise<{
   message: string;
-  data: { listLength: number; pageSize: number; pagenatedComments: CommentType.TypeMypageComments };
+  data: { 
+    listLength: number; 
+    pageSize: number; 
+    pagenatedComments: CommentType.TypeMypageProjectComments | CommentType.TypeMypagePortfolioComments
+  };
 }> {
-  const params = `comments/user?page=${page}`;
+  const params = `comments/${type}/user?page=${page}`;
   return await Api.get(API_KEY, params);
 }
+
 // 유저 작성 댓글 불러오기
 export async function getUserCommentsById(userId: number): Promise<{
   message: string;
-  data: { project_comments: CommentType.TypeMypageComments };
+  data: { project_comments: CommentType.TypeMypageProjectComments };
 }> {
   const params = `user/${userId}/comments.json`;
   return await Api.get(domain, params);
