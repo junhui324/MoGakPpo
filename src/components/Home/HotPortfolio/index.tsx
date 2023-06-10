@@ -8,13 +8,15 @@ import ROUTES from '../../../constants/Routes';
 
 export default function HotPortfolio() {
   const navigate = useNavigate();
+  const imgPlaceholder =
+    'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1';
 
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
   const getPortfolioListData = async (): Promise<void> => {
     try {
       const response = await getPortfolioList(1);
       //@ts-ignore
-      setPortfolioList(response.pagenatedPortfolio);
+      setPortfolioList(response.pagenatedPortfolios);
     } catch (error: any) {
       if (error.message === '404') {
         setPortfolioList([]);
@@ -57,20 +59,20 @@ export default function HotPortfolio() {
             <Link to={`/portfolios/${portfolio.portfolio_id}`} key={portfolio.portfolio_id}>
               <div className={styles.portfolioContainer}>
                 <div className={styles.portfolio}>
-                  <img
-                    src={
-                      portfolio.portfolio_thumbnail ||
-                      'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1'
-                    }
-                    alt="포트폴리오 썸네일"
-                  />
+                  {portfolio.portfolio_thumbnail ? (
+                    <img src={portfolio.portfolio_thumbnail} alt="포트폴리오 썸네일" />
+                  ) : (
+                    <img src={imgPlaceholder} alt="썸네일 불러오기 실패" />
+                  )}
                   <div className={styles.contentWrapper}>
                     <h1 className={styles.title}>{portfolio.portfolio_title}</h1>
                     <h3 className={styles.summary}>{portfolio.portfolio_summary}</h3>
-                    <div className={styles.stack}>
-                      {portfolio.portfolio_stacks.stackList?.map((stack, index) => (
-                        <p key={`${stack}-${index}`}>{stack}</p>
-                      ))}
+                    <div className={styles.stackContainer}>
+                      <div className={styles.stack}>
+                        {portfolio.portfolio_stacks.stackList?.map((stack, index) => (
+                          <p key={`${stack}-${index}`}>{stack}</p>
+                        ))}
+                      </div>
                     </div>
                     <div className={styles.viewWrapper}>
                       <span>👀</span>
