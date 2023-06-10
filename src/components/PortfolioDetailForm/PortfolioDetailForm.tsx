@@ -167,7 +167,10 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.link}>
-          <button className={styles.linkButton}>
+          <button
+            className={styles.linkButton}
+            onClick={() => window.open('https://github.com/junhui324', '_blank')}
+          >
             <BsGithub className={styles.logo} />
             <span>깃허브 링크</span>
           </button>
