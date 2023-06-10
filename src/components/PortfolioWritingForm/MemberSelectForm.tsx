@@ -63,7 +63,10 @@ function MemberSelectForm({
         <div className={styles.selectedUsersContainer}>
           <div className={styles.topContainer}>
             <h4>선택 한 멤버</h4>
-            <LengthCheck valueLength={selectedUserList.length} maxLength={MAX_MEMBERS_LENGTH} />
+            <LengthCheck
+              valueLength={selectedUserList ? selectedUserList.length : 0}
+              maxLength={MAX_MEMBERS_LENGTH}
+            />
           </div>
           {selectedUserList && (
             <ul>

@@ -16,6 +16,8 @@ import Quill from 'quill';
 import { HighlightModules } from '../Editor/Highlight';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
+import * as Token from '../../apis/Token';
+import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 
 const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
 const MAX_TITLE_LENGTH = 50;
@@ -25,7 +27,7 @@ const MAX_GITHUB_LENGTH = 100;
 
 interface PortfolioWritingProps {
   editMode?: boolean;
-  publishedPostData?: any;
+  publishedPostData?: TypePortfolioDetail;
 }
 function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps) {
   const navigate = useNavigate();
@@ -35,10 +37,17 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [stacks, setStacks] = useState<string[]>([]);
   const [members, setMembers] = useState<TypeTeamProjectUser[]>([]);
   const [isPostSaved, setIsPostSaved] = useState<boolean>(false);
-  const [thumbnailSrc, setThumbnailSrc] = useState('');
+  const [thumbnailSrc, setThumbnailSrc] = useState<string>('');
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [gitHubUrl, setGitHubUrl] = useState('');
   const quillRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!Token.getToken()) {
+      alert('로그인 후 사용 가능합니다.');
+      navigate(ROUTES.LOGIN);
+    }
+  }, []);
 
   // 썸네일 src
   useEffect(() => {
@@ -77,9 +86,31 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     return () => {};
   }, []);
 
+  // 수정 시 원래 데이터 불러오기
+  useEffect(() => {
+    if (publishedPostData) {
+      const {
+        portfolio_title,
+        portfolio_summary,
+        portfolio_stacks,
+        // portfolio_members,
+        portfolio_description,
+        portfolio_github,
+        portfolio_thumbnail,
+      } = publishedPostData;
+      setTitle(portfolio_title);
+      setSummary(portfolio_summary);
+      setStacks(portfolio_stacks.stackList);
+      // setMembers(portfolio_members);
+      setThumbnailSrc(portfolio_thumbnail);
+      setGitHubUrl(portfolio_github);
+      quillRef.current.root.innerHTML = portfolio_description;
+    }
+  }, [publishedPostData]);
+
   const postData = async (formData: FormData) => {
     try {
-      const response = await Fetcher.portfolioPost(formData);
+      const response = await Fetcher.postPortfolio(formData);
       navigate(`${ROUTES.PORTFOLIO_DETAIL}${response.data.portfolio_id}`);
     } catch (error: any) {
       console.log(error.message);
@@ -262,14 +293,17 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
             <label>
               <div className={styles.inputTop}>
                 <h3 className={styles.required}>프로젝트 제목</h3>
-                <LengthCheck valueLength={title.length} maxLength={MAX_TITLE_LENGTH} />
+                <LengthCheck valueLength={title ? title.length : 0} maxLength={MAX_TITLE_LENGTH} />
               </div>
               <TitleTextForm value={title} onChange={handleTitleChange} />
             </label>
             <label>
               <div className={styles.inputTop}>
                 <h3 className={styles.required}>요약</h3>
-                <LengthCheck valueLength={summary.length} maxLength={MAX_SUMMARY_LENGTH} />
+                <LengthCheck
+                  valueLength={summary ? summary.length : 0}
+                  maxLength={MAX_SUMMARY_LENGTH}
+                />
               </div>
               <BasicTextForm
                 value={summary}
@@ -286,7 +320,10 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         <label className={styles.gitHubContainer}>
           <div className={styles.inputTop}>
             <h3>깃허브 레포지토리 링크</h3>
-            <LengthCheck valueLength={gitHubUrl.length} maxLength={MAX_GITHUB_LENGTH} />
+            <LengthCheck
+              valueLength={gitHubUrl ? gitHubUrl.length : 0}
+              maxLength={MAX_GITHUB_LENGTH}
+            />
           </div>
           <BasicTextForm
             value={gitHubUrl}

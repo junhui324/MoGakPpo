@@ -23,6 +23,7 @@ import PortfolioWriting from './pages/PortfolioWriting';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
+import PortfolioModify from './pages/PortfolioModify';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
           <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
+          <Route path={`${ROUTES.PORTFOLIO_MODIFY}:id`} element={<PortfolioModify />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
           {/*포트폴리오 게시글 리스트*/}
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />

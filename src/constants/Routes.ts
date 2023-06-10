@@ -15,6 +15,7 @@ export const ROUTES = {
   KAKAO_AUTH: '/kakao/auth',
   PORTFOLIO_DETAIL: '/portfolios/',
   PORTFOLIO_LIST: '/portfolios',
+  PORTFOLIO_MODIFY: '/portfolios/modify/',
 };
 
 export default ROUTES;
