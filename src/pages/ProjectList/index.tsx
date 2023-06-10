@@ -20,57 +20,67 @@ function ProjectListMain() {
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
 
-  const getProjectListData = useCallback(async (): Promise<void> => {
-    try {
-      const projectList = await getProjects(
-        selectedCategory,
-        recruitingFilter,
-        keywordValue,
-        pageCount
-      );
-      const pageSize = projectList.data.pageSize;
-      setPageSize(pageSize);
-      pageSize <= 1 && setMoreData(false);
-
-      setProjectList(projectList.data.pagenatedProjects);
-    } catch (error: any) {
-      if (error.message === '404') {
-        setMoreData(false);
+  const getProjectListData = useCallback(
+    async (isPagenation?: boolean): Promise<void> => {
+      try {
+        const projectList = await getProjects(
+          selectedCategory,
+          recruitingFilter,
+          keywordValue,
+          pageCount
+        );
+        if (isPagenation) {
+          pageSize <= pageCount && setMoreData(false);
+          setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
+          setPageCount((prev) => prev + 1);
+        } else {
+          const pageSize = projectList.data.pageSize;
+          setPageSize(pageSize);
+          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreDat 컴포넌트 렌더링x
+          pageSize <= 1 && setMoreData(false);
+          setProjectList(projectList.data.pagenatedProjects);
+          setPageCount((prev) => prev + 1);
+        }
+      } catch (error: any) {
+        if (error.message === '404') {
+          setMoreData(false);
+          setIsLoading(false);
+          setProjectList([]);
+        }
+      } finally {
+        // setPageCount((prev) => prev + 1);
         setIsLoading(false);
-        setProjectList([]);
       }
-    } finally {
-      setPageCount((prev) => prev + 1);
-      setIsLoading(false);
-    }
-  }, [selectedCategory, recruitingFilter, keywordValue]);
+    },
+    [selectedCategory, recruitingFilter, keywordValue, pageCount]
+  );
 
-  const getNextProjectListData = useCallback(async (): Promise<void> => {
-    try {
-      const projectList = await getProjects(
-        selectedCategory,
-        recruitingFilter,
-        keywordValue,
-        pageCount
-      );
-      //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
-      pageSize <= pageCount && setMoreData(false);
-      setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
-      setPageCount((prev) => prev + 1);
-    } catch (error: any) {
-      if (error.message === '404') {
-        setMoreData(false);
-        setIsLoading(false);
-        setProjectList([]);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [selectedCategory, recruitingFilter, keywordValue, pageCount]);
+  // const getNextProjectListData = useCallback(async (): Promise<void> => {
+  //   try {
+  //     const projectList = await getProjects(
+  //       selectedCategory,
+  //       recruitingFilter,
+  //       keywordValue,
+  //       pageCount
+  //     );
+  //     //토탈 페이지 수의 전 페이지일 경우 moreData=false로 세팅해서 하단 로딩 컴포넌트 안보이게하기
+  //     pageSize <= pageCount && setMoreData(false);
+  //     setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
+  //     setPageCount((prev) => prev + 1);
+  //   } catch (error: any) {
+  //     if (error.message === '404') {
+  //       setMoreData(false);
+  //       setIsLoading(false);
+  //       setProjectList([]);
+  //     }
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, [selectedCategory, recruitingFilter, keywordValue, pageCount]);
 
   const target = useInfiniteScroll(async (entry, observer) => {
     //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
-    pageSize >= pageCount && (await getNextProjectListData());
+    pageSize >= pageCount && (await getProjectListData(true));
   });
 
   const handleCategoryClick = async (key: string) => {
@@ -109,9 +119,9 @@ function ProjectListMain() {
     return () => clearTimeout(delayDebounceFn);
   }, [keywordValue, isSearched]);
 
-  useEffect(() => {
-    console.log('1');
-  }, [getNextProjectListData]);
+  // useEffect(() => {
+  //   console.log('1');
+  // }, [getNextProjectListData]);
 
   useEffect(() => {
     console.log('2');
