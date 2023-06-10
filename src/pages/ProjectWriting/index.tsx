@@ -1,13 +1,13 @@
 import ProjectWritingForm from '../../components/ProjectWritingForm/ProjectWritingForm';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import { useEffect } from 'react';
 
 function ProjectWriting() {
-  const [classification, setClassification] = useRecoilState(classificationState);
+  const setClassification = useSetRecoilState(classificationState);
   useEffect(() => {
     setClassification('create');
-  }, [classification]);
+  }, [setClassification]);
   return <ProjectWritingForm />;
 }
 export default ProjectWriting;

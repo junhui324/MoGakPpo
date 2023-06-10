@@ -10,7 +10,7 @@ import * as Token from '../../apis/Token';
 
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
   projectState,
   classificationState,
@@ -21,10 +21,10 @@ import {
 const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
 
 function ProjectPreview() {
-  const [project, setProject] = useRecoilState(projectState);
+  const project = useRecoilValue(projectState);
   const classification = useRecoilValue(classificationState);
   const projectId = useRecoilValue(projectIdState);
-  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
+  const setModifyButtonClick = useSetRecoilState(modifyButtonClickState);
   const resetProject = useResetRecoilState(projectState);
   const [titleData, setTitleData] = useState<any>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
