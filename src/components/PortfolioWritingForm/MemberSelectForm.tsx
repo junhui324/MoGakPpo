@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './MemberSelectForm.module.scss';
 import UserProfileList from '../common/User/UserProfileList';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
-import { MAX_MEMBERS_LENGTH } from '../../pages/PortfolioWriting';
+import { MAX_MEMBERS_LENGTH } from './PortfolioWritingForm';
 
 interface MemberSelectFormProps {
   selectedUserList: TypeTeamProjectUser[];
