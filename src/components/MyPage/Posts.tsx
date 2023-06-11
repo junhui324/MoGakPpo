@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo, useCallback } from 'react';
 import { TypeUserProjectPosts } from '../../interfaces/Project.interface';
 import { TypeUserPortfolioPosts } from '../../interfaces/Portfolio.interface';
 import { getUserProjectPosts, getUserPortfolioPosts } from '../../apis/Fetcher';
-import Pagination from '../../components/Pagination';
+import Pagination from '../Pagination';
 import Project from './Project';
 import PortFolio from './Portfolio';
 import ContentsFilter from './ContentsFilter';

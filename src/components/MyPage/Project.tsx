@@ -1,19 +1,19 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Token from '../../apis/Token';
+import { deleteProjectBookmark, postProjectBookmark } from '../../apis/Fetcher';
 import {
   PROJECT_GOAL,
   PROJECT_PARTICIPATION_TIME,
   PROJECT_RECRUITMENT_STATUS,
   PROJECT_TYPE,
 } from '../../constants/project';
-import { TypeProjectList } from '@/interfaces/Project.interface';
-import { useNavigate } from 'react-router-dom';
+import { TypeProjectList } from '../../interfaces/Project.interface';
 import ROUTES from '../../constants/Routes';
-import styles from './project.module.scss';
-import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
-import React, { useState } from 'react';
-import { deleteProjectBookmark, postProjectBookmark } from '../../apis/Fetcher';
 import { getIsNew } from '../../utils/getIsNew';
 import getDateFormat from '../../utils/getDateFormat';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
+import styles from './project.module.scss';
 
 interface projectDataProps {
   projectData: TypeProjectList;
