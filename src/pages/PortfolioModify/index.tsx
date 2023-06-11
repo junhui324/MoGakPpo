@@ -27,13 +27,10 @@ function PortfolioWriting() {
       console.log(e);
     }
   }, []);
+
   useEffect(() => {
     getPortfolioData();
   }, [getPortfolioData]);
-
-  useEffect(() => {
-    console.log(portflioData);
-  }, [portflioData]);
 
   return portflioData ? (
     <PortfolioWritingForm editMode={true} publishedPostData={portflioData} />
