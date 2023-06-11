@@ -65,28 +65,34 @@ export async function deleteProjectBookmark(projectId: number): Promise<{ bookma
 
 // 코멘트 리스트 불러오기
 export async function getComment(
+  postType: string,
   projectId: number,
   pageNumber: number
 ): Promise<CommentType.TypeComment> {
-  const params = `projects/${projectId}/comments`;
+  const params = `${postType}/${projectId}/comments`;
   const query = `page=${pageNumber}`;
   return await Api.get(API_KEY, params, false, query);
 }
 export async function postComment(
+  postType: string,
   data: CommentType.TypeCommentPost
 ): Promise<CommentType.TypeCommentPost> {
-  const params = `comments`;
+  const params = `comments/${postType}`;
   return await Api.post(API_KEY, params, data, true);
 }
 export async function putComment(
+  postType: string,
   commentId: number,
   data: CommentType.TypeCommentPut
 ): Promise<CommentType.TypeCommentPut> {
-  const params = `comments/${commentId}`;
+  const params = `comments/${postType}/${commentId}`;
   return await Api.put(API_KEY, params, data, true);
 }
-export async function deleteComment(commentId: number): Promise<CommentType.TypeCommentPost> {
-  const params = `comments/${commentId}`;
+export async function deleteComment(
+  postType: string,
+  commentId: number
+): Promise<CommentType.TypeCommentPost> {
+  const params = `comments/${postType}/${commentId}`;
   return await Api.delete(API_KEY, params, {}, true);
 }
 

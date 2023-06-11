@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
 import { loginAtom } from '../../recoil/loginState';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
@@ -14,7 +14,7 @@ function Header() {
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [classification, setClassification] = useRecoilState(classificationState);
+  const setClassification = useSetRecoilState(classificationState);
 
   const onClickLogout = () => {
     Token.removeToken();
@@ -22,8 +22,7 @@ function Header() {
   };
   const handleLogoClick = () => {
     setClassification('/');
-    //todo - 라우터 주소로 수정할 것
-    navigate('/main');
+    navigate(`${ROUTES.MAIN}`);
   };
   const handleNavLinkClick = () => {
     setClassification('/');
@@ -37,15 +36,14 @@ function Header() {
             모프 🪄
           </span>
           <NavLink
-            to="/projects"
+            to={`${ROUTES.PROJECT_LIST}`}
             className={({ isActive }) => (isActive ? styles.active : '')}
             onClick={handleNavLinkClick}
           >
             <span>멤버 모집</span>
           </NavLink>
-          {/* todo - 프로젝트자랑 게시판 링크로 수정 */}
           <NavLink
-            to="/portfolios"
+            to={`${ROUTES.PORTFOLIO_LIST}`}
             className={({ isActive }) => (isActive ? styles.active : '')}
             onClick={handleNavLinkClick}
           >

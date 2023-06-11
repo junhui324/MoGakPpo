@@ -6,19 +6,19 @@ export default function Banner() {
   const [currentId, setCurrentId] = useState(0);
   const [move, setMove] = useState<React.CSSProperties>();
 
+  const totalItems = BannerItem.length;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentId((curr) => (curr === totalItems - 1 ? 0 : curr + 1));
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [totalItems]);
 
   useEffect(() => {
     setMove(() => ({ transform: `translateX(-${currentId * 100}%)` }));
   }, [currentId]);
-
-  const totalItems = BannerItem.length;
 
   const handleIndicatorClick = (id: number) => {
     setCurrentId(id);

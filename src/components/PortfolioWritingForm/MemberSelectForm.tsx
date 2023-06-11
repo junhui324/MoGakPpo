@@ -1,6 +1,6 @@
 import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import { getUsersByEmail } from '../../apis/Fetcher';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from './MemberSelectForm.module.scss';
 import UserProfileList from '../common/User/UserProfileList';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
@@ -11,31 +11,30 @@ interface MemberSelectFormProps {
   onMemberSelect: (userData: TypeTeamProjectUser) => void;
   onMemberUnselect: (userId: number) => void;
 }
+
 function MemberSelectForm({
   selectedUserList,
   onMemberSelect,
   onMemberUnselect,
 }: MemberSelectFormProps) {
-  const [searchTerm, setSearchTerm] = useState('');
   const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
-  const [showSelectBox, setShowSelectBox] = useState(false);
+  const [showSelectBox, setShowSelectBox] = useState<any>(false);
+
+  const inputTimerRef = useRef<any>(null);
 
   const handleSearchInputChange = (value: string) => {
-    setSearchTerm(value);
+    if (value.length > 0) {
+      getUsersBySearchTerm(value);
+      setShowSelectBox(true);
+      return;
+    }
+    setShowSelectBox(false);
   };
 
-  const getUsersBySearchTerm = async () => {
+  const getUsersBySearchTerm = async (searchTerm: string) => {
     const userListData = await getUsersByEmail(searchTerm);
     setUserList(userListData.data);
   };
-
-  useEffect(() => {
-    if (searchTerm.length > 0) {
-      setShowSelectBox(true);
-      getUsersBySearchTerm();
-    }
-    searchTerm.length === 0 && setShowSelectBox(false);
-  }, [searchTerm]);
 
   return (
     <div className={styles.container}>
@@ -45,8 +44,12 @@ function MemberSelectForm({
           <input
             type="text"
             placeholder="이메일로 검색해 주세요."
-            value={searchTerm}
-            onChange={(e) => handleSearchInputChange(e.target.value)}
+            onChange={(e) => {
+              clearTimeout(inputTimerRef.current);
+              inputTimerRef.current = setTimeout(() => {
+                handleSearchInputChange(e.target.value);
+              }, 500);
+            }}
           />
           {showSelectBox && (
             <ul>

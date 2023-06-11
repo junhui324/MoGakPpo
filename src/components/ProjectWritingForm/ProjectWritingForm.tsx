@@ -118,7 +118,7 @@ function ProjectWritingForm() {
         project_type: key,
       }));
     }
-  }, [type]);
+  }, [type, setProject]);
 
   useEffect(() => {
     if (stackList.length === 0 && project.project_required_stacks.stackList.length === 0) {
@@ -135,7 +135,7 @@ function ProjectWritingForm() {
         stackList: stackList,
       },
     }));
-  }, [stackList]);
+  }, [stackList, project.project_required_stacks.stackList.length, setProject, setStackList]);
 
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

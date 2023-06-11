@@ -33,18 +33,12 @@ function App() {
         <Routes>
           <Route path="*" element={<Error />} />
           <Route path="/" element={<Home />} />
-          {/* 메인 게시글 리스트*/}
           <Route path={ROUTES.PROJECT_LIST} element={<ProjectListMain />} />
-          {/* 게시글 생성(type=study/side-project) */}
           <Route path={`${ROUTES.CREATE}:type`} element={<ProjectWriting />} />
-          {/* 게시글 확인 */}
           <Route path={`${ROUTES.PROJECT}:id`} element={<Project />} />
-          {/* 유저관련 */}
           <Route path={ROUTES.LOGIN} element={<Login />} />
-          {/* <Route path="/register" element={}/> */}
           <Route path={ROUTES.EDIT_PASSWORD} element={<Password />} />
           <Route path={ROUTES.REGISTER} element={<Register />} />
-          {/* <Route path="/user/delete" element={}/> */}
           <Route path={ROUTES.MY_PAGE} element={<MyPage />} />
           <Route path={ROUTES.USER_UPDATE} element={<UpdateUser />} />
           <Route path={`${ROUTES.USER_PAGE}:id`} element={<UserPage />} />
@@ -54,7 +48,6 @@ function App() {
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
           <Route path={`${ROUTES.PORTFOLIO_MODIFY}:id`} element={<PortfolioModify />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
-          {/*포트폴리오 게시글 리스트*/}
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
         </Routes>
         <ChatBot />
