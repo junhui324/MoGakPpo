@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, useMemo, useCallback } from 'react';
 import { RiCloseFill, RiSearchLine } from 'react-icons/ri';
 import { getStackList } from '../../apis/Fetcher';
 import styles from './stack.module.scss';
@@ -19,46 +19,47 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const classification = useRecoilValue(classificationState);
 
-  const handleDelete = (stack: string) => {
-    setSelected((prevSelected) => prevSelected.filter((selectedStack) => selectedStack !== stack));
-  };
+  const handleDelete = useCallback((stack: string) => {
+    setSelected(prevSelected => prevSelected.filter(selectedStack => selectedStack !== stack));
+  }, []);
 
-  const handleAdd = (stack: string) => {
+  const handleAdd = useCallback((stack: string) => {
     if (!selected.includes(stack)) {
       setSelected((prevSelected) => [...prevSelected, stack]);
     }
-  };
+  }, [selected]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchWord(value);
 
     const filteredSuggestions = getSuggestions(value);
     setSuggestions(filteredSuggestions);
-  };
+  }, [searchWord]);
 
-  const handleClickInputCross = () => {
+  const handleClickInputCross = useCallback(() => {
     setSearchWord('');
-  };
+  }, []);
 
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = useCallback((suggestion: string) => {
     setSearchWord(suggestion);
     setSuggestions([]);
     handleAdd(suggestion);
     setSearchWord('');
-  };
+  }, [handleAdd]);
 
-  const getSuggestions = (value: string) => {
-    // 로컬에 저장된 데이터를 필터링
-    const filteredStacks = stacks.filter((item) => {
-      const lowerCaseItem = item.toLowerCase();
-      const lowerCaseValue = value.toLowerCase();
+  const getSuggestions = useMemo(() => {
+    return (value: string) => {
+      const filteredStacks = stacks.filter(item => {
+        const lowerCaseItem = item.toLowerCase();
+        const lowerCaseValue = value.toLowerCase();
 
-      return !selected.includes(item) && lowerCaseItem.startsWith(lowerCaseValue);
-    });
+        return !selected.includes(item) && lowerCaseItem.startsWith(lowerCaseValue);
+      });
 
-    return filteredStacks;
-  };
+      return filteredStacks;
+    };
+  }, [stacks, selected]);
 
   useEffect(() => {
     const getStackData = async () => {
