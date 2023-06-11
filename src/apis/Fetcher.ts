@@ -343,9 +343,17 @@ export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
   const response: AxiosResponse = await Api.patch(API_KEY, params, data);
   return response;
 }
+
 // 포트폴리오 상세 정보 조회
 export async function getPortfolio(portfolioId: number): Promise<TypePortfolio> {
   const params = `portfolios/info/${portfolioId}`;
   const response: AxiosResponse = await Api.get(API_KEY, params);
   return response.data;
+}
+
+// 포트폴리오 삭제
+export async function deletePortfolio(portfolioId: number): Promise<AxiosResponse> {
+  const params = `portfolios/posts/${portfolioId}`;
+  const response: AxiosResponse = await Api.delete(API_KEY, params);
+  return response;
 }

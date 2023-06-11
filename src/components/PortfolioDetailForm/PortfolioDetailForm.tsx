@@ -18,8 +18,7 @@ import DetailShareButton from './DetailShareButton';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
-import ProjectModifyBlock from '../Project/ProjectModifyBlock';
-import Comment from '../Comment/index';
+import PortfolioModifyBlock from './PortfolioModifyBlock';
 import getUserInfo from '../../utils/getUserInfo';
 
 const DEFAULT_STACK = '미정';
@@ -63,15 +62,15 @@ function PortfolioDetailForm() {
     getUser();
   }, []);
 
-  // 게시글 아이디에 맞게 로딩할 것
-  useEffect(() => {
-    getPortfolio();
+  // // 게시글 아이디에 맞게 로딩할 것
+  // useEffect(() => {
+  //   isUpdate && getPortfolio();
 
-    // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
-    return () => {
-      setIsUpdate(false);
-    };
-  }, [isUpdate]);
+  //   // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
+  //   return () => {
+  //     setIsUpdate(false);
+  //   };
+  // }, [isUpdate, getPortfolio]);
 
   return (
     <div className={styles.container}>
@@ -155,13 +154,11 @@ function PortfolioDetailForm() {
             fetchData={() => setIsUpdate(true)}
           />
           {isAuthor() && (
-            <ProjectModifyBlock
+            <PortfolioModifyBlock
               modifyData={{
-                project_id: portfolio.portfolio_id,
+                portfolio_id: portfolio.portfolio_id,
                 user_id: portfolio.user_id,
-                project_recruitment_status: '',
               }}
-              fetchData={() => setIsUpdate(true)}
             />
           )}
         </div>
