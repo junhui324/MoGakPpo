@@ -1,23 +1,24 @@
 import Stack from '../Stack';
 import BasicTextForm from './BasicTextForm';
 import TitleTextForm from './TitleTextForm';
-import { useEffect, useRef, useState } from 'react';
 import MemberSelectForm from './MemberSelectForm';
-import styles from './PortfolioCreateWriting.module.scss';
 import QuillEditor from '../Editor/Editor2';
-import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
-import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 import ThumbnailInput from './ThumbnailInput';
+import ROUTES from '../../constants/Routes';
+import styles from './PortfolioCreateWriting.module.scss';
+import * as Fetcher from '../../apis/Fetcher';
+import * as Token from '../../apis/Token';
+
+import { useEffect, useRef, useState } from 'react';
+import { TypeTeamProjectUser } from '../../interfaces/User.interface';
+import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilValue } from 'recoil';
-import * as Fetcher from '../../apis/Fetcher';
-import Quill from 'quill';
 import { HighlightModules } from '../Editor/Highlight';
 import { useNavigate } from 'react-router-dom';
-import ROUTES from '../../constants/Routes';
-import * as Token from '../../apis/Token';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
+import Quill from 'quill';
 
 const IMG_DOMAIN = process.env.REACT_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -29,6 +30,7 @@ interface PortfolioWritingProps {
   editMode?: boolean;
   publishedPostData?: TypePortfolioDetail;
 }
+
 function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps) {
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
@@ -42,6 +44,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [gitHubUrl, setGitHubUrl] = useState('');
 
   const quillRef = useRef<any>(null);
+  const thumbnailRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLInputElement>(null);
   const githubRef = useRef<HTMLInputElement>(null);
@@ -113,10 +116,12 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
   }, [publishedPostData]);
 
-  //로컬스토리지에 postData가 있으면 savedPost 상태 저장
   useEffect(() => {
+    //로컬스토리지에 postData가 있으면 savedPost 상태 저장
     const savedPostData = localStorage.getItem('savedPortfolioPost');
     savedPostData && setIsPostSaved(true);
+
+    titleRef.current?.focus();
   }, []);
 
   // post패치
@@ -217,26 +222,32 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
     // formData.append('portfolio_memberIds',JSON.stringify(members||[]));
 
-    console.log(editorHTML.length);
+    const refFocusAndScroll = (targetRef: any) => {
+      if (targetRef.current) {
+        targetRef.current.focus();
+        targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
+    };
 
     if (!title) {
       alert('제목을 입력해 주세요.');
-      titleRef.current && titleRef.current.focus();
+      refFocusAndScroll(titleRef!);
       return;
     } else if (!summary) {
       alert('요약을 입력해 주세요.');
-      summaryRef.current && summaryRef.current.focus();
+      refFocusAndScroll(summaryRef!);
       return;
     } else if (!newThumbnailFile) {
       alert('썸네일을 등록해 주세요.');
+      refFocusAndScroll(thumbnailRef!);
       return;
     } else if (editorHTML.length <= 12) {
       alert('내용이 너무 짧습니다.');
-      quillRef.current && quillRef.current.focus();
+      refFocusAndScroll(quillRef!);
       return;
     } else if (!gitHubUrl) {
       alert('깃허브 레포지토리 url을 입력해 주세요.');
-      githubRef.current && githubRef.current.focus();
+      refFocusAndScroll(githubRef!);
       return;
     } else {
       postData(formData);
@@ -298,6 +309,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
           <div>
             <h3 className={styles.required}>썸네일</h3>
             <ThumbnailInput
+              innerRef={thumbnailRef}
               imgFile={thumbnailFile!}
               onInputChange={handleThumbnailSelect}
               thumbnailSrc={thumbnailSrc}
@@ -341,6 +353,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
             />
           </div>
           <BasicTextForm
+            innerRef={githubRef}
             value={gitHubUrl}
             onChange={handleGitHubUrlChange}
             placeholder={'URL을 입력해 주세요.'}

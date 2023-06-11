@@ -5,8 +5,9 @@ interface ThumbnailInputProps {
   onInputChange: (file: File) => void;
   imgFile: File;
   thumbnailSrc: string;
+  innerRef?: any;
 }
-function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc }: ThumbnailInputProps) {
+function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc, innerRef }: ThumbnailInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [buttonShow, setButtonShow] = useState(true);
 
@@ -34,6 +35,7 @@ function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc }: ThumbnailInput
           className={styles.buttonContainer}
         >
           <button
+            ref={innerRef ? innerRef : undefined}
             className={`${styles.thumbnailButton}`}
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
           >
