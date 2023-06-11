@@ -1,6 +1,6 @@
 import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import { getUsersByEmail } from '../../apis/Fetcher';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import styles from './MemberSelectForm.module.scss';
 import UserProfileList from '../common/User/UserProfileList';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
@@ -18,7 +18,9 @@ function MemberSelectForm({
   onMemberUnselect,
 }: MemberSelectFormProps) {
   const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
-  const [showSelectBox, setShowSelectBox] = useState(false);
+  const [showSelectBox, setShowSelectBox] = useState<any>(false);
+
+  const inputTimerRef = useRef<any>(null);
 
   const handleSearchInputChange = (value: string) => {
     if (value.length > 0) {
@@ -30,7 +32,6 @@ function MemberSelectForm({
   };
 
   const getUsersBySearchTerm = async (searchTerm: string) => {
-    console.log(searchTerm);
     const userListData = await getUsersByEmail(searchTerm);
     setUserList(userListData.data);
   };
@@ -43,7 +44,12 @@ function MemberSelectForm({
           <input
             type="text"
             placeholder="이메일로 검색해 주세요."
-            onChange={(e) => handleSearchInputChange(e.target.value)}
+            onChange={(e) => {
+              clearTimeout(inputTimerRef.current);
+              inputTimerRef.current = setTimeout(() => {
+                handleSearchInputChange(e.target.value);
+              }, 500);
+            }}
           />
           {showSelectBox && (
             <ul>
