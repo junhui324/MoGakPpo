@@ -135,7 +135,7 @@ function ProjectWritingForm() {
         stackList: stackList,
       },
     }));
-  }, [stackList, setProject, setStackList]);
+  }, [stackList, project.project_required_stacks.stackList.length, setProject, setStackList]);
 
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -10,7 +10,7 @@ import * as Token from '../../apis/Token';
 
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   projectState,
   classificationState,

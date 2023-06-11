@@ -21,7 +21,7 @@ function BookMarks({ onError }: BookMarksProps) {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
   const [projects, setProjects] = useState<TypeUserPosts>([]);
-  const [recruitingFilter, setRecruitingFilter] = useState('all');
+  const [recruitingFilter, setRecruitingFilter] = useState('project');
 
   const offset = currPage + 1;
 

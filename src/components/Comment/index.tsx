@@ -1,5 +1,5 @@
 //패키지
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
@@ -32,25 +32,35 @@ export default function Comment() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const projectId = Number(params.id) || 0;
+  const postId = Number(params.id) || 0;
+  const [postType, setPostType] = useState<'project' | 'portfolio'>('project');
   const [commentTotal, setCommentTotal] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
+  useEffect(() => {
+    if (location.pathname.split('/')[1] === 'projects') {
+      setPostType('project');
+    }
+    if (location.pathname.split('/')[1] === 'portfolios') {
+      setPostType('portfolio');
+    }
+  }, []);
 
   //코멘트 api get요청
-  const getCommentData = async () => {
+  const getCommentData = useCallback(async () => {
     try {
-      const response = await getComment(projectId, currPage + 1);
+      const getPostType = location.pathname.split('/')[1];
+      const response = await getComment(getPostType, postId, currPage + 1);
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [isListUpdated, postId, currPage]);
   useEffect(() => {
     getCommentData();
-  }, [isListUpdated, currPage]);
+  }, [getCommentData]);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
@@ -84,10 +94,20 @@ export default function Comment() {
       }
       //신규 댓글 등록
       try {
-        await postComment({
-          project_id: projectId,
-          comment_content: postTextareaRef.current?.value || '',
-        });
+        switch (postType) {
+          case 'project':
+            await postComment(postType, {
+              project_id: postId,
+              comment_content: postTextareaRef.current?.value || '',
+            });
+            break;
+          case 'portfolio':
+            await postComment(postType, {
+              portfolio_id: postId,
+              comment_content: postTextareaRef.current?.value || '',
+            });
+            break;
+        }
         setIsListUpdated(!isListUpdated);
         setIsInputClicked(!isInputClicked);
       } catch (error) {
@@ -167,7 +187,7 @@ export default function Comment() {
               const handleDeleteButtonClick = async () => {
                 if (window.confirm('댓글을 삭제하시겠습니까?')) {
                   try {
-                    await deleteComment(comment.comment_id);
+                    await deleteComment(postType, comment.comment_id);
                     setIsListUpdated(!isListUpdated);
                   } catch (error) {
                     console.log(error);
@@ -182,7 +202,7 @@ export default function Comment() {
                   alert('댓글을 입력해주세요.');
                 }
                 try {
-                  await putComment(comment.comment_id, {
+                  await putComment(postType, comment.comment_id, {
                     comment_content: editTextareaRef.current?.value || '',
                   });
                   setIsListUpdated(!isListUpdated);
