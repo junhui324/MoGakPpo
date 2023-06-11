@@ -1,6 +1,6 @@
 import styles from './posts.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { TypeUserProjectPosts } from '../../interfaces/Project.interface';
 import { TypeUserPortfolioPosts } from '../../interfaces/Portfolio.interface';
 import { getUserProjectPosts, getUserPortfolioPosts } from '../../apis/Fetcher';
@@ -21,9 +21,11 @@ function Posts({ onError }: PostsProps) {
   const [portfolios, setPortfolios] = useState<TypeUserPortfolioPosts>([]);
   const [selectedOption, setSelectedOption] = useState('project');
 
-  const offset = currPage + 1;
+  const offset = useMemo(() => {
+    return currPage + 1;
+  }, [currPage]);
 
-  const getUserProjectPostsData = async () => {
+  const getUserProjectPostsData = useCallback(async () => {
     try {
       switch(selectedOption) {
         case 'project': {
@@ -53,7 +55,7 @@ function Posts({ onError }: PostsProps) {
         }
       }
     }
-  };
+  }, [offset, selectedOption, onError]);
 
   const handleSelectFilter = (value: string) => {
     setSelectedOption(value);
@@ -64,7 +66,7 @@ function Posts({ onError }: PostsProps) {
     getUserProjectPostsData();
     setProjects([]);
     setPortfolios([]);
-  }, [selectedOption , currPage]);
+  }, [getUserProjectPostsData]);
 
   return (
     <div className={styles.container}>

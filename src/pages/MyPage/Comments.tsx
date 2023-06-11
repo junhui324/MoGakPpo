@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEvent } from 'react';
+import { useState, useEffect, useMemo, useCallback, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './comments.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
@@ -21,9 +21,11 @@ function Comments({ onError }: CommentsProps) {
   const [selectedOption, setSelectedOption] = useState('project');
   const navigate = useNavigate();
 
-  const offset = currPage + 1;
+  const offset = useMemo(() => {
+    return currPage + 1;
+  }, [currPage]);
 
-  const getUserCommentData = async () => {
+  const getUserCommentData = useCallback(async () => {
     try {
       const { data } = await getUserComments(selectedOption, offset);
       
@@ -39,7 +41,7 @@ function Comments({ onError }: CommentsProps) {
         }
       }
     }
-  };
+  }, [offset, selectedOption, onError]);
 
   const handleClickComment = (event: MouseEvent<HTMLDivElement>, project_id: number) => {
     event.preventDefault();
@@ -54,7 +56,7 @@ function Comments({ onError }: CommentsProps) {
 
   useEffect(() => {
     getUserCommentData();
-  }, [selectedOption, currPage]);
+  }, [getUserCommentData]);
 
   return (
     <div className={styles.container}>

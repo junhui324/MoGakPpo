@@ -31,7 +31,7 @@ function MyPage() {
       alert(errorMessage);
       navigate(`${ROUTES.LOGIN}`);
     }
-  }, [errorMessage]);
+  }, [errorMessage, navigate]);
 
   return (
     <div className={styles.container}>
