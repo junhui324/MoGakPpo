@@ -116,13 +116,18 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         : await Fetcher.postPortfolio(formData);
       navigate(`${ROUTES.PORTFOLIO_DETAIL}${response.data.portfolio_id}`);
     } catch (error: any) {
-      console.log(error.message);
-      if (error.message === '401') {
-        alert('로그인 후 이용해 주세요.');
-      } else if (error.message === '400') {
-        alert('입력되지 않은 정보를 확인해 주세요.');
-      } else {
-        console.log(error);
+      switch (error.message) {
+        case 401: {
+          alert('로그인 후 이용해 주세요.');
+          break;
+        }
+        case 400: {
+          alert('입력되지 않은 정보를 확인해 주세요.');
+          break;
+        }
+        default: {
+          console.log(error);
+        }
       }
     }
   };
