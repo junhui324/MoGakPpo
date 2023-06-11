@@ -26,3 +26,5 @@ export type TypePortfolioList = Pick<
   | 'portfolio_created_at'
   | 'is_bookmarked'
 >;
+
+export type TypeUserPortfolioPosts = TypePortfolioList[];

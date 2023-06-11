@@ -2,7 +2,7 @@ import styles from './posts.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { useEffect, useState } from 'react';
 import { getUserBookmarks, getUserSelectBookMarks } from '../../apis/Fetcher';
-import { TypeUserPosts } from '../../interfaces/Project.interface';
+import { TypeUserProjectPosts } from '../../interfaces/Project.interface';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
 import Pagination from '../../components/Pagination';
@@ -20,7 +20,7 @@ function BookMarks({ onError }: BookMarksProps) {
   const [totalLength, setTotalLength] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
-  const [projects, setProjects] = useState<TypeUserPosts>([]);
+  const [projects, setProjects] = useState<TypeUserProjectPosts>([]);
   const [recruitingFilter, setRecruitingFilter] = useState('project');
 
   const offset = currPage + 1;

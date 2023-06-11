@@ -1,8 +1,8 @@
 import styles from './posts.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { useEffect, useState } from 'react';
-import { TypeUserPosts } from '../../interfaces/Project.interface';
-import { getUserPostsById } from '../../apis/Fetcher';
+import { TypeUserProjectPosts } from '../../interfaces/Project.interface';
+import { getUserProjectPostsById } from '../../apis/Fetcher';
 import Project from '../../components/ProjectList/Project';
 import LoadingProject from '../../components/ProjectList/LoadingProject';
 import { useParams } from 'react-router-dom';
@@ -17,10 +17,10 @@ function Posts() {
   const [isLoading, setIsLoading] = useState(false);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
-  const [projects, setProjects] = useState<TypeUserPosts>([]);
-  const getUserPostsData = async () => {
+  const [projects, setProjects] = useState<TypeUserProjectPosts>([]);
+  const getUserProjectPostsData = async () => {
     try {
-      const userPostsData = await getUserPostsById(userId, currPage + 1);
+      const userPostsData = await getUserProjectPostsById(userId, currPage + 1);
       //@ts-ignore
       setProjects(userPostsData.data.pagenatedProjects);
       //@ts-ignore
@@ -33,7 +33,7 @@ function Posts() {
   };
 
   useEffect(() => {
-    getUserPostsData();
+    getUserProjectPostsData();
   }, [currPage]);
 
   return (

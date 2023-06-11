@@ -3,6 +3,7 @@
 
 import * as Api from './Api';
 import * as ProjectType from '../interfaces/Project.interface';
+import * as PortfolioType from '../interfaces/Portfolio.interface';
 import * as UserType from '../interfaces/User.interface';
 import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
@@ -149,17 +150,36 @@ export async function getStackList(): Promise<{
   return await Api.get(API_KEY, params, false);
 }
 
-// 유저 작성 게시글 불러오기
-export async function getUserPosts(page: number): Promise<{
+// 유저 작성 프로젝트 게시글 불러오기
+export async function getUserProjectPosts(page: number): Promise<{
   message: string;
-  data: { listLength: number; pageSize: number; pagenatedProjects: ProjectType.TypeUserPosts };
+  data: { 
+    listLength: number; 
+    pageSize: number; 
+    pagenatedProjects: ProjectType.TypeUserProjectPosts
+  };
 }> {
   const params = `projects/user`;
   const query = `page=${page}`;
   return await Api.get(API_KEY, params, true, query);
 }
+
+// 유저 작성 포트폴리오 게시글 불러오기
+export async function getUserPortfolioPosts(page: number): Promise<{
+  message: string;
+  data: { 
+    listLength: number; 
+    pageSize: number; 
+    pagenatedPortfolios: PortfolioType.TypeUserPortfolioPosts
+  };
+}> {
+  const params = `portfolios/user`;
+  const query = `page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
+}
+
 // n번 유저 작성 게시글 불러오기
-export async function getUserPostsById(
+export async function getUserProjectPostsById(
   userId: number,
   page: number
 ): Promise<{
@@ -167,7 +187,7 @@ export async function getUserPostsById(
   data: {
     pagenatedProjects(pagenatedProjects: any): unknown;
     pageSize(pageSize: any): unknown;
-    user_projects: ProjectType.TypeUserPosts;
+    user_projects: ProjectType.TypeUserProjectPosts;
   };
 }> {
   const params = `projects/user/${userId}`;
@@ -178,28 +198,11 @@ export async function getUserPostsById(
 // 유저 북마크 게시글 불러오기
 export async function getUserBookmarks(page: number): Promise<{
   message: string;
-  data: { listLength: number; pageSize: number; pagenatedProjects: ProjectType.TypeUserPosts };
+  data: { listLength: number; pageSize: number; pagenatedProjects: ProjectType.TypeUserProjectPosts };
 }> {
   const params = `projects/user/bookmark`;
   const query = `page=${page}`;
   return await Api.get(API_KEY, params, true, query);
-}
-
-// 유저 게시글 중 선택한 게시글 불러오기
-export async function getUserSelectPosts(
-  recruiting: string,
-  page: number
-): Promise<{
-  message: string;
-  data: {
-    listLength: number;
-    pageSize: number;
-    pagenatedProjects: ProjectType.TypeUserPosts;
-  };
-}> {
-  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
-  // const query = `recruiting=${recruiting}&page=${page}`;
-  return await Api.get(domain, params);
 }
 
 // 유저 북마크 중 선택한 북마크 불러오기
@@ -211,7 +214,7 @@ export async function getUserSelectBookMarks(
   data: {
     listLength: number;
     pageSize: number;
-    pagenatedProjects: ProjectType.TypeUserPosts;
+    pagenatedProjects: ProjectType.TypeUserProjectPosts;
   };
 }> {
   const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
