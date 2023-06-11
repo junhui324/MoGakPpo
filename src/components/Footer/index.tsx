@@ -2,7 +2,6 @@ import ROUTES from '../../constants/Routes';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Footer.module.scss';
 import { IoIosArrowForward } from 'react-icons/io';
-import ChatBot from '../ChatBot';
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -11,7 +10,7 @@ export default function Footer() {
   };
   return (
     <div className={styles.footerContainer}>
-      <div className={styles.footerHeader}>
+      <div className={styles.footerTop}>
         <span className={styles.logo} onClick={handleLogoClick}>
           모프 🪄
         </span>
@@ -21,8 +20,8 @@ export default function Footer() {
           <h3>고객 문의</h3>
           <h2>02-1234-5678</h2>
           <span>
-            10:00 - 18:00
-            <strong>주말, 공휴일 제외</strong>
+            11:00 - 24:00
+            <strong>주말, 공휴일 포함</strong>
           </span>
           <br />
           <span>moppe_help@elice.com</span>
@@ -38,6 +37,29 @@ export default function Footer() {
           <Link to={`${ROUTES.PORTFOLIO_LIST}`}>프로젝트 전체보기</Link>
           {/* <Link to={``}>내 프로젝트 자랑하기</Link> */}
         </div>
+        <div className={styles.menuList}>
+          <Link
+            to="https://www.notion.so/elice/7-ICE-d58d132073614f2b8e2a425ee5325e0c?pvs=4"
+            className={styles.linkMenu}
+          >
+            ICE팀의 여정
+            <IoIosArrowForward />
+          </Link>
+          <br />
+          <Link
+            to="https://kdt-gitlab.elice.io/sw_track/class_04/web_2_project/team07"
+            className={styles.linkMenu}
+          >
+            Git Lab
+            <IoIosArrowForward />
+          </Link>
+        </div>
+      </div>
+      <div className={styles.footerBottom}>
+        <p>(팀)ICE | 서울 성동구 아차산로17길 48 성수낙낙 2층 엘리스랩 </p>
+        <p>이새미 | 박지원 | 신혜지 | 이주영 | 장준희 | 김차미 | 송현수</p>
+        <br />
+        <p>© 2023 Team ICE, Elice SW4</p>
       </div>
     </div>
   );
