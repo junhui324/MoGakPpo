@@ -62,6 +62,8 @@ function BookMarks({ onError }: BookMarksProps) {
 
   useEffect(() => {
     getUserProjectPostsData();
+    setProjects([]);
+    setPortfolios([]);
   }, [selectedOption , currPage]);
 
   return (

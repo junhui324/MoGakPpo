@@ -62,6 +62,8 @@ function Posts({ onError }: PostsProps) {
 
   useEffect(() => {
     getUserProjectPostsData();
+    setProjects([]);
+    setPortfolios([]);
   }, [selectedOption , currPage]);
 
   return (
