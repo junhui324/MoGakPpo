@@ -19,7 +19,7 @@ import ROUTES from '../../constants/Routes';
 import * as Token from '../../apis/Token';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 
-const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
+const IMG_DOMAIN = process.env.REACT_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
 const MAX_SUMMARY_LENGTH = 150;
 export const MAX_MEMBERS_LENGTH = 10;
@@ -211,7 +211,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     formData.append('portfolio_description', newDescription);
     editorImgFiles.length > 0 &&
       editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
-    // formData.append('portfolio_members',members);
+    // formData.append('portfolio_memberIds',JSON.stringify(members||[]));
 
     const form = {
       title,
