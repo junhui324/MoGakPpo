@@ -8,15 +8,12 @@ import Pagination from '../../components/Pagination';
 import Project from './Project';
 import PortFolio from './Portfolio';
 import ContentsFilter from './ContentsFilter';
-import { useNavigate } from 'react-router-dom';
-import ROUTES from '../../constants/Routes';
 
 interface PostsProps {
   onError: (errorMessage: string) => void;
 }
 
 function Posts({ onError }: PostsProps) {
-  const navigate = useNavigate();
   const [totalLength, setTotalLength] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);

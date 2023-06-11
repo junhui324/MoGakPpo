@@ -51,7 +51,7 @@ function Portfolio({ portfolioData }: portfolioDataProps) {
       key={portfolioId}
       className={styles.listContainer}
       onClick={() => {
-      // navigate(`${ROUTES.portfolio}${portfolioId}`);
+      navigate(`${ROUTES.PORTFOLIO_LIST}/${portfolioId}`);
       }}
     >
       <div className={styles.topContainer}>

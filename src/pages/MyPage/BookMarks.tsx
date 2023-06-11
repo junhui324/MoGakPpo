@@ -7,8 +7,6 @@ import { TypeUserPortfolioPosts } from '../../interfaces/Portfolio.interface';
 import Project from './Project';
 import PortFolio from './Portfolio';
 import Pagination from '../../components/Pagination';
-import ROUTES from '../../constants/Routes';
-import { useNavigate } from 'react-router-dom';
 import ContentsFilter from './ContentsFilter';
 
 interface BookMarksProps {
@@ -16,7 +14,6 @@ interface BookMarksProps {
 }
 
 function BookMarks({ onError }: BookMarksProps) {
-  const navigate = useNavigate();
   const [totalLength, setTotalLength] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
@@ -70,7 +67,7 @@ function BookMarks({ onError }: BookMarksProps) {
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
-        <div className={styles.contentCount}>게시글 {totalLength}개</div>
+        <div className={styles.contentCount}>북마크 {totalLength}개</div>
         <ContentsFilter onChange={handleSelectFilter}/>
       </div>
       <div className={styles.posts}>
@@ -94,7 +91,7 @@ function BookMarks({ onError }: BookMarksProps) {
           {totalLength === 0 && (
             <div className={styles.noContentContainer}>
               <img className={styles.image} src={NoContentImage} alt="No Content" />
-              <div className={styles.noContent}>아직 작성한 게시글이 없어요.</div>
+              <div className={styles.noContent}>아직 저장한 북마크가 없어요.</div>
             </div>
           )}
         </ul>
