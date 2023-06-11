@@ -144,19 +144,19 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   };
 
   const handleTitleChange = (value: string) => {
-    if (title.length < MAX_TITLE_LENGTH) {
+    if (value.length <= MAX_TITLE_LENGTH) {
       setTitle(value);
     }
   };
 
   const handleSummaryChange = (value: string) => {
-    if (summary.length < MAX_SUMMARY_LENGTH) {
+    if (value.length <= MAX_SUMMARY_LENGTH) {
       setSummary(value);
     }
   };
 
   const handleGitHubUrlChange = (value: string) => {
-    if (gitHubUrl.length < MAX_GITHUB_LENGTH) {
+    if (value.length <= MAX_GITHUB_LENGTH) {
       setGitHubUrl(value);
     }
   };
