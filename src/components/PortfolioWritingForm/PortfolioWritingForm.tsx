@@ -48,9 +48,31 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       alert('로그인 후 사용 가능합니다.');
       navigate(ROUTES.LOGIN);
     }
-  }, []);
+  }, [navigate]);
 
-  // 썸네일 src
+  // 수정 모드인 경우 원래 데이터 불러오기
+  useEffect(() => {
+    if (publishedPostData) {
+      const {
+        portfolio_title,
+        portfolio_summary,
+        portfolio_stacks,
+        // portfolio_members,
+        portfolio_description,
+        portfolio_github,
+        portfolio_thumbnail,
+      } = publishedPostData;
+      setTitle(portfolio_title);
+      setSummary(portfolio_summary);
+      setStacks(portfolio_stacks.stackList);
+      // setMembers(portfolio_members);
+      setThumbnailSrc(portfolio_thumbnail);
+      setGitHubUrl(portfolio_github);
+      quillRef.current.root.innerHTML = portfolio_description;
+    }
+  }, [publishedPostData]);
+
+  // 썸네일 미리보기 src
   useEffect(() => {
     if (thumbnailFile) {
       const reader = new FileReader();
@@ -61,7 +83,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
   }, [thumbnailFile]);
 
-  //  퀼에디터 추가
+  // 퀼에디터 추가
   useEffect(() => {
     quillRef.current = new Quill('#editor-container', {
       modules: {
@@ -87,28 +109,13 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     return () => {};
   }, []);
 
-  // 수정 시 원래 데이터 불러오기
+  //로컬스토리지에 postData가 있으면 savedPost 상태 저장
   useEffect(() => {
-    if (publishedPostData) {
-      const {
-        portfolio_title,
-        portfolio_summary,
-        portfolio_stacks,
-        // portfolio_members,
-        portfolio_description,
-        portfolio_github,
-        portfolio_thumbnail,
-      } = publishedPostData;
-      setTitle(portfolio_title);
-      setSummary(portfolio_summary);
-      setStacks(portfolio_stacks.stackList);
-      // setMembers(portfolio_members);
-      setThumbnailSrc(portfolio_thumbnail);
-      setGitHubUrl(portfolio_github);
-      quillRef.current.root.innerHTML = portfolio_description;
-    }
-  }, [publishedPostData]);
+    const savedPostData = localStorage.getItem('savedPortfolioPost');
+    savedPostData && setIsPostSaved(true);
+  }, []);
 
+  // post패치
   const postData = async (formData: FormData) => {
     try {
       const response = editMode
@@ -258,12 +265,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     localStorage.setItem('savedPortfolioPost', JSON.stringify(form));
     alert('임시저장 성공');
   };
-
-  //로컬스토리지에 postData가 있으면 savedPost 상태 저장
-  useEffect(() => {
-    const savedPostData = localStorage.getItem('savedPortfolioPost');
-    savedPostData && setIsPostSaved(true);
-  }, []);
 
   const handleImportSavedPost = () => {
     const savedPostData = localStorage.getItem('savedPortfolioPost');
