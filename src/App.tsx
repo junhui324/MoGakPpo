@@ -19,10 +19,11 @@ import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
-import PortfolioWriting from './pages/Portfolio/PortfolioWriting';
+import PortfolioWriting from './pages/PortfolioWriting';
 import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
+import PortfolioModify from './pages/PortfolioModify';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
           <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
+          <Route path={`${ROUTES.PORTFOLIO_MODIFY}:id`} element={<PortfolioModify />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
         </Routes>

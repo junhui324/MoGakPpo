@@ -3,8 +3,8 @@
   div {
     position: relative;
     border-radius: 14px;
-    background-color: aliceblue;
-    width: 300px;
+    background-color: rgb(240, 245, 245);
+    width: 320px;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -17,18 +17,23 @@
       object-fit: cover;
     }
     input {
-      position: absolute;
-      display: inline-block;
-      z-index: 1;
-      width: fit-content;
-      font-weight: normal;
+      display: none;
     }
-    // input[type='file' i] {
-    //   text-align: center;
-    //   display: inline-block;
-    // }
-    // input[type='file-upload-button'] {
-    //   background-color: aqua;
-    // }
+  }
+  .buttonContainer {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.282);
+    .thumbnailButton {
+      cursor: pointer;
+      position: absolute;
+      z-index: 2;
+      background-color: #6636da;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      font-size: 16px;
+      border-radius: 30px;
+    }
   }
 }

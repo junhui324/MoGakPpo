@@ -300,10 +300,22 @@ export async function getUsersByEmail(value: string): Promise<{
   return await Api.get(domain, params);
 }
 
-// 포트폴리오 포스팅
-export async function portfolioPost(data: FormData): Promise<any> {
+// 포트폴리오 상세 정보
+export async function getPortfolio(id: string): Promise<any> {
+  const params = `portfolios/info/${id}`;
+  return await Api.get(API_KEY, params, true);
+}
+// 포트폴리오 수정
+export async function patchPortfolio(id: string, data: FormData): Promise<any> {
   console.log(data);
-  const params = `portfolios`;
+  const params = `portfolios/posts/${id}`;
+  return await Api.patch(API_KEY, params, data, true, true);
+}
+
+// 포트폴리오 포스팅
+export async function postPortfolio(data: FormData): Promise<any> {
+  console.log(data);
+  const params = `portfolios/posts`;
   return await Api.post(API_KEY, params, data, true, true);
 }
 
