@@ -215,31 +215,32 @@ export async function getUserProjectPostsById(
   return await Api.get(API_KEY, params, true, query);
 }
 
-// 유저 북마크 게시글 불러오기
-export async function getUserBookmarks(page: number): Promise<{
+// 유저 북마크 프로젝트 게시글 불러오기
+export async function getUserProjectBookmarks(page: number): Promise<{
   message: string;
-  data: { listLength: number; pageSize: number; pagenatedProjects: ProjectType.TypeUserProjectPosts };
+  data: { 
+    listLength: number; 
+    pageSize: number; 
+    pagenatedProjects: ProjectType.TypeUserProjectPosts
+  };
 }> {
   const params = `projects/user/bookmark`;
   const query = `page=${page}`;
   return await Api.get(API_KEY, params, true, query);
 }
 
-// 유저 북마크 중 선택한 북마크 불러오기
-export async function getUserSelectBookMarks(
-  recruiting: string,
-  page: number
-): Promise<{
+// 유저 북마크 포트폴리오 게시글 불러오기
+export async function getUserPortfolioBookmarks(page: number): Promise<{
   message: string;
-  data: {
-    listLength: number;
-    pageSize: number;
-    pagenatedProjects: ProjectType.TypeUserProjectPosts;
+  data: { 
+    listLength: number; 
+    pageSize: number; 
+    pagenatedPortfolios: PortfolioType.TypeUserPortfolioPosts
   };
 }> {
-  const params = `user/posts/recruiting=${recruiting}&page=${page}.json`;
-  // const query = `recruiting=${recruiting}&page=${page}`;
-  return await Api.get(domain, params);
+  const params = `portfolios/user/bookmark`;
+  const query = `page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
 }
 
 // 유저 정보 수정하기
