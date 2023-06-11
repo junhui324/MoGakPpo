@@ -11,31 +11,29 @@ interface MemberSelectFormProps {
   onMemberSelect: (userData: TypeTeamProjectUser) => void;
   onMemberUnselect: (userId: number) => void;
 }
+
 function MemberSelectForm({
   selectedUserList,
   onMemberSelect,
   onMemberUnselect,
 }: MemberSelectFormProps) {
-  const [searchTerm, setSearchTerm] = useState('');
   const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
   const [showSelectBox, setShowSelectBox] = useState(false);
 
   const handleSearchInputChange = (value: string) => {
-    setSearchTerm(value);
+    if (value.length > 0) {
+      getUsersBySearchTerm(value);
+      setShowSelectBox(true);
+      return;
+    }
+    setShowSelectBox(false);
   };
 
-  const getUsersBySearchTerm = async () => {
+  const getUsersBySearchTerm = async (searchTerm: string) => {
+    console.log(searchTerm);
     const userListData = await getUsersByEmail(searchTerm);
     setUserList(userListData.data);
   };
-
-  useEffect(() => {
-    if (searchTerm.length > 0) {
-      setShowSelectBox(true);
-      getUsersBySearchTerm();
-    }
-    searchTerm.length === 0 && setShowSelectBox(false);
-  }, [searchTerm]);
 
   return (
     <div className={styles.container}>
@@ -45,7 +43,6 @@ function MemberSelectForm({
           <input
             type="text"
             placeholder="이메일로 검색해 주세요."
-            value={searchTerm}
             onChange={(e) => handleSearchInputChange(e.target.value)}
           />
           {showSelectBox && (
