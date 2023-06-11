@@ -12,10 +12,11 @@ export const ROUTES = {
   USER_UPDATE: '/user/update',
   MODIFY_PROJECT: '/modify',
   PREVIEW_PROJECT: '/preview',
-  PORTFOLIO_CREATE: '/portfolio/create/',
+  PORTFOLIO_CREATE: '/portfolios/create/',
   KAKAO_AUTH: '/kakao/auth',
   PORTFOLIO_DETAIL: '/portfolios/',
   PORTFOLIO_LIST: '/portfolios',
+  PORTFOLIO_MODIFY: '/portfolios/modify/',
 };
 
 export default ROUTES;
