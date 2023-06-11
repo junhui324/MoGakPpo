@@ -5,7 +5,7 @@ import ROUTES from '../../constants/Routes';
 import styles from './portfolio.module.scss';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import React, { useState } from 'react';
-// import { deleteportfolioBookmark, postportfolioBookmark } from '../../apis/Fetcher';
+import { deletePortfolioBookmark, postPortfolioBookmark } from '../../apis/Fetcher';
 import { getIsNew } from '../../utils/getIsNew';
 import getDateFormat from '../../utils/getDateFormat';
 
@@ -33,9 +33,9 @@ function Portfolio({ portfolioData }: portfolioDataProps) {
       const updatedBookmark = !bookmark;
       setBookmark(updatedBookmark);
       try {
-        // updatedBookmark
-        //   ? await postportfolioBookmark(portfolioId)
-        //   : await deleteportfolioBookmark(portfolioId);
+        updatedBookmark
+          ? await postPortfolioBookmark(portfolioId)
+          : await deletePortfolioBookmark(portfolioId);
       } catch (error) {
         console.log(error);
       }
