@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './comments.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import { TypeMypageProjectComments, TypeMypagePortfolioComments } from '../../interfaces/Comment.interface';
-import { getUserComments } from '../../apis/Fetcher';
+import { getUserProjectComments, getUserPortfolioComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
@@ -14,7 +14,8 @@ interface CommentsProps {
 }
 
 function Comments({ onError }: CommentsProps) {
-  const [comments, setComments] = useState<(TypeMypageProjectComments | TypeMypagePortfolioComments)>([]);
+  const [projectComments, setProjectComments] = useState<TypeMypageProjectComments>([]);
+  const [portfolioComments, setPortfolioComments] = useState<TypeMypagePortfolioComments>([]);
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
@@ -27,11 +28,24 @@ function Comments({ onError }: CommentsProps) {
 
   const getUserCommentData = useCallback(async () => {
     try {
-      const { data } = await getUserComments(selectedOption, offset);
-      
-      setTotalComments(data.listLength);
-      setComments(data.pagenatedComments);
-      setTotalPageCount(data.pageSize);
+      switch (selectedOption) {
+        case 'project': {
+          const { data } = await getUserProjectComments(offset);
+          
+          setTotalComments(data.listLength);
+          setProjectComments(data.pagenatedComments);
+          setTotalPageCount(data.pageSize);
+          break;
+        }
+        case 'portfolio': {
+          const { data } = await getUserPortfolioComments(offset);
+          
+          setTotalComments(data.listLength);
+          setPortfolioComments(data.pagenatedComments);
+          setTotalPageCount(data.pageSize);
+          break;
+        }
+      }
     } catch (loadingError) {
       if (loadingError instanceof Error && typeof loadingError.message === 'string') {
         switch (loadingError.message) {
@@ -43,10 +57,19 @@ function Comments({ onError }: CommentsProps) {
     }
   }, [offset, selectedOption, onError]);
 
-  const handleClickComment = (event: MouseEvent<HTMLDivElement>, project_id: number) => {
+  const handleClickComment = (event: MouseEvent<HTMLDivElement>, id: number) => {
     event.preventDefault();
 
-    navigate(`${ROUTES.PROJECT}${project_id}`);
+    switch (selectedOption) {
+      case 'project': {
+        navigate(`${ROUTES.PROJECT}${id}`);
+        break;
+      }
+      case 'portfolio': {
+        navigate(`${ROUTES.PORTFOLIO_DETAIL}/info/${id}`);
+        break;
+      }
+    }
   };
 
   const handleSelectFilter = (value: string) => {
@@ -71,38 +94,29 @@ function Comments({ onError }: CommentsProps) {
         </div>
       ) : (
         <div className={styles.comments}>
-          {comments.map((data, index) => {
-            let comment_content = '';
-            let comment_created_at = '';
-            let id = 0;
-            let title = '';
-
-            switch (selectedOption) {
-              case 'project': {
-                if ('project_id' in data) {
-                  ({ comment_content, comment_created_at, project_id: id, project_title: title } = data);
-                }
-                break;
-              }
-              case 'portfolio': {
-                if ('portfolio_id' in data) {
-                  ({ comment_content, comment_created_at, portfolio_id: id, portfolio_title: title } = data);
-                }
-                break;
-              }
-              default:
-                break;
-            }
-
+          {selectedOption === 'project' && projectComments.map((data, index) => {
             return (
               <div
                 className={styles.commentWrapper}
-                key={`${comment_created_at}-${index}`}
-                onClick={(e) => handleClickComment(e, id)}
+                key={`${data.comment_created_at}-${index}`}
+                onClick={(e) => handleClickComment(e, data.project_id)}
               >
-                <div className={styles.title}>{title}</div>
-                <div className={styles.comment}>{comment_content}</div>
-                <div className={styles.createdAt}>{getDateFormat(comment_created_at)}</div>
+                <div className={styles.title}>{data.project_title}</div>
+                <div className={styles.comment}>{data.comment_content}</div>
+                <div className={styles.createdAt}>{getDateFormat(data.comment_created_at)}</div>
+              </div>
+            );
+          })}
+          {selectedOption === 'portfolio' && portfolioComments.map((data, index) => {
+            return (
+              <div
+                className={styles.commentWrapper}
+                key={`${data.comment_created_at}-${index}`}
+                onClick={(e) => handleClickComment(e, data.portfolio_id)}
+              >
+                <div className={styles.title}>{data.portfolio_title}</div>
+                <div className={styles.comment}>{data.comment_content}</div>
+                <div className={styles.createdAt}>{getDateFormat(data.comment_created_at)}</div>
               </div>
             );
           })}

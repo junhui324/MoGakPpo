@@ -249,16 +249,29 @@ export async function updateUserProfile(data: FormData): Promise<UserType.TypeUs
   return await Api.patch(API_KEY, params, data, true, true);
 }
 
-// 유저 작성 댓글 불러오기
-export async function getUserComments(type: string, page: number): Promise<{
+// 유저 작성 프로젝트 댓글 불러오기
+export async function getUserProjectComments(page: number): Promise<{
   message: string;
   data: { 
     listLength: number; 
     pageSize: number; 
-    pagenatedComments: CommentType.TypeMypageProjectComments | CommentType.TypeMypagePortfolioComments
+    pagenatedComments: CommentType.TypeMypageProjectComments
   };
 }> {
-  const params = `comments/${type}/user?page=${page}`;
+  const params = `comments/project/user?page=${page}`;
+  return await Api.get(API_KEY, params);
+}
+
+// 유저 작성 포트폴리오 댓글 불러오기
+export async function getUserPortfolioComments(page: number): Promise<{
+  message: string;
+  data: { 
+    listLength: number; 
+    pageSize: number; 
+    pagenatedComments: CommentType.TypeMypagePortfolioComments
+  };
+}> {
+  const params = `comments/portfolio/user?page=${page}`;
   return await Api.get(API_KEY, params);
 }
 
