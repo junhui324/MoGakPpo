@@ -62,7 +62,7 @@ export default function PortfolioModifyBlock({
 
         // 오류를 반환받지 않으면 진행합니다.
         alert('게시글이 삭제되었습니다.');
-        navigate(ROUTES.PROJECT_LIST);
+        navigate(ROUTES.PORTFOLIO_LIST);
       } catch (error) {
         alert(`${error} : 삭제 처리에 실패했습니다.`);
       }
@@ -79,7 +79,7 @@ export default function PortfolioModifyBlock({
   };
 
   const handleModifyClick = () => {
-    navigate(`/modify`);
+    navigate(`/portfolios/modify/${modifyData?.portfolio_id}`);
   };
 
   if (!modifyData) return <></>;

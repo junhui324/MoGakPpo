@@ -1,5 +1,4 @@
 import { atom } from 'recoil';
-import { TypeProject } from '../interfaces/Project.interface';
 import { TypePortfolio } from '../interfaces/Portfolio.interface';
 
 export const portfolioState = atom<TypePortfolio>({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Fetcher from '../../apis/Fetcher';
 import * as Token from '../../apis/Token';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // 타입
 import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
@@ -43,6 +43,8 @@ export default function ProjectBookmarkBlock({
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);
   const [userImages, setUserImages] = useState<string[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const bookmarkType = location.pathname.split('/')[1];
 
   useEffect(() => {
     if (bookmarksData) {
@@ -69,26 +71,49 @@ export default function ProjectBookmarkBlock({
         if (!isBookmark) {
           // 북마크가 되어있지 않으면 북마크 등록 요청을 합니다.
           try {
-            const response: { bookmark_id: number } = await Fetcher.postProjectBookmark(
-              bookmarksData.project_id
-            );
-
-            // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
-            if (!(response.bookmark_id === bookmarksData.project_id)) new Error('예기치 못한 에러');
-            fetchData();
+            if (bookmarkType === 'projects') {
+              const response: { bookmark_id: number } = await Fetcher.postProjectBookmark(
+                bookmarksData.project_id
+              );
+              // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
+              if (!(response.bookmark_id === bookmarksData.project_id))
+                new Error('예기치 못한 에러');
+              fetchData();
+            } else if (bookmarkType === 'portfolios') {
+              const response: { bookmark_id: number } = await Fetcher.postPortfolioBookmark(
+                bookmarksData.project_id
+              );
+              // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
+              if (!(response.bookmark_id === bookmarksData.project_id))
+                new Error('예기치 못한 에러');
+              fetchData();
+            }
           } catch (error) {
             alert(`${error} : 북마크 등록에 실패했습니다.`);
           }
         } else {
           try {
-            // 북마크가 되어있으면 북마크 취소 요청을 합니다.
-            const response: { bookmark_id: number } = await Fetcher.deleteProjectBookmark(
-              bookmarksData.project_id
-            );
+            if (bookmarkType === 'projects') {
+              // 북마크가 되어있으면 북마크 취소 요청을 합니다.
+              const response: { bookmark_id: number } = await Fetcher.deleteProjectBookmark(
+                bookmarksData.project_id
+              );
 
-            // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
-            if (!(response.bookmark_id === bookmarksData.project_id)) new Error('예기치 못한 에러');
-            fetchData();
+              // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
+              if (!(response.bookmark_id === bookmarksData.project_id))
+                new Error('예기치 못한 에러');
+              fetchData();
+            } else if (bookmarkType === 'portfolios') {
+              // 북마크가 되어있으면 북마크 취소 요청을 합니다.
+              const response: { bookmark_id: number } = await Fetcher.deletePortfolioBookmark(
+                bookmarksData.project_id
+              );
+
+              // 응답 값과 현재 컴포넌트 id값을 비교하여 최종 확인합니다.
+              if (!(response.bookmark_id === bookmarksData.project_id))
+                new Error('예기치 못한 에러');
+              fetchData();
+            }
           } catch (error) {
             alert(`${error} : 북마크 취소에 실패했습니다.`);
           }
@@ -134,7 +159,9 @@ export default function ProjectBookmarkBlock({
         </div>
         <p className={styles.bookmarkText}>
           {bookmarksCount > 0
-            ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
+            ? bookmarkType === 'projects'
+              ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
+              : `${bookmarksCount}명이 북마크한 포트폴리오`
             : ''}
         </p>
       </div>

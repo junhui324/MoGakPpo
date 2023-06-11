@@ -34,8 +34,11 @@ function PortfolioDetailForm() {
 
   const getPortfolio = async () => {
     try {
-      const data = await Fetcher.getPortfolio(Number(id));
-      setPortfolio(data);
+      if (id) {
+        const data = await Fetcher.getPortfolio(id);
+        setPortfolio(data.data);
+        console.log(data.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -62,15 +65,15 @@ function PortfolioDetailForm() {
     getUser();
   }, []);
 
-  // // 게시글 아이디에 맞게 로딩할 것
-  // useEffect(() => {
-  //   isUpdate && getPortfolio();
+  // 게시글 아이디에 맞게 로딩할 것
+  useEffect(() => {
+    getPortfolio();
 
-  //   // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
-  //   return () => {
-  //     setIsUpdate(false);
-  //   };
-  // }, [isUpdate, getPortfolio]);
+    // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
+    return () => {
+      setIsUpdate(false);
+    };
+  }, [isUpdate]);
 
   return (
     <div className={styles.container}>
@@ -166,7 +169,7 @@ function PortfolioDetailForm() {
         <div className={styles.link}>
           <button
             className={styles.linkButton}
-            onClick={() => window.open('https://github.com/junhui324', '_blank')}
+            onClick={() => window.open(`${portfolio.portfolio_github}`, '_blank')}
           >
             <BsGithub className={styles.logo} />
             <span>깃허브 링크</span>
