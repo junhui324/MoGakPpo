@@ -40,7 +40,11 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [thumbnailSrc, setThumbnailSrc] = useState<string>('');
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [gitHubUrl, setGitHubUrl] = useState('');
+
   const quillRef = useRef<any>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const summaryRef = useRef<HTMLInputElement>(null);
+  const githubRef = useRef<HTMLInputElement>(null);
 
   // 로그인 여부 확인
   useEffect(() => {
@@ -206,32 +210,33 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     formData.append('portfolio_img', newThumbnailFile as File);
     formData.append('portfolio_title', title);
     formData.append('portfolio_summary', summary);
-    formData.append('portfolio_github', gitHubUrl || 'null');
+    formData.append('portfolio_github', gitHubUrl);
     formData.append('portfolio_stacks', JSON.stringify(stacks || []));
     formData.append('portfolio_description', newDescription);
     editorImgFiles.length > 0 &&
       editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
     // formData.append('portfolio_memberIds',JSON.stringify(members||[]));
 
-    const form = {
-      title,
-      summary,
-      gitHubUrl,
-      stacks,
-      newThumbnailFile,
-      newDescription,
-      editorImgFiles,
-    };
-    console.log(form);
+    console.log(editorHTML.length);
 
     if (!title) {
       alert('제목을 입력해 주세요.');
+      titleRef.current && titleRef.current.focus();
       return;
     } else if (!summary) {
       alert('요약을 입력해 주세요.');
+      summaryRef.current && summaryRef.current.focus();
       return;
     } else if (!newThumbnailFile) {
       alert('썸네일을 등록해 주세요.');
+      return;
+    } else if (editorHTML.length <= 12) {
+      alert('내용이 너무 짧습니다.');
+      quillRef.current && quillRef.current.focus();
+      return;
+    } else if (!gitHubUrl) {
+      alert('깃허브 레포지토리 url을 입력해 주세요.');
+      githubRef.current && githubRef.current.focus();
       return;
     } else {
       postData(formData);
@@ -304,7 +309,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
                 <h3 className={styles.required}>프로젝트 제목</h3>
                 <LengthCheck valueLength={title ? title.length : 0} maxLength={MAX_TITLE_LENGTH} />
               </div>
-              <TitleTextForm value={title} onChange={handleTitleChange} />
+              <TitleTextForm innerRef={titleRef} value={title} onChange={handleTitleChange} />
             </label>
             <label>
               <div className={styles.inputTop}>
@@ -315,6 +320,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
                 />
               </div>
               <BasicTextForm
+                innerRef={summaryRef}
                 value={summary}
                 onChange={handleSummaryChange}
                 placeholder={'프로젝트를 짧게 설명해 주세요.'}
@@ -328,7 +334,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         </div>
         <label className={styles.gitHubContainer}>
           <div className={styles.inputTop}>
-            <h3>깃허브 레포지토리 링크</h3>
+            <h3 className={styles.required}>깃허브 레포지토리 링크</h3>
             <LengthCheck
               valueLength={gitHubUrl ? gitHubUrl.length : 0}
               maxLength={MAX_GITHUB_LENGTH}
