@@ -1,5 +1,5 @@
 import * as Token from '../../apis/Token';
-import { TypePortfolioList } from '@/interfaces/Portfolio.interface';
+import { TypePortfolioList } from '../../interfaces/Portfolio.interface';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 import styles from './portfolio.module.scss';
@@ -7,6 +7,7 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 // import { deleteportfolioBookmark, postportfolioBookmark } from '../../apis/Fetcher';
 import { getIsNew } from '../../utils/getIsNew';
+import getDateFormat from '../../utils/getDateFormat';
 
 interface portfolioDataProps {
   portfolioData: TypePortfolioList;
@@ -20,10 +21,7 @@ function Portfolio({ portfolioData }: portfolioDataProps) {
     portfolio_id: portfolioId,
     portfolio_title: title,
     portfolio_summary: summary,
-    portfolio_stacks: stackList,
-    portfolio_bookmark_count: bookmarkCount,
-    portfolio_comments_count: commentsCount,
-    portfolio_views_count: viewsCount,
+    portfolio_thumbnail: thumbnail,
     portfolio_created_at: createdAt,
   } = portfolioData;
 
@@ -53,11 +51,20 @@ function Portfolio({ portfolioData }: portfolioDataProps) {
       key={portfolioId}
       className={styles.listContainer}
       onClick={() => {
-      //  / navigate(`${ROUTES.portfolio}${portfolioId}`);
+      // navigate(`${ROUTES.portfolio}${portfolioId}`);
       }}
     >
-      <div>
-        <div className={styles.topContainer}>
+      <div className={styles.topContainer}>
+        {thumbnail 
+        ? <img src={thumbnail} alt={'포트폴리오 섬네일'} /> 
+        : <img src={'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1'} alt='포트폴리오 섬네일'/>}
+      </div>
+      <div className={styles.contentContainer}>
+        <div className={styles.titleContainer}>
+          <div className={styles.titleWrapper}>
+            <div className={styles.title}>{title}</div>
+            {getIsNew(createdAt) && <div className={styles.newTag}>NEW</div>}
+          </div>
           <div>
             {isBookmarked !== undefined && (
               <button className={styles.bookmarkButton} onClick={(e) => handleBookmarkClick(e)}>
@@ -66,45 +73,9 @@ function Portfolio({ portfolioData }: portfolioDataProps) {
             )}
           </div>
         </div>
+        {summary ? <p className={styles.summary}>{summary}</p> : <p className={styles.summary}>&nbsp;</p>}
+        <div className={styles.createdAt}>{getDateFormat(createdAt)}</div>
       </div>
-      <div className={styles.secondContainer}>
-        <p className={styles.title}>{title}</p>
-        {getIsNew(createdAt) && <span className={styles.newTag}>NEW</span>}
-      </div>
-      {summary && <p className={styles.summary}>{summary}</p>}
-      {stackList && (
-        <ul className={styles.stacksContainer}>
-          <span>기술스택</span>
-          <ul>
-            {stackList.stackList &&
-              stackList.stackList.map((stack, index) => (
-                <li key={`stack-${index}`}>{stack}</li>
-              ))}
-          </ul>
-        </ul>
-      )}
-      {(bookmarkCount > 0 || commentsCount > 0 || viewsCount > 0) && (
-        <ul className={styles.countContainer}>
-          {bookmarkCount > 0 ? (
-            <li>
-              <span>📌</span>
-              <span className={styles.bookmarkCount}>{bookmarkCount}</span>
-            </li>
-          ) : undefined}
-          {commentsCount > 0 ? (
-            <li>
-              <span>💬</span>
-              <span className={styles.commentsCount}>{commentsCount}</span>
-            </li>
-          ) : undefined}
-          {viewsCount > 0 ? (
-            <li>
-              <span>👀</span>
-              <span className={styles.viewsCount}>{viewsCount}</span>
-            </li>
-          ) : undefined}
-        </ul>
-      )}
     </li>
   );
 }

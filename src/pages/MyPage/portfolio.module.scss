@@ -1,26 +1,57 @@
 @import '/src/variables.scss';
+$grey: #64748B;
 
 .listContainer {
   display: flex;
+  justify-content: space-between;
   margin-bottom: 32px;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 24px 24px 24px 24px;
   border: 1px solid #e8e8e8;
   border-radius: 16px;
   background-color: #ffff;
   cursor: pointer;
 
   .topContainer {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+    width: 200px;
 
-    div:nth-child(1) {
+    & > img {
+      border-radius: 16px 0 0 16px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .contentContainer {
+    padding: 24px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .titleContainer {
       display: flex;
-      gap: 12px;
-      align-items: center;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: 550;
+
+      .titleWrapper {
+        width: 400px;
+        display: flex;
+        flex-direction: row;
+
+        .title {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .newTag {
+          margin-left: 8px;
+          font-size: 14px;
+          color: $blue;
+        }
+      }
+    }
+    
+    &:nth-child(2) {
       .bookmarkButton {
         display: flex;
         border: none;
@@ -28,86 +59,23 @@
         background-color: unset;
         cursor: pointer;
         svg {
-          font-size: 18px;
+          font-size: 14px;
           color: $main-color;
         }
       }
     }
-  }
-  .secondContainer {
-    width: 100%;
-    font-size: 24px;
-    font-weight: 550;
-    line-height: 2.2rem;
-    .title {
-      display: inline;
+    .summary {
+      width: 400px;
+      font-size: 16px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      line-height: 2.2rem;
     }
-    .newTag {
-      margin-left: 8px;
-      align-self: center;
-      font-size: 14px;
-      color: $blue;
-    }
-  }
-
-  .summary {
-    font-size: 18px;
-    line-height: 1.6rem;
-  }
-
-  .stacksContainer {
-    display: inline;
-    line-height: 1.5rem;
-    font-size: 16px;
-    color: rgb(130, 141, 157);
-    font-weight: 500;
-    span {
-      display: inline;
-      width: fit-content;
-    }
-
-    span::after {
-      display: inline;
-      margin-left: 8px;
-      margin-right: 8px;
-      content: '|';
-      color: #b9aba7;
-    }
-    li::after {
-      margin-left: 8px;
-      margin-right: 8px;
-      content: '/';
-    }
-    li:last-child::after {
-      content: none;
-    }
-    ul {
-      display: inline;
-    }
-    ul > li {
-      display: inline;
-    }
-  }
-
-  .countContainer {
-    display: flex;
-    font-size: 14px;
-    color: rgb(168, 180, 197);
-    li {
-      span:nth-child(1) {
-        margin-right: 4px;
-      }
-    }
-    li::after {
-      margin-left: 4px;
-      margin-right: 4px;
-      content: '·';
-    }
-    li:last-child::after {
-      content: none;
+    
+    .createdAt {
+      color: $grey;
+      font-weight: 100;
     }
   }
 }
