@@ -14,7 +14,7 @@ export default function HotPortfolio() {
     try {
       const response = await getPortfolioList(1);
       //@ts-ignore
-      setPortfolioList(response.pagenatedPortfolio);
+      setPortfolioList(response.pagenatedPortfolios);
     } catch (error: any) {
       if (error.message === '404') {
         setPortfolioList([]);

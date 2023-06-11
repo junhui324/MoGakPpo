@@ -299,7 +299,7 @@ export async function getPortfolioUsers(): Promise<{
 export async function getPortfolioList(
   page: number,
   keyword: string = ''
-): Promise<{ pageSize: number; pagenatedPortfolio: TypePortfolioList[] }> {
+): Promise<{ pageSize: number; pagenatedPortfolios: TypePortfolioList[] }> {
   keyword === '' && (keyword = 'false');
 
   const params = `portfolios?keyword=${keyword}&page=${page}`;
