@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utils/getUserInfo';
 import Comment from '../../components/Comment';
@@ -10,6 +10,7 @@ import ProjectBody from '../../components/Project/ProjectBody';
 import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
+import Loading from '../../components/common/Loading/Loading';
 
 // data
 import * as Fetcher from '../../apis/Fetcher';
@@ -17,30 +18,13 @@ import * as Fetcher from '../../apis/Fetcher';
 import * as ProjectType from '../../interfaces/Project.interface';
 // 스타일
 import styles from './Project.module.scss';
-import { BiDotsVertical } from 'react-icons/bi';
 
 //상수
 import ROUTES from '../../constants/Routes';
 
 //recoil
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { projectIdState } from '../../recoil/projectState';
-
-const LOADING_LOGO_SIZE: number = 32;
-const LOADING_LOGO_COLOR: string = '#95a4b0';
-
-// 로딩 중 로고
-function Loading() {
-  return (
-    <>
-      <BiDotsVertical
-        size={LOADING_LOGO_SIZE}
-        color={LOADING_LOGO_COLOR}
-        className={styles.loadingLogo}
-      />
-    </>
-  );
-}
 
 function Project() {
   // 라우터 관련
@@ -58,13 +42,13 @@ function Project() {
   const [bookmarksData, setBookmarksData] = useState<ProjectType.TypeProjectBookmarks | null>(null);
   const [modifyData, setModifyData] = useState<ProjectType.TypeProjectModify | null>(null);
   // 업데이트 필요 시에 변경되는 상태
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(true);
 
   // Recoil State
-  const setProjectIdRecoil = useSetRecoilState(projectIdState);
+  const [projectIdRecoil, setProjectIdRecoil] = useRecoilState(projectIdState);
 
   // 데이터 API 호출 함수
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await Fetcher.getProject(projectId);
@@ -85,7 +69,7 @@ function Project() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [navigate, setProjectIdRecoil, projectId, bookmarksData, modifyData]);
 
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
@@ -96,13 +80,13 @@ function Project() {
 
   // 게시글 아이디에 맞게 로딩할 것
   useEffect(() => {
-    fetchData();
+    isUpdate && fetchData();
 
     // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
     return () => {
       setIsUpdate(false);
     };
-  }, [isUpdate]);
+  }, [isUpdate, fetchData]);
 
   // 데이터가 로딩되면 각 props데이터 할당함
   useEffect(() => {
