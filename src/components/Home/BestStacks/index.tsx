@@ -1,13 +1,12 @@
 import styles from './BestStacks.module.scss';
 import { getStackList } from '../../../apis/Fetcher';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RxBorderDotted } from 'react-icons/rx';
 
 export default function BestStacks() {
   const [bestStacks, setBestStacks] = useState([]);
 
-  //@ts-ignore
-  useEffect(async () => {
+  const getStackListData = async () => {
     try {
       const response = await getStackList();
       //@ts-ignore
@@ -15,6 +14,14 @@ export default function BestStacks() {
     } catch (error) {
       console.log(error);
     }
+  };
+  useEffect(() => {
+    getStackListData();
+    const interval = setInterval(() => {
+      getStackListData();
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
