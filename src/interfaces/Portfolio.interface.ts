@@ -64,5 +64,6 @@ export type TypePortfolioDetail = Pick<
   | 'user_img'
   | 'user_introduction'
   | 'user_name'
+  | 'participated_members'
 >;
 export type TypeUserPortfolioPosts = TypePortfolioList[];
