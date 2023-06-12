@@ -7,7 +7,7 @@ import * as PortfolioType from '../interfaces/Portfolio.interface';
 import * as UserType from '../interfaces/User.interface';
 import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
-import { AxiosResponse } from 'axios';
+import { Axios, AxiosResponse } from 'axios';
 import * as Token from './Token';
 import { TypePortfolioList, TypePortfolio } from '../interfaces/Portfolio.interface';
 
@@ -375,4 +375,11 @@ export async function deletePortfolio(portfolioId: number): Promise<AxiosRespons
   const params = `portfolios/posts/${portfolioId}`;
   const response: AxiosResponse = await Api.delete(API_KEY, params);
   return response;
+}
+// 인증코드 전달하여 계정정보 받아오는 카카오 로그인
+export async function getKakaoLogin(code: string): Promise<AxiosResponse> {
+  const params = `/login/kakao?code=${code}`;
+  const response: AxiosResponse = await Api.get(API_KEY, params);
+
+  return response.data;
 }
