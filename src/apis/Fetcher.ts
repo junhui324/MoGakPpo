@@ -284,7 +284,8 @@ export async function getUsersByEmail(value: string): Promise<{
 // 포트폴리오 상세 정보
 export async function getPortfolio(id: string): Promise<any> {
   const params = `portfolios/info/${id}`;
-  return await Api.get(API_KEY, params, true);
+  const response: AxiosResponse = await Api.get(API_KEY, params, true);
+  return response.data;
 }
 // 포트폴리오 수정
 export async function patchPortfolio(id: string, data: FormData): Promise<any> {

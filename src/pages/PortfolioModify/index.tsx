@@ -6,14 +6,13 @@ import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 import { useQuery } from 'react-query';
-//@ts-nocheck
 
 function PortfolioWriting() {
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
   const params = useParams();
 
-  const project = useQuery('portfolio', () => Fetcher.getPortfolio(params.id!), {
+  const portfolio = useQuery('portfolio', () => Fetcher.getPortfolio(params.id!), {
     refetchOnWindowFocus: false, // react-query는 사용자가 사용하는 윈도우가 다른 곳을 갔다가 다시 화면으로 돌아오면 이 함수를 재실행합니다. 그 재실행 여부 옵션 입니다.
     retry: 0, // 실패시 재호출 몇번 할지
     onError: (e: any) => {
@@ -21,17 +20,17 @@ function PortfolioWriting() {
     },
   });
 
-  if (project.isLoading) {
+  if (portfolio.isLoading) {
     return <span>Loading...</span>;
   }
 
-  if (project.isError) {
-    return <span>Error: {project.error.message}</span>;
+  if (portfolio.isError) {
+    return <span>Error: {portfolio.error.message}</span>;
   }
 
-  if (project.data.data.user_id === loginData.user_id) {
-    return project.data ? (
-      <PortfolioWritingForm editMode={true} publishedPostData={project.data.data} />
+  if (portfolio.data.user_id === loginData.user_id) {
+    return portfolio ? (
+      <PortfolioWritingForm editMode={true} publishedPostData={portfolio.data} />
     ) : (
       <></>
     );

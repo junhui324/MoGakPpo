@@ -1,3 +1,4 @@
+import * as Fetcher from '../../apis/Fetcher';
 import { useCallback, useEffect, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
@@ -8,6 +9,7 @@ import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
 import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
+import { useQuery } from 'react-query';
 
 function ProjectListMain() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +21,18 @@ function ProjectListMain() {
   const [keywordValue, setKeywordValue] = useState('');
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
+
+  const project = useQuery(
+    'project',
+    () => Fetcher.getProjects(selectedCategory, recruitingFilter, keywordValue, pageCount),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      onError: (e: any) => {
+        console.log(e.message);
+      },
+    }
+  );
 
   const getProjectListData = useCallback(
     async (isPagenation?: boolean): Promise<void> => {
