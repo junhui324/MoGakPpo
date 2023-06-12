@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import debounce from '../../utils/debounce';
 
 // component
@@ -25,28 +25,12 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
   const [totalPage, setTotalPage] = useState<number>(INITIAL_PAGE);
   const page = useRef<number>(INITIAL_PAGE);
 
-  // Intersection Oberserver API
-  const targetRef = useRef<HTMLDivElement>(null); // 옵저버 엔트리
-  const options = {
-    // 기본 root인 사용자 뷰포트로 관찰
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.8,
-  };
-  const infiniteScroll = (entries: IntersectionObserverEntry[]) => {
-    // target을 교차했을 때
-    if (entries[0].isIntersecting) {
-      !isLoading && page.current <= totalPage && fetchData();
-    }
-  };
-  let observer: IntersectionObserver;
-
   const fetchData = async () => {
     // 로딩중 상태를 true로 변경합니다.
     setIsLoading(true);
 
     try {
-      const data = await Fetcher.getPortfolioList(page.current, keyword);
+      const data = await Fetcher.getPortfolioList(page.current, keyword, false);
 
       // 데이터에 맞게 페이지 최대 사이즈와 데이터를 설정합니다.
       setTotalPage(data.pageSize);
@@ -65,6 +49,30 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
     }
   };
 
+  // Intersection Oberserver API
+  let observerRef = useRef<IntersectionObserver | null>(null); // 옵저버
+  const targetRef = useRef<HTMLDivElement>(null); // 옵저버 엔트리
+  const options = useMemo(() => {
+    // 상태와 관련된 값이기 때문에 useMemo 사용
+    return {
+      // 기본 root인 사용자 뷰포트로 관찰
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.8,
+    };
+  }, []);
+
+  // 상태와 관련된 값을 이용하는 함수를 반환하므로 useCallback사용
+  const infiniteScroll = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      // target을 교차했을 때
+      if (entries[0].isIntersecting) {
+        !isLoading && page.current <= totalPage && fetchData();
+      }
+    },
+    [fetchData, totalPage, isLoading]
+  );
+
   const keywordSearch = () => {
     // 키워드가 입력되면 모든 결과를 초기화합니다.
     setData(null);
@@ -79,19 +87,19 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
     keywordSearch();
   }, [keyword]);
 
-  // totalPage가 갱신될때마다 observer 갱신
+  // 상태가 변할때, 메모이제이션을 통한 값들이 변하면 observer 갱신
   useEffect(() => {
     // 새로운 옵저버 생성. totalPage 값을 갱신해주기 위함.
     // 너무 빠른 target 인식을 피하기 위해 디바운싱 진행.
-    observer = new IntersectionObserver(debounce(infiniteScroll, DEBOUNCING), options);
+    observerRef.current = new IntersectionObserver(debounce(infiniteScroll, DEBOUNCING), options);
     // 옵저버 등록
-    targetRef.current && observer.observe(targetRef.current);
+    targetRef.current && observerRef.current.observe(targetRef.current);
 
     return () => {
       // 갱신할 때 기존 observer를 disconnet함
-      observer.disconnect();
+      observerRef.current && observerRef.current.disconnect();
     };
-  }, [totalPage]);
+  }, [infiniteScroll, options]);
 
   return (
     <>
