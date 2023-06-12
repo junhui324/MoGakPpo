@@ -22,8 +22,26 @@
         color: rgba(0, 0, 0, 0.5);
       }
     }
-
-    & > button {
+  }
+  .ButtonContainer {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    .arrowButton {
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .toAllButton {
+      flex: 1;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 500;
       border: none;
       background-color: transparent;
       cursor: pointer;
@@ -76,6 +94,7 @@
             padding: 0 1rem;
 
             .title {
+              line-height: 2rem;
               margin: 1rem 0;
               font-size: 20px;
               font-weight: 600;

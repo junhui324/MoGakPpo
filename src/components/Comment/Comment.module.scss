@@ -76,7 +76,7 @@
   padding: 0;
   width: 686px;
   .comment {
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #f1f3f5;
     border-radius: 8px;
     list-style: none;
@@ -101,12 +101,26 @@
         flex-direction: column;
         flex: 1;
         a {
+          display: flex;
+          align-items: center;
           font-weight: 500;
           text-decoration: none;
           color: black;
           :hover {
             text-decoration: underline;
             color: #454545;
+          }
+        }
+        span {
+          color: $main-color;
+          font-size: 12px;
+          border: 1px solid #abb0b5;
+          border-radius: 20px;
+          padding: 4px 6px;
+          margin: 0 8px;
+          &:hover {
+            text-decoration: 0;
+            color: $main-color;
           }
         }
       }
