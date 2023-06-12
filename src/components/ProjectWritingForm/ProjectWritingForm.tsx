@@ -80,6 +80,7 @@ function ProjectWritingForm() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (classification === 'create') {
       if (modifyButtonClick) {
         setModifyButtonClick(false);
