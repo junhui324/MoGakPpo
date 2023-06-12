@@ -408,7 +408,6 @@ function ProjectWritingForm() {
       </div>
 
       <div>
-        <h2>기술 스택</h2>
         <div>
           <Stack selectedStack={stackList} setStackList={handleSetStackList} />
         </div>

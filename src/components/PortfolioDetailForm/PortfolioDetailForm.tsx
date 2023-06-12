@@ -70,7 +70,7 @@ function PortfolioDetailForm() {
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
-          <h2>💜{portfolio.portfolio_title}</h2>
+          <h2>💜 {portfolio.portfolio_title}</h2>
         </div>
 
         <div className={styles.summary}>
