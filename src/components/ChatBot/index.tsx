@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './chatBot.module.scss';
-import { BsChatHeartFill } from 'react-icons/bs';
 import { IoIosClose } from 'react-icons/io';
 import chatData from './chatBot.json';
+import Logo from '../../assets/Character.png';
 
 function ChatBot() {
   const [showChatBox, setShowChatBox] = useState(false);
@@ -64,7 +64,7 @@ function ChatBot() {
         </div>
       ) : (
         <button className={styles.chatButton} onClick={handleClick}>
-          <BsChatHeartFill />
+          <img src={Logo} />
         </button>
       )}
     </div>

@@ -39,7 +39,7 @@ function Header() {
             className={styles.logo}
             src={Logo}
             onClick={handleLogoClick}
-            style={{ width: 160 }}
+            style={{ width: 110 }}
           />
           <NavLink
             to={`${ROUTES.PROJECT_LIST}`}
