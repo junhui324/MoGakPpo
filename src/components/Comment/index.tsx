@@ -27,7 +27,6 @@ import { useRecoilState } from 'recoil';
 export default function Comment() {
   const LoginData = useRecoilState(loginAtom);
   const user = LoginData[0];
-  console.log('🚀 ~ file: index.tsx:30 ~ Comment ~ user:', user);
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
@@ -82,7 +81,7 @@ export default function Comment() {
         }
         if (getPostType === 'portfolios') {
           const response = await getPortfolio(String(postId));
-          setAuthorId(response.user_id);
+          setAuthorId(response.data.user_id);
         }
       } catch (error) {
         console.log(error);
@@ -90,7 +89,7 @@ export default function Comment() {
     };
     getAuthor();
   }, []);
-
+  console.log('작성자' + authorId);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
