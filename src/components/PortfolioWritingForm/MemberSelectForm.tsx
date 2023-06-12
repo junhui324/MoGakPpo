@@ -43,7 +43,7 @@ function MemberSelectForm({
         <div className={styles.searchUserListContainer}>
           <input
             type="text"
-            placeholder="이메일로 검색해 주세요."
+            placeholder="닉네임 또는 이메일로 검색해 주세요."
             onChange={(e) => {
               clearTimeout(inputTimerRef.current);
               inputTimerRef.current = setTimeout(() => {
