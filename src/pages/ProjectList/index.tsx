@@ -1,6 +1,5 @@
 import * as Fetcher from '../../apis/Fetcher';
-import { useCallback, useEffect, useState } from 'react';
-import { getProjects } from '../../apis/Fetcher';
+import { useEffect, useState } from 'react';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
@@ -12,7 +11,6 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { useQuery } from 'react-query';
 
 function ProjectListMain() {
-  const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
   const [pageCount, setPageCount] = useState(1);
   const [pageSize, setPageSize] = useState(0);
@@ -21,69 +19,50 @@ function ProjectListMain() {
   const [keywordValue, setKeywordValue] = useState('');
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
+  const [isPagenation, setIsPagination] = useState(false);
 
-  const project = useQuery(
+  const getProjectList = useQuery(
     'project',
     () => Fetcher.getProjects(selectedCategory, recruitingFilter, keywordValue, pageCount),
     {
       refetchOnWindowFocus: false,
-      retry: 0,
+      onSuccess: (data) => {
+        if (isPagenation) {
+          // 무한스크롤을 위한 다음 페이지 데이터 get
+          pageSize <= pageCount && setMoreData(false);
+          setProjectList((prev) => [...prev, ...data.data.pagenatedProjects]);
+          setPageCount((prev) => prev + 1);
+        } else {
+          // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
+          const pageSize = data.data.pageSize;
+          setPageSize(pageSize);
+          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreDat 컴포넌트 렌더링x
+          pageSize <= 1 && setMoreData(false);
+          setProjectList(data.data.pagenatedProjects);
+          setPageCount((prev) => prev + 1);
+        }
+      },
       onError: (e: any) => {
-        console.log(e.message);
+        return <div>프로젝트 리스트를 불러오지 못했어요 :(</div>;
       },
     }
   );
 
-  const getProjectListData = useCallback(
-    async (isPagenation?: boolean): Promise<void> => {
-      try {
-        const projectList = await getProjects(
-          selectedCategory,
-          recruitingFilter,
-          keywordValue,
-          pageCount
-        );
-        if (isPagenation) {
-          // 무한스크롤을 위한 다음 페이지 데이터 get
-          pageSize <= pageCount && setMoreData(false);
-          setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
-          setPageCount((prev) => prev + 1);
-        } else {
-          // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
-          const pageSize = projectList.data.pageSize;
-          setPageSize(pageSize);
-          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreDat 컴포넌트 렌더링x
-          pageSize <= 1 && setMoreData(false);
-          setProjectList(projectList.data.pagenatedProjects);
-          setPageCount((prev) => prev + 1);
-        }
-      } catch (error: any) {
-        if (error.message === '404') {
-          setMoreData(false);
-          setIsLoading(false);
-          setProjectList([]);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [selectedCategory, recruitingFilter, keywordValue, pageCount, pageSize]
-  );
-
   const target = useInfiniteScroll(async (entry, observer) => {
+    setIsPagination(true);
     //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
-    pageSize >= pageCount && (await getProjectListData(true));
+    pageSize >= pageCount && (await getProjectList.refetch());
   });
 
   useEffect(() => {
     window.scroll(0, 0);
-    getProjectListData();
+    getProjectList.refetch();
   }, [selectedCategory, recruitingFilter]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       window.scroll(0, 0);
-      getProjectListData();
+      getProjectList.refetch();
     }, 700); // 디바운스 타임 설정
     return () => clearTimeout(delayDebounceFn);
   }, [keywordValue]);
@@ -128,7 +107,7 @@ function ProjectListMain() {
         </div>
         <ProjectList
           projectList={projectList}
-          isLoading={isLoading}
+          isLoading={getProjectList.isLoading}
           moreData={moreData}
           innerRef={target}
         />
