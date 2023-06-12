@@ -12,6 +12,9 @@
   margin: 0 auto 40px;
   padding-bottom: 20px;
   border-bottom: 1px solid #dfdfdf;
+  img {
+    filter: grayscale(100%) brightness(100%);
+  }
 }
 .footerMain {
   width: 1024px;
