@@ -103,6 +103,5 @@ export type TypeProjectPost = Pick<
   | 'project_img'
 >;
 
-export type TypeUserPosts = TypeProjectList[];
+export type TypeUserProjectPosts = TypeProjectList[];
 
-// export type TypeStacks = Pick<Project, 'project_required_stacks'>;

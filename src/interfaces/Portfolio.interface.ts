@@ -87,3 +87,4 @@ export type TypePortfolioDetail = Pick<
   | 'user_introduction'
   | 'user_name'
 >;
+export type TypeUserPortfolioPosts = TypePortfolioList[];
