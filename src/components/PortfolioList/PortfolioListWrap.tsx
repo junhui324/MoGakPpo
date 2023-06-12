@@ -43,6 +43,7 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
       page.current++;
     } catch (error) {
       console.log(error);
+      if (!data) return;
     } finally {
       // 로딩 완료
       setIsLoading(false);
@@ -67,10 +68,10 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
     (entries: IntersectionObserverEntry[]) => {
       // target을 교차했을 때
       if (entries[0].isIntersecting) {
-        !isLoading && page.current <= totalPage && fetchData();
+        data && !isLoading && page.current <= totalPage && fetchData();
       }
     },
-    [fetchData, totalPage, isLoading]
+    [data, fetchData, totalPage, isLoading]
   );
 
   const keywordSearch = () => {
