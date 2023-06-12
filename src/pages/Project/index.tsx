@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import getUserInfo from '../../utils/getUserInfo';
 import Comment from '../../components/Comment';
@@ -42,13 +42,13 @@ function Project() {
   const [bookmarksData, setBookmarksData] = useState<ProjectType.TypeProjectBookmarks | null>(null);
   const [modifyData, setModifyData] = useState<ProjectType.TypeProjectModify | null>(null);
   // 업데이트 필요 시에 변경되는 상태
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(true);
 
   // Recoil State
   const [projectIdRecoil, setProjectIdRecoil] = useRecoilState(projectIdState);
 
   // 데이터 API 호출 함수
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await Fetcher.getProject(projectId);
@@ -69,7 +69,7 @@ function Project() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [navigate, setProjectIdRecoil, projectId]);
 
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
@@ -80,13 +80,13 @@ function Project() {
 
   // 게시글 아이디에 맞게 로딩할 것
   useEffect(() => {
-    fetchData();
+    isUpdate && fetchData();
 
     // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
     return () => {
       setIsUpdate(false);
     };
-  }, [isUpdate]);
+  }, [isUpdate, fetchData]);
 
   // 데이터가 로딩되면 각 props데이터 할당함
   useEffect(() => {
