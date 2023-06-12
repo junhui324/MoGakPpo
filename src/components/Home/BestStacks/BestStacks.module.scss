@@ -1,0 +1,70 @@
+@import '/src/variables.scss';
+.titleTextWrapper {
+  & > h1 {
+    font-size: 24px;
+    font-weight: 600;
+    padding: 1rem 0;
+  }
+
+  & > p {
+    font-size: 14px;
+    padding-bottom: 2rem;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.stackList {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+
+  .stackContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 60px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    // 애니메이션
+    opacity: 0;
+    transform: translateY(20px);
+    animation: stackFadeIn 0.5s ease-in-out forwards;
+    animation-iteration-count: 1;
+
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      color: $main-color;
+    }
+
+    .stackRank {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      color: #9a9a9a;
+      svg {
+        margin: 0 20px;
+      }
+    }
+    .stackName {
+      font-size: 20px;
+      flex: 1;
+      font-weight: 500;
+    }
+  }
+}
+@keyframes stackFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

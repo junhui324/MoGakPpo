@@ -2,8 +2,8 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './comments.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
-import { TypeMypageComments } from '../../interfaces/Comment.interface';
-import { getUserComments, getUserSelectComments } from '../../apis/Fetcher';
+import { TypeMypageProjectComments, TypeMypagePortfolioComments } from '../../interfaces/Comment.interface';
+import { getUserComments } from '../../apis/Fetcher';
 import ROUTES from '../../constants/Routes';
 import getDateFormat from '../../utils/getDateFormat';
 import Pagination from '../../components/Pagination';
@@ -14,36 +14,19 @@ interface CommentsProps {
 }
 
 function Comments({ onError }: CommentsProps) {
-  const [comments, setComments] = useState<TypeMypageComments>([]);
+  const [comments, setComments] = useState<(TypeMypageProjectComments | TypeMypagePortfolioComments)>([]);
   const [totalComments, setTotalComments] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
-  const [recruitingFilter, setRecruitingFilter] = useState('all');
+  const [selectedOption, setSelectedOption] = useState('project');
   const navigate = useNavigate();
 
   const offset = currPage + 1;
 
-  // 전체 댓글 불러오던 함수
   const getUserCommentData = async () => {
     try {
-      const { data } = await getUserComments(offset);
-      setTotalComments(data.listLength);
-      setComments(data.pagenatedComments);
-      setTotalPageCount(data.pageSize);
-    } catch (loadingError) {
-      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
-        switch (loadingError.message) {
-          case '403':
-            onError('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
-            break;
-        }
-      }
-    }
-  };
-
-  const getUserSelectData = async () => {
-    try {
-      const { data } = await getUserSelectComments(recruitingFilter, offset);
+      const { data } = await getUserComments(selectedOption, offset);
+      
       setTotalComments(data.listLength);
       setComments(data.pagenatedComments);
       setTotalPageCount(data.pageSize);
@@ -64,24 +47,20 @@ function Comments({ onError }: CommentsProps) {
     navigate(`${ROUTES.PROJECT}${project_id}`);
   };
 
-  const handleRecruitingSelect = (value: string) => {
-    setRecruitingFilter(value);
-  };
+  const handleSelectFilter = (value: string) => {
+    setSelectedOption(value);
+    setCurrPage(0);
+  }
 
   useEffect(() => {
-    if (recruitingFilter === 'recruit') {
-      // 구인 일 때만 임시로 1차 구현 fetcher로 
-      getUserCommentData();
-    } else {
-      getUserSelectData();
-    }
-  }, [recruitingFilter, currPage]);
+    getUserCommentData();
+  }, [selectedOption, currPage]);
 
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
         <div className={styles.contentCount}>댓글 {totalComments}개</div>
-        <ContentsFilter onChange={handleRecruitingSelect}/>
+        <ContentsFilter onChange={handleSelectFilter}/>
       </div>
       {totalComments === 0 ? (
         <div className={styles.noComment}>
@@ -91,14 +70,35 @@ function Comments({ onError }: CommentsProps) {
       ) : (
         <div className={styles.comments}>
           {comments.map((data, index) => {
-            const { comment_content, comment_created_at, project_id, project_title } = data;
+            let comment_content = '';
+            let comment_created_at = '';
+            let id = 0;
+            let title = '';
+
+            switch (selectedOption) {
+              case 'project': {
+                if ('project_id' in data) {
+                  ({ comment_content, comment_created_at, project_id: id, project_title: title } = data);
+                }
+                break;
+              }
+              case 'portfolio': {
+                if ('portfolio_id' in data) {
+                  ({ comment_content, comment_created_at, portfolio_id: id, portfolio_title: title } = data);
+                }
+                break;
+              }
+              default:
+                break;
+            }
+
             return (
               <div
                 className={styles.commentWrapper}
                 key={`${comment_created_at}-${index}`}
-                onClick={(e) => handleClickComment(e, project_id)}
+                onClick={(e) => handleClickComment(e, id)}
               >
-                <div className={styles.title}>{project_title}</div>
+                <div className={styles.title}>{title}</div>
                 <div className={styles.comment}>{comment_content}</div>
                 <div className={styles.createdAt}>{getDateFormat(comment_created_at)}</div>
               </div>

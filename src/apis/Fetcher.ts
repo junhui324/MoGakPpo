@@ -8,7 +8,7 @@ import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
 import { AxiosResponse } from 'axios';
 import * as Token from './Token';
-import { TypePortfolioList } from '../interfaces/Portfolio.interface';
+import { TypePortfolioList, TypePortfolio } from '../interfaces/Portfolio.interface';
 
 const domain = `/mock`;
 
@@ -73,10 +73,14 @@ export async function getComment(
   const query = `page=${pageNumber}`;
   return await Api.get(API_KEY, params, false, query);
 }
-export async function postComment(
-  postType: string,
-  data: CommentType.TypeCommentPost
-): Promise<CommentType.TypeCommentPost> {
+export async function postComment<T extends 'project' | 'portfolio'>(
+  postType: T,
+  data: T extends 'project'
+    ? CommentType.TypeProjectCommentPost
+    : CommentType.TypePortfolioCommentPost
+): Promise<
+  T extends 'project' ? CommentType.TypeProjectCommentPost : CommentType.TypePortfolioCommentPost
+> {
   const params = `comments/${postType}`;
   return await Api.post(API_KEY, params, data, true);
 }
@@ -88,10 +92,12 @@ export async function putComment(
   const params = `comments/${postType}/${commentId}`;
   return await Api.put(API_KEY, params, data, true);
 }
-export async function deleteComment(
-  postType: string,
+export async function deleteComment<T extends 'project' | 'portfolio'>(
+  postType: T,
   commentId: number
-): Promise<CommentType.TypeCommentPost> {
+): Promise<
+  T extends 'project' ? CommentType.TypeProjectCommentPost : CommentType.TypePortfolioCommentPost
+> {
   const params = `comments/${postType}/${commentId}`;
   return await Api.delete(API_KEY, params, {}, true);
 }
@@ -208,23 +214,6 @@ export async function getUserSelectPosts(
   return await Api.get(domain, params);
 }
 
-// 유저 댓글 중 선택한 댓글 불러오기
-export async function getUserSelectComments(
-  recruiting: string,
-  page: number
-): Promise<{
-  message: string;
-  data: {
-    listLength: number;
-    pageSize: number;
-    pagenatedComments: CommentType.TypeMypageComments;
-  };
-}> {
-  const params = `user/comments/recruiting=${recruiting}&page=${page}.json`;
-  // const query = `recruiting=${recruiting}&page=${page}`;
-  return await Api.get(domain, params);
-}
-
 // 유저 북마크 중 선택한 북마크 불러오기
 export async function getUserSelectBookMarks(
   recruiting: string,
@@ -249,17 +238,27 @@ export async function updateUserProfile(data: FormData): Promise<UserType.TypeUs
 }
 
 // 유저 작성 댓글 불러오기
-export async function getUserComments(page: number): Promise<{
+export async function getUserComments(
+  type: string,
+  page: number
+): Promise<{
   message: string;
-  data: { listLength: number; pageSize: number; pagenatedComments: CommentType.TypeMypageComments };
+  data: {
+    listLength: number;
+    pageSize: number;
+    pagenatedComments:
+      | CommentType.TypeMypageProjectComments
+      | CommentType.TypeMypagePortfolioComments;
+  };
 }> {
-  const params = `comments/user?page=${page}`;
+  const params = `comments/${type}/user?page=${page}`;
   return await Api.get(API_KEY, params);
 }
+
 // 유저 작성 댓글 불러오기
 export async function getUserCommentsById(userId: number): Promise<{
   message: string;
-  data: { project_comments: CommentType.TypeMypageComments };
+  data: { project_comments: CommentType.TypeMypageProjectComments };
 }> {
   const params = `user/${userId}/comments.json`;
   return await Api.get(domain, params);
@@ -335,4 +334,10 @@ export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
   };
   const response: AxiosResponse = await Api.patch(API_KEY, params, data);
   return response;
+}
+// 포트폴리오 상세 정보 조회
+export async function getPortfolio(portfolioId: number): Promise<TypePortfolio> {
+  const params = `portfolios/info/${portfolioId}`;
+  const response: AxiosResponse = await Api.get(API_KEY, params);
+  return response.data;
 }
