@@ -88,7 +88,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.etc}>
-          <h2>이 프로젝트의 인기는?</h2>
+          <h2>이 포트폴리오의 인기는?</h2>
           <span>👀</span>
           <span className={styles.count}>{portfolio.portfolio_views_count}</span>
           <span>💬</span>
@@ -183,9 +183,12 @@ function PortfolioDetailForm() {
         <div className={styles.participate}>
           <h2>프로젝트에 참여한 유저</h2>
           <div className={styles.userBox}>
-            {userList.map((user, index) => (
+            {portfolio.participated_members.map((user, index) => (
               <div className={styles.userInfoBox} key={index}>
-                <img src={user.user_img} alt={`${user.user_name} 프로필`} />
+                <img
+                  src="https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
+                  alt={`${user.user_name} 프로필`}
+                />
                 <div className={styles.userInfo}>
                   <p>{user.user_name}</p>
                   <p>{user.user_email}</p>

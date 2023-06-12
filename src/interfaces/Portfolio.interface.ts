@@ -30,6 +30,12 @@ interface Portfolio2 {
   portfolio_stacks: {
     stackList: string[];
   };
+  participated_members: {
+    user_id: number;
+    user_name: string;
+    user_email: string;
+    user_career_goal: string;
+  }[];
   portfolio_description: string;
   portfolio_img: string | null;
   portfolio_bookmark_count: number;
