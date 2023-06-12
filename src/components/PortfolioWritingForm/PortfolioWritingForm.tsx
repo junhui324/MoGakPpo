@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 
-const IMG_DOMAIN = process.env.REACT_DOMAIN;
+const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
 const MAX_SUMMARY_LENGTH = 150;
 export const MAX_MEMBERS_LENGTH = 10;
