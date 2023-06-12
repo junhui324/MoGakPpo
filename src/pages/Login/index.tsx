@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect,useMemo } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
@@ -22,8 +22,13 @@ function Login() {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isKakaoLoading, setIsKakaoLoading] = useState(false);
+  const [code, setCode] = useSearchParams();
   const navigate = useNavigate();
   const setLoginData = useSetRecoilState(loginAtom);
+  const codeSearchParams = useMemo(() =>{
+    return code.get('code') ?? '';
+  }, [code]);
+
   useEffect(() =>{
     const code = new URL(window.location.href).searchParams.get("code");
     const kakaoLoginFunction = async (code:string) =>{
@@ -36,14 +41,12 @@ function Login() {
     }
     else{
       setIsKakaoLoading(true);
-      var data = kakaoLoginFunction(code);
-            
-      
+      var data = kakaoLoginFunction(code); 
     }
 
-    });
+    }, [codeSearchParams]);
 
-  function isEmailBlank(): Boolean {
+  const isEmailBlank = () => {
     if (emailRef.current.value === '') {
       setIsEmail(true);
 
@@ -55,7 +58,7 @@ function Login() {
     }
   }
 
-  function isPasswordBlank(): Boolean {
+  const isPasswordBlank = () => {
     if (passwordRef.current.value === '') {
       setIsPassword(true);
 
@@ -220,7 +223,7 @@ function Login() {
 
             <div className={styles.menuLine}>
               <span className={styles.call}>
-                <Link to="/" className={styles.link}>
+                <Link to="" className={styles.link}>
                   고객센터
                 </Link>
               </span>

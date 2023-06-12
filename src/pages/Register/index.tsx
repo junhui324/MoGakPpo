@@ -33,7 +33,7 @@ function Register() {
   
   const navigate = useNavigate();
 
-  function CheckEmail(str: any) {
+  const CheckEmail = (str: any) =>{
     var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
     if (!reg_email.test(str)) {
       return false;
@@ -42,7 +42,7 @@ function Register() {
     }
   }
 
-  function isAllCheck() {
+  const isAllCheck = () =>{
     if (allRef.current.checked) {
       ageRef.current.checked = true;
       useInfoRef.current.checked = true;
@@ -56,7 +56,7 @@ function Register() {
     }
   }
 
-  function isEmailBlank(): Boolean {
+  const isEmailBlank = () =>{
     if (!CheckEmail(emailRef.current.value)) {
       setIsEmail(true);
 
@@ -68,7 +68,7 @@ function Register() {
     }
   }
 
-  function isNameBlank(): Boolean {
+  const isNameBlank = () => {
     if (nameRef.current.value === '') {
       setIsName(true);
 
@@ -80,7 +80,7 @@ function Register() {
     }
   }
 
-  function isPasswordBlank(): Boolean {
+  const isPasswordBlank = () =>{
     if (passwordRef.current.value.length < 6) {
       setIsPassword(true);
 
@@ -146,7 +146,7 @@ function Register() {
     }
     }
     catch(e:any){
-      alert("중복된 이메일입니다.");
+      alert("해당 이메일은 사용할 수 없습니다.");
       return;
     }
   };
