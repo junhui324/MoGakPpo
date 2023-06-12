@@ -53,6 +53,7 @@ function PortfolioDetailForm() {
 
   useEffect(() => {
     getPortfolio();
+    window.scrollTo(0, 0);
   }, []);
 
   // 게시글 아이디에 맞게 로딩할 것
