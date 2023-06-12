@@ -220,7 +220,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     formData.append('portfolio_description', newDescription);
     editorImgFiles.length > 0 &&
       editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
-    // formData.append('portfolio_memberIds',JSON.stringify(members||[]));
+    formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
 
     const refFocusAndScroll = (targetRef: any) => {
       if (targetRef.current) {
@@ -295,6 +295,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       setTitle(postData.title);
       setSummary(postData.summary);
       setStacks(postData.stacks);
+      setGitHubUrl(postData.gitHubUrl);
       setMembers(postData.members);
       // 에디터 내용 불러오기
       quillRef.current.root.innerHTML = postData.description;
