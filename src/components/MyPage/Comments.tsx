@@ -66,7 +66,7 @@ function Comments({ onError }: CommentsProps) {
         break;
       }
       case 'portfolio': {
-        navigate(`${ROUTES.PORTFOLIO_DETAIL}/info/${id}`);
+        navigate(`${ROUTES.PORTFOLIO_DETAIL}${id}`);
         break;
       }
     }
