@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './login.module.scss';
 //@ts-ignore
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
 import { userInfo } from 'os';
@@ -11,6 +11,7 @@ import {RiKakaoTalkFill} from "react-icons/ri";
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
+import { getKakaoLogin } from '../../apis/Fetcher';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
@@ -25,13 +26,19 @@ function Login() {
   const setLoginData = useSetRecoilState(loginAtom);
   useEffect(() =>{
     const code = new URL(window.location.href).searchParams.get("code");
+    const kakaoLoginFunction = async (code:string) =>{
+      return await getKakaoLogin(code)
+
+    }
     
     if(code === null){
-      console.log("code empty");
+
     }
     else{
-      console.log(code);
       setIsKakaoLoading(true);
+      var data = kakaoLoginFunction(code);
+            
+      
     }
 
     });
@@ -130,9 +137,8 @@ function Login() {
   };
 
   const kakaoLogin = () =>{
-    const redirect_uri = "http://localhost:3000/login";
-    const kakaoURL = `
-    https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
+    const redirect_uri = `${API_KEY}/login`;
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
 
     window.location.href = kakaoURL;
   };
@@ -216,11 +222,6 @@ function Login() {
               <span className={styles.call}>
                 <Link to="/" className={styles.link}>
                   고객센터
-                </Link>
-              </span>
-              <span className={styles.forget}>
-                <Link to="/user/editpw" className={styles.link}>
-                  비밀번호를 잊으셨나요?
                 </Link>
               </span>
             </div>

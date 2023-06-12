@@ -6,7 +6,7 @@ import * as ProjectType from '../interfaces/Project.interface';
 import * as UserType from '../interfaces/User.interface';
 import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
-import { AxiosResponse } from 'axios';
+import { Axios, AxiosResponse } from 'axios';
 import * as Token from './Token';
 import { TypePortfolioList } from '../interfaces/Portfolio.interface';
 
@@ -317,3 +317,12 @@ export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
   const response: AxiosResponse = await Api.patch(API_KEY, params, data);
   return response;
 }
+
+// 인증코드 전달하여 계정정보 받아오는 카카오 로그인
+export async function getKakaoLogin(code:string):Promise<AxiosResponse>{
+  const params = `/login/kakao?code=${code}`;
+  const response:AxiosResponse = await Api.get(API_KEY, params);
+
+  return response.data;
+}
+
