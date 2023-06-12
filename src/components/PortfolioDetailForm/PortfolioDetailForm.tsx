@@ -70,16 +70,16 @@ function PortfolioDetailForm() {
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
-          <h2>{portfolio.portfolio_title}</h2>
+          <h2>💜{portfolio.portfolio_title}</h2>
         </div>
 
         <div className={styles.summary}>
-          <h2>프로젝트 요약</h2>
+          <h2>🔍 프로젝트 요약</h2>
           <div className={styles.paragraph}>{portfolio.portfolio_summary}</div>
         </div>
 
         <div className={styles.etc}>
-          <h2>이 포트폴리오의 인기는?</h2>
+          <h2>🔥 이 포트폴리오의 인기는?</h2>
           <span>👀</span>
           <span className={styles.count}>{portfolio.portfolio_views_count}</span>
           <span>💬</span>
@@ -89,7 +89,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.stack}>
-          <h2>프로젝트에 사용된 기술 스택</h2>
+          <h2>🔨 프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
             {portfolio.portfolio_stacks?.stackList ? (
               portfolio.portfolio_stacks.stackList.map((stack) => {
@@ -114,7 +114,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.mainText}>
-          <h2>프로젝트 상세 설명</h2>
+          <h2>📝 프로젝트 상세 설명</h2>
           <div
             className={styles.paragraph}
             dangerouslySetInnerHTML={{
@@ -175,7 +175,7 @@ function PortfolioDetailForm() {
           <div></div>
         ) : (
           <div className={styles.participate}>
-            <h2>프로젝트에 참여한 유저</h2>
+            <h2>😎 프로젝트에 참여한 유저</h2>
             <div className={styles.userBox}>
               {portfolio.participated_members.map((user, index) => (
                 <div className={styles.userInfoBox} key={index}>
