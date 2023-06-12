@@ -276,8 +276,9 @@ export async function getUsersByEmail(value: string): Promise<{
     user_img: string;
   }[];
 }> {
-  const params = `users2.json`;
-  return await Api.get(domain, params);
+  const params = `users/members`;
+  const query = `keyword=${value}`;
+  return await Api.get(API_KEY, params, true, query);
 }
 
 // 포트폴리오 상세 정보
