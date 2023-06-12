@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Fetcher from '../../apis/Fetcher';
+import * as Token from '../../apis/Token';
 
 //타입
 import { TypePortfolioList } from '../../interfaces/Portfolio.interface';
@@ -14,11 +15,9 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 function PortfolioCell({
   isLoading = false,
   portfolio = null,
-  fetchData,
 }: {
   isLoading?: boolean;
   portfolio?: TypePortfolioList | null;
-  fetchData: () => void;
 }) {
   const navigate = useNavigate();
   // 상태
@@ -50,6 +49,12 @@ function PortfolioCell({
   };
 
   const handleBookmark = async () => {
+    if (!Token.getToken()) {
+      alert('로그인 후 사용 가능합니다.');
+      navigate(ROUTES.LOGIN);
+      return;
+    }
+
     try {
       isBookmarked
         ? await Fetcher.deletePortfolioBookmark(portfolio.portfolio_id)
@@ -64,11 +69,11 @@ function PortfolioCell({
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
           case '401':
-            alert('로그인 후 사용 가능합니다.');
+            alert('토큰이 만료되었습니다.');
             navigate(`${ROUTES.LOGIN}`);
             break;
           default:
-            alert('예기치 않은 오류가 발생했습니다.');
+            alert(`${error} : 예기치 않은 오류가 발생했습니다.`);
             return;
         }
       }

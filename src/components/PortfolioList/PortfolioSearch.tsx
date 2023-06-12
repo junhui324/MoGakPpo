@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
+import * as Token from '../../apis/Token';
 
 import styles from './PortfilioSearch.module.scss';
 
@@ -14,6 +15,15 @@ function PortfolioSearch({
   // 라우팅
   const navigate = useNavigate();
 
+  const handlePostMove = () => {
+    if (Token.getToken()) navigate(ROUTES.PORTFOLIO_CREATE);
+    else {
+      alert('로그인 후 사용 가능합니다.');
+      navigate(ROUTES.LOGIN);
+      return;
+    }
+  };
+
   return (
     <div className={styles.container}>
       <form className={styles.searchBox} onSubmit={(event) => event.preventDefault()}>
@@ -25,13 +35,8 @@ function PortfolioSearch({
           onChange={onSearch}
         />
       </form>
-      <button
-        className={styles.writeButton}
-        onClick={() => {
-          navigate(ROUTES.PORTFOLIO_CREATE);
-        }}
-      >
-        글 작성
+      <button className={styles.postButton} onClick={handlePostMove}>
+        📢 자랑 하기
       </button>
     </div>
   );

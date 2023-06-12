@@ -14,7 +14,7 @@ export default function HotPortfolio() {
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
   const getPortfolioListData = async (): Promise<void> => {
     try {
-      const response = await getPortfolioList(1);
+      const response = await getPortfolioList(1, '', false);
       //@ts-ignore
       setPortfolioList(response.pagenatedPortfolios);
     } catch (error: any) {
