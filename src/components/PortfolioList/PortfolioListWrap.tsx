@@ -23,6 +23,7 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [data, setData] = useState<TypePortfolioList[] | null>(null);
   const [totalPage, setTotalPage] = useState<number>(INITIAL_PAGE);
+  const [isUpdate, setIsUpdate] = useState<boolean>(true);
   const page = useRef<number>(INITIAL_PAGE);
 
   const fetchData = async () => {
@@ -85,7 +86,11 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
   // 초기 로딩을 포함합니다.
   useEffect(() => {
     keywordSearch();
-  }, [keyword]);
+
+    return () => {
+      setIsUpdate(false);
+    };
+  }, [isUpdate, keyword]);
 
   // 상태가 변할때, 메모이제이션을 통한 값들이 변하면 observer 갱신
   useEffect(() => {
@@ -107,7 +112,13 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
         {/* 로딩되어있는 데이터 표시 */}
         {data
           ? data.map((portfolio) => {
-              return <PortfolioCell key={portfolio.portfolio_id} portfolio={portfolio} />;
+              return (
+                <PortfolioCell
+                  key={portfolio.portfolio_id}
+                  portfolio={portfolio}
+                  fetchData={() => setIsUpdate(true)}
+                />
+              );
             })
           : !isLoading && <p>'포스트없음'</p>}
       </div>

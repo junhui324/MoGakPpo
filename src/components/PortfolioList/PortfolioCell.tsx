@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Fetcher from '../../apis/Fetcher';
 
@@ -14,11 +14,20 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 function PortfolioCell({
   isLoading = false,
   portfolio = null,
+  fetchData,
 }: {
   isLoading?: boolean;
   portfolio?: TypePortfolioList | null;
+  fetchData: () => void;
 }) {
   const navigate = useNavigate();
+  // 상태
+  const [isBookmarked, setIsBookmarked] = useState<boolean | null>(
+    portfolio ? portfolio.is_bookmarked : null
+  );
+  const [bookmarkCount, setBookmarkCount] = useState<number | null>(
+    portfolio ? portfolio.portfolio_bookmark_count : null
+  );
 
   // 로딩 중이면 스켈레톤 UI를 반환
   if (isLoading)
@@ -42,9 +51,15 @@ function PortfolioCell({
 
   const handleBookmark = async () => {
     try {
-      portfolio.is_bookmarked
+      isBookmarked
         ? await Fetcher.deletePortfolioBookmark(portfolio.portfolio_id)
         : await Fetcher.postPortfolioBookmark(portfolio.portfolio_id);
+
+      setIsBookmarked((prev) => !prev);
+      setBookmarkCount((prev) => {
+        if (prev !== null) return isBookmarked ? prev - 1 : prev + 1;
+        return null;
+      });
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
@@ -63,7 +78,7 @@ function PortfolioCell({
   return (
     <div className={styles.container}>
       <button className={styles.bookmarkButton} onClick={handleBookmark}>
-        {portfolio.is_bookmarked ? <BsBookmarkFill /> : <BsBookmark />}
+        {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
       </button>
       {portfolio.portfolio_thumbnail ? (
         <img
@@ -99,7 +114,7 @@ function PortfolioCell({
         <span>💬</span>
         <span>{portfolio.portfolio_comments_count}</span>
         <span>📌</span>
-        <span>{portfolio.portfolio_bookmark_count}</span>
+        <span>{bookmarkCount}</span>
       </div>
     </div>
   );
