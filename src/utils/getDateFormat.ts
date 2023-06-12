@@ -26,13 +26,14 @@ const checkAmPm = (hour: number) => {
 
 const getDateFormat = (createdAt: string) => {
   const newDate = new Date(createdAt);
+  const localDate = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000);
 
   return `
-    ${newDate.getFullYear()}년 
-    ${Number(newDate.getMonth()) + 1}월 
-    ${newDate.getDate()}일
-    ${getKorDay(newDate.getDay())}
-    ${checkAmPm(newDate.getHours())}:${newDate.getMinutes()}:${newDate.getSeconds()}
+    ${localDate.getFullYear()}년 
+    ${Number(localDate.getMonth()) + 1}월 
+    ${localDate.getDate()}일
+    ${getKorDay(localDate.getDay())}
+    ${checkAmPm(localDate.getHours())}:${localDate.getMinutes()}:${localDate.getSeconds()}
   `;
 };
 
