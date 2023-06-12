@@ -35,10 +35,12 @@ function Header() {
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
-          {/* <span className={styles.logo} onClick={handleLogoClick}>
-            모프 🪄
-          </span> */}
-          <img src={Logo} onClick={handleLogoClick} style={{ width: 160 }} />
+          <img
+            className={styles.logo}
+            src={Logo}
+            onClick={handleLogoClick}
+            style={{ width: 160 }}
+          />
           <NavLink
             to={`${ROUTES.PROJECT_LIST}`}
             className={({ isActive }) => (isActive ? styles.active : '')}
