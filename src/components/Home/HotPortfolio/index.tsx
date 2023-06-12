@@ -13,18 +13,18 @@ export default function HotPortfolio() {
     'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1';
 
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
-  const getPortfolioListData = async (): Promise<void> => {
+  const getPortfolioListData = async () => {
     try {
-      const response = await getPortfolioList(1);
+      const response = await getPortfolioList(1, '', true);
       //@ts-ignore
       setPortfolioList(response.pagenatedPortfolios);
     } catch (error: any) {
-      if (error.message === '404') {
+      if (error.message === '400') {
         setPortfolioList([]);
       }
     }
   };
-
+  // /api/v1/portfolios?keyword=false&sort=true&page=1
   useEffect(() => {
     getPortfolioListData();
   }, []);

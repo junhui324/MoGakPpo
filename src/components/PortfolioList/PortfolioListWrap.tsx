@@ -46,7 +46,7 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
     setIsLoading(true);
 
     try {
-      const data = await Fetcher.getPortfolioList(page.current, keyword);
+      const data = await Fetcher.getPortfolioList(page.current, keyword, false);
 
       // 데이터에 맞게 페이지 최대 사이즈와 데이터를 설정합니다.
       setTotalPage(data.pageSize);

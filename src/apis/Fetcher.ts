@@ -350,11 +350,12 @@ export async function getPortfolioUsers(): Promise<{
 // 포트폴리오 리스트 불러오기
 export async function getPortfolioList(
   page: number,
-  keyword: string = ''
+  keyword: string = '',
+  sort: boolean
 ): Promise<{ pageSize: number; pagenatedPortfolios: TypePortfolioList[] }> {
   keyword === '' && (keyword = 'false');
 
-  const params = `portfolios?keyword=${keyword}&page=${page}`;
+  const params = `portfolios?keyword=${keyword}&page=${page}&sort=${sort}`;
   const response: AxiosResponse = await Api.get(API_KEY, params);
   return response.data;
 }
