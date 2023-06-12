@@ -101,14 +101,22 @@ $middle-font-size: 16px;
         font-style: italic;
       }
 
+      .code-block {
+        background-color: rgba(grey, 0.1) !important;
+        color: black !important;
+        overflow: visible !important;
+      }
+
+      .ql-snow .ql-editor pre.ql-syntax {
+        background-color: rgba(grey, 0.1) !important;
+        color: black !important;
+        overflow: visible !important;
+      }
+
       pre {
-        white-space: pre-wrap;
-        margin-bottom: 5px;
-        margin-top: 5px;
-        padding: 5px 10px;
-        background-color: #23241f;
-        color: #f8f8f2;
-        overflow: visible;
+        background-color: rgba(grey, 0.1) !important;
+        color: black !important;
+        overflow: visible !important;
       }
     }
   }

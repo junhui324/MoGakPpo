@@ -19,11 +19,13 @@ import PortfolioModifyBlock from './PortfolioModifyBlock';
 import getUserInfo from '../../utils/getUserInfo';
 import DefaultUserImage from '../../assets/DefaultUser.png';
 import { loginAtom } from '../../recoil/loginState';
+import Loading from '../common/Loading/Loading';
 
 const DEFAULT_STACK = '미정';
 
 function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useParams();
 
   const LoginData = useRecoilState(loginAtom);
@@ -33,6 +35,7 @@ function PortfolioDetailForm() {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const getPortfolio = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
@@ -41,6 +44,8 @@ function PortfolioDetailForm() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [setPortfolio, id]);
 
@@ -53,6 +58,7 @@ function PortfolioDetailForm() {
 
   useEffect(() => {
     getPortfolio();
+    window.scrollTo(0, 0);
   }, []);
 
   // 게시글 아이디에 맞게 로딩할 것
@@ -65,20 +71,22 @@ function PortfolioDetailForm() {
     };
   }, [isUpdate, getPortfolio]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
-          <h2>{portfolio.portfolio_title}</h2>
+          <h2>💜 {portfolio.portfolio_title}</h2>
         </div>
 
         <div className={styles.summary}>
-          <h2>프로젝트 요약</h2>
+          <h2>🔍 프로젝트 요약</h2>
           <div className={styles.paragraph}>{portfolio.portfolio_summary}</div>
         </div>
 
         <div className={styles.etc}>
-          <h2>이 포트폴리오의 인기는?</h2>
+          <h2>🔥 이 포트폴리오의 인기는?</h2>
           <span>👀</span>
           <span className={styles.count}>{portfolio.portfolio_views_count}</span>
           <span>💬</span>
@@ -88,7 +96,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.stack}>
-          <h2>프로젝트에 사용된 기술 스택</h2>
+          <h2>🔨 프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
             {portfolio.portfolio_stacks?.stackList ? (
               portfolio.portfolio_stacks.stackList.map((stack) => {
@@ -113,7 +121,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.mainText}>
-          <h2>프로젝트 상세 설명</h2>
+          <h2>📝 프로젝트 상세 설명</h2>
           <div
             className={styles.paragraph}
             dangerouslySetInnerHTML={{
@@ -174,7 +182,7 @@ function PortfolioDetailForm() {
           <div></div>
         ) : (
           <div className={styles.participate}>
-            <h2>프로젝트에 참여한 유저</h2>
+            <h2>😎 프로젝트에 참여한 유저</h2>
             <div className={styles.userBox}>
               {portfolio.participated_members.map((user, index) => (
                 <div className={styles.userInfoBox} key={index}>
