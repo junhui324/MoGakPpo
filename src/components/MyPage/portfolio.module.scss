@@ -11,7 +11,8 @@ $grey: #64748B;
   cursor: pointer;
 
   .topContainer {
-    width: 200px;
+    width: 300px;
+    height: 160px;
 
     & > img {
       border-radius: 16px 0 0 16px;
@@ -23,7 +24,6 @@ $grey: #64748B;
 
   .contentContainer {
     padding: 24px;
-    line-height: 24px;
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -35,9 +35,10 @@ $grey: #64748B;
       font-weight: 550;
       
       .titleWrapper {
-        width: 400px;
+        width: 360px;
         display: flex;
         flex-direction: row;
+        line-height: 2.2rem;
         
         .title {
           overflow: hidden;
@@ -71,12 +72,13 @@ $grey: #64748B;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      line-height: 2.2rem;
+      padding: 0.5rem 0;
     }
     
     .createdAt {
       color: $grey;
       font-weight: 100;
+      margin-top: 1.5rem;
     }
   }
 }

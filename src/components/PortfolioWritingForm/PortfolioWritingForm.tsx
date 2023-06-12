@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 
-const IMG_DOMAIN = process.env.REACT_DOMAIN;
+const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
 const MAX_SUMMARY_LENGTH = 150;
 export const MAX_MEMBERS_LENGTH = 10;
@@ -96,12 +96,13 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
 
   // 수정 모드인 경우 원래 데이터 불러오기
   useEffect(() => {
+    console.log(publishedPostData);
     if (publishedPostData) {
       const {
         portfolio_title,
         portfolio_summary,
         portfolio_stacks,
-        // portfolio_members,
+        participated_members,
         portfolio_description,
         portfolio_github,
         portfolio_thumbnail,
@@ -109,7 +110,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       setTitle(portfolio_title);
       setSummary(portfolio_summary);
       setStacks(portfolio_stacks.stackList);
-      // setMembers(portfolio_members);
+      setMembers(participated_members);
       setThumbnailSrc(portfolio_thumbnail);
       setGitHubUrl(portfolio_github);
       quillRef.current.root.innerHTML = portfolio_description;
@@ -228,6 +229,8 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
     };
+
+    console.log(members);
 
     if (!title) {
       alert('제목을 입력해 주세요.');

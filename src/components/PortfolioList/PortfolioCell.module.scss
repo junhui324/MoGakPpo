@@ -5,37 +5,61 @@
   border-radius: 16px;
   box-sizing: border-box;
   border: 1px solid $container-border-color;
-  margin-right: 16px;
   height: 380px;
   overflow: hidden;
 
-  cursor: pointer;
+  transition: all 0.25s;
+
+  .bookmarkButton {
+    position: absolute;
+    left: 86%;
+    bottom: 90%;
+
+    display: flex;
+    border: none;
+    padding: 6px 8px;
+    background-color: unset;
+
+    cursor: pointer;
+
+    svg {
+      font-size: 20px;
+      color: $main-color;
+    }
+  }
 
   &:hover {
     border-color: #d0dee0;
     box-shadow: 0 0 15px #e2eaf1;
+    transform: translate(0, -5px);
   }
 
   .image {
+    display: block;
     width: 100%;
     height: 50%;
     object-fit: cover;
+
+    cursor: pointer;
   }
 
   .textContainer {
     padding: 0 1rem;
 
+    cursor: pointer;
+
     .titleBox {
       display: flex;
       align-items: center;
 
-      margin: 0.825rem 0;
+      margin: 0.75rem 0;
 
       .title {
+        overflow: hidden;
         font-size: 20px;
         font-weight: 600;
+        line-height: 30px;
 
-        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
@@ -51,6 +75,8 @@
       text-overflow: ellipsis;
       white-space: nowrap;
 
+      font-size: 14px;
+
       /* 여러 줄 자르기 추가 스타일 */
       white-space: normal;
       line-height: 1.2;
@@ -63,7 +89,7 @@
     }
     .stacks {
       display: flex;
-      margin: 0.825rem 0;
+      margin: 0.75rem 0;
       height: 22px;
 
       div {
@@ -76,16 +102,23 @@
         border-radius: 30px;
       }
       .ellipsis {
-        padding-top: 3px;
+        padding-top: 2px;
         color: $main-color;
       }
     }
-    .informations {
-      font-size: 14px;
-      color: rgb(168, 180, 197);
-      span {
-        margin: 0 4px;
-      }
+  }
+  .informations {
+    display: flex;
+    align-items: center;
+
+    padding: 0.6rem 1rem;
+
+    font-size: 14px;
+    color: rgb(168, 180, 197);
+
+    border-top: 1px solid $container-border-color;
+    span {
+      margin: 0 4px;
     }
   }
 }

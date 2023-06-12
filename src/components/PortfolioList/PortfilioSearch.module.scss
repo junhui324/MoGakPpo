@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
 
-  height: 100px;
+  height: 90px;
   .searchBox {
     display: flex;
     align-items: center;
@@ -14,8 +14,16 @@
     border-radius: 30px;
     border: 1px solid #e8e8e8;
     padding: 0 20px;
-    width: 300px;
+    width: 25%;
     height: 50px;
+
+    transition: all 0.5s;
+
+    &:focus-within {
+      width: 35%;
+      border-color: #d0dee0;
+      box-shadow: 0 0 15px #e2eaf1;
+    }
 
     span {
       display: flex;
@@ -40,42 +48,17 @@
       outline: none;
     }
   }
-  .writeButton {
+  .postButton {
     margin-left: auto;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+
+    font-size: 16px;
+    color: aliceblue;
+
+    background-color: #6636da;
+
+    cursor: pointer;
   }
 }
-
-// .container {
-//   width: 60%;
-//   form {
-//     width: 100%;
-//     display: flex;
-//     font-size: 16px;
-//     border-radius: 30px;
-//     border: 1px solid #e8e8e8;
-//     padding: 0 16px 0 16px;
-//     align-items: center;
-//     span {
-//       display: flex;
-//       align-items: center;
-//       width: 40px;
-//       height: 34px;
-//       font-size: 20px;
-//       border: none;
-//       background-color: unset;
-//       align-self: center;
-//     }
-//     input {
-//       width: 100%;
-//       height: 36px;
-//       padding: 4px 0;
-//       border: none;
-//     }
-//     input:focus {
-//       outline: none;
-//     }
-//   }
-//   .resultContainer {
-//     margin-top: 1.2rem;
-//   }
-// }
