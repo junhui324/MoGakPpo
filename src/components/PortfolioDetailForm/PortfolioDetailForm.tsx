@@ -18,7 +18,8 @@ import DetailShareButton from './DetailShareButton';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
-import Comment from '../Comment/index';
+import PortfolioModifyBlock from './PortfolioModifyBlock';
+import getUserInfo from '../../utils/getUserInfo';
 
 const DEFAULT_STACK = '미정';
 
@@ -33,8 +34,11 @@ function PortfolioDetailForm() {
 
   const getPortfolio = async () => {
     try {
-      const data = await Fetcher.getPortfolio(Number(id));
-      setPortfolio(data);
+      if (id) {
+        const data = await Fetcher.getPortfolio(id);
+        setPortfolio(data.data);
+        console.log(data.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +51,13 @@ function PortfolioDetailForm() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // 글 작성자가 현재 작성자인지 확인하는 함수
+  const isAuthor = (): boolean => {
+    // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
+    const userId = Number(getUserInfo()?.user_id);
+    return userId === portfolio?.user_id ? true : false;
   };
 
   useEffect(() => {
@@ -77,7 +88,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.etc}>
-          <h2>이 프로젝트의 인기는?</h2>
+          <h2>이 포트폴리오의 인기는?</h2>
           <span>👀</span>
           <span className={styles.count}>{portfolio.portfolio_views_count}</span>
           <span>💬</span>
@@ -145,10 +156,21 @@ function PortfolioDetailForm() {
             }}
             fetchData={() => setIsUpdate(true)}
           />
+          {isAuthor() && (
+            <PortfolioModifyBlock
+              modifyData={{
+                portfolio_id: portfolio.portfolio_id,
+                user_id: portfolio.user_id,
+              }}
+            />
+          )}
         </div>
 
         <div className={styles.link}>
-          <button className={styles.linkButton}>
+          <button
+            className={styles.linkButton}
+            onClick={() => window.open(`${portfolio.portfolio_github}`, '_blank')}
+          >
             <BsGithub className={styles.logo} />
             <span>깃허브 링크</span>
           </button>
@@ -161,9 +183,12 @@ function PortfolioDetailForm() {
         <div className={styles.participate}>
           <h2>프로젝트에 참여한 유저</h2>
           <div className={styles.userBox}>
-            {userList.map((user, index) => (
+            {portfolio.participated_members.map((user, index) => (
               <div className={styles.userInfoBox} key={index}>
-                <img src={user.user_img} alt={`${user.user_name} 프로필`} />
+                <img
+                  src="https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
+                  alt={`${user.user_name} 프로필`}
+                />
                 <div className={styles.userInfo}>
                   <p>{user.user_name}</p>
                   <p>{user.user_email}</p>
