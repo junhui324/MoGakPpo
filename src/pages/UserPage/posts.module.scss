@@ -1,18 +1,25 @@
 .container {
   border-top: 1px solid rgba(226, 232, 240);
   background-color: rgba(226, 232, 240, 0.3);
-  // height: 50vh;
+  min-height: 480px;
   padding-top: 1.4rem;
-}
 
-.contentCount {
-  color: #94a3b8;
-  font-weight: 500;
-  padding-left: 0.8rem;
+  .topContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .contentCount {
+    color: #94a3b8;
+    font-weight: 500;
+    padding-left: 0.8rem;
+  }
 }
 
 .posts {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
   padding: 3rem 2rem 3rem 2rem;
@@ -21,14 +28,27 @@
     width: 100%;
   }
 
-  .image {
-    padding-top: 5rem;
-    width: 100px;
-    height: 100px;
+  ul > div {
+    display: flex;
+    flex-direction: column;
   }
 
-  .noContent {
-    color: #64748b;
-    margin-top: 2rem;
+  .noContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5rem;
+
+    .image {
+      align-self: center;
+      padding: 5rem, 0 0 0;
+      width: 100px;
+      height: 100px;
+    }
+
+    .noContent {
+      color: #64748b;
+      margin-top: 2rem;
+    }
   }
 }
