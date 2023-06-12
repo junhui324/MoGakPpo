@@ -1,14 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styles from './PortfolioDetailForm.module.scss';
 import DOMPurify from 'dompurify';
 import { BsGithub } from 'react-icons/bs';
 
 // api
 import * as Fetcher from '../../apis/Fetcher';
-
-// 타입
-import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 
 //recoil
 import { useRecoilState } from 'recoil';
@@ -20,6 +17,8 @@ import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
 import PortfolioModifyBlock from './PortfolioModifyBlock';
 import getUserInfo from '../../utils/getUserInfo';
+import DefaultUserImage from '../../assets/DefaultUser.png';
+import { loginAtom } from '../../recoil/loginState';
 
 const DEFAULT_STACK = '미정';
 
@@ -27,7 +26,8 @@ function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
   const { id } = useParams();
 
-  const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
+  const LoginData = useRecoilState(loginAtom);
+  const userId = LoginData[0];
 
   // 업데이트 필요 시에 변경되는 상태
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -44,15 +44,6 @@ function PortfolioDetailForm() {
     }
   }, [setPortfolio, id]);
 
-  const getUser = async () => {
-    try {
-      const data = await Fetcher.getPortfolioUsers();
-      setUserList(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
@@ -62,7 +53,6 @@ function PortfolioDetailForm() {
 
   useEffect(() => {
     getPortfolio();
-    getUser();
   }, []);
 
   // 게시글 아이디에 맞게 로딩할 것
@@ -180,24 +170,37 @@ function PortfolioDetailForm() {
           <DetailShareButton title="temp"></DetailShareButton>
         </div>
 
-        <div className={styles.participate}>
-          <h2>프로젝트에 참여한 유저</h2>
-          <div className={styles.userBox}>
-            {portfolio.participated_members.map((user, index) => (
-              <div className={styles.userInfoBox} key={index}>
-                <img
-                  src="https://w7.pngwing.com/pngs/340/956/png-transparent-profile-user-icon-computer-icons-user-profile-head-ico-miscellaneous-black-desktop-wallpaper-thumbnail.png"
-                  alt={`${user.user_name} 프로필`}
-                />
-                <div className={styles.userInfo}>
-                  <p>{user.user_name}</p>
-                  <p>{user.user_email}</p>
-                  <p>{user.user_career_goal}</p>
+        {portfolio.participated_members.length === 0 ? (
+          <div></div>
+        ) : (
+          <div className={styles.participate}>
+            <h2>프로젝트에 참여한 유저</h2>
+            <div className={styles.userBox}>
+              {portfolio.participated_members.map((user, index) => (
+                <div className={styles.userInfoBox} key={index}>
+                  <Link
+                    className={styles.imgLink}
+                    to={
+                      user.user_id === Number(userId?.user_id)
+                        ? '/user/mypage'
+                        : `/user/${user.user_id}`
+                    }
+                  >
+                    <img
+                      src={user.user_img === null ? DefaultUserImage : user.user_img}
+                      alt={`${user.user_name} 프로필`}
+                    />
+                    <div className={styles.userInfo}>
+                      <p>{user.user_name}</p>
+                      <p>{user.user_email}</p>
+                      <p>{user.user_career_goal}</p>
+                    </div>
+                  </Link>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
