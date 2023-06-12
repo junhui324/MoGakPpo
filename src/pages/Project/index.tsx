@@ -69,7 +69,7 @@ function Project() {
     } finally {
       setIsLoading(false);
     }
-  }, [navigate, setProjectIdRecoil, projectId]);
+  }, [navigate, setProjectIdRecoil, projectId, bookmarksData, modifyData]);
 
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
