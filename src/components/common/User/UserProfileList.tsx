@@ -1,6 +1,7 @@
 import { MdCancel } from 'react-icons/md';
 import { TypeTeamProjectUser } from '../../../interfaces/User.interface';
 import styles from './UserProfileList.module.scss';
+import DefaultUserImg from '../../../assets/DefaultUser.png';
 
 interface UserListProps {
   userData: TypeTeamProjectUser;
@@ -23,7 +24,7 @@ export default function UserProfileList({ userData, onUserClick, onUserUnselect 
       onClick={onUserClick ? () => onUserClick(userData) : undefined}
     >
       <div className={styles.leftContainer}>
-        <img src={img} alt={`${name} 프로필`} />
+        <img src={img && DefaultUserImg} alt={`${name} 프로필`} />
         <div>
           <p>{name}</p>
           <p>{email}</p>
