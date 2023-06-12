@@ -9,6 +9,7 @@ import { loginAtom } from '../../recoil/loginState';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import DefaultUserImg from '../../assets/DefaultUser.png';
+import Logo from '../../assets/Logo.png';
 
 function Header() {
   const loginData = useRecoilValue(loginAtom);
@@ -34,9 +35,10 @@ function Header() {
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
-          <span className={styles.logo} onClick={handleLogoClick}>
+          {/* <span className={styles.logo} onClick={handleLogoClick}>
             모프 🪄
-          </span>
+          </span> */}
+          <img src={Logo} onClick={handleLogoClick} style={{ width: 160 }} />
           <NavLink
             to={`${ROUTES.PROJECT_LIST}`}
             className={({ isActive }) => (isActive ? styles.active : '')}
