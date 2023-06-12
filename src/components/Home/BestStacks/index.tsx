@@ -1,10 +1,11 @@
 import styles from './BestStacks.module.scss';
 import { getStackList } from '../../../apis/Fetcher';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RxBorderDotted } from 'react-icons/rx';
 
 export default function BestStacks() {
   const [bestStacks, setBestStacks] = useState([]);
+  const [move, setMove] = useState(true);
 
   const getStackListData = async () => {
     try {
@@ -19,6 +20,7 @@ export default function BestStacks() {
     getStackListData();
     const interval = setInterval(() => {
       getStackListData();
+      setMove(false);
     }, 10000);
 
     return () => clearInterval(interval);
@@ -32,7 +34,11 @@ export default function BestStacks() {
       </div>
       <div className={styles.stackList}>
         {bestStacks.map((stack, index) => (
-          <div key={`${stack}-${index}`} className={styles.stackContainer}>
+          <div
+            key={`${stack}-${index}`}
+            className={styles.stackContainer}
+            style={{ animationPlayState: move ? 'running' : 'pause' }}
+          >
             <span className={styles.stackRank}>
               {index + 1}
               <RxBorderDotted />

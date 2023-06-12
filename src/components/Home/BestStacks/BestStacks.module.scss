@@ -33,6 +33,7 @@
     opacity: 0;
     transform: translateY(20px);
     animation: stackFadeIn 0.5s ease-in-out forwards;
+    animation-iteration-count: 1;
 
     &:nth-child(1),
     &:nth-child(2),
