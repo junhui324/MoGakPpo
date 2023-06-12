@@ -27,6 +27,7 @@ import { useRecoilState } from 'recoil';
 export default function Comment() {
   const LoginData = useRecoilState(loginAtom);
   const user = LoginData[0];
+  console.log('🚀 ~ file: index.tsx:30 ~ Comment ~ user:', user);
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
@@ -185,11 +186,11 @@ export default function Comment() {
   };
 
   let inputComponent;
-  if (!user) {
+  if (!user.user_id) {
     inputComponent = loggedOutUserInput();
-  } else if (user && !isInputClicked) {
+  } else if (user.user_id && !isInputClicked) {
     inputComponent = loggedInUserInput();
-  } else if (user && isInputClicked) {
+  } else if (user.user_id && isInputClicked) {
     inputComponent = loggedInUserInputClicked();
   }
 
