@@ -3,23 +3,32 @@ interface Portfolio {
   portfolio_title: string;
   portfolio_summary: string;
   portfolio_thumbnail: string;
+  portfolio_github: string;
   portfolio_stacks: {
     stackList: string[];
   };
+  participated_members: {
+    user_id: number;
+    user_name: string;
+    user_email: string;
+    user_career_goal: string;
+    user_img: string;
+  }[];
+  portfolio_description: string;
+  portfolio_img: string | null;
   portfolio_bookmark_count: number;
   portfolio_comments_count: number;
   portfolio_views_count: number;
   portfolio_created_at: string;
-  is_bookmarked: boolean;
-  portfolio_bookmark_users: string[];
-  portfolio_description: string;
-  portfolio_github: string;
-  portfolio_img: { imgList: string | null[] };
   user_id: number;
-  user_img: string;
-  user_introduction: string;
   user_name: string;
+  user_introduction: string;
+  user_img: string;
+  portfolio_bookmark_users: { user_id: number; user_name: string; user_img: string }[];
+  is_bookmarked: boolean;
 }
+
+export type TypePortfolio = Portfolio;
 
 export type TypePortfolioList = Pick<
   Portfolio,
@@ -55,4 +64,6 @@ export type TypePortfolioDetail = Pick<
   | 'user_img'
   | 'user_introduction'
   | 'user_name'
+  | 'participated_members'
 >;
+export type TypeUserPortfolioPosts = TypePortfolioList[];

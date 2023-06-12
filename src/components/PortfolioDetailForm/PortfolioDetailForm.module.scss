@@ -22,19 +22,19 @@ h2 {
 
 .container {
   margin: 0 auto;
-  max-width: 1024px;
+  width: 1024px;
   border: 1px solid rgb(234, 234, 234);
   display: grid;
   padding: 15px;
   padding-top: 50px;
   padding-bottom: 90px;
-  grid-template-columns: 1fr 424px;
+  grid-template-columns: 700px 324px;
   @include basicCSS;
 }
 
 .leftContainer {
   display: grid;
-  margin: 20px 20px 10px 20px;
+  margin: 20px 0 10px 20px;
   grid-template-areas:
     'title'
     'summary'
@@ -45,14 +45,14 @@ h2 {
 
   .title {
     margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    //display: flex;
+    //justify-content: center;
+    //align-items: center;
     h2 {
       font-weight: 700;
       font-size: 37px;
-      margin-bottom: 10px;
-      margin-left: 30px;
+      margin-top: 20px;
+      margin-bottom: 30px;
       color: $main-color;
     }
   }
@@ -118,12 +118,66 @@ h2 {
       font-weight: 400;
       line-height: 24px;
       white-space: pre-wrap;
+
+      p {
+        max-width: 90%;
+        word-break: break-all;
+      }
+
+      img {
+        max-width: 90%;
+        max-height: 80%;
+      }
+
+      ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+      }
+
+      ol {
+        display: block;
+        list-style-type: decimal;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+      }
+
+      li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+      }
+
+      strong {
+        font-weight: bold;
+      }
+
+      em {
+        font-style: italic;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding: 5px 10px;
+        background-color: #23241f;
+        color: #f8f8f2;
+        overflow: visible;
+      }
     }
   }
 }
 
 .rightContainer {
-  margin: 90px 0 10px 90px;
+  margin: 160px 0 10px 10px;
+  width: 324px;
 
   .profile {
   }
@@ -176,18 +230,22 @@ h2 {
 
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
 
       width: 300px;
 
       .userInfoBox {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-top: 10px;
-        margin-left: 20px;
+        .imgLink {
+          text-decoration: none;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-top: 10px;
+          margin-left: 20px;
+        }
 
         img {
+          padding-right: 5px;
           border-radius: 50%;
           width: 50px;
           height: 50px;

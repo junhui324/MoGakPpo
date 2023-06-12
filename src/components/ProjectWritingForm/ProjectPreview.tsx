@@ -18,7 +18,7 @@ import {
   modifyButtonClickState,
 } from '../../recoil/projectState';
 
-const IMG_DOMAIN = process.env.REACT_APP_API_KEY;
+const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 
 function ProjectPreview() {
   const project = useRecoilValue(projectState);

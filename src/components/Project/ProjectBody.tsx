@@ -13,6 +13,7 @@ import {
   PROJECT_RECRUITMENT_ROLES,
 } from '../../constants/project';
 const DEFAULT_STACK = '미정';
+const DEFAULT_ROLE = '지정안됨';
 
 export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | null }) {
   if (!bodyData) return <></>;
@@ -24,23 +25,34 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
       {/* 요약 */}
       <div>
         <div className={styles.paragraphTitle}>요약</div>
-        <div className={styles.paragraph}>{bodyData.project_summary}</div>
+        <div className={styles.paragraph}>
+          <div className={styles.paragraphChild}>{bodyData.project_summary}</div>
+        </div>
       </div>
 
       {/* 모집 역할 */}
       <div>
         <div className={styles.paragraphTitle}>모집 역할</div>
         <div className={styles.logoLine}>
-          {bodyData.project_recruitment_roles.roleList.map((role) => {
-            return (
-              <div className={styles.logoBlock} key={role}>
-                <div className={styles.logoCircle}>
-                  <RoleIcon role={PROJECT_RECRUITMENT_ROLES[role]} />
+          {bodyData.project_recruitment_roles?.roleList ? (
+            bodyData.project_recruitment_roles.roleList.map((role) => {
+              return (
+                <div className={styles.logoBlock} key={role}>
+                  <div className={styles.logoCircle}>
+                    <RoleIcon role={PROJECT_RECRUITMENT_ROLES[role]} />
+                  </div>
+                  <p className={styles.logoText}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
                 </div>
-                <p className={styles.logoText}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
+              );
+            })
+          ) : (
+            <div className={styles.logoBlock}>
+              <div className={styles.logoCircle}>
+                <RoleIcon role={DEFAULT_ROLE} />
               </div>
-            );
-          })}
+              <p className={styles.logoText}>{DEFAULT_ROLE}</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -48,7 +60,8 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
       <div>
         <div className={styles.paragraphTitle}>필수 기술 스택</div>
         <div className={styles.logoLine}>
-          {bodyData.project_required_stacks ? (
+          {bodyData.project_required_stacks?.stackList &&
+          bodyData.project_required_stacks?.stackList.length > 0 ? (
             bodyData.project_required_stacks.stackList.map((stack) => {
               return (
                 <div className={styles.logoBlock} key={stack}>
@@ -98,7 +111,10 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
       <div className={styles.introduction}>
         <div className={styles.paragraphTitle}>소개</div>
         <div className={styles.paragraph}>
-          <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+          <div
+            className={styles.introductionParagraph}
+            dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+          />
         </div>
       </div>
     </div>

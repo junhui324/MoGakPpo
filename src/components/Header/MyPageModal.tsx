@@ -24,7 +24,14 @@ export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBas
               내 프로필
             </li>
             <li>계정 관리</li>
-            <li onClick={onClickLogout}>로그아웃</li>
+            <li
+              onClick={() => {
+                onClickLogout();
+                setModalOpen(false);
+              }}
+            >
+              로그아웃
+            </li>
           </ul>
         </ModalBasic>
       )}

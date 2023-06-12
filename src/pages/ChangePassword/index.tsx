@@ -15,10 +15,6 @@ export default function ChangePassword() {
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(loginData);
-  });
-
   function isCurrentPasswordBlank(): Boolean {
     if (currentPasswordRef.current.value === '') {
       setCurrentPassword(true);
@@ -73,6 +69,9 @@ export default function ChangePassword() {
         alert('비밀번호 변경이 완료되었습니다.');
 
         navigate('/login');
+      }
+      else{
+        alert("사용자 정보가 존재하지 않습니다.");
       }
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {

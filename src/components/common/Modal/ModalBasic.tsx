@@ -1,20 +1,17 @@
 import { useEffect, useRef } from 'react';
 import styles from './ModalBasic.module.scss';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import ReactDOM from 'react-dom';
 
 type TypeModalBasicProps = {
   setModalOpen: (newValue: boolean) => void;
   children: React.ReactNode;
   closeButton?: boolean;
-  fullScreen?: boolean;
   position?: string;
 };
 function ModalBasic({
   setModalOpen,
   children,
   closeButton,
-  fullScreen,
   position = 'left',
 }: TypeModalBasicProps) {
   // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
@@ -44,7 +41,7 @@ function ModalBasic({
       document.removeEventListener('mousedown', (event) => handler(event));
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
-  });
+  }, []);
 
   return (
     <div className={`${styles.container} ${position === 'left' ? styles.left : styles.right}`}>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './profile.module.scss';
 import { getUserProfile } from '../../apis/Fetcher';
@@ -15,7 +15,7 @@ function Profile({ onError }: ProfileProps) {
   const [loginUser, setLoginUser] = useRecoilState(loginAtom);
   const navigate = useNavigate();
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     try {
       const { data } = await getUserProfile();
 
@@ -41,7 +41,7 @@ function Profile({ onError }: ProfileProps) {
         }
       }
     }
-  };
+  }, [onError, setLoginUser]);
 
   const handleClickEdit = () => {
     navigate(`${ROUTES.USER_UPDATE}`);
@@ -49,7 +49,7 @@ function Profile({ onError }: ProfileProps) {
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [getUserData]);
 
   return (
     <div className={styles.profileContainer}> 

@@ -135,7 +135,7 @@ function ProjectWritingForm() {
         stackList: stackList,
       },
     }));
-  }, [stackList, project.project_required_stacks.stackList.length, setProject, setStackList]);
+  }, [stackList, setProject, setStackList]);
 
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -242,6 +242,8 @@ function ProjectWritingForm() {
           missingFields.push(field);
         }
       } else if (!project[field as keyof typeof project]) {
+        missingFields.push(field);
+      } else if (description === '<p><br></p>') {
         missingFields.push(field);
       }
     });

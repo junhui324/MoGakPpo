@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Profile from '../../components/Profile';
-import Tab from './Tab';
-import Posts from './Posts';
-import Comments from './Comments';
-import BookMarks from './BookMarks';
+import Tab from '../../components/MyPage/Tab';
+import Posts from '../../components/MyPage/Posts';
+import Comments from '../../components/MyPage/Comments';
+import BookMarks from '../../components/MyPage/BookMarks';
 import styles from './myPage.module.scss';
 import ROUTES from '../../constants/Routes';
 
@@ -31,7 +31,7 @@ function MyPage() {
       alert(errorMessage);
       navigate(`${ROUTES.LOGIN}`);
     }
-  }, [errorMessage]);
+  }, [errorMessage, navigate]);
 
   return (
     <div className={styles.container}>
