@@ -23,6 +23,7 @@ $grey: #64748B;
 
   .contentContainer {
     padding: 24px;
+    line-height: 24px;
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -32,12 +33,12 @@ $grey: #64748B;
       justify-content: space-between;
       font-size: 18px;
       font-weight: 550;
-
+      
       .titleWrapper {
         width: 400px;
         display: flex;
         flex-direction: row;
-
+        
         .title {
           overflow: hidden;
           text-overflow: ellipsis;
