@@ -2,6 +2,7 @@ import ROUTES from '../../constants/Routes';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Footer.module.scss';
 import { IoIosArrowForward } from 'react-icons/io';
+import Logo from '../../assets/Logo.png';
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -11,9 +12,7 @@ export default function Footer() {
   return (
     <div className={styles.footerContainer}>
       <div className={styles.footerTop}>
-        <span className={styles.logo} onClick={handleLogoClick}>
-          모프 🪄
-        </span>
+        <img src={Logo} onClick={handleLogoClick} style={{ width: 120 }} />
       </div>
       <div className={styles.footerMain}>
         <div className={styles.contact}>
