@@ -7,6 +7,7 @@ import { TypePortfolioList } from '../../interfaces/Portfolio.interface';
 // 스타일
 import styles from './PortfolioCell.module.scss';
 import ROUTES from '../../constants/Routes';
+import { getIsNew } from '../../utils/getIsNew';
 
 function PortfolioCell({
   isLoading = false,
@@ -38,21 +39,30 @@ function PortfolioCell({
       ) : (
         ''
       )}
-      <p className={styles.title}>{portfolio.portfolio_title}</p>
-      <p className={styles.summary}>{portfolio.portfolio_summary}</p>
-      <p className={styles.stacks}>
-        {portfolio.portfolio_stacks.stackList &&
-          portfolio.portfolio_stacks.stackList.map((stack) => {
-            return <span key={stack}>{stack}</span>;
-          })}
-      </p>
-      <p className={styles.informations}>
-        <span>{portfolio.portfolio_views_count}</span>
-        <span> · </span>
-        <span>{portfolio.portfolio_comments_count}</span>
-        <span> · </span>
-        <span>{portfolio.portfolio_bookmark_count}</span>
-      </p>
+      <div className={styles.textContainer}>
+        <div className={styles.titleBox}>
+          <p className={styles.title}>{portfolio.portfolio_title}</p>
+          {getIsNew(portfolio.portfolio_created_at) && <p className={styles.new}>NEW</p>}
+        </div>
+        <p className={styles.summary}>{portfolio.portfolio_summary}</p>
+        <div className={styles.stacks}>
+          {portfolio.portfolio_stacks.stackList &&
+            portfolio.portfolio_stacks.stackList.slice(0, 3).map((stack) => {
+              return <div key={stack}>{stack}</div>;
+            })}
+          {portfolio.portfolio_stacks?.stackList.length > 3 && (
+            <span className={styles.ellipsis}>…</span>
+          )}
+        </div>
+        <p className={styles.informations}>
+          <span>👀</span>
+          <span>{portfolio.portfolio_views_count}</span>
+          <span>💬</span>
+          <span>{portfolio.portfolio_comments_count}</span>
+          <span>📌</span>
+          <span>{portfolio.portfolio_bookmark_count}</span>
+        </p>
+      </div>
     </div>
   );
 }

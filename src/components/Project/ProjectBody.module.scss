@@ -46,6 +46,7 @@ $middle-font-size: 16px;
     .paragraph {
       font-size: $middle-font-size;
       font-weight: 400;
+      word-break: break-all;
 
       line-height: 24px;
       white-space: pre-wrap;
