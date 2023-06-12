@@ -16,7 +16,6 @@ import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
 import PortfolioModifyBlock from './PortfolioModifyBlock';
-import getUserInfo from '../../utils/getUserInfo';
 import DefaultUserImage from '../../assets/DefaultUser.png';
 import { loginAtom } from '../../recoil/loginState';
 import Loading from '../common/Loading/Loading';
@@ -28,6 +27,7 @@ function PortfolioDetailForm() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useParams();
 
+  // 로컬 스토리지에 있는 user 정보 가져오기
   const LoginData = useRecoilState(loginAtom);
   const userId = LoginData[0];
 
@@ -52,8 +52,7 @@ function PortfolioDetailForm() {
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
-    const userId = Number(getUserInfo()?.user_id);
-    return userId === portfolio?.user_id ? true : false;
+    return Number(userId.user_id) === portfolio?.user_id ? true : false;
   };
 
   useEffect(() => {
