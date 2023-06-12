@@ -31,6 +31,7 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
 
     try {
       const data = await Fetcher.getPortfolioList(page.current, keyword, false);
+      console.log(data);
 
       // 데이터에 맞게 페이지 최대 사이즈와 데이터를 설정합니다.
       setTotalPage(data.pageSize);
@@ -106,11 +107,15 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
     <>
       <div className={styles.container}>
         {/* 로딩되어있는 데이터 표시 */}
-        {data
+        {data && data.length > 0
           ? data.map((portfolio) => {
               return <PortfolioCell key={portfolio.portfolio_id} portfolio={portfolio} />;
             })
-          : !isLoading && <p>'포스트없음'</p>}
+          : !isLoading && (
+              <p className={styles.noContent}>
+                <span className={styles.noneContent}>포스트가 없네요 :|</span>
+              </p>
+            )}
       </div>
       {/* 로딩 중일때는 현재 내용에 로딩중 컴포넌트를 붙입니다. */}
       {isLoading && <Loading />}
