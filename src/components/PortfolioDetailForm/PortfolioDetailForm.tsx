@@ -19,11 +19,13 @@ import PortfolioModifyBlock from './PortfolioModifyBlock';
 import getUserInfo from '../../utils/getUserInfo';
 import DefaultUserImage from '../../assets/DefaultUser.png';
 import { loginAtom } from '../../recoil/loginState';
+import Loading from '../common/Loading/Loading';
 
 const DEFAULT_STACK = '미정';
 
 function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useParams();
 
   const LoginData = useRecoilState(loginAtom);
@@ -33,6 +35,7 @@ function PortfolioDetailForm() {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
   const getPortfolio = useCallback(async () => {
+    setIsLoading(true);
     try {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
@@ -41,6 +44,8 @@ function PortfolioDetailForm() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, [setPortfolio, id]);
 
@@ -66,7 +71,9 @@ function PortfolioDetailForm() {
     };
   }, [isUpdate, getPortfolio]);
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
