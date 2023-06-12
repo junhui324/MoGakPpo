@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
 import { loginAtom } from '../../recoil/loginState';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 
@@ -14,7 +14,7 @@ function Header() {
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [classification, setClassification] = useRecoilState(classificationState);
+  const setClassification = useSetRecoilState(classificationState);
   const resetLogin = useResetRecoilState(loginAtom);
 
   const onClickLogout = () => {

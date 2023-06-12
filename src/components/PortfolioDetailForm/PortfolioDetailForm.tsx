@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './PortfolioDetailForm.module.scss';
 import DOMPurify from 'dompurify';
@@ -32,7 +32,7 @@ function PortfolioDetailForm() {
   // 업데이트 필요 시에 변경되는 상태
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
-  const getPortfolio = async () => {
+  const getPortfolio = useCallback(async () => {
     try {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
@@ -42,7 +42,7 @@ function PortfolioDetailForm() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [setPortfolio, id]);
 
   const getUser = async () => {
     try {
@@ -67,13 +67,13 @@ function PortfolioDetailForm() {
 
   // 게시글 아이디에 맞게 로딩할 것
   useEffect(() => {
-    getPortfolio();
+    isUpdate && getPortfolio();
 
     // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
     return () => {
       setIsUpdate(false);
     };
-  }, [isUpdate]);
+  }, [isUpdate, getPortfolio]);
 
   return (
     <div className={styles.container}>
