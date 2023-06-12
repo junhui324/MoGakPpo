@@ -12,6 +12,7 @@ interface Portfolio {
     user_name: string;
     user_email: string;
     user_career_goal: string;
+    user_img: string;
   }[];
   portfolio_description: string;
   portfolio_img: string | null;
