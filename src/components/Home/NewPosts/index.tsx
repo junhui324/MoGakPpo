@@ -51,20 +51,14 @@ export default function NewPosts() {
         </div>
       </div>
       <div className={styles.ButtonContainer}>
-        <button
-          className={styles.arrowButton}
-          onClick={handleBack}
-          disabled={currentId === 0 ? true : false}
-        >
-          <BsArrowLeft />
-        </button>
-        <button
-          className={styles.arrowButton}
-          onClick={handleNext}
-          disabled={currentId === totalItems - 1 ? true : false}
-        >
-          <BsArrowRight />
-        </button>
+        <div className={styles.arrowButton}>
+          <button onClick={handleBack} disabled={currentId === 0 ? true : false}>
+            <BsArrowLeft />
+          </button>
+          <button onClick={handleNext} disabled={currentId === totalItems - 1 ? true : false}>
+            <BsArrowRight />
+          </button>
+        </div>
         <button className={styles.toAllButton} onClick={() => navigate(`${ROUTES.PROJECT}`)}>
           모두 보기 <IoIosArrowForward />
         </button>
