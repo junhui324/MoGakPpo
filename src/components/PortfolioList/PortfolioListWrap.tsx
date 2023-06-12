@@ -12,10 +12,11 @@ import { TypePortfolioList } from '../../interfaces/Portfolio.interface';
 
 // 스타일
 import styles from './PortfolioListWrap.module.scss';
+import Loading from '../common/Loading/Loading';
 
 // 상수
 const INITIAL_PAGE = 1;
-const DEBOUNCING = 200;
+const DEBOUNCING = 100;
 
 function PortfolioListWrap({ keyword }: { keyword: string }) {
   // 상태관리
@@ -43,7 +44,6 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
   const fetchData = async () => {
     // 로딩중 상태를 true로 변경합니다.
     setIsLoading(true);
-    console.log(page, totalPage);
 
     try {
       const data = await Fetcher.getPortfolioList(page.current, keyword);
@@ -102,9 +102,9 @@ function PortfolioListWrap({ keyword }: { keyword: string }) {
               return <PortfolioCell key={portfolio.portfolio_id} portfolio={portfolio} />;
             })
           : !isLoading && <p>'포스트없음'</p>}
-        {/* 로딩 중일때는 현재 내용에 로딩중 컴포넌트를 붙입니다. */}
-        {isLoading && <PortfolioCell isLoading={true} />}
       </div>
+      {/* 로딩 중일때는 현재 내용에 로딩중 컴포넌트를 붙입니다. */}
+      {isLoading && <Loading />}
       <div className={styles.observer} ref={targetRef}></div>
     </>
   );

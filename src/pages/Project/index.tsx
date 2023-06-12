@@ -10,6 +10,7 @@ import ProjectBody from '../../components/Project/ProjectBody';
 import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
+import Loading from '../../components/common/Loading/Loading';
 
 // data
 import * as Fetcher from '../../apis/Fetcher';
@@ -17,7 +18,6 @@ import * as Fetcher from '../../apis/Fetcher';
 import * as ProjectType from '../../interfaces/Project.interface';
 // 스타일
 import styles from './Project.module.scss';
-import { BiDotsVertical } from 'react-icons/bi';
 
 //상수
 import ROUTES from '../../constants/Routes';
@@ -25,22 +25,6 @@ import ROUTES from '../../constants/Routes';
 //recoil
 import { useRecoilState } from 'recoil';
 import { projectIdState } from '../../recoil/projectState';
-
-const LOADING_LOGO_SIZE: number = 32;
-const LOADING_LOGO_COLOR: string = '#95a4b0';
-
-// 로딩 중 로고
-function Loading() {
-  return (
-    <>
-      <BiDotsVertical
-        size={LOADING_LOGO_SIZE}
-        color={LOADING_LOGO_COLOR}
-        className={styles.loadingLogo}
-      />
-    </>
-  );
-}
 
 function Project() {
   // 라우터 관련

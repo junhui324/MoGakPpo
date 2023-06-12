@@ -8,7 +8,7 @@ import PortfolioListWrap from '../../components/PortfolioList/PortfolioListWrap'
 // 스타일
 import styles from './PortfolioList.module.scss';
 
-const DEBOUNCING = 200;
+const DEBOUNCING = 500;
 
 function PortfolioList() {
   const [value, setValue] = useState<string>('');
