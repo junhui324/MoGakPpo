@@ -50,8 +50,9 @@ function Login() {
     }
   }
   const loginAfter = (res:AxiosResponse) =>{
-    const data = res.data.data;
-    if (res.status === 200) {
+    const data = res.data.data || res.data;
+
+    // if (res.status === 200) {
       const accessToken = data.accessToken;
       cookie.save('accessToken', accessToken, {
         path: '/',
@@ -74,12 +75,14 @@ function Login() {
       });
 
       handleLoginSuccess();
-    }
+    // }
   };
 
   const kakaoLoginFunction = async (code:string) =>{
     try{
       const res = await getKakaoLogin(code);
+      setIsKakaoLoading(false);
+      console.log(res)
       loginAfter(res);
     }
     catch(e:any){
@@ -92,7 +95,7 @@ function Login() {
     const code = new URL(window.location.href).searchParams.get("code");
     
     if(code === null){
-
+      return
     }
     else{
       setIsKakaoLoading(true);
@@ -156,7 +159,7 @@ function Login() {
 
       loginAfter(res);
     }
-     catch (e:any) {
+    catch (e:any) {
       console.log(e.message);
       alert('사용자 정보를 다시 확인해주세요.');
       return;
