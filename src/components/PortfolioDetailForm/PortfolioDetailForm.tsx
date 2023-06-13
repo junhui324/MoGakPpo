@@ -16,7 +16,6 @@ import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
 import PortfolioModifyBlock from './PortfolioModifyBlock';
-import getUserInfo from '../../utils/getUserInfo';
 import DefaultUserImage from '../../assets/DefaultUser.png';
 import { loginAtom } from '../../recoil/loginState';
 import Loading from '../common/Loading/Loading';
@@ -26,8 +25,10 @@ const DEFAULT_STACK = '미정';
 function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { id } = useParams();
 
+  // 로컬 스토리지에 있는 user 정보 가져오기
   const LoginData = useRecoilState(loginAtom);
   const userId = LoginData[0];
 
@@ -52,8 +53,7 @@ function PortfolioDetailForm() {
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
-    const userId = Number(getUserInfo()?.user_id);
-    return userId === portfolio?.user_id ? true : false;
+    return Number(userId.user_id) === portfolio?.user_id ? true : false;
   };
 
   useEffect(() => {
@@ -182,31 +182,35 @@ function PortfolioDetailForm() {
           <div></div>
         ) : (
           <div className={styles.participate}>
-            <h2>😎 프로젝트에 참여한 유저</h2>
-            <div className={styles.userBox}>
-              {portfolio.participated_members.map((user, index) => (
-                <div className={styles.userInfoBox} key={index}>
-                  <Link
-                    className={styles.imgLink}
-                    to={
-                      user.user_id === Number(userId?.user_id)
-                        ? '/user/mypage'
-                        : `/user/${user.user_id}`
-                    }
-                  >
-                    <img
-                      src={user.user_img === null ? DefaultUserImage : user.user_img}
-                      alt={`${user.user_name} 프로필`}
-                    />
-                    <div className={styles.userInfo}>
-                      <p>{user.user_name}</p>
-                      <p>{user.user_email}</p>
-                      <p>{user.user_career_goal}</p>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+            <div className={styles.participateBox}>
+              <h2 onClick={() => setIsOpen(!isOpen)}>😎 프로젝트에 참여한 유저</h2>
             </div>
+            {isOpen && (
+              <div className={styles.userBox}>
+                {portfolio.participated_members.map((user, index) => (
+                  <div className={styles.userInfoBox} key={index}>
+                    <Link
+                      className={styles.imgLink}
+                      to={
+                        user.user_id === Number(userId?.user_id)
+                          ? '/user/mypage'
+                          : `/user/${user.user_id}`
+                      }
+                    >
+                      <img
+                        src={user.user_img === null ? DefaultUserImage : user.user_img}
+                        alt={`${user.user_name} 프로필`}
+                      />
+                      <div className={styles.userInfo}>
+                        <p>{user.user_name}</p>
+                        <p>{user.user_email}</p>
+                        <p>{user.user_career_goal}</p>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

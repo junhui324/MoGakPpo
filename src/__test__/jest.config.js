@@ -5,7 +5,7 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'babel-jest',
   },
   moduleNameMapper: {
-    '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/src/__test__/fileMock.js', // 이미지 파일을 JS로 변환
+    '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/fileMock.js', // 이미지 파일을 JS로 변환
     '\\.(scss|css)$': 'identity-obj-proxy', // SCSS 파일을 JavaScript로 변환
   },
   transformIgnorePatterns: [
