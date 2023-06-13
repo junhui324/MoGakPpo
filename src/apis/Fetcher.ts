@@ -361,9 +361,8 @@ export async function getPortfolioList(
 }
 // 사용자 비밀번호 변경하기
 export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
-  const params = `/users/password/reset`;
+  const params = `users/password`;
   const data = {
-    user_id: value.user_id,
     user_password: value.user_password,
     user_new_password: value.user_new_password,
   };

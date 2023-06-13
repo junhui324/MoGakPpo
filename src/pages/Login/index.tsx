@@ -2,7 +2,7 @@ import { useState, useRef, useEffect,useMemo } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
@@ -24,10 +24,20 @@ function Login() {
   const [isKakaoLoading, setIsKakaoLoading] = useState(false);
   const [code, setCode] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const setLoginData = useSetRecoilState(loginAtom);
   const codeSearchParams = useMemo(() =>{
     return code.get('code') ?? '';
   }, [code]);
+  const handleLoginSuccess = () =>{
+    try{
+      const path = location.state.returnPath || '/';
+      navigate(path);
+    }
+    catch(e:any){
+      navigate('/');
+    }
+  }
 
   useEffect(() =>{
     const code = new URL(window.location.href).searchParams.get("code");
@@ -108,18 +118,6 @@ function Login() {
           path: '/',
         });
 
-        // localStorage.setItem(
-        //   'user',
-        //   JSON.stringify({
-        //     user_id: data.user_id,
-        //     user_name: data.user_name,
-        //     user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
-        //     user_career_goal:data.user_career_goal,
-        //     user_stacks:data.user_stacks,
-        //     user_introduction:data.user_introduction,
-        //   })
-        // );
-        
         setLoginData((prev) =>{
           return {...prev,
             user_id:data.user_id,
@@ -131,10 +129,11 @@ function Login() {
           }
         });
 
-        navigate('/');
+        handleLoginSuccess();
       }
-    } catch (e) {
+    } catch (e:any) {
       alert('사용자 정보를 다시 확인해주세요.');
+      console.log(e.message);
       return;
     }
   };
