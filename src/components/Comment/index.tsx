@@ -89,7 +89,6 @@ export default function Comment() {
     };
     getAuthor();
   }, []);
-  console.log('작성자' + authorId);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
