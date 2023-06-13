@@ -202,7 +202,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
 
     // base64 => 에디터 이미지 서버 경로로 대체
     const newDescription = base64imgSrcParser(editorHTML, urls);
-    const formData = new FormData();
 
     // 썸네일 미리보기 이미지 파일 변환 && 썸네일 수정이 없는 경우 변환하지 않기
     const newThumbnailFile = thumbnailSrc.includes('base64')
@@ -212,6 +211,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         )[0]
       : null;
 
+    const formData = new FormData();
     // 썸네일 수정이 없는 경우는 append하지 않기
     newThumbnailFile !== null && formData.append('portfolio_img', newThumbnailFile as File);
     formData.append('portfolio_title', title);
@@ -229,9 +229,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
     };
-
-    console.log(newThumbnailFile);
-    console.log(thumbnailSrc);
 
     if (!title) {
       alert('제목을 입력해 주세요.');
