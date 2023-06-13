@@ -25,6 +25,7 @@ const DEFAULT_STACK = '미정';
 function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { id } = useParams();
 
   // 로컬 스토리지에 있는 user 정보 가져오기
@@ -181,31 +182,35 @@ function PortfolioDetailForm() {
           <div></div>
         ) : (
           <div className={styles.participate}>
-            <h2>😎 프로젝트에 참여한 유저</h2>
-            <div className={styles.userBox}>
-              {portfolio.participated_members.map((user, index) => (
-                <div className={styles.userInfoBox} key={index}>
-                  <Link
-                    className={styles.imgLink}
-                    to={
-                      user.user_id === Number(userId?.user_id)
-                        ? '/user/mypage'
-                        : `/user/${user.user_id}`
-                    }
-                  >
-                    <img
-                      src={user.user_img === null ? DefaultUserImage : user.user_img}
-                      alt={`${user.user_name} 프로필`}
-                    />
-                    <div className={styles.userInfo}>
-                      <p>{user.user_name}</p>
-                      <p>{user.user_email}</p>
-                      <p>{user.user_career_goal}</p>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+            <div className={styles.participateBox}>
+              <h2 onClick={() => setIsOpen(!isOpen)}>😎 프로젝트에 참여한 유저</h2>
             </div>
+            {isOpen && (
+              <div className={styles.userBox}>
+                {portfolio.participated_members.map((user, index) => (
+                  <div className={styles.userInfoBox} key={index}>
+                    <Link
+                      className={styles.imgLink}
+                      to={
+                        user.user_id === Number(userId?.user_id)
+                          ? '/user/mypage'
+                          : `/user/${user.user_id}`
+                      }
+                    >
+                      <img
+                        src={user.user_img === null ? DefaultUserImage : user.user_img}
+                        alt={`${user.user_name} 프로필`}
+                      />
+                      <div className={styles.userInfo}>
+                        <p>{user.user_name}</p>
+                        <p>{user.user_email}</p>
+                        <p>{user.user_career_goal}</p>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
