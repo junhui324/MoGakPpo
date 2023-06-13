@@ -149,9 +149,9 @@ export default function Comment() {
         <TextareaAutosize
           autoFocus
           minRows={3}
-          maxRows={12}
           placeholder="댓글을 작성해보세요."
           ref={postTextareaRef}
+          maxLength={150}
         />
         <div className={styles.buttonContainer}>
           <button className={styles.defaultButton} type="submit" onClick={handleSubmitButtonClick}>
@@ -303,7 +303,7 @@ export default function Comment() {
                     </div>
                   </div>
                   {isEditing ? (
-                    <TextareaAutosize minRows={3} maxRows={12} ref={editTextareaRef} />
+                    <TextareaAutosize minRows={3} ref={editTextareaRef} maxLength={150} />
                   ) : (
                     <TextareaAutosize
                       readOnly
