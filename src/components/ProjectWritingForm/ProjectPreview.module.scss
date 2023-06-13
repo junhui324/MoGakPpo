@@ -40,10 +40,11 @@
     .submit {
       @include btn;
       border-style: none;
-      background-color: rgba($color: #f55b5b, $alpha: 0.5);
+      background-color: rgba($color: #f55b5b, $alpha: 0.8);
+
       color: white;
       &:hover {
-        background-color: rgba($color: #f55b5b, $alpha: 0.8);
+        background-color: rgba($color: #f55b5b, $alpha: 0.5);
       }
     }
   }

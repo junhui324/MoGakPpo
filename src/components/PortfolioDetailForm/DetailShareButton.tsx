@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { CgShare } from 'react-icons/cg';
+import { useEffect, useRef, useState } from 'react';
 import { FaShareSquare } from 'react-icons/fa';
 
 // 스타일
@@ -11,8 +10,6 @@ import DefaultUserImage from '../../assets/DefaultUser.png';
 import { MdClose } from 'react-icons/md';
 import { RiKakaoTalkFill, RiFacebookBoxFill, RiTwitterFill, RiLinksFill } from 'react-icons/ri';
 
-const LOGO_SIZE: number = 14;
-const LOGO_DEFAULT_COLOR: string = '#D3D3D3';
 const CLOSE_LOGO_SIZE: number = 24;
 const CLOSE_LOGO_COLOR: string = '#555555';
 
@@ -26,6 +23,8 @@ declare global {
 const KAKAO_SHARE_KEY = process.env.REACT_APP_KAKAO_SHARE_KEY;
 
 const ShareModal = ({ onClose, title }: { onClose: () => void; title: string }) => {
+  const [isCopy, setIsCopy] = useState<boolean>(false);
+  const urlTextRef = useRef<HTMLTextAreaElement>(null);
   // 현재 주소
   const url = window.location.href;
 
@@ -66,13 +65,23 @@ ${title}
     window.open(`http://www.facebook.com/sharer/sharer.php?u=${sharedLink}`, '_black');
   };
   const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(url);
-      alert('복사되었습니다.');
-    } catch (error) {
-      alert(`${error}: 복사에 실패했습니다.`);
+    // 현재 컨텍스트가 안전한지(HTTPS) 확인합니다.
+    if (window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('복사되었습니다.');
+      } catch (error) {
+        alert(`${error}: 복사에 실패했습니다.`);
+      }
+    } else {
+      // 그렇지 않으면 사용자가 직접 복사할 수 있는 주소 표시
+      setIsCopy(true);
     }
   };
+
+  useEffect(() => {
+    isCopy && urlTextRef.current && urlTextRef.current.select();
+  }, [isCopy]);
 
   return (
     <ModalFullScreen setModalOpen={() => true} closeButton={false}>
@@ -100,6 +109,12 @@ ${title}
           </button>
         </div>
       </div>
+      {isCopy && (
+        <div className={styles.urlTextBox}>
+          <span>Ctrl + C로 복사해주세요 !</span>
+          <textarea ref={urlTextRef} value={url} readOnly />
+        </div>
+      )}
     </ModalFullScreen>
   );
 };

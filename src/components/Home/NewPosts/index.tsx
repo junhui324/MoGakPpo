@@ -32,7 +32,7 @@ export default function NewPosts() {
     setMove(() => ({ transform: `translateX(${currentId * -100}%)` }));
   }, [currentId]);
 
-  const totalItems = projectList.length / 2;
+  const totalItems = Math.ceil(projectList.length / 2);
 
   const handleBack = () => {
     setCurrentId((curr) => (curr === 0 ? totalItems - 1 : curr - 1));
@@ -65,36 +65,43 @@ export default function NewPosts() {
       </div>
       <div className={styles.slideArea}>
         <div className={styles.projectList} style={move}>
-          {projectList.map((project) => (
-            <Link to={`/projects/${project.project_id}`} key={project.project_id}>
-              <div className={styles.projectContainer}>
-                <div className={styles.project}>
-                  <span className={styles.type}>{project.project_type}</span>
-                  <span className={styles.goal}>{project.project_goal}</span>
-                  <div className={styles.titleWrapper}>
-                    <h1 className={styles.title}>{project.project_title}</h1>
-                    {getIsNew(project.project_created_at) && (
-                      <span className={styles.newTag}>NEW</span>
-                    )}
-                  </div>
-                  <h3 className={styles.summary}>{project.project_summary}</h3>
-                  <div className={styles.role}>
-                    {project.project_recruitment_roles?.roleList?.map((role, index) => (
-                      <p key={`${role}-${index}`}>{role}</p>
-                    ))}
-                  </div>
-                  <div className={styles.viewWrapper}>
-                    <span>👀</span>
-                    <span className={styles.count}>{project.project_views_count}</span>
-                    <span>💬</span>
-                    <span className={styles.count}>{project.project_comments_count}</span>
-                    <span>📌</span>
-                    <span className={styles.count}>{project.project_bookmark_count}</span>
+          {projectList && projectList.length > 0 ? (
+            projectList.map((project) => (
+              <Link to={`/projects/${project.project_id}`} key={project.project_id}>
+                <div className={styles.projectContainer}>
+                  <div className={styles.project}>
+                    <span className={styles.type}>{project.project_type}</span>
+                    <span className={styles.goal}>{project.project_goal}</span>
+                    <div className={styles.titleWrapper}>
+                      <h1 className={styles.title}>{project.project_title}</h1>
+                      {getIsNew(project.project_created_at) && (
+                        <span className={styles.newTag}>NEW</span>
+                      )}
+                    </div>
+                    <h3 className={styles.summary}>{project.project_summary}</h3>
+                    <div className={styles.role}>
+                      {project.project_recruitment_roles?.roleList?.map((role, index) => (
+                        <p key={`${role}-${index}`}>{role}</p>
+                      ))}
+                    </div>
+                    <div className={styles.viewWrapper}>
+                      <span>👀</span>
+                      <span className={styles.count}>{project.project_views_count}</span>
+                      <span>💬</span>
+                      <span className={styles.count}>{project.project_comments_count}</span>
+                      <span>📌</span>
+                      <span className={styles.count}>{project.project_bookmark_count}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))
+          ) : (
+            <p className={styles.noContent}>
+              아직 등록 된 포스트가 없어요🥲 <br />
+              새로운 포스트를 작성 해 보세요:)
+            </p>
+          )}
         </div>
       </div>
     </div>
