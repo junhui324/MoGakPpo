@@ -10,27 +10,15 @@ $grey: #64748B;
   background-color: #ffff;
   cursor: pointer;
 
-  &:hover {
-    border-color: #d0dee0;
-    box-shadow: 0 0 15px #e2eaf1;
-    
-    .topContainer img {
-      transform: scale(1.1);
-    }
-  }
-
   .topContainer {
     width: 300px;
     height: 160px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px 0 0 16px;
 
     & > img {
+      border-radius: 16px 0 0 16px;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
     }
   }
 
@@ -93,4 +81,9 @@ $grey: #64748B;
       margin-top: 1.5rem;
     }
   }
+}
+
+.listContainer:hover {
+  border-color: #d0dee0;
+  box-shadow: 0 0 15px #e2eaf1;
 }

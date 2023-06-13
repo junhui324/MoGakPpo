@@ -1,23 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Profile from '../../components/UserProfile';
-import Tab from './Tab';
 import Posts from './Posts';
 
-function MyPage() {
-  const tabs = ['게시글'];
-  const [currTab, setCurrTab] = useState<string>('게시글');
+function UserPage() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  function handleClickTab(tab: string) {
-    setCurrTab(tab);
+  function handleContentsError(message: string) {
+    setErrorMessage(message);
   }
-
+  useEffect(() => {
+    if (errorMessage) {
+      alert(errorMessage);
+    }
+  }, [errorMessage]);
   return (
     <div>
       <Profile />
-      <Tab tabs={tabs} currTab={currTab} onClick={handleClickTab} />
-      {currTab === '게시글' && <Posts />}
+      {!errorMessage && <Posts onError={handleContentsError} />}
     </div>
   );
 }
 
-export default MyPage;
+export default UserPage;

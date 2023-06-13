@@ -212,7 +212,7 @@ export async function getUserPortfolioPosts(page: number): Promise<{
   return await Api.get(API_KEY, params, true, query);
 }
 
-// n번 유저 작성 게시글 불러오기
+// n번 유저 작성 프로젝트 게시글 불러오기
 export async function getUserProjectPostsById(
   userId: number,
   page: number
@@ -225,6 +225,22 @@ export async function getUserProjectPostsById(
   };
 }> {
   const params = `projects/user/${userId}`;
+  const query = `page=${page}`;
+  return await Api.get(API_KEY, params, true, query);
+}
+// n번 유저 작성 포트폴리오 게시글 불러오기
+export async function getUserPortfolioPostsById(
+  userId: number,
+  page: number
+): Promise<{
+  message: string;
+  data: {
+    pagenatedProjects(pagenatedPortfolios: any): unknown;
+    pageSize(pageSize: any): unknown;
+    user_projects: PortfolioType.TypeUserPortfolioPosts;
+  };
+}> {
+  const params = `portfolios/user/${userId}`;
   const query = `page=${page}`;
   return await Api.get(API_KEY, params, true, query);
 }
@@ -287,15 +303,6 @@ export async function getUserPortfolioComments(page: number): Promise<{
 }> {
   const params = `comments/portfolio/user?page=${page}`;
   return await Api.get(API_KEY, params);
-}
-
-// 유저 작성 댓글 불러오기
-export async function getUserCommentsById(userId: number): Promise<{
-  message: string;
-  data: { project_comments: CommentType.TypeMypageProjectComments };
-}> {
-  const params = `user/${userId}/comments.json`;
-  return await Api.get(domain, params);
 }
 
 // 포트폴리오 멤버 선택 시 유저 검색 정보 불러오기
@@ -361,9 +368,8 @@ export async function getPortfolioList(
 }
 // 사용자 비밀번호 변경하기
 export async function patchPasswordReset(value: any): Promise<AxiosResponse> {
-  const params = `/users/password/reset`;
+  const params = `users/password`;
   const data = {
-    user_id: value.user_id,
     user_password: value.user_password,
     user_new_password: value.user_new_password,
   };
