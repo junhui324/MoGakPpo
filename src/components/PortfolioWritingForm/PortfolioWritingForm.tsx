@@ -206,12 +206,17 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     const formData = new FormData();
 
     // 임시 저장 글 불러왔을 때 썸네일 이미지 파일로 변환
-    const newThumbnailFile = !thumbnailFile
-      ? base64sToFiles(
-          findBase64(thumbnailSrc),
-          `thumbnail-${loginData ? loginData.user_id : 'e'}-${new Date().getTime()}`
-        )[0]
-      : thumbnailFile;
+    // const newThumbnailFile = !thumbnailFile
+    //   ? base64sToFiles(
+    //       findBase64(thumbnailSrc),
+    //       `thumbnail-${loginData ? loginData.user_id : 'e'}-${new Date().getTime()}`
+    //     )[0]
+    //   : thumbnailFile;
+
+    const newThumbnailFile = base64sToFiles(
+      findBase64(thumbnailSrc),
+      `thumbnail-${loginData ? loginData.user_id : 'e'}-${new Date().getTime()}`
+    )[0];
 
     formData.append('portfolio_img', newThumbnailFile as File);
     formData.append('portfolio_title', title);
@@ -230,7 +235,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       }
     };
 
-    console.log(members);
+    console.log(thumbnailSrc);
 
     if (!title) {
       alert('제목을 입력해 주세요.');
@@ -240,7 +245,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       alert('요약을 입력해 주세요.');
       refFocusAndScroll(summaryRef!);
       return;
-    } else if (!newThumbnailFile) {
+    } else if (!thumbnailSrc) {
       alert('썸네일을 등록해 주세요.');
       refFocusAndScroll(thumbnailRef!);
       return;
