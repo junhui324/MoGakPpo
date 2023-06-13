@@ -70,9 +70,7 @@ function PortfolioDetailForm() {
     };
   }, [isUpdate, getPortfolio]);
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  return (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
@@ -213,6 +211,7 @@ function PortfolioDetailForm() {
           </div>
         )}
       </div>
+      {isLoading ? <Loading /> : null}
     </div>
   );
 }

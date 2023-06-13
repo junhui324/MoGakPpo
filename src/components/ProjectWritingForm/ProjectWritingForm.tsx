@@ -122,10 +122,9 @@ function ProjectWritingForm() {
   }, [type, setProject]);
 
   useEffect(() => {
-    if (stackList.length === 0 && project.project_required_stacks.stackList.length === 0) {
+    if (stackList.length === 0) {
       setStackList(['미정']);
-    }
-    if (stackList[0] === '미정' && stackList.length === 2) {
+    } else if (stackList[0] === '미정' && stackList.length === 2) {
       const newStackList = [...stackList];
       newStackList.shift();
       setStackList(newStackList);
@@ -136,7 +135,7 @@ function ProjectWritingForm() {
         stackList: stackList,
       },
     }));
-  }, [stackList, setProject, setStackList]);
+  }, [stackList, project.project_required_stacks.stackList, setProject, setStackList]);
 
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -211,15 +210,6 @@ function ProjectWritingForm() {
       return;
     }
     setIsValidate(false);
-
-    // stackList가 비어있는 경우 '미정' 추가
-    const updatedStackList = stackList.length === 0 ? ['미정'] : stackList;
-    setProject((prevProject) => ({
-      ...prevProject,
-      project_required_stacks: {
-        stackList: updatedStackList,
-      },
-    }));
 
     navigate(`${ROUTES.PREVIEW_PROJECT}`);
   };
