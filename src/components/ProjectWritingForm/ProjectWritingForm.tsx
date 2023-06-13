@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Checkbox from './Checkbox';
 import styles from './ProjectWritingForm.module.scss';
@@ -45,8 +45,6 @@ function ProjectWritingForm() {
   const [description, setDescription] = useRecoilState(editorIntroductionState);
   const resetDescription = useResetRecoilState(editorIntroductionState);
   const navigate = useNavigate();
-  const location = useLocation();
-  const currentLocation = location.pathname.split('/')[1];
 
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
   const getProjectData = async () => {
