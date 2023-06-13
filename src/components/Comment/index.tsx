@@ -240,10 +240,22 @@ export default function Comment() {
                   console.log(error);
                 }
               };
+              // clipboard api 지원하지 않는 경우 execCommand사용
               const handleCopyButtonClick = async () => {
-                await navigator.clipboard.writeText(comment.comment_content);
-                alert('복사되었습니다.');
-                setModalOpen(false);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  await navigator.clipboard.writeText(comment.comment_content);
+                  alert('복사되었습니다.');
+                  setModalOpen(false);
+                } else {
+                  const copyField = document.createElement('textarea');
+                  copyField.value = comment.comment_content;
+                  document.body.appendChild(copyField);
+                  copyField.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(copyField);
+                  alert('복사되었습니다.');
+                  setModalOpen(false);
+                }
               };
               // 코멘트리스트 렌더링
               return (
