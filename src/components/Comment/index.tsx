@@ -224,6 +224,7 @@ export default function Comment() {
               };
               const handleEditButtonClick = () => {
                 setEditingCommentId(comment.comment_id);
+                setModalOpen(false);
               };
               const handleEditSubmitButtonClick = async () => {
                 if (!editTextareaRef.current?.value) {
