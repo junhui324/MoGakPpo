@@ -19,6 +19,7 @@ function ProjectListMain() {
   const [keywordValue, setKeywordValue] = useState('');
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
+  const [isFirstFetch, setIsFirstFetch] = useState(true);
 
   const getProjectListData = useCallback(
     async (isPagenation?: boolean): Promise<void> => {
@@ -30,11 +31,13 @@ function ProjectListMain() {
           pageCount
         );
         if (isPagenation) {
+          console.log('페이지네이션 실행');
           // 무한스크롤을 위한 다음 페이지 데이터 get
           pageSize <= pageCount && setMoreData(false);
           setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
           setPageCount((prev) => prev + 1);
         } else {
+          console.log('처음 데이터 가져오기 실행');
           // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
           const pageSize = projectList.data.pageSize;
           setPageSize(pageSize);
@@ -62,16 +65,25 @@ function ProjectListMain() {
   });
 
   useEffect(() => {
-    window.scroll(0, 0);
+    setIsFirstFetch(false);
     getProjectListData();
+  }, []);
+
+  useEffect(() => {
+    if (!isFirstFetch) {
+      window.scroll(0, 0);
+      getProjectListData();
+    }
   }, [selectedCategory, recruitingFilter]);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      window.scroll(0, 0);
-      getProjectListData();
-    }, 700); // 디바운스 타임 설정
-    return () => clearTimeout(delayDebounceFn);
+    if (!isFirstFetch) {
+      const delayDebounceFn = setTimeout(() => {
+        window.scroll(0, 0);
+        getProjectListData();
+      }, 700); // 디바운스 타임 설정
+      return () => clearTimeout(delayDebounceFn);
+    }
   }, [keywordValue]);
 
   const handleCategoryClick = async (key: string) => {
