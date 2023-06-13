@@ -91,7 +91,14 @@ export async function getComment(
   postType: string,
   projectId: number,
   pageNumber: number
-): Promise<CommentType.TypeComment> {
+): Promise<{
+  message: string;
+  data: {
+    listLength: number;
+    pageSize: number;
+    pagenatedComments: CommentType.TypeComment[];
+  };
+}> {
   const params = `${postType}/${projectId}/comments`;
   const query = `page=${pageNumber}`;
   return await Api.get(API_KEY, params, false, query);
