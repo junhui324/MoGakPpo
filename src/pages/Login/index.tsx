@@ -3,18 +3,20 @@ import { useState, useRef, useEffect,useMemo } from 'react';
 import styles from './login.module.scss';
 //@ts-ignore
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
+import axios, { Axios, AxiosResponse } from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
 import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
+import defaultUserPath from '../../assets/DefaultUser.png';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+const CURRENT_KEY = process.env.REACT_APP_CURRENT_KEY;
 
 function Login() {
   const emailRef = useRef<any>(null);
@@ -26,6 +28,15 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const setLoginData = useSetRecoilState(loginAtom);
+  const user = useRecoilValue(loginAtom);
+  useEffect(() =>{
+    const id = user.user_id;
+    if(id !== ""){
+      console.log(user);
+      navigate("/");
+    }
+  }, []);
+
   const codeSearchParams = useMemo(() =>{
     return code.get('code') ?? '';
   }, [code]);
@@ -38,20 +49,60 @@ function Login() {
       navigate('/');
     }
   }
+  const loginAfter = (res:AxiosResponse) =>{
+    const data = res.data.data;
+    if (res.status === 200) {
+      const accessToken = data.accessToken;
+      cookie.save('accessToken', accessToken, {
+        path: '/',
+      });
+
+      const refreshToken = data.refreshToken;
+      cookie.save('refreshToken', refreshToken, {
+        path: '/',
+      });
+
+      setLoginData((prev) =>{
+        return {...prev,
+          user_id:data.user_id,
+          user_name:data.user_name,
+          user_img:data.user_img || `${defaultUserPath}`,
+          user_career_goal:data.user_career_goal,
+          user_stacks:data.user_stacks,
+          user_introduction:data.user_introduction,
+        }
+      });
+
+      handleLoginSuccess();
+    }
+  };
+
+  const kakaoLoginFunction = async (code:string) =>{
+    try{
+      const res = await getKakaoLogin(code);
+      loginAfter(res);
+    }
+    catch(e:any){
+      alert('카카오 사용자 정보를 다시 확인해주세요.');
+      return;
+    }
+  }
 
   useEffect(() =>{
     const code = new URL(window.location.href).searchParams.get("code");
-    const kakaoLoginFunction = async (code:string) =>{
-      return await getKakaoLogin(code)
-
-    }
     
     if(code === null){
 
     }
     else{
       setIsKakaoLoading(true);
-      var data = kakaoLoginFunction(code); 
+      try{
+        kakaoLoginFunction(code);
+      }
+      catch(e:any){
+        alert("네트워크 정보를 확인해주세요.");
+        return;
+      }      
     }
 
     }, [codeSearchParams]);
@@ -103,43 +154,17 @@ function Login() {
         header
       );
 
-      const data = res.data.data;
-
-      if (res.status === 200) {
-        // const author = await res.headers['authorization'];
-        // const token = author.split(' ')[1];
-        const accessToken = data.accessToken;
-        cookie.save('accessToken', accessToken, {
-          path: '/',
-        });
-
-        const refreshToken = data.refreshToken;
-        cookie.save('refreshToken', refreshToken, {
-          path: '/',
-        });
-
-        setLoginData((prev) =>{
-          return {...prev,
-            user_id:data.user_id,
-            user_name:data.user_name,
-            user_img:data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
-            user_career_goal:data.user_career_goal,
-            user_stacks:data.user_stacks,
-            user_introduction:data.user_introduction,
-          }
-        });
-
-        handleLoginSuccess();
-      }
-    } catch (e:any) {
-      alert('사용자 정보를 다시 확인해주세요.');
+      loginAfter(res);
+    }
+     catch (e:any) {
       console.log(e.message);
+      alert('사용자 정보를 다시 확인해주세요.');
       return;
     }
   };
 
   const kakaoLogin = () =>{
-    const redirect_uri = `${API_KEY}/login`;
+    const redirect_uri = `${window.location}`;
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
 
     window.location.href = kakaoURL;
@@ -217,14 +242,6 @@ function Login() {
               <span>아직 회원이 아니신가요? 3초 만에</span>
               <span className={styles.register}>
                 <Link to="/register">가입하기</Link>
-              </span>
-            </div>
-
-            <div className={styles.menuLine}>
-              <span className={styles.call}>
-                <Link to="" className={styles.link}>
-                  고객센터
-                </Link>
               </span>
             </div>
           </div>
