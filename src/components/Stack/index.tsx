@@ -3,9 +3,6 @@ import { RiCloseFill, RiSearchLine } from 'react-icons/ri';
 import { getStackList } from '../../apis/Fetcher';
 import styles from './stack.module.scss';
 
-import { useRecoilValue } from 'recoil';
-import { classificationState } from '../../recoil/projectState';
-
 interface StackProps {
   selectedStack: string[];
   setStackList: (stacks: string[]) => void;
@@ -17,40 +14,48 @@ function Stack({ selectedStack, setStackList }: StackProps) {
   const [stacks, setStacks] = useState<string[]>([]);
   const [searchWord, setSearchWord] = useState<string>('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const classification = useRecoilValue(classificationState);
 
   const handleDelete = useCallback((stack: string) => {
-    setSelected(prevSelected => prevSelected.filter(selectedStack => selectedStack !== stack));
+    setSelected((prevSelected) => prevSelected.filter((selectedStack) => selectedStack !== stack));
   }, []);
 
-  const handleAdd = useCallback((stack: string) => {
-    if (!selected.includes(stack)) {
-      setSelected((prevSelected) => [...prevSelected, stack]);
-    }
-  }, [selected]);
+  const handleAdd = useCallback(
+    (stack: string) => {
+      if (!selected.includes(stack)) {
+        setSelected((prevSelected) => [...prevSelected, stack]);
+      }
+    },
+    [selected]
+  );
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchWord(value);
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setSearchWord(value);
 
-    const filteredSuggestions = getSuggestions(value);
-    setSuggestions(filteredSuggestions);
-  }, [searchWord]);
+      const filteredSuggestions = getSuggestions(value);
+      setSuggestions(filteredSuggestions);
+    },
+    [searchWord]
+  );
 
   const handleClickInputCross = useCallback(() => {
     setSearchWord('');
   }, []);
 
-  const handleSuggestionClick = useCallback((suggestion: string) => {
-    setSearchWord(suggestion);
-    setSuggestions([]);
-    handleAdd(suggestion);
-    setSearchWord('');
-  }, [handleAdd]);
+  const handleSuggestionClick = useCallback(
+    (suggestion: string) => {
+      setSearchWord(suggestion);
+      setSuggestions([]);
+      handleAdd(suggestion);
+      setSearchWord('');
+    },
+    [handleAdd]
+  );
 
   const getSuggestions = useMemo(() => {
     return (value: string) => {
-      const filteredStacks = stacks.filter(item => {
+      const filteredStacks = stacks.filter((item) => {
         const lowerCaseItem = item.toLowerCase();
         const lowerCaseValue = value.toLowerCase();
 

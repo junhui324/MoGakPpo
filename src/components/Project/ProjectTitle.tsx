@@ -27,6 +27,11 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
   const location = useLocation();
   const currentLocation = location.pathname.split('/')[1];
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+
   if (!titleData) return <></>;
 
   const timestamp = new Date(titleData.project_created_at);
@@ -89,7 +94,9 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
       </div>
       {/* 프로젝트 정보 */}
       <div>
-        <span>{projectDate()}</span>
+        <span>
+          {currentLocation === 'preview' ? `${year}년 ${month}월 ${date}일` : projectDate()}
+        </span>
         <span> · </span>
         <span>조회수 {titleData.project_views_count}</span>
         <span> · </span>
