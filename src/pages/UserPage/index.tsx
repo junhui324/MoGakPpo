@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Profile from '../../components/UserProfile';
 import Posts from './Posts';
+import styles from './UserPage.module.scss';
 
 function UserPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -14,7 +15,7 @@ function UserPage() {
     }
   }, [errorMessage]);
   return (
-    <div>
+    <div className={styles.container}>
       <Profile />
       {!errorMessage && <Posts onError={handleContentsError} />}
     </div>
