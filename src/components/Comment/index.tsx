@@ -138,6 +138,9 @@ export default function Comment() {
         }
         setIsListUpdated(!isListUpdated);
         setIsInputClicked(!isInputClicked);
+        if (commentTotal % 10 === 0) {
+          setCurrPage((prev) => prev + 1);
+        }
       } catch (error) {
         console.log(error);
       }
