@@ -119,6 +119,7 @@ export default function Comment() {
     const handleSubmitButtonClick = async () => {
       if (!postTextareaRef.current?.value) {
         alert('댓글을 입력해주세요.');
+        return;
       }
       //신규 댓글 등록
       try {
@@ -138,6 +139,7 @@ export default function Comment() {
         }
         setIsListUpdated(!isListUpdated);
         setIsInputClicked(!isInputClicked);
+        setCurrPage(() => Math.floor(commentTotal / 10));
       } catch (error) {
         console.log(error);
       }
@@ -147,9 +149,9 @@ export default function Comment() {
         <TextareaAutosize
           autoFocus
           minRows={3}
-          maxRows={12}
           placeholder="댓글을 작성해보세요."
           ref={postTextareaRef}
+          maxLength={150}
         />
         <div className={styles.buttonContainer}>
           <button className={styles.defaultButton} type="submit" onClick={handleSubmitButtonClick}>
@@ -240,10 +242,22 @@ export default function Comment() {
                   console.log(error);
                 }
               };
+              // clipboard api 지원하지 않는 경우 execCommand사용
               const handleCopyButtonClick = async () => {
-                await navigator.clipboard.writeText(comment.comment_content);
-                alert('복사되었습니다.');
-                setModalOpen(false);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  await navigator.clipboard.writeText(comment.comment_content);
+                  alert('복사되었습니다.');
+                  setModalOpen(false);
+                } else {
+                  const copyField = document.createElement('textarea');
+                  copyField.value = comment.comment_content;
+                  document.body.appendChild(copyField);
+                  copyField.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(copyField);
+                  alert('복사되었습니다.');
+                  setModalOpen(false);
+                }
               };
               // 코멘트리스트 렌더링
               return (
@@ -289,7 +303,7 @@ export default function Comment() {
                     </div>
                   </div>
                   {isEditing ? (
-                    <TextareaAutosize minRows={3} maxRows={12} ref={editTextareaRef} />
+                    <TextareaAutosize minRows={3} ref={editTextareaRef} maxLength={150} />
                   ) : (
                     <TextareaAutosize
                       readOnly

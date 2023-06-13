@@ -7,6 +7,7 @@ import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from '../../components/Stack';
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
+import DefaultUser from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
   const [userInfo, setUserInfo] = useRecoilState(loginAtom);
@@ -68,7 +69,9 @@ function UpdateUser() {
       try {
         const formData = new FormData();
 
-        formData.append('user_img', imageFile as File);
+        if (imageFile) {
+          formData.append('user_img', imageFile as File);
+        }
         formData.append('user_name', inputName.trim());
         formData.append('user_introduction', userInfo.user_introduction);
         formData.append('user_career_goal', userInfo.user_career_goal);
@@ -95,19 +98,31 @@ function UpdateUser() {
     const getUserData = async () => {
       try {
         const { data } = await getUserProfile();
+
+        if (data.user_stacks === null) {
+          setStackList([]);
+        } else {
+          setStackList(data.user_stacks.stackList || []);
+        }
+
+        if (data.user_img === null) {
+          setImageSrc(DefaultUser);
+        } else {
+          setImageSrc(data.user_img);
+        }
+
+        setInputName(data.user_name);
+
         setUserInfo((prev) => {
           return {
             ...prev,
-            user_name: data.user_name,
+            user_name: inputName,
             user_img: data.user_img,
-            user_career_goal: data.user_career_goal,
-            user_stacks: data.user_stacks,
-            user_introduction: data.user_introduction,
+            user_career_goal: data.user_career_goal || '',
+            user_stacks: { stackList: stackList },
+            user_introduction: data.user_introduction || '',
           };
         });
-        setStackList(data.user_stacks.stackList);
-        setInputName(data.user_name);
-        setImageSrc(data.user_img);
       } catch (error) {
         console.log(error);
       }
@@ -158,30 +173,30 @@ function UpdateUser() {
             <label>자기소개</label>
             <textarea
               name="user_introduction"
-              value={userInfo.user_introduction}
+              value={userInfo.user_introduction || ''}
               placeholder="자기소개를 입력해 주세요."
               maxLength={MAX_INTRO_COUNT}
               onChange={(e) => handleChange(e, MAX_INTRO_COUNT)}
             />
-            <p>
-              {userInfo.user_introduction.length}/{MAX_INTRO_COUNT}
-            </p>
+            {userInfo.user_introduction === null
+            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
+            : <p>{userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}</p>}
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
             <input
               type="text"
               name="user_career_goal"
-              value={userInfo.user_career_goal}
+              value={userInfo.user_career_goal || ''}
               placeholder="원하는 직군을 입력해 주세요."
               maxLength={MAX_CAREER_COUNT}
               onChange={(e) => handleChange(e, MAX_CAREER_COUNT)}
             />
-            <p>
-              {userInfo.user_career_goal.length}/{MAX_CAREER_COUNT}
-            </p>
+            {userInfo.user_career_goal === null
+            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
+            : <p>{userInfo.user_career_goal.length || 0}/{MAX_INTRO_COUNT}</p>}
           </div>
-          <Stack selectedStack={stackList} setStackList={handleSetStackList} />
+          <Stack selectedStack={stackList || []} setStackList={handleSetStackList} />
           <button
             className={isValid ? styles.submitButton : styles.disabledButton}
             onClick={handleSubmit}
