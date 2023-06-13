@@ -25,7 +25,7 @@ export default function BestStacks() {
   }, []);
 
   return (
-    <div>
+    <div id='BestStack'>
       <div className={styles.titleTextWrapper}>
         <h1>인기 기술 스택 순위</h1>
         <p>모프에서 가장 인기있는 기술스택이예요!</p>

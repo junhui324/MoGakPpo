@@ -1,6 +1,6 @@
 import { getPortfolioList } from '../../../apis/Fetcher';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './HotPortfolio.module.scss';
 import { TypePortfolioList } from '../../../interfaces/Portfolio.interface';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -13,6 +13,8 @@ export default function HotPortfolio() {
     'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1';
 
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
+  const hotPortfolioRef = useRef<HTMLDivElement>(null);
+
   const getPortfolioListData = async () => {
     try {
       const response = await getPortfolioList(1, '', true);
@@ -46,7 +48,7 @@ export default function HotPortfolio() {
   };
 
   return (
-    <div className={styles.HotPortfolio}>
+    <div className={styles.HotPortfolio} id='HotPortfolio'>
       <div className={styles.titleContainer}>
         <div className={styles.titleTextWrapper}>
           <h1>인기 포트폴리오</h1>
