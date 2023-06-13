@@ -189,7 +189,7 @@ function ProjectPreview() {
           <ProjectBody bodyData={bodyData} />
         </div>
         <div className={styles.rightContainer}>
-          <div className={styles.help}>
+          <div className={`${styles.help} ${classification === 'modify' ? styles.modifyTrue : ''}`}>
             <p>
               <span>*</span> 기술 스택이 <span>초기화</span> 됩니다.
             </p>
