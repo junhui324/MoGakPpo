@@ -119,6 +119,7 @@ export default function Comment() {
     const handleSubmitButtonClick = async () => {
       if (!postTextareaRef.current?.value) {
         alert('댓글을 입력해주세요.');
+        return;
       }
       //신규 댓글 등록
       try {
