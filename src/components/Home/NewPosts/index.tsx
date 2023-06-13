@@ -32,7 +32,7 @@ export default function NewPosts() {
     setMove(() => ({ transform: `translateX(${currentId * -100}%)` }));
   }, [currentId]);
 
-  const totalItems = projectList.length / 2;
+  const totalItems = Math.ceil(projectList.length / 2);
 
   const handleBack = () => {
     setCurrentId((curr) => (curr === 0 ? totalItems - 1 : curr - 1));
