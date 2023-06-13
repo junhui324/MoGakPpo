@@ -68,3 +68,15 @@
     transform: translateY(0);
   }
 }
+.noContent {
+  height: 220px;
+  width: 100%;
+  background-color: #f9f9f9;
+  line-height: 1.5rem;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -16,6 +16,8 @@ $image-box-size: 100px;
   background-color: $gray-back-color;
   border-radius: 6px;
 
+  cursor: pointer;
+
   .imageBox {
     width: $image-box-size;
     height: $image-box-size;

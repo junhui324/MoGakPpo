@@ -19,7 +19,6 @@ export default function ProjectBody({ bodyData }: { bodyData: TypeProjectBody | 
   if (!bodyData) return <></>;
   const bodyHTML = bodyData.project_introduction;
   const sanitizedHTML = DOMPurify.sanitize(bodyHTML);
-  console.log(sanitizedHTML);
 
   return (
     <div className={styles.container}>

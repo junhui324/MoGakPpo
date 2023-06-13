@@ -15,7 +15,7 @@ function Profile() {
   const getUserData = async () => {
     try {
       const { message, data } = await getUserProfileById(userId);
-      //console.log(message, data);
+      console.log(message, data);
       setUser(data);
     } catch (error) {
       console.error(error);
@@ -40,13 +40,17 @@ function Profile() {
         <div className={styles.intro}>{user?.user_introduction}</div>
         <div className={styles.career}>{user?.user_career_goal}</div>
         <div className={styles.stacks}>
-          {user?.user_stacks.stackList.map((stack, index) => {
-            return (
-              <div className={styles.stack} key={`${stack}-${index}`}>
-                {stack}
-              </div>
-            );
-          })}
+          {user?.user_stacks === null ? (
+            <></>
+          ) : (
+            user?.user_stacks.stackList.map((stack, index) => {
+              return (
+                <div className={styles.stack} key={`${stack}-${index}`}>
+                  {stack}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

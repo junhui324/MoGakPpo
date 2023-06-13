@@ -8,6 +8,7 @@ import styles from './ProjectTitle.module.scss';
 // 상수
 import { PROJECT_TYPE, PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
 import ShareButton from '../common/Share/ShareButton';
+import { useLocation } from 'react-router-dom';
 
 // 날짜 계산 상수
 const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
@@ -23,6 +24,9 @@ const RECRUITING = '모집 중';
 const COMPLETE = '모집 완료';
 
 export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitle | null }) {
+  const location = useLocation();
+  const currentLocation = location.pathname.split('/')[1];
+
   if (!titleData) return <></>;
 
   // timestamp를 받아온 후, 현재 Time Zone에 맞게 계산합니다. getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환한다.
@@ -94,7 +98,7 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
         <span> · </span>
         <span>댓글수 {commentsCount}</span>
         {/* 공유 버튼 */}
-        <ShareButton title={titleData.project_title} />
+        {currentLocation === 'preview' ? <></> : <ShareButton title={titleData.project_title} />}
       </div>
     </div>
   );

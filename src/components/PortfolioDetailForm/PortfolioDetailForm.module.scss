@@ -53,6 +53,7 @@ h2 {
       margin-top: 10px;
       margin-bottom: 30px;
       color: $main-color;
+      line-height: 50px;
       white-space: pre-wrap;
       word-break: break-all;
     }
@@ -203,16 +204,19 @@ h2 {
     .linkButton {
       @include btn;
 
+      cursor: pointer;
+
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: row;
 
       border-style: none;
-      background-color: rgba($color: #49b634, $alpha: 0.5);
+      background-color: rgba($color: #49b634, $alpha: 0.8);
+
       color: white;
       &:hover {
-        background-color: rgba($color: #49b634, $alpha: 0.8);
+        background-color: rgba($color: #49b634, $alpha: 0.5);
       }
 
       .logo {
@@ -250,6 +254,9 @@ h2 {
       h2 {
         margin-top: 0;
         margin-bottom: 0;
+        &:hover {
+          scale: 1.1;
+        }
       }
     }
 

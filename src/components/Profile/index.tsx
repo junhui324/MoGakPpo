@@ -6,6 +6,7 @@ import ROUTES from '../../constants/Routes';
 import { FcBriefcase, FcSupport } from "react-icons/fc";
 import { useRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
+import DefaultUser from '../../assets/DefaultUser.png';
 
 interface ProfileProps {
   onError: (errorMessage: string) => void;
@@ -23,7 +24,7 @@ function Profile({ onError }: ProfileProps) {
         return {
           ...prev,
           user_name: data.user_name,
-          user_img: data.user_img,
+          user_img: data.user_img || DefaultUser,
           user_career_goal: data.user_career_goal,
           user_stacks: data.user_stacks,
           user_introduction:data.user_introduction,
@@ -54,7 +55,7 @@ function Profile({ onError }: ProfileProps) {
   return (
     <div className={styles.profileContainer}> 
       <div className={styles.imageWrapper}>
-        <img className={styles.image} src={loginUser.user_img} alt={loginUser.user_name}></img>
+        <img className={styles.image} src={loginUser.user_img || DefaultUser} alt={loginUser.user_name}></img>
         <button className={styles.updateButton} onClick={handleClickEdit}>
           편집
         </button>
