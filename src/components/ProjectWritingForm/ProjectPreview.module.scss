@@ -18,21 +18,38 @@
   }
   .rightContainer {
     display: grid;
-    grid-template-rows: repeat(2, 100px);
+    grid-template-rows: 50px, 100px, 100px;
     margin-top: 50px;
     margin-left: 100px;
     width: 290px;
     height: 145px;
+
+    .help {
+      text-align: center;
+      line-height: 20px;
+      margin-bottom: 5px;
+      p {
+        font-weight: 500;
+      }
+      span {
+        color: red;
+        font-weight: 500;
+      }
+    }
+
     .modify {
       @include btn;
+      margin-bottom: 50px;
       background-color: white;
       color: rgba($color: #443f3f, $alpha: 0.8);
       border: 1.2px solid;
+
       &:hover {
         background-color: rgba($color: $gray-back-color, $alpha: 0.8);
         color: rgba($color: #443f3f, $alpha: 1);
       }
     }
+
     .modifyTrue {
       display: none;
     }
