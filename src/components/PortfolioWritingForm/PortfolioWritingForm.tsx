@@ -133,16 +133,20 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       navigate(`${ROUTES.PORTFOLIO_DETAIL}${response.data.portfolio_id}`);
     } catch (error: any) {
       switch (error.message) {
-        case 401: {
+        case '401': {
           alert('로그인 후 이용해 주세요.');
           break;
         }
-        case 400: {
+        case '400': {
           alert('입력되지 않은 정보를 확인해 주세요.');
           break;
         }
+        case '413': {
+          alert('파일 용량이 너무 큽니다!');
+          break;
+        }
         default: {
-          console.log(error);
+          alert(error.message);
         }
       }
     }
