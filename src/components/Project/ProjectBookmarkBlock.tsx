@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as Fetcher from '../../apis/Fetcher';
 import * as Token from '../../apis/Token';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -39,6 +39,7 @@ export default function ProjectBookmarkBlock({
   bookmarksData: TypeProjectBookmarks | null;
   fetchData: () => void;
 }) {
+  const isLoading = useRef<boolean>(false);
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);
   const [userImages, setUserImages] = useState<string[]>([]);
@@ -61,13 +62,20 @@ export default function ProjectBookmarkBlock({
         return [...newUserImages.reverse()];
       });
     }
+
+    // 클린업 코드로 isLoading 초기화
+    return () => {
+      isLoading.current = false;
+    };
   }, [bookmarksData]);
 
   const handleBookmark = async () => {
     // 로그인 되어있는 유저인지 확인합니다.
     if (Token.getToken()) {
-      // 로그인 되어있는 유저이면 API를 활용합니다.
-      if (bookmarksData) {
+      // 로그인 되어있는 유저이면 API를 활용합니다. 단, Loading 중에는 참조하지 않습니다.
+      if (!isLoading.current && bookmarksData) {
+        // 로딩 중에는 handleBookmark하지 못하도록 isLoading를 true로 바꿉니다.
+        isLoading.current = true;
         if (!isBookmark) {
           // 북마크가 되어있지 않으면 북마크 등록 요청을 합니다.
           try {
