@@ -34,13 +34,10 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
 
   if (!titleData) return <></>;
 
-  // timestamp를 받아온 후, 현재 Time Zone에 맞게 계산합니다. getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환한다.
   const timestamp = new Date(titleData.project_created_at);
   const localDate = new Date(timestamp.getTime());
   // 게시글 생성 시간에 대한 정리를 합니다.
   const now: Date = new Date();
-
-  console.log(now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
 
   // 기타 값
   const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[titleData.project_recruitment_status];
