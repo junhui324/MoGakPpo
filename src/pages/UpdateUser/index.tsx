@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent, MouseEvent, useCallback } from 'react';
+import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { loginAtom, userStackListState } from '../../recoil/loginState';
@@ -7,6 +7,7 @@ import { getUserProfile, updateUserProfile } from '../../apis/Fetcher';
 import Stack from '../../components/Stack';
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
+import DefaultUser from '../../assets/DefaultUser.png';
 
 function UpdateUser() {
   const [userInfo, setUserInfo] = useRecoilState(loginAtom);
@@ -24,13 +25,13 @@ function UpdateUser() {
   const MAX_INTRO_COUNT = 250;
   const MAX_CAREER_COUNT = 50;
 
-  const handleImageChange = useCallback(() => {
+  const handleImageChange = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  }, [fileInputRef]);
+  };
 
-  const handleFileSelect = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
@@ -41,13 +42,13 @@ function UpdateUser() {
       };
       reader.readAsDataURL(file);
     }
-  }, []);
+  };
 
-  const handleSetStackList = useCallback((stacks: string[]) => {
+  const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
-  }, [setStackList]);
+  };
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
     const { name, value } = e.target;
     if (name === 'user_name' && value.length <= max) {
       setInputName(e.target.value);
@@ -59,9 +60,9 @@ function UpdateUser() {
         [name]: value,
       }));
     }
-  }, [setInputName, setUserInfo]);
+  };
 
-  const handleSubmit = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (isValid && window.confirm('수정하시겠습니까?')) {
@@ -69,7 +70,7 @@ function UpdateUser() {
         const formData = new FormData();
 
         if (imageFile) {
-          formData.append('user_img', imageFile);
+          formData.append('user_img', imageFile as File);
         }
         formData.append('user_name', inputName.trim());
         formData.append('user_introduction', userInfo.user_introduction);
@@ -83,40 +84,52 @@ function UpdateUser() {
         alert('수정을 실패했습니다.');
       }
     }
-  }, [isValid, imageFile, inputName, userInfo.user_introduction, userInfo.user_career_goal, stackList, navigate]);
+  };
 
-  const handleCancel = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+  const handleCancel = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (window.confirm('취소 하시겠습니까?')) {
       navigate(`${ROUTES.MY_PAGE}`);
     }
-  }, [navigate]);
-
-  const getUserData = useCallback(async () => {
-    try {
-      const { data } = await getUserProfile();
-      setUserInfo((prev) => {
-        return {
-          ...prev,
-          user_name: data.user_name,
-          user_img: data.user_img,
-          user_career_goal: data.user_career_goal || '',
-          user_stacks: data.user_stacks || { stackList: [''] },
-          user_introduction: data.user_introduction || '',
-        };
-      });
-      setStackList(data.user_stacks?.stackList || []);
-      setInputName(data.user_name);
-      setImageSrc(data.user_img);
-    } catch (error) {
-      alert('유저 정보를 불러오지 못했어요.');
-    }
-  }, [setStackList, setUserInfo]);
+  };
 
   useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const { data } = await getUserProfile();
+
+        if (data.user_stacks === null) {
+          setStackList([]);
+        } else {
+          setStackList(data.user_stacks.stackList || []);
+        }
+
+        if (data.user_img === null) {
+          setImageSrc(DefaultUser);
+        } else {
+          setImageSrc(data.user_img);
+        }
+
+        setInputName(data.user_name);
+
+        setUserInfo((prev) => {
+          return {
+            ...prev,
+            user_name: inputName,
+            user_img: data.user_img,
+            user_career_goal: data.user_career_goal || '',
+            user_stacks: { stackList: stackList },
+            user_introduction: data.user_introduction || '',
+          };
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getUserData();
-  }, [getUserData]);
+  }, []);
 
   useEffect(() => {
     setIsValid(inputName.length !== 0);
@@ -165,9 +178,9 @@ function UpdateUser() {
               maxLength={MAX_INTRO_COUNT}
               onChange={(e) => handleChange(e, MAX_INTRO_COUNT)}
             />
-            <p>
-              {userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}
-            </p>
+            {userInfo.user_introduction === null
+            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
+            : <p>{userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}</p>}
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
@@ -179,11 +192,11 @@ function UpdateUser() {
               maxLength={MAX_CAREER_COUNT}
               onChange={(e) => handleChange(e, MAX_CAREER_COUNT)}
             />
-            <p>
-              {userInfo.user_career_goal.length || 0}/{MAX_CAREER_COUNT}
-            </p>
+            {userInfo.user_career_goal === null
+            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
+            : <p>{userInfo.user_career_goal.length || 0}/{MAX_INTRO_COUNT}</p>}
           </div>
-          <Stack selectedStack={stackList} setStackList={handleSetStackList} />
+          <Stack selectedStack={stackList || []} setStackList={handleSetStackList} />
           <button
             className={isValid ? styles.submitButton : styles.disabledButton}
             onClick={handleSubmit}
