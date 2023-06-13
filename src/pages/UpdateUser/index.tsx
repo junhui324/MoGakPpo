@@ -116,7 +116,7 @@ function UpdateUser() {
         setUserInfo((prev) => {
           return {
             ...prev,
-            user_name: inputName,
+            user_name: data.user_name,
             user_img: data.user_img,
             user_career_goal: data.user_career_goal || '',
             user_stacks: { stackList: stackList },
