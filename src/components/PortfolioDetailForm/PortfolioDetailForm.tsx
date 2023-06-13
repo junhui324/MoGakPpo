@@ -41,7 +41,6 @@ function PortfolioDetailForm() {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
         setPortfolio(data.data);
-        console.log(data.data);
       }
     } catch (error) {
       console.log(error);

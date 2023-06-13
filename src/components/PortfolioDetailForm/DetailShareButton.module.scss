@@ -123,10 +123,11 @@
     font-size: 17px;
 
     border-style: none;
-    background-color: rgba($color: #5a72fa, $alpha: 0.5);
+    background-color: rgba($color: #5a72fa, $alpha: 0.8);
+
     color: white;
     &:hover {
-      background-color: rgba($color: #5a72fa, $alpha: 0.8);
+      background-color: rgba($color: #5a72fa, $alpha: 0.5);
     }
 
     .logo {
