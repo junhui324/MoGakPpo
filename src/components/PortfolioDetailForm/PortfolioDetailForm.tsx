@@ -20,7 +20,13 @@ import DefaultUserImage from '../../assets/DefaultUser.png';
 import { loginAtom } from '../../recoil/loginState';
 import Loading from '../common/Loading/Loading';
 
+//util
+//import getDateFormat from './../../utils/getDateFormat';
+
 const DEFAULT_STACK = '미정';
+const ONE_DAY = 1;
+const WEEK_DAY = 7;
+const MONTH_ADJUSTMENT = 1;
 
 function PortfolioDetailForm() {
   const [portfolio, setPortfolio] = useRecoilState(portfolioState);
@@ -41,6 +47,7 @@ function PortfolioDetailForm() {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
         setPortfolio(data.data);
+        //console.log(getDateFormat(data.data.portfolio_created_at));
       }
     } catch (error) {
       console.log(error);
@@ -53,6 +60,33 @@ function PortfolioDetailForm() {
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
     return Number(userId.user_id) === portfolio?.user_id ? true : false;
+  };
+
+  // timestamp를 받아온 후, 현재 Time Zone에 맞게 계산합니다. getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환한다.
+  const timestamp = new Date(portfolio.portfolio_created_at);
+  const localDate = new Date(timestamp.getTime());
+
+  const now: Date = new Date();
+
+  // 7일전까지는 글로 나타내고, 그 이후엔 날짜를 반환합니다.
+  const projectDate = () => {
+    if (now.getDate() === localDate.getDate()) {
+      if (now.getHours() === localDate.getHours()) {
+        if (now.getMinutes() === localDate.getMinutes()) {
+          return '방금 전';
+        } else {
+          return `${now.getMinutes() - localDate.getMinutes()}분 전`;
+        }
+      } else {
+        return `${now.getHours() - localDate.getHours()}시간 전`;
+      }
+    } else if (now.getDate() - localDate.getDate() === ONE_DAY) return '하루 전';
+    else if (now.getDate() - localDate.getDate() <= WEEK_DAY)
+      return `${now.getDate() - localDate.getDate()}일 전`;
+    else
+      return `${localDate.getFullYear()}년 ${
+        localDate.getMonth() + MONTH_ADJUSTMENT
+      }월 ${localDate.getDate()}일`;
   };
 
   useEffect(() => {
@@ -75,6 +109,7 @@ function PortfolioDetailForm() {
       <div className={styles.leftContainer}>
         <div className={styles.title}>
           <h2>💜 {portfolio.portfolio_title}</h2>
+          <span>🕒 {projectDate()}</span>
         </div>
 
         <div className={styles.summary}>
