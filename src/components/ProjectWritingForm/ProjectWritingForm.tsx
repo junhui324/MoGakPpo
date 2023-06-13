@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Checkbox from './Checkbox';
 import styles from './ProjectWritingForm.module.scss';
@@ -80,6 +80,7 @@ function ProjectWritingForm() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (classification === 'create') {
       if (modifyButtonClick) {
         setModifyButtonClick(false);
@@ -407,7 +408,6 @@ function ProjectWritingForm() {
       </div>
 
       <div>
-        <h2>기술 스택</h2>
         <div>
           <Stack selectedStack={stackList} setStackList={handleSetStackList} />
         </div>

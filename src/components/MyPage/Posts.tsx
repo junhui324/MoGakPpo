@@ -27,10 +27,10 @@ function Posts({ onError }: PostsProps) {
 
   const getUserProjectPostsData = useCallback(async () => {
     try {
-      switch(selectedOption) {
+      switch (selectedOption) {
         case 'project': {
           const userPostsData = await getUserProjectPosts(offset);
-          
+
           setTotalLength(userPostsData.data.listLength);
           setProjects(userPostsData.data.pagenatedProjects);
           setTotalPageCount(userPostsData.data.pageSize);
@@ -39,7 +39,7 @@ function Posts({ onError }: PostsProps) {
 
         case 'portfolio': {
           const userPostsData = await getUserPortfolioPosts(offset);
-          
+
           setTotalLength(userPostsData.data.listLength);
           setPortfolios(userPostsData.data.pagenatedPortfolios);
           setTotalPageCount(userPostsData.data.pageSize);
@@ -63,6 +63,7 @@ function Posts({ onError }: PostsProps) {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getUserProjectPostsData();
     setProjects([]);
     setPortfolios([]);
@@ -72,11 +73,12 @@ function Posts({ onError }: PostsProps) {
     <div className={styles.container}>
       <div className={styles.topContainer}>
         <div className={styles.contentCount}>게시글 {totalLength}개</div>
-        <ContentsFilter onChange={handleSelectFilter}/>
+        <ContentsFilter onChange={handleSelectFilter} />
       </div>
       <div className={styles.posts}>
         <ul>
-          {totalLength > 0 && selectedOption === 'project' &&
+          {totalLength > 0 &&
+            selectedOption === 'project' &&
             projects.map((data, index) => {
               return (
                 <div key={index}>
@@ -84,7 +86,8 @@ function Posts({ onError }: PostsProps) {
                 </div>
               );
             })}
-          {totalLength > 0 && selectedOption === 'portfolio' &&
+          {totalLength > 0 &&
+            selectedOption === 'portfolio' &&
             portfolios.map((data, index) => {
               return (
                 <div key={index}>

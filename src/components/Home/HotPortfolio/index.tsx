@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './HotPortfolio.module.scss';
 import { TypePortfolioList } from '../../../interfaces/Portfolio.interface';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowForward } from 'react-icons/io';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import ROUTES from '../../../constants/Routes';
 
 export default function HotPortfolio() {
@@ -12,18 +13,18 @@ export default function HotPortfolio() {
     'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1';
 
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
-  const getPortfolioListData = async (): Promise<void> => {
+  const getPortfolioListData = async () => {
     try {
-      const response = await getPortfolioList(1);
+      const response = await getPortfolioList(1, '', true);
       //@ts-ignore
       setPortfolioList(response.pagenatedPortfolios);
     } catch (error: any) {
-      if (error.message === '404') {
+      if (error.message === '400') {
         setPortfolioList([]);
       }
     }
   };
-
+  // /api/v1/portfolios?keyword=false&sort=true&page=1
   useEffect(() => {
     getPortfolioListData();
   }, []);
@@ -51,7 +52,19 @@ export default function HotPortfolio() {
           <h1>인기 포트폴리오</h1>
           <p>인기 포트폴리오 자랑글을 확인해보세요!</p>
         </div>
-        <button onClick={() => navigate(`${ROUTES.PORTFOLIO_LIST}`)}>모두 보기</button>
+      </div>
+      <div className={styles.ButtonContainer}>
+        <div className={styles.arrowButton}>
+          <button onClick={handleBack} disabled={currentId === 0 ? true : false}>
+            <BsArrowLeft />
+          </button>
+          <button onClick={handleNext} disabled={currentId === totalItems - 1 ? true : false}>
+            <BsArrowRight />
+          </button>
+        </div>
+        <button className={styles.toAllButton} onClick={() => navigate(`${ROUTES.PORTFOLIO_LIST}`)}>
+          모두 보기 <IoIosArrowForward />
+        </button>
       </div>
       <div className={styles.slideArea}>
         <div className={styles.portfolioList} style={move}>
@@ -59,11 +72,13 @@ export default function HotPortfolio() {
             <Link to={`/portfolios/${portfolio.portfolio_id}`} key={portfolio.portfolio_id}>
               <div className={styles.portfolioContainer}>
                 <div className={styles.portfolio}>
-                  {portfolio.portfolio_thumbnail ? (
-                    <img src={portfolio.portfolio_thumbnail} alt="포트폴리오 썸네일" />
-                  ) : (
-                    <img src={imgPlaceholder} alt="썸네일 불러오기 실패" />
-                  )}
+                  <div className={styles.imgContainer}>
+                    {portfolio.portfolio_thumbnail ? (
+                      <img src={portfolio.portfolio_thumbnail} alt="포트폴리오 썸네일" />
+                    ) : (
+                      <img src={imgPlaceholder} alt="썸네일 불러오기 실패" />
+                    )}
+                  </div>
                   <div className={styles.contentWrapper}>
                     <h1 className={styles.title}>{portfolio.portfolio_title}</h1>
                     <h3 className={styles.summary}>{portfolio.portfolio_summary}</h3>
@@ -88,13 +103,6 @@ export default function HotPortfolio() {
             </Link>
           ))}
         </div>
-
-        <button className={styles.leftArrow} onClick={handleBack}>
-          {currentId === 0 ? '' : <IoIosArrowBack />}
-        </button>
-        <button className={styles.rightArrow} onClick={handleNext}>
-          {currentId === totalItems - 1 ? '' : <IoIosArrowForward />}
-        </button>
       </div>
     </div>
   );

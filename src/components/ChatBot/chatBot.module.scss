@@ -12,7 +12,7 @@
     right: 2rem;
     width: 400px;
     height: 600px;
-    background-color: #eeeeee;
+    background-color: #f2f2f2;
     border-radius: 20px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
 
@@ -77,6 +77,7 @@
       .answer {
         @extend .question;
         line-height: 1.4rem;
+        word-break: keep-all;
       }
     }
   }
@@ -86,17 +87,16 @@
     bottom: 2rem;
     right: 2rem;
     padding: 1rem;
-    background-color: $main-color;
-    color: white;
+    background-color: #e9e0fd;
     border: none;
     border-radius: 50%;
     outline: none;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 
-    & > svg {
-      width: 24px;
-      height: 24px;
+    & > img {
+      width: 30px;
+      height: 30px;
     }
   }
 }

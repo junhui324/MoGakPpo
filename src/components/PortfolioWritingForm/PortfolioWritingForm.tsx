@@ -96,7 +96,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
 
   // 수정 모드인 경우 원래 데이터 불러오기
   useEffect(() => {
-    console.log(publishedPostData);
     if (publishedPostData) {
       const {
         portfolio_title,
@@ -205,15 +204,16 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     const newDescription = base64imgSrcParser(editorHTML, urls);
     const formData = new FormData();
 
-    // 임시 저장 글 불러왔을 때 썸네일 이미지 파일로 변환
-    const newThumbnailFile = !thumbnailFile
+    // 썸네일 미리보기 이미지 파일 변환 && 썸네일 수정이 없는 경우 변환하지 않기
+    const newThumbnailFile = thumbnailSrc.includes('base64')
       ? base64sToFiles(
           findBase64(thumbnailSrc),
           `thumbnail-${loginData ? loginData.user_id : 'e'}-${new Date().getTime()}`
         )[0]
-      : thumbnailFile;
+      : null;
 
-    formData.append('portfolio_img', newThumbnailFile as File);
+    // 썸네일 수정이 없는 경우는 append하지 않기
+    newThumbnailFile !== null && formData.append('portfolio_img', newThumbnailFile as File);
     formData.append('portfolio_title', title);
     formData.append('portfolio_summary', summary);
     formData.append('portfolio_github', gitHubUrl);
@@ -230,7 +230,8 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       }
     };
 
-    console.log(members);
+    console.log(newThumbnailFile);
+    console.log(thumbnailSrc);
 
     if (!title) {
       alert('제목을 입력해 주세요.');
@@ -240,7 +241,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       alert('요약을 입력해 주세요.');
       refFocusAndScroll(summaryRef!);
       return;
-    } else if (!newThumbnailFile) {
+    } else if (!thumbnailSrc) {
       alert('썸네일을 등록해 주세요.');
       refFocusAndScroll(thumbnailRef!);
       return;

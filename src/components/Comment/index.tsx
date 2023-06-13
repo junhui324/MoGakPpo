@@ -4,7 +4,14 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
 import { TypeComment } from '../../interfaces/Comment.interface';
-import { getComment, postComment, putComment, deleteComment } from '../../apis/Fetcher';
+import {
+  getComment,
+  postComment,
+  putComment,
+  deleteComment,
+  getProject,
+  getPortfolio,
+} from '../../apis/Fetcher';
 //util,모듈,컴포넌트
 import getDateFormat from '../../utils/getDateFormat';
 import CommentModal from './CommentModal';
@@ -28,6 +35,7 @@ export default function Comment() {
   const [modalOpen, setModalOpen] = useState(false);
   const postTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const editTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [authorId, setAuthorId] = useState<number>(0);
   //라우팅관련
   const params = useParams();
   const location = useLocation();
@@ -61,6 +69,26 @@ export default function Comment() {
   useEffect(() => {
     getCommentData();
   }, [getCommentData]);
+
+  //게시글 작성자 정보 받아오기
+  useEffect(() => {
+    const getAuthor = async () => {
+      try {
+        const getPostType = location.pathname.split('/')[1];
+        if (getPostType === 'projects') {
+          const response = await getProject(postId);
+          setAuthorId(response.user_id);
+        }
+        if (getPostType === 'portfolios') {
+          const response = await getPortfolio(String(postId));
+          setAuthorId(response.data.user_id);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAuthor();
+  }, []);
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
@@ -110,6 +138,9 @@ export default function Comment() {
         }
         setIsListUpdated(!isListUpdated);
         setIsInputClicked(!isInputClicked);
+        if (commentTotal % 10 === 0) {
+          setCurrPage((prev) => prev + 1);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -156,11 +187,11 @@ export default function Comment() {
   };
 
   let inputComponent;
-  if (!user) {
+  if (!user.user_id) {
     inputComponent = loggedOutUserInput();
-  } else if (user && !isInputClicked) {
+  } else if (user.user_id && !isInputClicked) {
     inputComponent = loggedInUserInput();
-  } else if (user && isInputClicked) {
+  } else if (user.user_id && isInputClicked) {
     inputComponent = loggedInUserInputClicked();
   }
 
@@ -196,6 +227,7 @@ export default function Comment() {
               };
               const handleEditButtonClick = () => {
                 setEditingCommentId(comment.comment_id);
+                setModalOpen(false);
               };
               const handleEditSubmitButtonClick = async () => {
                 if (!editTextareaRef.current?.value) {
@@ -211,10 +243,22 @@ export default function Comment() {
                   console.log(error);
                 }
               };
+              // clipboard api 지원하지 않는 경우 execCommand사용
               const handleCopyButtonClick = async () => {
-                await navigator.clipboard.writeText(comment.comment_content);
-                alert('복사되었습니다.');
-                setModalOpen(false);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  await navigator.clipboard.writeText(comment.comment_content);
+                  alert('복사되었습니다.');
+                  setModalOpen(false);
+                } else {
+                  const copyField = document.createElement('textarea');
+                  copyField.value = comment.comment_content;
+                  document.body.appendChild(copyField);
+                  copyField.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(copyField);
+                  alert('복사되었습니다.');
+                  setModalOpen(false);
+                }
               };
               // 코멘트리스트 렌더링
               return (
@@ -238,6 +282,7 @@ export default function Comment() {
                         }
                       >
                         <h3>{comment.user_name}</h3>
+                        {comment.user_id === authorId && <span>작성자</span>}
                       </Link>
                       <p>{getDateFormat(comment.comment_created_at)}</p>
                     </div>

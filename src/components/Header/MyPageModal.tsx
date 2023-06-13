@@ -23,7 +23,14 @@ export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBas
             >
               내 프로필
             </li>
-            <li>계정 관리</li>
+            <li
+              onClick={() => {
+                navigate(ROUTES.EDIT_PASSWORD);
+                setModalOpen(false);
+              }}
+            >
+              비밀번호 변경
+            </li>
             <li
               onClick={() => {
                 onClickLogout();

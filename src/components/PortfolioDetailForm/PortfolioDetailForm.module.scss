@@ -5,7 +5,7 @@ $middle-font-size: 16px;
 
 @mixin subtitle {
   font-weight: bold;
-  font-size: 23px;
+  font-size: 21px;
   margin-bottom: 40px;
 }
 
@@ -45,25 +45,30 @@ h2 {
 
   .title {
     margin-bottom: 30px;
-    //display: flex;
-    //justify-content: center;
-    //align-items: center;
+    width: 940px;
     h2 {
+      width: 100%;
       font-weight: 700;
       font-size: 37px;
-      margin-top: 20px;
+      margin-top: 10px;
       margin-bottom: 30px;
       color: $main-color;
+      white-space: pre-wrap;
+      word-break: break-all;
     }
   }
 
   .summary {
     margin-bottom: 40px;
+    width: 630px;
     .paragraph {
+      width: 90%;
+      margin-left: 15px;
       font-size: $middle-font-size;
       font-weight: 400;
       line-height: 24px;
       white-space: pre-wrap;
+      word-break: break-all;
     }
   }
 
@@ -71,15 +76,18 @@ h2 {
     margin-bottom: 40px;
     span {
       padding-right: 10px;
-      font-size: 20px;
+      font-size: 18px;
+      margin-left: 15px;
     }
     .count {
       font-weight: 700;
+      margin-left: 5px;
     }
   }
 
   .stack {
     margin-bottom: 40px;
+    width: 630px;
     .logoCircle {
       display: flex;
       justify-content: center;
@@ -113,11 +121,13 @@ h2 {
 
   .mainText {
     margin-bottom: 40px;
+    width: 630px;
     .paragraph {
       font-size: $middle-font-size;
       font-weight: 400;
       line-height: 24px;
       white-space: pre-wrap;
+      margin-left: 15px;
 
       p {
         max-width: 90%;
@@ -176,7 +186,7 @@ h2 {
 }
 
 .rightContainer {
-  margin: 160px 0 10px 10px;
+  margin: 190px 0 10px 10px;
   width: 324px;
 
   .profile {
@@ -226,7 +236,7 @@ h2 {
     .userBox {
       height: auto;
       border: 2px solid #f5f5f5;
-      border-radius: 7px;
+      border-radius: 9px;
 
       display: flex;
       flex-direction: column;
@@ -255,18 +265,20 @@ h2 {
         .userInfo {
           p {
             margin: 5px;
+            font-size: 15px;
 
             &:nth-child(1) {
-              font-weight: 500;
+              font-weight: 700;
               font-size: 17px;
+              color: black;
             }
             &:nth-child(2) {
-              font-weight: 500;
-              color: rgb(95, 95, 243);
+              font-weight: 600;
+              color: rgb(140, 114, 202);
             }
             &:nth-child(3) {
-              font-weight: 500;
-              color: rgb(34, 114, 34);
+              font-weight: 600;
+              color: rgb(100, 100, 105);
             }
           }
         }

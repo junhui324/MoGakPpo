@@ -1,5 +1,5 @@
 @import '/src/variables.scss';
-$grey: #64748B;
+$grey: #64748b;
 
 .listContainer {
   display: flex;
@@ -13,7 +13,7 @@ $grey: #64748B;
   &:hover {
     border-color: #d0dee0;
     box-shadow: 0 0 15px #e2eaf1;
-    
+
     .topContainer img {
       transform: scale(1.1);
     }
@@ -45,13 +45,13 @@ $grey: #64748B;
       justify-content: space-between;
       font-size: 18px;
       font-weight: 550;
-      
+
       .titleWrapper {
         width: 360px;
         display: flex;
         flex-direction: row;
         line-height: 2.2rem;
-        
+
         .title {
           overflow: hidden;
           text-overflow: ellipsis;
@@ -64,7 +64,7 @@ $grey: #64748B;
         }
       }
     }
-    
+
     &:nth-child(2) {
       .bookmarkButton {
         display: flex;
@@ -86,7 +86,7 @@ $grey: #64748B;
       white-space: nowrap;
       padding: 0.5rem 0;
     }
-    
+
     .createdAt {
       color: $grey;
       font-weight: 100;

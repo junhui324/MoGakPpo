@@ -4,7 +4,8 @@ import { getProjects } from '../../../apis/Fetcher';
 import { TypeProjectList } from '../../../interfaces/Project.interface';
 import styles from './NewPosts.module.scss';
 import { getIsNew } from '../../../utils/getIsNew';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowForward } from 'react-icons/io';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import ROUTES from '../../../constants/Routes';
 
 export default function NewPosts() {
@@ -48,7 +49,19 @@ export default function NewPosts() {
           <h1>새로운 프로젝트</h1>
           <p>새로 업데이트된 모집글을 확인해보세요!</p>
         </div>
-        <button onClick={() => navigate(`${ROUTES.PROJECT}`)}>모두 보기</button>
+      </div>
+      <div className={styles.ButtonContainer}>
+        <div className={styles.arrowButton}>
+          <button onClick={handleBack} disabled={currentId === 0 ? true : false}>
+            <BsArrowLeft />
+          </button>
+          <button onClick={handleNext} disabled={currentId === totalItems - 1 ? true : false}>
+            <BsArrowRight />
+          </button>
+        </div>
+        <button className={styles.toAllButton} onClick={() => navigate(`${ROUTES.PROJECT}`)}>
+          모두 보기 <IoIosArrowForward />
+        </button>
       </div>
       <div className={styles.slideArea}>
         <div className={styles.projectList} style={move}>
@@ -83,13 +96,6 @@ export default function NewPosts() {
             </Link>
           ))}
         </div>
-
-        <button className={styles.leftArrow} onClick={handleBack}>
-          {currentId === 0 ? '' : <IoIosArrowBack />}
-        </button>
-        <button className={styles.rightArrow} onClick={handleNext}>
-          {currentId === totalItems - 1 ? '' : <IoIosArrowForward />}
-        </button>
       </div>
     </div>
   );

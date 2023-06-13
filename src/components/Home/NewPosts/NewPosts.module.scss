@@ -22,8 +22,28 @@
         color: rgba(0, 0, 0, 0.5);
       }
     }
-
-    & > button {
+  }
+  .ButtonContainer {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    .arrowButton {
+      flex: 1;
+      button {
+        border: none;
+        background-color: transparent;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+    .toAllButton {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 500;
       border: none;
       background-color: transparent;
       cursor: pointer;
@@ -34,7 +54,6 @@
       }
     }
   }
-
   .slideArea {
     width: 1024px;
     overflow: hidden;
@@ -113,7 +132,7 @@
 
           .title {
             font-weight: 500;
-
+            line-height: 2rem;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -150,26 +169,6 @@
           }
         }
       }
-    }
-
-    .leftArrow {
-      position: absolute;
-      top: 190px;
-      left: -40px;
-      border: none;
-      background-color: transparent;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .rightArrow {
-      position: absolute;
-      top: 190px;
-      right: -40px;
-      border: none;
-      background-color: transparent;
-      font-size: 20px;
-      cursor: pointer;
     }
   }
 }

@@ -15,7 +15,7 @@ export default function ChangePassword() {
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
 
-  function isCurrentPasswordBlank(): Boolean {
+  const isCurrentPasswordBlank = () => {
     if (currentPasswordRef.current.value === '') {
       setCurrentPassword(true);
 
@@ -27,7 +27,7 @@ export default function ChangePassword() {
     }
   }
 
-  function isNewPasswordBlank(): Boolean {
+  const isNewPasswordBlank = () => {
     if (newPasswordRef.current.value === '') {
       setNewPassword(true);
 
@@ -39,7 +39,7 @@ export default function ChangePassword() {
     }
   }
 
-  function isPasswordConfirmBlank(): Boolean {
+  const isPasswordConfirmBlank = () => {
     if (newPasswordRef.current.value !== passwordConfirmRef.current.value) {
       setPasswordConfirm(true);
 
@@ -51,7 +51,7 @@ export default function ChangePassword() {
     }
   }
 
-  const findPassword = async (e: any) => {
+  const changePassword = async (e: any) => {
     e.preventDefault();
 
     if (isCurrentPasswordBlank() || isNewPasswordBlank() || isPasswordConfirmBlank()) {
@@ -60,24 +60,21 @@ export default function ChangePassword() {
 
     try {
       const res = await patchPasswordReset({
-        user_id: loginData.user_id,
         user_password: currentPasswordRef.current.value,
         user_new_password: newPasswordRef.current.value,
       });
 
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === undefined) {
         alert('비밀번호 변경이 완료되었습니다.');
 
         navigate('/login');
       }
-      else{
-        alert("사용자 정보가 존재하지 않습니다.");
-      }
+      
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
-          case '403':
-            alert('비밀번호를 다시 입력해주세요.');
+          case '400':
+            alert('비밀번호가 일치하지 않습니다.');
             currentPasswordRef.current.value = '';
             currentPasswordRef.current.focus();
         }
@@ -92,7 +89,7 @@ export default function ChangePassword() {
         <div className={styles.main}>
           <form
             onSubmit={(e) => {
-              findPassword(e);
+              changePassword(e);
             }}
           >
             <div className={styles.sub}>현재 비밀번호</div>

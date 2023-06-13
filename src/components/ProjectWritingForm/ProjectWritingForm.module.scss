@@ -109,7 +109,7 @@ h2 {
 }
 .introHelpBox {
   @include helpbox;
-  margin-top: 10px;
+  margin-top: 20px;
   height: 260px;
   p {
     @include helpP;
@@ -186,6 +186,10 @@ h2 {
 .timeBox {
   display: flex;
 
+  h2 {
+    margin-bottom: 10px;
+  }
+
   .time {
     margin-right: 5px;
   }
@@ -206,6 +210,10 @@ h2 {
 .essential {
   padding-left: 4px;
   color: red;
+}
+
+.introduction {
+  margin-top: 20px;
 }
 
 .editorBox {
