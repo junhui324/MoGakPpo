@@ -10,7 +10,7 @@ import styles from './PortfolioCreateWriting.module.scss';
 import * as Fetcher from '../../apis/Fetcher';
 import * as Token from '../../apis/Token';
 
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 import { loginAtom } from '../../recoil/loginState';
@@ -43,8 +43,8 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [gitHubUrl, setGitHubUrl] = useState('');
 
-  const quillRef = useRef<any>(null);
-  const thumbnailRef = useRef<HTMLInputElement>(null);
+  const quillRef = useRef<Quill | null>(null);
+  const thumbnailRef = useRef<HTMLButtonElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLInputElement>(null);
   const githubRef = useRef<HTMLInputElement>(null);
@@ -112,7 +112,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       setMembers(participated_members);
       setThumbnailSrc(portfolio_thumbnail);
       setGitHubUrl(portfolio_github);
-      quillRef.current.root.innerHTML = portfolio_description;
+      quillRef.current!.root.innerHTML = portfolio_description;
     }
   }, [publishedPostData]);
 
@@ -193,7 +193,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
 
   const handleSubmitClick = () => {
     // 에디터 HTML string
-    const editorHTML = quillRef.current.root.innerHTML;
+    const editorHTML = quillRef.current!.root.innerHTML;
 
     // 에디터 이미지 파일로 변환
     const editorImgFiles = base64sToFiles(
@@ -227,10 +227,9 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
 
-    const refFocusAndScroll = (targetRef: any) => {
+    const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
       if (targetRef.current) {
         targetRef.current.focus();
-        targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }
     };
 
@@ -248,7 +247,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       return;
     } else if (editorHTML.length <= 12) {
       alert('내용이 너무 짧습니다.');
-      refFocusAndScroll(quillRef!);
+      refFocusAndScroll(quillRef);
       return;
     } else if (!gitHubUrl) {
       alert('깃허브 레포지토리 url을 입력해 주세요.');
@@ -303,7 +302,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       setGitHubUrl(postData.gitHubUrl);
       setMembers(postData.members);
       // 에디터 내용 불러오기
-      quillRef.current.root.innerHTML = postData.description;
+      quillRef.current!.root.innerHTML = postData.description;
     }
   };
 

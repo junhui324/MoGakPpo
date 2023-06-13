@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { LegacyRef, RefObject, useCallback, useEffect, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
@@ -59,10 +59,12 @@ function ProjectListMain() {
     [selectedCategory, recruitingFilter, keywordValue, pageCount, pageSize]
   );
 
-  const target = useInfiniteScroll(async (entry, observer) => {
-    //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
-    pageSize >= pageCount && (await getProjectListData(true));
-  });
+  const target: RefObject<HTMLElement | HTMLLIElement> = useInfiniteScroll(
+    async (entry, observer) => {
+      //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
+      pageSize >= pageCount && (await getProjectListData(true));
+    }
+  );
 
   useEffect(() => {
     setIsFirstFetch(false);
