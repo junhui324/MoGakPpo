@@ -78,6 +78,7 @@ function Comments({ onError }: CommentsProps) {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getUserCommentData();
   }, [getUserCommentData]);
 

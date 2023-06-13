@@ -29,13 +29,15 @@
     justify-content: space-between;
     gap: 4px;
     .arrowButton {
-      border: none;
-      background-color: transparent;
-      font-size: 20px;
-      cursor: pointer;
+      flex: 1;
+      button {
+        border: none;
+        background-color: transparent;
+        font-size: 20px;
+        cursor: pointer;
+      }
     }
     .toAllButton {
-      flex: 1;
       display: flex;
       justify-content: end;
       align-items: center;
