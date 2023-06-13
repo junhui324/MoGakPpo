@@ -23,8 +23,9 @@ import styles from './Project.module.scss';
 import ROUTES from '../../constants/Routes';
 
 //recoil
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { projectIdState } from '../../recoil/projectState';
+import { loginAtom } from '../../recoil/loginState';
 
 function Project() {
   // 라우터 관련
@@ -46,6 +47,7 @@ function Project() {
 
   // Recoil State
   const setProjectIdRecoil = useSetRecoilState(projectIdState);
+  const userRecoilValue = useRecoilValue(loginAtom);
 
   // 데이터 API 호출 함수
   const fetchData = useCallback(async () => {
@@ -74,7 +76,7 @@ function Project() {
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
-    const userId = Number(getUserInfo()?.user_id);
+    const userId = Number(userRecoilValue.user_id);
     return userId === projectData?.user_id ? true : false;
   };
 
