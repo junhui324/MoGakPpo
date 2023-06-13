@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
+import { useEffect, useState, useRef, ChangeEvent, MouseEvent, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { loginAtom, userStackListState } from '../../recoil/loginState';
@@ -24,13 +24,13 @@ function UpdateUser() {
   const MAX_INTRO_COUNT = 250;
   const MAX_CAREER_COUNT = 50;
 
-  const handleImageChange = () => {
+  const handleImageChange = useCallback(() => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
+  }, [fileInputRef]);
 
-  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
@@ -41,13 +41,13 @@ function UpdateUser() {
       };
       reader.readAsDataURL(file);
     }
-  };
+  }, []);
 
-  const handleSetStackList = (stacks: string[]) => {
+  const handleSetStackList = useCallback((stacks: string[]) => {
     setStackList(stacks);
-  };
+  }, [setStackList]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
     const { name, value } = e.target;
     if (name === 'user_name' && value.length <= max) {
       setInputName(e.target.value);
@@ -59,9 +59,9 @@ function UpdateUser() {
         [name]: value,
       }));
     }
-  };
+  }, [setInputName, setUserInfo]);
 
-  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (isValid && window.confirm('수정하시겠습니까?')) {
@@ -83,41 +83,40 @@ function UpdateUser() {
         alert('수정을 실패했습니다.');
       }
     }
-  };
+  }, [isValid, imageFile, inputName, userInfo.user_introduction, userInfo.user_career_goal, stackList, navigate]);
 
-  const handleCancel = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleCancel = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (window.confirm('취소 하시겠습니까?')) {
       navigate(`${ROUTES.MY_PAGE}`);
     }
-  };
+  }, [navigate]);
+
+  const getUserData = useCallback(async () => {
+    try {
+      const { data } = await getUserProfile();
+      setUserInfo((prev) => {
+        return {
+          ...prev,
+          user_name: data.user_name,
+          user_img: data.user_img,
+          user_career_goal: data.user_career_goal || '',
+          user_stacks: data.user_stacks || { stackList: [''] },
+          user_introduction: data.user_introduction || '',
+        };
+      });
+      setStackList(data.user_stacks?.stackList || []);
+      setInputName(data.user_name);
+      setImageSrc(data.user_img);
+    } catch (error) {
+      alert('유저 정보를 불러오지 못했어요.');
+    }
+  }, [setStackList, setUserInfo]);
 
   useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const { data } = await getUserProfile();
-        console.log(data);
-        setUserInfo((prev) => {
-          return {
-            ...prev,
-            user_name: data.user_name,
-            user_img: data.user_img,
-            user_career_goal: data.user_career_goal || '',
-            user_stacks: data.user_stacks || { stackList: [''] },
-            user_introduction: data.user_introduction || '',
-          };
-        });
-        setStackList(data.user_stacks?.stackList || []);
-        setInputName(data.user_name);
-        setImageSrc(data.user_img);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getUserData();
-  }, []);
+  }, [getUserData]);
 
   useEffect(() => {
     setIsValid(inputName.length !== 0);
