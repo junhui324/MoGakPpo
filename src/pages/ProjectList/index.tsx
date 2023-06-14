@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { LegacyRef, RefObject, useCallback, useEffect, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
@@ -19,6 +19,7 @@ function ProjectListMain() {
   const [keywordValue, setKeywordValue] = useState('');
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
+  const [isFirstFetch, setIsFirstFetch] = useState(true);
 
   const getProjectListData = useCallback(
     async (isPagenation?: boolean): Promise<void> => {
@@ -56,22 +57,33 @@ function ProjectListMain() {
     [selectedCategory, recruitingFilter, keywordValue, pageCount, pageSize]
   );
 
-  const target = useInfiniteScroll(async (entry, observer) => {
-    //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
-    pageSize >= pageCount && (await getProjectListData(true));
-  });
+  const target: RefObject<HTMLElement | HTMLLIElement> = useInfiniteScroll(
+    async (entry, observer) => {
+      //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
+      pageSize >= pageCount && (await getProjectListData(true));
+    }
+  );
 
   useEffect(() => {
-    window.scroll(0, 0);
+    setIsFirstFetch(false);
     getProjectListData();
+  }, []);
+
+  useEffect(() => {
+    if (!isFirstFetch) {
+      window.scroll(0, 0);
+      getProjectListData();
+    }
   }, [selectedCategory, recruitingFilter]);
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      window.scroll(0, 0);
-      getProjectListData();
-    }, 700); // 디바운스 타임 설정
-    return () => clearTimeout(delayDebounceFn);
+    if (!isFirstFetch) {
+      const delayDebounceFn = setTimeout(() => {
+        window.scroll(0, 0);
+        getProjectListData();
+      }, 700); // 디바운스 타임 설정
+      return () => clearTimeout(delayDebounceFn);
+    }
   }, [keywordValue]);
 
   const handleCategoryClick = async (key: string) => {

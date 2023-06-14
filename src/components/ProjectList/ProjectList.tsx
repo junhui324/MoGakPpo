@@ -2,11 +2,12 @@ import { TypeProjectList } from '../../interfaces/Project.interface';
 import styles from './ProjectList.module.scss';
 import Project from './Project';
 import LoadingProject from './LoadingProject';
+import { LegacyRef, RefObject } from 'react';
 
 interface ProjectListProps {
   projectList: TypeProjectList[];
   isLoading: boolean;
-  innerRef?: any;
+  innerRef?: RefObject<HTMLElement | HTMLLIElement>;
   moreData?: boolean;
 }
 function ProjectList({ projectList, isLoading, innerRef, moreData }: ProjectListProps) {

@@ -4,6 +4,8 @@ import { useRecoilValue } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
 import { patchPasswordReset } from '../../apis/Fetcher';
 import { useNavigate } from 'react-router-dom';
+import MyPage from '../MyPage';
+import ROUTES from '../../constants/Routes';
 
 export default function ChangePassword() {
   const currentPasswordRef = useRef<any>(null);
@@ -14,6 +16,7 @@ export default function ChangePassword() {
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
   const isCurrentPasswordBlank = () => {
     if (currentPasswordRef.current.value === '') {
@@ -66,8 +69,8 @@ export default function ChangePassword() {
 
       if (res.status === 200 || res.status === undefined) {
         alert('비밀번호 변경이 완료되었습니다.');
-
-        navigate('/login');
+        console.log(`${API_KEY}${ROUTES.MY_PAGE}`);
+        navigate(`${ROUTES.MY_PAGE}`);
       }
       
     } catch (error) {

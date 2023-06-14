@@ -18,9 +18,9 @@ function MemberSelectForm({
   onMemberUnselect,
 }: MemberSelectFormProps) {
   const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
-  const [showSelectBox, setShowSelectBox] = useState<any>(false);
+  const [showSelectBox, setShowSelectBox] = useState(false);
 
-  const inputTimerRef = useRef<any>(null);
+  const inputTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSearchInputChange = (value: string) => {
     if (value.length > 0) {
@@ -45,7 +45,7 @@ function MemberSelectForm({
             type="text"
             placeholder="이메일로 검색해 주세요."
             onChange={(e) => {
-              clearTimeout(inputTimerRef.current);
+              clearTimeout(inputTimerRef.current!);
               inputTimerRef.current = setTimeout(() => {
                 handleSearchInputChange(e.target.value);
               }, 500);
