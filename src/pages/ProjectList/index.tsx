@@ -30,15 +30,17 @@ function ProjectListMain() {
           pageCount
         );
         if (isPagenation) {
+          console.log('무한스크롤을 위한 다음 페이지 데이터 겟');
           // 무한스크롤을 위한 다음 페이지 데이터 get
           pageSize <= pageCount && setMoreData(false);
           setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
           setPageCount((prev) => prev + 1);
         } else {
+          console.log('새로운 데이터 겟');
           // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
           const pageSize = projectList.data.pageSize;
           setPageSize(pageSize);
-          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreDat 컴포넌트 렌더링x
+          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreData 컴포넌트 렌더링x
           pageSize <= 1 && setMoreData(false);
           setProjectList(projectList.data.pagenatedProjects);
           setPageCount((prev) => prev + 1);
