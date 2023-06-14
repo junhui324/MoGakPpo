@@ -46,7 +46,7 @@ function UpdateUser() {
       try {
         // 기존 이미지
         console.log(file);
-        
+
         // 이미지 압축
         const compressedBlob = await imageCompression(file, options);
         console.log('이미지 압축한 blob 객체', compressedBlob);
@@ -168,8 +168,18 @@ function UpdateUser() {
             user_introduction: data.user_introduction || '',
           };
         });
-      } catch (error) {
-        console.log(error);
+      } catch (loadingError) {
+        if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+          switch (loadingError.message) {
+            case '403':
+              alert('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+              navigate(`${ROUTES.LOGIN}`);
+              break;
+            default:
+              alert('알 수 없는 오류가 발생했습니다.');
+              break;
+          }
+        }
       }
     };
 

@@ -89,7 +89,7 @@ function Login() {
     }
     catch(e:any){
       alert('카카오 사용자 정보를 다시 확인해주세요.');
-      return;
+      window.location.href = "/login";
     }
   }
 

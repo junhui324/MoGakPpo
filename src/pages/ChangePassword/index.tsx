@@ -1,11 +1,12 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import styles from './change.password.module.scss';
 import { useRecoilValue } from 'recoil';
-import { loginAtom } from '../../recoil/loginState';
+import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { patchPasswordReset } from '../../apis/Fetcher';
 import { useNavigate } from 'react-router-dom';
 import MyPage from '../MyPage';
 import ROUTES from '../../constants/Routes';
+import { getToken } from '../../apis/Token';
 
 export default function ChangePassword() {
   const currentPasswordRef = useRef<any>(null);
@@ -17,6 +18,14 @@ export default function ChangePassword() {
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
   const API_KEY = process.env.REACT_APP_API_KEY;
+  const accessToken = getToken();
+
+  useEffect(() =>{
+    if(!accessToken){
+      console.log(accessToken);
+      navigate("/");
+    }
+  }, []);
 
   const isCurrentPasswordBlank = () => {
     if (currentPasswordRef.current.value === '') {
