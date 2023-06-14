@@ -121,17 +121,22 @@ function ProjectPreview() {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
           case '400':
-            alert(`${error}: 요청 body에 모든 정보를 입력해 주세요.`);
+            alert(`모든 정보를 입력해 주세요.`);
             break;
           case '401':
-            alert(`${error}: 토큰이 만료되었습니다.`);
+            alert(`토큰이 만료되었습니다.`);
             Token.removeToken();
+            navigate(ROUTES.LOGIN);
             break;
+          case '413': {
+            alert('파일 용량이 너무 큽니다!');
+            break;
+          }
           default:
             alert(`${error}: 예기치 못한 서버 오류입니다.`);
+            navigate(ROUTES.HOME);
         }
       }
-      navigate(ROUTES.HOME);
     }
   };
 
@@ -168,17 +173,22 @@ function ProjectPreview() {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
           case '400':
-            alert(`${error}: project_id를 입력해 주세요.`);
+            alert(`모든 정보를 입력해 주세요.`);
             break;
           case '401':
-            alert(`${error}: 토큰이 만료되었습니다.`);
+            alert(`토큰이 만료되었습니다.`);
             Token.removeToken();
+            navigate(ROUTES.LOGIN);
             break;
+          case '413': {
+            alert('파일 용량이 너무 큽니다!');
+            break;
+          }
           default:
             alert(`${error}: 예기치 못한 서버 오류입니다.`);
+            navigate(ROUTES.HOME);
         }
       }
-      navigate(ROUTES.HOME);
     }
   };
 

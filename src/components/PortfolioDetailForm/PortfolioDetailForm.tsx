@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import styles from './PortfolioDetailForm.module.scss';
 import DOMPurify from 'dompurify';
 import { BsGithub } from 'react-icons/bs';
 
 // api
 import * as Fetcher from '../../apis/Fetcher';
+import * as Token from '../../apis/Token';
 
 //recoil
 import { useRecoilState } from 'recoil';
@@ -17,7 +18,8 @@ import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
 import PortfolioModifyBlock from './PortfolioModifyBlock';
 import { StackIcon } from '../Project/ProjectBodyLogo';
-import Loading from '../common/Loading/Loading';
+
+import ROUTES from '../../constants/Routes';
 
 import DefaultUserImage from '../../assets/DefaultUser.png';
 
@@ -31,6 +33,7 @@ function PortfolioDetailForm() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // 로컬 스토리지에 있는 user 정보 가져오기
   const LoginData = useRecoilState(loginAtom);
@@ -50,10 +53,19 @@ function PortfolioDetailForm() {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
         setPortfolio(data.data);
-        //console.log(getDateFormat(data.data.portfolio_created_at));
       }
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
     } finally {
       setIsLoading(false);
     }
@@ -101,7 +113,20 @@ function PortfolioDetailForm() {
       }월 ${localDate.getDate()}일`;
   };
 
-  return (
+  return isLoading ? (
+    <div className={styles.loadingContainer}>
+      <div className={styles.loading}>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  ) : (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
@@ -243,7 +268,6 @@ function PortfolioDetailForm() {
           </div>
         )}
       </div>
-      {isLoading ? <Loading /> : null}
     </div>
   );
 }
