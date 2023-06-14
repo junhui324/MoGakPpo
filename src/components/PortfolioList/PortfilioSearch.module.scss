@@ -25,6 +25,9 @@
       box-shadow: 0 0 15px #e2eaf1;
     }
 
+    &::placeholder {
+    }
+
     span {
       display: flex;
       align-items: center;
