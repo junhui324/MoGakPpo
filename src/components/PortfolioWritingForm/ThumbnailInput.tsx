@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import styles from './ThumbnailInput.module.scss';
 
 interface ThumbnailInputProps {
   onInputChange: (file: File) => void;
   imgFile: File;
   thumbnailSrc: string;
-  innerRef?: any;
+  innerRef?: RefObject<HTMLButtonElement>;
 }
 function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc, innerRef }: ThumbnailInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);

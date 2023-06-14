@@ -1,8 +1,10 @@
+import { RefObject } from 'react';
+
 interface BasicTextFormProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  innerRef?: any;
+  innerRef?: RefObject<HTMLInputElement>;
 }
 
 function BasicTextForm({ value, onChange, placeholder, innerRef }: BasicTextFormProps) {
