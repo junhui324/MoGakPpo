@@ -25,6 +25,8 @@
   width: 475px;
   height: 225px;
 
+  transition: all 0.5;
+
   .closeButton {
     margin-left: auto;
     margin-right: 18px;
@@ -100,6 +102,7 @@
 .urlTextBox {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   margin-top: 10px;
   height: 60px;
@@ -108,16 +111,22 @@
     font-size: 14px;
 
     line-height: 27px;
-    text-align: center;
   }
   textarea {
     height: 30px;
+    width: 400px;
     text-align: center;
+    white-space: nowrap;
+    overflow: auto;
 
     font-size: 20px;
 
     margin: 0;
     line-height: 15px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &:focus {
       outline: none;

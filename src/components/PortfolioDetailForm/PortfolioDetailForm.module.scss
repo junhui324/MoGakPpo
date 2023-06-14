@@ -51,11 +51,14 @@ h2 {
       font-weight: 700;
       font-size: 37px;
       margin-top: 10px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       color: $main-color;
       line-height: 50px;
       white-space: pre-wrap;
       word-break: break-all;
+    }
+    span {
+      color: #999999;
     }
   }
 

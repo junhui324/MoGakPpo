@@ -57,8 +57,8 @@ export default function Comment() {
   //코멘트 api get요청
   const getCommentData = useCallback(async () => {
     try {
-      const getPostType = location.pathname.split('/')[1];
-      const response = await getComment(getPostType, postId, currPage + 1);
+      const PostType = location.pathname.split('/')[1];
+      const response = await getComment(PostType, postId, currPage + 1);
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
       setTotalPageCount(response.data.pageSize);
@@ -71,24 +71,25 @@ export default function Comment() {
   }, [getCommentData]);
 
   //게시글 작성자 정보 받아오기
-  useEffect(() => {
-    const getAuthor = async () => {
-      try {
-        const getPostType = location.pathname.split('/')[1];
-        if (getPostType === 'projects') {
-          const response = await getProject(postId);
-          setAuthorId(response.user_id);
-        }
-        if (getPostType === 'portfolios') {
-          const response = await getPortfolio(String(postId));
-          setAuthorId(response.data.user_id);
-        }
-      } catch (error) {
-        console.log(error);
+  const getAuthor = useCallback(async () => {
+    try {
+      const PostType = location.pathname.split('/')[1];
+      if (PostType === 'projects') {
+        const response = await getProject(postId);
+        setAuthorId(response.user_id);
       }
-    };
+      if (PostType === 'portfolios') {
+        const response = await getPortfolio(String(postId));
+        setAuthorId(response.data.user_id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [location.pathname, postId]);
+  useEffect(() => {
     getAuthor();
-  }, []);
+  }, [getAuthor]);
+
   //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
   useEffect(() => {
     const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
