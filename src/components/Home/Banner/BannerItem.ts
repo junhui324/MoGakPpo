@@ -19,7 +19,7 @@ const BannerItem = [
   },
   {
     id: 3,
-    tag: '스터디 모집중',
+    tag: '스터디 모집',
     main_title: ['나에게 딱 맞는', '프로젝트나 스터디에 참여해 보세요 📖'],
     sub_title: ['모프에선 수많은 팀이 ', '당신을 기다리고 있습니다'],
     img: Banner1,

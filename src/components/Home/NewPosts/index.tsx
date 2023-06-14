@@ -41,12 +41,30 @@ export default function NewPosts() {
   const handleNext = () => {
     setCurrentId((curr) => (curr === totalItems - 1 ? 0 : curr + 1));
   };
-
+  const changeRoleName = (role: string) => {
+    switch (role) {
+      case 'BACK': {
+        return '백엔드';
+      }
+      case 'FRONT': {
+        return '프론트엔드';
+      }
+      case 'PM': {
+        return '기획';
+      }
+      case 'DESIGN': {
+        return '디자인';
+      }
+      case 'ROLE_ETC': {
+        return '기타';
+      }
+    }
+  };
   return (
     <div className={styles.newPosts}>
       <div className={styles.titleContainer}>
         <div className={styles.titleTextWrapper}>
-          <h1>새로운 프로젝트</h1>
+          <h1>새로운 모집 글</h1>
           <p>새로 업데이트된 모집글을 확인해보세요!</p>
         </div>
       </div>
@@ -81,7 +99,7 @@ export default function NewPosts() {
                     <h3 className={styles.summary}>{project.project_summary}</h3>
                     <div className={styles.role}>
                       {project.project_recruitment_roles?.roleList?.map((role, index) => (
-                        <p key={`${role}-${index}`}>{role}</p>
+                        <p key={`${role}-${index}`}>{changeRoleName(role)}</p>
                       ))}
                     </div>
                     <div className={styles.viewWrapper}>

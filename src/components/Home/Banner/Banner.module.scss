@@ -1,3 +1,4 @@
+@import '/src/variables.scss';
 .bannerContainer {
   position: relative;
   margin: 0 calc((100vw - 100%) * -0.5);
@@ -22,24 +23,36 @@
       .bannerText {
         display: flex;
         flex-direction: column;
-        padding: 3rem 4rem;
+        padding: 3rem 0;
 
         .tag {
-          margin: 2rem 0;
-          font-size: 30px;
-          font-weight: 600;
+          width: 80px;
+          text-align: center;
+          margin: 1rem 0;
+          font-size: 16px;
+          font-weight: 400;
+          padding: 8px 12px;
+          border-radius: 4px;
+          background-color: #a189ff;
+          color: white;
         }
 
         .mainTitle {
-          font-size: 18px;
-          font-weight: 400;
-          margin: 0.8rem 0;
+          font-size: 28px;
+          font-weight: 700;
+          margin-bottom: 0.8rem;
+          color: #333333;
         }
 
         .subTitle {
+          margin-top: 1rem;
           font-size: 18px;
-          font-weight: 200;
+          font-weight: 400;
+          color: #868686;
         }
+      }
+      img {
+        transform: scale(0.8);
       }
     }
   }
