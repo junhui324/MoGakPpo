@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ProjectPreview.module.scss';
-import ProjectTitle from '../Project/ProjectTitle';
-import ProjectBody from '../Project/ProjectBody';
+
 import * as ProjectType from '../../interfaces/Project.interface';
 import * as Fetcher from '../../apis/Fetcher';
-import ROUTES from '../../constants/Routes';
 import * as Token from '../../apis/Token';
 
-import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
+import ProjectTitle from '../Project/ProjectTitle';
+import ProjectBody from '../Project/ProjectBody';
+
+import ROUTES from '../../constants/Routes';
 
 import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -18,6 +19,8 @@ import {
   modifyButtonClickState,
 } from '../../recoil/projectState';
 
+import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
+
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 
 function ProjectPreview() {
@@ -26,7 +29,8 @@ function ProjectPreview() {
   const projectId = useRecoilValue(projectIdState);
   const setModifyButtonClick = useSetRecoilState(modifyButtonClickState);
   const resetProject = useResetRecoilState(projectState);
-  const [titleData, setTitleData] = useState<any>(null);
+
+  const [titleData, setTitleData] = useState<ProjectType.TypeProjectTitle | null>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
   const navigate = useNavigate();
 
@@ -138,11 +142,8 @@ function ProjectPreview() {
         findBase64(project.project_introduction),
         `${new Date().getTime()}`
       );
-      // 에디터 이미지 서버 경로 추출
       const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
-      // base64 => 에디터 이미지 서버 경로로 대체
       const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
-
       const formData = new FormData();
 
       formData.append('project_type', project.project_type);

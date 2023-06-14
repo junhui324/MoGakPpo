@@ -10,18 +10,16 @@ import * as Fetcher from '../../apis/Fetcher';
 //recoil
 import { useRecoilState } from 'recoil';
 import { portfolioState } from '../../recoil/portfolioState';
+import { loginAtom } from '../../recoil/loginState';
 
 import DetailShareButton from './DetailShareButton';
-import { StackIcon } from '../Project/ProjectBodyLogo';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
 import ProjectBookmarkBlock from '../Project/ProjectBookmarkBlock';
 import PortfolioModifyBlock from './PortfolioModifyBlock';
-import DefaultUserImage from '../../assets/DefaultUser.png';
-import { loginAtom } from '../../recoil/loginState';
+import { StackIcon } from '../Project/ProjectBodyLogo';
 import Loading from '../common/Loading/Loading';
 
-//util
-//import getDateFormat from './../../utils/getDateFormat';
+import DefaultUserImage from '../../assets/DefaultUser.png';
 
 const DEFAULT_STACK = '미정';
 const ONE_DAY = 1;
@@ -41,6 +39,11 @@ function PortfolioDetailForm() {
   // 업데이트 필요 시에 변경되는 상태
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
+  // timestamp를 받아온 후, 현재 Time Zone에 맞게 계산합니다. getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환한다.
+  const timestamp = new Date(portfolio.portfolio_created_at);
+  const localDate = new Date(timestamp.getTime());
+  const now: Date = new Date();
+
   const getPortfolio = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -56,17 +59,26 @@ function PortfolioDetailForm() {
     }
   }, [setPortfolio, id]);
 
+  useEffect(() => {
+    getPortfolio();
+    window.scrollTo(0, 0);
+  }, []);
+
+  // 게시글 아이디에 맞게 로딩할 것
+  useEffect(() => {
+    isUpdate && getPortfolio();
+
+    // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
+    return () => {
+      setIsUpdate(false);
+    };
+  }, [isUpdate, getPortfolio]);
+
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
     // 전역적인 userId와 user_id아이디가 같으면 true를 호출합니다.
     return Number(userId.user_id) === portfolio?.user_id ? true : false;
   };
-
-  // timestamp를 받아온 후, 현재 Time Zone에 맞게 계산합니다. getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환한다.
-  const timestamp = new Date(portfolio.portfolio_created_at);
-  const localDate = new Date(timestamp.getTime());
-
-  const now: Date = new Date();
 
   // 7일전까지는 글로 나타내고, 그 이후엔 날짜를 반환합니다.
   const projectDate = () => {
@@ -88,21 +100,6 @@ function PortfolioDetailForm() {
         localDate.getMonth() + MONTH_ADJUSTMENT
       }월 ${localDate.getDate()}일`;
   };
-
-  useEffect(() => {
-    getPortfolio();
-    window.scrollTo(0, 0);
-  }, []);
-
-  // 게시글 아이디에 맞게 로딩할 것
-  useEffect(() => {
-    isUpdate && getPortfolio();
-
-    // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
-    return () => {
-      setIsUpdate(false);
-    };
-  }, [isUpdate, getPortfolio]);
 
   return (
     <div className={styles.container}>

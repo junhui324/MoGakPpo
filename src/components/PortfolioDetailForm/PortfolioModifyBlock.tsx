@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 // 컴포넌트
 import ModalFullScreen from '../common/Modal/ModalFullScreen';
-// 타입
 
 // 스타일
 import styles from '../Project/ProjectModifyBlock.module.scss';
@@ -15,6 +14,10 @@ import ROUTES from '../../constants/Routes';
 interface TypePortfolioModify {
   portfolio_id: number;
   user_id: number;
+}
+
+interface ModifyButtonType {
+  onClick: () => void;
 }
 
 const DeleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
@@ -35,17 +38,13 @@ const DeleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
   );
 };
 
-interface ModifyButtonType {
-  onClick: () => void;
-}
-
-function ModifyButton({ onClick }: ModifyButtonType) {
+const ModifyButton = ({ onClick }: ModifyButtonType) => {
   return (
     <button className={styles.modifyButton} onClick={onClick}>
       수정
     </button>
   );
-}
+};
 
 export default function PortfolioModifyBlock({
   modifyData,
