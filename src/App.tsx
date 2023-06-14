@@ -31,7 +31,9 @@ import { useResetRecoilState } from 'recoil';
 function App() {
   const resetLogin = useResetRecoilState(loginAtom);
   useEffect(()=>{
-    resetLogin();
+    return ()=>{
+      resetLogin();
+    }
   }, []);
 
   return (
