@@ -276,7 +276,7 @@ function ProjectPreview() {
         <div className={styles.rightContainer}>
           <div className={`${styles.help} ${classification === 'modify' ? styles.modifyTrue : ''}`}>
             <p>
-              <span>*</span> 기술 스택이 <span>초기화</span> 됩니다.
+              <span>*</span> 편집 시, 기술 스택이 <span>초기화</span> 됩니다.
             </p>
             <p>다시 설정해 주세요!</p>
           </div>

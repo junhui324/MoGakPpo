@@ -147,7 +147,7 @@ function ProjectWritingForm() {
         stackList: stackList,
       },
     }));
-  }, [stackList, project.project_required_stacks.stackList, setProject, setStackList]);
+  }, [stackList, setProject, setStackList]);
 
   useEffect(() => {
     setProject({
