@@ -55,11 +55,15 @@ export default function ProjectBookmarkBlock({
       // 북마크한 유저 이미지 3개를 저장합니다.
       setUserImages(() => {
         const newUserImages = [];
+        const bookmarkLength = bookmarksData.project_bookmark_count;
+
         for (let i = 0; i < 3; i++)
-          if (!!bookmarksData.project_bookmark_users[i])
-            newUserImages.push(bookmarksData.project_bookmark_users[i].user_img);
+          if (!!bookmarksData.project_bookmark_users[bookmarkLength - 1 - i])
+            newUserImages.push(
+              bookmarksData.project_bookmark_users[bookmarkLength - 1 - i].user_img
+            );
           else break;
-        return [...newUserImages.reverse()];
+        return [...newUserImages];
       });
     }
 
