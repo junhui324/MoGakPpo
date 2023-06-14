@@ -240,7 +240,6 @@ function ProjectWritingForm() {
     if (missingFields.length > 0) {
       const firstMissingField = missingFields[0];
       const inputElement = document.getElementsByName(firstMissingField)[0] as HTMLInputElement;
-      console.log(firstMissingField, inputElement);
       if (inputElement) {
         inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
