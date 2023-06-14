@@ -48,11 +48,11 @@ export default function HotPortfolio() {
   };
 
   return (
-    <div className={styles.HotPortfolio} id='HotPortfolio'>
+    <div className={styles.HotPortfolio} id="HotPortfolio">
       <div className={styles.titleContainer}>
         <div className={styles.titleTextWrapper}>
-          <h1>인기 포트폴리오</h1>
-          <p>인기 포트폴리오 자랑글을 확인해보세요!</p>
+          <h1>인기 프로젝트</h1>
+          <p>인기 프로젝트 자랑글을 확인해보세요!</p>
         </div>
       </div>
       <div className={styles.ButtonContainer}>
