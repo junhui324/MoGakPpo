@@ -206,14 +206,14 @@ function ProjectWritingForm() {
     });
   };
 
-  //전송 버튼을 누르면 백엔드에 데이터 전송
+  //전송 버튼을 누르면 미리보기 페이지로 이동
   const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
     setButtonClick(true);
     const missingFields = getMissingFields();
     if (missingFields.length > 0) {
       setIsValidate(true);
-      goToTop();
+      goToInvalidField();
       return;
     }
     setIsValidate(false);
@@ -249,8 +249,18 @@ function ProjectWritingForm() {
     return missingFields;
   };
 
-  const goToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // 유효성 검사 실패한 폼으로 이동
+  const goToInvalidField = () => {
+    const missingFields = getMissingFields();
+    if (missingFields.length > 0) {
+      const firstMissingField = missingFields[0];
+      const inputElement = document.getElementsByName(firstMissingField)[0] as HTMLInputElement;
+      if (inputElement) {
+        inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
+      }
+    }
   };
 
   const handleEditorChange = (content: string) => {
@@ -320,6 +330,7 @@ function ProjectWritingForm() {
               <Checkbox
                 key={role}
                 id={role}
+                name="project_recruitment_roles"
                 label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
                 onChange={handleCheckboxChange}
                 isChecked={project.project_recruitment_roles.roleList.includes(role)}
@@ -338,7 +349,7 @@ function ProjectWritingForm() {
                 key={goal}
                 label={PROJECT_GOAL[goal as keyof typeof PROJECT_GOAL]}
                 value={goal}
-                name="PROJECT_GOAL"
+                name="project_goal"
                 checked={project.project_goal === goal}
                 onChange={handleGoalRadioChange}
               />
@@ -363,7 +374,7 @@ function ProjectWritingForm() {
                 key={time}
                 label={PROJECT_PARTICIPATION_TIME[time as keyof typeof PROJECT_PARTICIPATION_TIME]}
                 value={time}
-                name="PROJECT_PARTICIPATION_TIME"
+                name="project_participation_time"
                 checked={project.project_participation_time === time}
                 onChange={handleTimeRadioChange}
               />
