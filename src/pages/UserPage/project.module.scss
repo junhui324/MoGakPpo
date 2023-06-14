@@ -1,0 +1,105 @@
+@import '/src/variables.scss';
+$grey: #64748B;
+
+.listContainer {
+  display: flex;
+  margin-bottom: 32px;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 24px 24px 24px 24px;
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+  background-color: #ffff;
+  cursor: pointer;
+
+  .topContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    div:nth-child(1) {
+      .type {
+        margin-right: 8px;
+        padding: 4px 6px 4px 6px;
+        color: rgb(148 163 184);
+        font-size: 12px;
+        border-radius: 4px;
+        background-color: rgb(241 245 249);
+      }
+      .goal {
+        padding: 4px 6px 4px 6px;
+        color: rgb(148 163 184);
+        font-size: 12px;
+        border-radius: 4px;
+        background-color: rgb(241 245 249);
+      }
+    }
+    div:nth-child(2) {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      .participationTime {
+        font-size: 14px;
+        align-self: c;
+        color: rgb(148 163 184);
+      }
+      .bookmarkButton {
+        display: flex;
+        border: none;
+        padding: 6px 8px;
+        background-color: unset;
+        cursor: pointer;
+        svg {
+          font-size: 14px;
+          color: $main-color;
+        }
+      }
+    }
+  }
+  .secondContainer {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 550;
+    line-height: 2.2rem;
+    .status.recruiting {
+      color: $green;
+    }
+    .status.done {
+      color: #95a4b0;
+    }
+    .status::after {
+      margin-left: 8px;
+      margin-right: 8px;
+      content: '|';
+      font-weight: 400;
+      color: #d0d8de;
+    }
+    .title {
+      display: inline;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .newTag {
+      margin-left: 8px;
+      align-self: center;
+      font-size: 14px;
+      color: $blue;
+    }
+  }
+
+  .summary {
+    font-size: 18px;
+    line-height: 1.6rem;
+  }
+}
+
+.listContainer:hover {
+  border-color: #d0dee0;
+  box-shadow: 0 0 15px #e2eaf1;
+}
+
+.createdAt {
+  color: $grey;
+  font-weight: 100;
+}
