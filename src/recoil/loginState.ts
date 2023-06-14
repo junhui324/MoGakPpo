@@ -20,6 +20,11 @@ export const loginAtom = atom<LoginData>({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const isLoginAtom = atom({
+  key:'isLoginAtom',
+  default:false,
+});
+
 export const userStackListState = atom<string[]>({
   key: 'userStackListState',
   default: [],

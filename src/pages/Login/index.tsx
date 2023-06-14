@@ -9,7 +9,7 @@ import cookie from 'react-cookies';
 import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { loginAtom } from '../../recoil/loginState';
+import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
 import defaultUserPath from '../../assets/DefaultUser.png';
@@ -29,9 +29,10 @@ function Login() {
   const location = useLocation();
   const setLoginData = useSetRecoilState(loginAtom);
   const user = useRecoilValue(loginAtom);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+
   useEffect(() =>{
-    const id = user.user_id;
-    if(id !== ""){
+    if(isLogin){
       console.log(user);
       navigate("/");
     }
@@ -73,6 +74,7 @@ function Login() {
         }
       });
 
+      setIsLogin(true);
       handleLoginSuccess();
     }
   };
