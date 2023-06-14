@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import debounce from '../../utils/debounce';
 
 // component
@@ -8,12 +8,12 @@ import PortfolioListWrap from '../../components/PortfolioList/PortfolioListWrap'
 // 스타일
 import styles from './PortfolioList.module.scss';
 
-const DEBOUNCING = 500;
+const DEBOUNCING = 250;
 
 function PortfolioList() {
   const [value, setValue] = useState<string>('');
   const [keyword, setKeyword] = useState<string>('');
-  let timer: NodeJS.Timer;
+  const timer = useRef<NodeJS.Timer | null>(null);
 
   const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
@@ -21,8 +21,8 @@ function PortfolioList() {
     setValue(() => event.target.value);
 
     // utils의 debounce가 의도대로 작동하지 않아, 직접 디바운싱 진행
-    clearTimeout(timer);
-    setTimeout(() => setKeyword(() => event.target.value), DEBOUNCING);
+    timer.current && clearTimeout(timer.current);
+    timer.current = setTimeout(() => setKeyword(() => event.target.value), DEBOUNCING);
   };
 
   return (
