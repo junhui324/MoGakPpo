@@ -178,7 +178,7 @@ function ProjectPreview() {
           }
           default:
             alert(`${error}: 예기치 못한 서버 오류입니다.`);
-            navigate(ROUTES.HOME);
+            navigate(ROUTES.MAIN);
         }
       }
     }
@@ -257,7 +257,7 @@ function ProjectPreview() {
           }
           default:
             alert(`${error}: 예기치 못한 서버 오류입니다.`);
-            navigate(ROUTES.HOME);
+            navigate(ROUTES.MAIN);
         }
       }
     }

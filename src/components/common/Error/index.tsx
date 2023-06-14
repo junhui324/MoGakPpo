@@ -8,7 +8,7 @@ const Error: React.FC = () => {
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate(`${ROUTES.HOME}`);
+    navigate(`${ROUTES.MAIN}`);
   };
 
   return (

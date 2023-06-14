@@ -1,10 +1,8 @@
-// import React from 'react';
 import './reset.css';
-import {useEffect} from "react";
+import { useEffect } from "react";
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectListMain from './pages/ProjectList';
-// import Comment from './components/Comment';
 import Header from './components/Header/Header';
 import Error from './components/common/Error';
 import ChatBot from './components/ChatBot';
@@ -16,7 +14,6 @@ import Password from './pages/ChangePassword';
 import ProjectWriting from './pages/ProjectWriting';
 import UpdateUser from './pages/UpdateUser';
 import Register from './pages/Register';
-import Home from './pages/Home/Home';
 import UserPage from './pages/UserPage';
 import Modify from './pages/ProjectModify';
 import Preview from './pages/ProjectPreview';
@@ -42,7 +39,7 @@ function App() {
       <div className={styles.container}>
         <Routes>
           <Route path="*" element={<Error />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Main />} />
           <Route path={ROUTES.PROJECT_LIST} element={<ProjectListMain />} />
           <Route path={`${ROUTES.CREATE}:type`} element={<ProjectWriting />} />
           <Route path={`${ROUTES.PROJECT}:id`} element={<Project />} />
@@ -54,7 +51,6 @@ function App() {
           <Route path={`${ROUTES.USER_PAGE}:id`} element={<UserPage />} />
           <Route path={ROUTES.MODIFY_PROJECT} element={<Modify />} />
           <Route path={ROUTES.PREVIEW_PROJECT} element={<Preview />} />
-          <Route path="/main" element={<Main />} />
           <Route path={ROUTES.PORTFOLIO_CREATE} element={<PortfolioWriting />} />
           <Route path={`${ROUTES.PORTFOLIO_MODIFY}:id`} element={<PortfolioModify />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
