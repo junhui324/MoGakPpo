@@ -19,6 +19,7 @@ import { HighlightModules } from '../Editor/Highlight';
 import { useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
+import imageCompression from 'browser-image-compression';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -191,7 +192,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     setMembers((prev) => prev.filter((user) => user.user_id !== userId));
   };
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     // 에디터 HTML string
     const editorHTML = quillRef.current!.root.innerHTML;
 
@@ -207,6 +208,38 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     // base64 => 에디터 이미지 서버 경로로 대체
     const newDescription = base64imgSrcParser(editorHTML, urls);
 
+    // 에디터 이미지 옵션
+    const editorImgOptions = {
+      maxSizeMB: 1, // 허용하는 최대 사이즈 지정
+      maxWidthOrHeight: 1440, // 허용하는 최대 width, height 값 지정
+      useWebWorker: true, // webworker 사용 여부
+    };
+
+    // 에디터 이미지를 Blob으로 압축
+    const compressingEditorImgsBlob =
+      editorImgFiles.length > 0
+        ? Promise.all(
+            editorImgFiles.map(async (file) => {
+              const res = await imageCompression(file, editorImgOptions);
+              return res;
+            })
+          )
+        : undefined;
+
+    const compressedEditorImgsBlob = await compressingEditorImgsBlob;
+
+    // Blob을 File 객체로 변환
+    const convertedEditorFiles =
+      compressedEditorImgsBlob && editorImgFiles
+        ? editorImgFiles.map(
+            (file, index) =>
+              new File([compressedEditorImgsBlob[index]], file.name, {
+                type: file!.type,
+                lastModified: Date.now(),
+              })
+          )
+        : [];
+
     // 썸네일 미리보기 이미지 파일 변환 && 썸네일 수정이 없는 경우 변환하지 않기
     const newThumbnailFile = thumbnailSrc.includes('base64')
       ? base64sToFiles(
@@ -215,16 +248,37 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         )[0]
       : null;
 
+    // 썸네일 옵션
+    const thumbnailOptions = {
+      maxSizeMB: 1, // 허용하는 최대 사이즈 지정
+      maxWidthOrHeight: 300, // 허용하는 최대 width, height 값 지정
+      useWebWorker: true, // webworker 사용 여부
+    };
+    // 썸네일 File을 Blob로 압축
+    const compressedThumbnailBlob = newThumbnailFile
+      ? await imageCompression(newThumbnailFile, thumbnailOptions)
+      : undefined;
+
+    // 썸네일 압축 Blob을 File 객체로 변환
+    const convertedThumbnailFile =
+      compressedThumbnailBlob && newThumbnailFile
+        ? new File([compressedThumbnailBlob], newThumbnailFile.name, {
+            type: newThumbnailFile!.type,
+            lastModified: Date.now(),
+          })
+        : undefined;
+
     const formData = new FormData();
     // 썸네일 수정이 없는 경우는 append하지 않기
-    newThumbnailFile !== null && formData.append('portfolio_img', newThumbnailFile as File);
+    convertedThumbnailFile !== null &&
+      formData.append('portfolio_img', convertedThumbnailFile as File);
     formData.append('portfolio_title', title);
     formData.append('portfolio_summary', summary);
     formData.append('portfolio_github', gitHubUrl);
     formData.append('portfolio_stacks', JSON.stringify(stacks || []));
     formData.append('portfolio_description', newDescription);
-    editorImgFiles.length > 0 &&
-      editorImgFiles.forEach((file) => formData.append('portfolio_img', file as File));
+    convertedEditorFiles.length > 0 &&
+      convertedEditorFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
 
     const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
