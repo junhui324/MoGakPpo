@@ -8,6 +8,8 @@ import Stack from '../../components/Stack';
 import ROUTES from '../../constants/Routes';
 import styles from './updateUser.module.scss';
 import DefaultUser from '../../assets/DefaultUser.png';
+import imageCompression from 'browser-image-compression';
+import * as Token from '../../apis/Token';
 
 function UpdateUser() {
   const [userInfo, setUserInfo] = useRecoilState(loginAtom);
@@ -31,16 +33,41 @@ function UpdateUser() {
     }
   };
 
-  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
+    const options = {
+      maxSizeMB: 1, // 허용하는 최대 사이즈 지정
+      maxWidthOrHeight: 1920, // 허용하는 최대 width, height 값 지정
+      useWebWorker: true // webworker 사용 여부
+    }
+
     if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImageSrc(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        // 기존 이미지
+        console.log(file);
+        
+        // 이미지 압축
+        const compressedBlob = await imageCompression(file, options);
+        console.log('이미지 압축한 blob 객체', compressedBlob);
+
+        // Blob을 File 객체로 변환
+        const convertedFile = new File([compressedBlob], file.name, {
+          type: file.type,
+          lastModified: Date.now()
+        });
+        console.log('압축한 blob을 file 객체로 변환', convertedFile);
+
+        setImageFile(convertedFile);
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImageSrc(reader.result as string);
+        };
+
+        reader.readAsDataURL(convertedFile);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -81,7 +108,25 @@ function UpdateUser() {
 
         navigate(`${ROUTES.MY_PAGE}`);
       } catch (error) {
-        alert('수정을 실패했습니다.');
+        if (error instanceof Error && typeof error.message === 'string') {
+          switch (error.message) {
+            case '400':
+              alert(`모든 정보를 입력해 주세요.`);
+              break;
+            case '401':
+              alert(`토큰이 만료되었습니다.`);
+              Token.removeToken();
+              navigate(ROUTES.LOGIN);
+              break;
+            case '413': {
+              alert('파일 용량이 너무 큽니다!');
+              break;
+            }
+            default:
+              alert(`${error}: 예기치 못한 서버 오류입니다.`);
+              navigate(ROUTES.HOME);
+          }
+        }
       }
     }
   };
