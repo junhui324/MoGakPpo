@@ -48,11 +48,11 @@ export default function HotPortfolio() {
   };
 
   return (
-    <div className={styles.HotPortfolio} id='HotPortfolio'>
+    <div className={styles.HotPortfolio} id="HotPortfolio">
       <div className={styles.titleContainer}>
         <div className={styles.titleTextWrapper}>
-          <h1>인기 포트폴리오</h1>
-          <p>인기 포트폴리오 자랑글을 확인해보세요!</p>
+          <h1>인기 프로젝트</h1>
+          <p>인기 프로젝트 자랑글을 확인해보세요!</p>
         </div>
       </div>
       <div className={styles.ButtonContainer}>
@@ -87,9 +87,19 @@ export default function HotPortfolio() {
                       <h3 className={styles.summary}>{portfolio.portfolio_summary}</h3>
                       <div className={styles.stackContainer}>
                         <div className={styles.stack}>
-                          {portfolio.portfolio_stacks.stackList?.map((stack, index) => (
-                            <p key={`${stack}-${index}`}>{stack}</p>
-                          ))}
+                          {portfolio.portfolio_stacks.stackList &&
+                            portfolio.portfolio_stacks.stackList.slice(0, 3).map((stack) => {
+                              return (
+                                <div key={stack} className={styles.stack}>
+                                  {stack}
+                                </div>
+                              );
+                            })}
+                          {portfolio.portfolio_stacks?.stackList.length > 3 && (
+                            <span className={styles.ellipsis}>
+                              + {portfolio.portfolio_stacks?.stackList.length - 3}
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className={styles.viewWrapper}>

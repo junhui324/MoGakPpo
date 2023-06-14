@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import RadioButton from './RadioButton';
-import Checkbox from './Checkbox';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import TextareaAutosize from 'react-textarea-autosize';
+
 import * as Fetcher from '../../apis/Fetcher';
-import Stack from '../Stack';
+
 import {
   PROJECT_TYPE,
   PROJECT_GOAL,
@@ -13,13 +13,16 @@ import {
   PROJECT_RECRUITMENT_ROLES,
 } from '../../constants/project';
 import { PLACEHOLDER_STRING, PROJECT_TYPE_STRING, MAX_NUMBER } from './constant';
+import ROUTES from '../../constants/Routes';
+
+import Stack from '../Stack';
+import RadioButton from './RadioButton';
+import Checkbox from './Checkbox';
 import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
-import { useNavigate } from 'react-router-dom';
-import TextareaAutosize from 'react-textarea-autosize';
-import ROUTES from '../../constants/Routes';
-import * as Token from '../../apis/Token';
 import Editor from '../Editor/ProjectEditor';
+
+import * as Token from '../../apis/Token';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -33,17 +36,18 @@ import {
 
 function ProjectWritingForm() {
   const [project, setProject] = useRecoilState(projectState);
+  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
+  const [stackList, setStackList] = useRecoilState(stackListState);
+  const [description, setDescription] = useRecoilState(editorIntroductionState);
   const classification = useRecoilValue(classificationState);
   const projectId = useRecoilValue(projectIdState);
-  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
-  const resetProject = useResetRecoilState(projectState);
-  const { type } = useParams();
-  const [stackList, setStackList] = useRecoilState(stackListState);
   const resetStackList = useResetRecoilState(stackListState);
+  const resetDescription = useResetRecoilState(editorIntroductionState);
+  const resetProject = useResetRecoilState(projectState);
+
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
-  const [description, setDescription] = useRecoilState(editorIntroductionState);
-  const resetDescription = useResetRecoilState(editorIntroductionState);
+  const { type } = useParams();
   const navigate = useNavigate();
 
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
@@ -105,10 +109,6 @@ function ProjectWritingForm() {
     }
   }, [classification, type]);
 
-  const handleSetStackList = (stacks: string[]) => {
-    setStackList(stacks);
-  };
-
   //프로젝트 타입 추출 및 저장
   useEffect(() => {
     const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
@@ -136,6 +136,13 @@ function ProjectWritingForm() {
       },
     }));
   }, [stackList, project.project_required_stacks.stackList, setProject, setStackList]);
+
+  useEffect(() => {
+    setProject({
+      ...project,
+      project_introduction: description,
+    });
+  }, [description]);
 
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -250,12 +257,9 @@ function ProjectWritingForm() {
     setDescription(content);
   };
 
-  useEffect(() => {
-    setProject({
-      ...project,
-      project_introduction: description,
-    });
-  }, [description]);
+  const handleSetStackList = (stacks: string[]) => {
+    setStackList(stacks);
+  };
 
   useBeforeUnload();
 

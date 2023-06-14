@@ -32,7 +32,12 @@ export default function Banner() {
             <div key={item.id} className={styles.bannerItem}>
               <div className={styles.bannerText}>
                 <p className={styles.tag}>{item.tag}</p>
-                <h1 className={styles.mainTitle}>{item.main_title}</h1>
+                {item.main_title.map((item, index) => (
+                  <h1 key={index} className={styles.mainTitle}>
+                    {item}
+                  </h1>
+                ))}
+                <h1>{}</h1>
                 <p className={styles.subTitle}>{item.sub_title}</p>
               </div>
               <img src={item.img} alt="배너" />

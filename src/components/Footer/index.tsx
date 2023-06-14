@@ -2,6 +2,7 @@ import ROUTES from '../../constants/Routes';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Footer.module.scss';
 import { IoIosArrowForward } from 'react-icons/io';
+import { SlArrowUpCircle } from 'react-icons/sl';
 import Logo from '../../assets/Logo.png';
 
 export default function Footer() {
@@ -55,10 +56,22 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.footerBottom}>
-        <p>(팀)ICE | 서울 성동구 아차산로17길 48 성수낙낙 2층 엘리스랩 </p>
-        <p>이새미 | 박지원 | 신혜지 | 이주영 | 장준희 | 김차미 | 송현수</p>
-        <br />
-        <p>© 2023 Team ICE, Elice SW4</p>
+        <div className={styles.teamInfo}>
+          <p>(팀)ICE | 서울 성동구 아차산로17길 48 성수낙낙 2층 엘리스랩 </p>
+          <p>이새미 | 박지원 | 신혜지 | 이주영 | 장준희 | 김차미 | 송현수</p>
+          <br />
+          <p>© 2023 Team ICE, Elice SW4</p>
+        </div>
+        <div
+          onClick={() => {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
+          }}
+        >
+          <SlArrowUpCircle size={40} />
+        </div>
       </div>
     </div>
   );

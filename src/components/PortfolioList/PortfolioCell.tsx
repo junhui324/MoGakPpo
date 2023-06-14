@@ -108,7 +108,7 @@ function PortfolioCell({
             })}
           {portfolio.portfolio_stacks?.stackList.length > 3 && (
             <span className={styles.ellipsis}>
-              + {portfolio.portfolio_stacks?.stackList.length}
+              + {portfolio.portfolio_stacks?.stackList.length - 3}
             </span>
           )}
         </div>
