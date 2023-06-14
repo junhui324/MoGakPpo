@@ -8,7 +8,8 @@ import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
 import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
-
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { projectState, classificationState } from '../../recoil/projectState';
 function ProjectListMain() {
   const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
@@ -20,6 +21,8 @@ function ProjectListMain() {
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
   const [isFirstFetch, setIsFirstFetch] = useState(true);
+  const resetProject = useResetRecoilState(projectState);
+  const setClassification = useSetRecoilState(classificationState);
 
   const getProjectListData = useCallback(
     async (isPagenation?: boolean): Promise<void> => {
@@ -66,6 +69,8 @@ function ProjectListMain() {
 
   useEffect(() => {
     setIsFirstFetch(false);
+    resetProject();
+    setClassification('/');
     getProjectListData();
   }, []);
 

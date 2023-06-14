@@ -33,6 +33,7 @@ import {
   modifyButtonClickState,
   editorIntroductionState,
 } from '../../recoil/projectState';
+import { loginAtom } from '../../recoil/loginState';
 
 function ProjectWritingForm() {
   const [project, setProject] = useRecoilState(projectState);
@@ -49,6 +50,10 @@ function ProjectWritingForm() {
   const [isValidate, setIsValidate] = useState(false);
   const { type } = useParams();
   const navigate = useNavigate();
+
+  // 로컬 스토리지에 있는 user 정보 가져오기
+  const LoginData = useRecoilState(loginAtom);
+  const userId = LoginData[0];
 
   // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
   const getProjectData = async () => {
@@ -82,6 +87,13 @@ function ProjectWritingForm() {
       navigate(ROUTES.HOME);
     }
   };
+
+  useEffect(() => {
+    if (!userId.user_id) {
+      alert('로그인이 필요합니다.');
+      navigate(ROUTES.LOGIN);
+    }
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
