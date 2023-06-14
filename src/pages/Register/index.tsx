@@ -26,11 +26,6 @@ function Register() {
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const loginData = useRecoilValue(loginAtom);
-
-  useEffect(() =>{
-    console.log(loginData);
-  });
-  
   const navigate = useNavigate();
 
   const CheckEmail = (str: any) =>{
@@ -39,6 +34,15 @@ function Register() {
       return false;
     } else {
       return true;
+    }
+  }
+
+  const checkLength = (str:string) =>{
+    if(str.length > 30){
+      return true;
+    }
+    else{
+      return false;
     }
   }
 
@@ -112,6 +116,12 @@ function Register() {
     if (isNameBlank() || isEmailBlank() || isPasswordBlank()) {
       return;
     }
+
+    if(checkLength(emailRef.current.value) || checkLength(nameRef.current.value)){
+      alert("아이디 혹은 이메일은 30글자를 넘을 수 없습니다.");
+      return;
+    }
+    
     if (!ageRef.current.checked) {
       alert('만 14세 이상에 동의해주세요.');
       return;
