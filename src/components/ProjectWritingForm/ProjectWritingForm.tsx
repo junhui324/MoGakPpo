@@ -206,21 +206,6 @@ function ProjectWritingForm() {
     });
   };
 
-  //전송 버튼을 누르면 미리보기 페이지로 이동
-  const handleSubmitButton = (e: React.FormEvent) => {
-    e.preventDefault();
-    setButtonClick(true);
-    const missingFields = getMissingFields();
-    if (missingFields.length > 0) {
-      setIsValidate(true);
-      goToInvalidField();
-      return;
-    }
-    setIsValidate(false);
-
-    navigate(`${ROUTES.PREVIEW_PROJECT}`);
-  };
-
   // 유효성 검사
   const getMissingFields = () => {
     const requiredFields: string[] = [
@@ -255,12 +240,28 @@ function ProjectWritingForm() {
     if (missingFields.length > 0) {
       const firstMissingField = missingFields[0];
       const inputElement = document.getElementsByName(firstMissingField)[0] as HTMLInputElement;
+      console.log(firstMissingField, inputElement);
       if (inputElement) {
         inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } else {
         window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
       }
     }
+  };
+
+  //전송 버튼을 누르면 미리보기 페이지로 이동
+  const handleSubmitButton = (e: React.FormEvent) => {
+    e.preventDefault();
+    setButtonClick(true);
+    const missingFields = getMissingFields();
+    if (missingFields.length > 0) {
+      setIsValidate(true);
+      goToInvalidField();
+      return;
+    }
+    setIsValidate(false);
+
+    navigate(`${ROUTES.PREVIEW_PROJECT}`);
   };
 
   const handleEditorChange = (content: string) => {
