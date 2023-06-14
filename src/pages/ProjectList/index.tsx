@@ -31,13 +31,11 @@ function ProjectListMain() {
           pageCount
         );
         if (isPagenation) {
-          console.log('페이지네이션 실행');
           // 무한스크롤을 위한 다음 페이지 데이터 get
           pageSize <= pageCount && setMoreData(false);
           setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
           setPageCount((prev) => prev + 1);
         } else {
-          console.log('처음 데이터 가져오기 실행');
           // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
           const pageSize = projectList.data.pageSize;
           setPageSize(pageSize);
