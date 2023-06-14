@@ -196,6 +196,9 @@ function ProjectPreview() {
     <>
       <div className={styles.container}>
         <div className={styles.leftContainer}>
+          <div className={styles.help}>
+            <p>✨ 모집글 등록 전에 미리 확인해 보세요!</p>
+          </div>
           <ProjectTitle titleData={titleData} />
           <ProjectBody bodyData={bodyData} />
         </div>
