@@ -390,10 +390,11 @@ export async function deletePortfolio(portfolioId: number): Promise<AxiosRespons
   const response: AxiosResponse = await Api.delete(API_KEY, params);
   return response;
 }
+
 // 인증코드 전달하여 계정정보 받아오는 카카오 로그인
 export async function getKakaoLogin(code: string): Promise<AxiosResponse> {
-  const params = `/login/kakao?code=${code}`;
+  const params = `users/kakao?code=${code}`;
   const response: AxiosResponse = await Api.get(API_KEY, params);
 
-  return response.data;
+  return response;
 }
