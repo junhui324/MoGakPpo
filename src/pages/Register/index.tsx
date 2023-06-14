@@ -38,7 +38,7 @@ function Register() {
   }
 
   const checkLength = (str:string) =>{
-    if(str.length > 15){
+    if(str.length > 30){
       return true;
     }
     else{
@@ -118,7 +118,7 @@ function Register() {
     }
 
     if(checkLength(emailRef.current.value) || checkLength(nameRef.current.value)){
-      alert("아이디 혹은 이메일은 15글자를 넘을 수 없습니다.");
+      alert("아이디 혹은 이메일은 30글자를 넘을 수 없습니다.");
       return;
     }
     
