@@ -13,6 +13,7 @@ function getToken(): string | null {
 // 쿠키에 저장된 토큰을 삭제합니다.
 function removeToken(): void {
   cookie.remove('accessToken', { path: '/' });
+  cookie.remove('refreshToken', {path:'/'});
 }
 
 // 쿠키에 저장된 리프레시 토큰을 반환합니다.

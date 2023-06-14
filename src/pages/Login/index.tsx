@@ -13,10 +13,10 @@ import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
 import defaultUserPath from '../../assets/DefaultUser.png';
+import kakaoLoginImgPath from '../../assets/KakaoLogin.png';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
-const CURRENT_KEY = process.env.REACT_APP_CURRENT_KEY;
 
 function Login() {
   const emailRef = useRef<any>(null);
@@ -33,7 +33,7 @@ function Login() {
 
   useEffect(() =>{
     if(isLogin){
-      console.log(user);
+      console.log(isLogin);
       navigate("/");
     }
   }, []);
@@ -238,7 +238,7 @@ function Login() {
 
           <div className={styles.kakaoContainer}>
             <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
-              <div className={styles.kakaoContainer}><RiKakaoTalkFill className={styles.kakaoImage} size="20"/><span className={styles.kakaoDesc}>카카오로 계속하기</span></div>
+              <img src = {kakaoLoginImgPath}></img>
             </button>
           </div>
 
