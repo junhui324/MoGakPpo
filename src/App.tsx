@@ -1,5 +1,6 @@
 // import React from 'react';
 import './reset.css';
+import {useEffect} from "react";
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectListMain from './pages/ProjectList';
@@ -24,8 +25,15 @@ import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
 import PortfolioModify from './pages/PortfolioModify';
+import { loginAtom } from './recoil/loginState';
+import { useResetRecoilState } from 'recoil';
 
 function App() {
+  const resetLogin = useResetRecoilState(loginAtom);
+  useEffect(()=>{
+    resetLogin();
+  }, []);
+
   return (
     <BrowserRouter>
       <Header />

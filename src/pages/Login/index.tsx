@@ -9,14 +9,14 @@ import cookie from 'react-cookies';
 import { userInfo } from 'os';
 import {RiKakaoTalkFill} from "react-icons/ri"; 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { loginAtom } from '../../recoil/loginState';
+import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
 import defaultUserPath from '../../assets/DefaultUser.png';
+import kakaoLoginImgPath from '../../assets/KakaoLogin.png';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
-const CURRENT_KEY = process.env.REACT_APP_CURRENT_KEY;
 
 function Login() {
   const emailRef = useRef<any>(null);
@@ -29,10 +29,11 @@ function Login() {
   const location = useLocation();
   const setLoginData = useSetRecoilState(loginAtom);
   const user = useRecoilValue(loginAtom);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+
   useEffect(() =>{
-    const id = user.user_id;
-    if(id !== ""){
-      console.log(user);
+    if(isLogin){
+      console.log(isLogin);
       navigate("/");
     }
   }, []);
@@ -74,6 +75,7 @@ function Login() {
         }
       });
 
+      setIsLogin(true);
       handleLoginSuccess();
     // }
   };
@@ -236,7 +238,7 @@ function Login() {
 
           <div className={styles.kakaoContainer}>
             <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
-              <div className={styles.kakaoContainer}><RiKakaoTalkFill className={styles.kakaoImage} size="20"/><span className={styles.kakaoDesc}>카카오로 계속하기</span></div>
+              <img src = {kakaoLoginImgPath}></img>
             </button>
           </div>
 
