@@ -20,8 +20,16 @@ import {
 } from '../../recoil/projectState';
 
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
+import imageCompression from 'browser-image-compression';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
+
+// 에디터 이미지 옵션
+const editorImgOptions = {
+  maxSizeMB: 1, // 허용하는 최대 사이즈 지정
+  maxWidthOrHeight: 1440, // 허용하는 최대 width, height 값 지정
+  useWebWorker: true, // webworker 사용 여부
+};
 
 function ProjectPreview() {
   const project = useRecoilValue(projectState);
@@ -92,10 +100,37 @@ function ProjectPreview() {
         findBase64(project.project_introduction),
         `${new Date().getTime()}`
       );
+
       // 에디터 이미지 서버 경로 추출
       const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
+
       // base64 => 에디터 이미지 서버 경로로 대체
       const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
+
+      // 에디터 이미지를 Blob으로 압축
+      const compressingEditorImgsBlob =
+        imgFiles.length > 0
+          ? Promise.all(
+              imgFiles.map(async (file) => {
+                const res = await imageCompression(file, editorImgOptions);
+                return res;
+              })
+            )
+          : undefined;
+
+      const compressedEditorImgsBlob = await compressingEditorImgsBlob;
+
+      // Blob을 File 객체로 변환
+      const convertedEditorFiles =
+        compressedEditorImgsBlob && imgFiles
+          ? imgFiles.map(
+              (file, index) =>
+                new File([compressedEditorImgsBlob[index]], file.name, {
+                  type: file!.type,
+                  lastModified: Date.now(),
+                })
+            )
+          : [];
 
       const formData = new FormData();
 
@@ -113,7 +148,8 @@ function ProjectPreview() {
       formData.append('project_goal', project.project_goal);
       formData.append('project_participation_time', project.project_participation_time);
       formData.append('project_introduction', newIntroduction);
-      imgFiles.forEach((file) => formData.append('project_img', file as File));
+      convertedEditorFiles.length > 0 &&
+        convertedEditorFiles.forEach((file) => formData.append('project_img', file as File));
 
       const res = await Fetcher.postProject(formData);
       return res.data.project_id;
@@ -149,6 +185,32 @@ function ProjectPreview() {
       );
       const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
       const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
+
+      // 에디터 이미지를 Blob으로 압축
+      const compressingEditorImgsBlob =
+        imgFiles.length > 0
+          ? Promise.all(
+              imgFiles.map(async (file) => {
+                const res = await imageCompression(file, editorImgOptions);
+                return res;
+              })
+            )
+          : undefined;
+
+      const compressedEditorImgsBlob = await compressingEditorImgsBlob;
+
+      // Blob을 File 객체로 변환
+      const convertedEditorFiles =
+        compressedEditorImgsBlob && imgFiles
+          ? imgFiles.map(
+              (file, index) =>
+                new File([compressedEditorImgsBlob[index]], file.name, {
+                  type: file!.type,
+                  lastModified: Date.now(),
+                })
+            )
+          : [];
+
       const formData = new FormData();
 
       formData.append('project_type', project.project_type);
@@ -165,7 +227,8 @@ function ProjectPreview() {
       formData.append('project_goal', project.project_goal);
       formData.append('project_participation_time', project.project_participation_time);
       formData.append('project_introduction', newIntroduction);
-      imgFiles.forEach((file) => formData.append('project_img', file as File));
+      convertedEditorFiles.length > 0 &&
+        convertedEditorFiles.forEach((file) => formData.append('project_img', file as File));
 
       const res = await Fetcher.patchProject(formData, projectId);
       return res.data.project_id;
