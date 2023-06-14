@@ -22,7 +22,6 @@ export default function ChangePassword() {
 
   useEffect(() =>{
     if(!accessToken){
-      console.log(accessToken);
       navigate("/");
     }
   }, []);
@@ -78,7 +77,6 @@ export default function ChangePassword() {
 
       if (res.status === 200 || res.status === undefined) {
         alert('비밀번호 변경이 완료되었습니다.');
-        console.log(`${API_KEY}${ROUTES.MY_PAGE}`);
         navigate(`${ROUTES.MY_PAGE}`);
       }
       
