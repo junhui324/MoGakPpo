@@ -116,7 +116,7 @@ function UpdateUser() {
         setUserInfo((prev) => {
           return {
             ...prev,
-            user_name: inputName,
+            user_name: data.user_name,
             user_img: data.user_img,
             user_career_goal: data.user_career_goal || '',
             user_stacks: { stackList: stackList },
@@ -193,8 +193,8 @@ function UpdateUser() {
               onChange={(e) => handleChange(e, MAX_CAREER_COUNT)}
             />
             {userInfo.user_career_goal === null
-            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
-            : <p>{userInfo.user_career_goal.length || 0}/{MAX_INTRO_COUNT}</p>}
+            ? <p>{0}/{MAX_CAREER_COUNT}</p> 
+            : <p>{userInfo.user_career_goal.length || 0}/{MAX_CAREER_COUNT}</p>}
           </div>
           <Stack selectedStack={stackList || []} setStackList={handleSetStackList} />
           <button

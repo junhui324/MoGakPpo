@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './chatBot.module.scss';
 import { IoIosClose } from 'react-icons/io';
 import chatData from './chatBot.json';
 import Logo from '../../assets/Character.png';
+import ROUTES from '../../constants/Routes';
 
 function ChatBot() {
+  const navigate = useNavigate();
   const [showChatBox, setShowChatBox] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState('');
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [selectedLink, setSelectedLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
@@ -18,10 +22,56 @@ function ChatBot() {
   const handleQuestionClick = (question: string) => {
     setSelectedQuestion(question);
     const selected = chatData.find((item) => item.question === question);
-    return selected 
-    ? setSelectedAnswer(selected.answers as string) 
-    : '이런 답변을 가져오지 못했어요';
+
+    if (selected) {
+      setSelectedAnswer(selected.answers as string);
+      setSelectedLink(selected.link as string);
+    }
   };
+
+  const handleLinkClick = (link: string) => {
+    const selected = chatData.find((item) => item.link === link);
+
+    switch(selected?.to) {
+      case '/projects': {
+        navigate(`${ROUTES.PROJECT_LIST}`);
+        break;
+      }
+      case '/portfolios': {
+        navigate(`${ROUTES.PORTFOLIO_LIST}`);
+        break;
+      }
+      case '/main/portfolios': {
+        navigate(`${ROUTES.MAIN}`);
+
+        const hotProtfolioElement = document.getElementById('HotPortfolio');
+
+        if (hotProtfolioElement) {
+          const yOffset = -100;
+          const y = hotProtfolioElement.getBoundingClientRect().top + window.scrollY + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+        break;
+      }
+      case '/main/stacks': {
+        navigate(`${ROUTES.MAIN}`);
+        const bestStackElement = document.getElementById('BestStack');
+
+        if (bestStackElement) {
+          const yOffset = -100;
+          const y = bestStackElement.getBoundingClientRect().top + window.scrollY + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+        break;
+      }
+
+      case '/email': {
+        const mailtoUrl = `mailto:moppe_help@elice.com`;
+        window.location.href = mailtoUrl;
+        break;
+      }
+    }
+  }
 
   useEffect(() => {
     setSelectedQuestion('');
@@ -47,7 +97,7 @@ function ChatBot() {
                         key={i}
                         onClick={() => handleQuestionClick(v.question)}
                       >
-                      {v.question}
+                        {v.question}
                       </div>
                   )
                 }
@@ -57,6 +107,7 @@ function ChatBot() {
               ? (<div>
                   <div className={styles.question}>{selectedQuestion}을(를) 물어보셨네요!</div>
                   <div className={styles.answer}>{selectedAnswer}</div>
+                  {selectedLink ? <div className={styles.link} onClick={() => handleLinkClick(selectedLink)}>{selectedLink}</div>: ''}
                 </div>)
               : ''
             }
