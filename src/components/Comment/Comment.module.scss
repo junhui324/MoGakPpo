@@ -36,7 +36,7 @@
 }
 .commentCount {
   margin: 24px auto 40px;
-  width: 686px;
+  max-width: 686px;
   font-size: 18px;
   font-weight: 700;
   strong {
@@ -45,7 +45,7 @@
 }
 .inputArea {
   margin: 0 auto;
-  width: 686px;
+  max-width: 686px;
 
   .loggedOutInput {
     @include inputStyle;
@@ -74,7 +74,7 @@
 .commentList {
   margin: 0 auto;
   padding: 0;
-  width: 686px;
+  max-width: 686px;
   .comment {
     background-color: #ffffff;
     border: 1px solid #f1f3f5;
