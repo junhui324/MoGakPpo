@@ -31,10 +31,7 @@ import { themeState } from './recoil/themeState';
 
 function App() {
   const darkMode = useRecoilValue(themeState);
-  const toggleStyle = {
-    backgroundColor: darkMode ? '#1D202E' : '#fff',
-    color: darkMode ? '#fff' : '#000',
-  };
+
   const resetLogin = useResetRecoilState(loginAtom);
   useEffect(() => {
     resetLogin();
@@ -43,7 +40,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className={styles.container} style={toggleStyle}>
+      <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
         <Routes>
           <Route path="*" element={<Error />} />
           <Route path="/" element={<Home />} />

@@ -9,6 +9,7 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
     <link rel="/manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" href="./index.css" />
 
     <title>모프 : 모두의 프로젝트</title>
   </head>
@@ -16,4 +17,13 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
+  <script>
+    const root = document.querySelector('#root');
+    const darkMode = localStorage.getItem('dark-mode');
+    if (darkMode) {
+      root.classList.add(darkMode);
+    } else {
+      root.classList.remove(darkMode);
+    }
+  </script>
 </html>
