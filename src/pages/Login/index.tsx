@@ -13,10 +13,11 @@ import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
 import defaultUserPath from '../../assets/DefaultUser.png';
-import kakaoLoginImgPath from '../../assets/KakaoLogin.png';
+import { HiChatBubbleOvalLeft } from "react-icons/hi2";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 
 function Login() {
   const emailRef = useRef<any>(null);
@@ -86,7 +87,7 @@ function Login() {
       loginAfter(res);
     }
     catch(e:any){
-      alert('카카오 사용자 정보를 다시 확인해주세요.');
+      alert('카카오 이메일 수집 동의에 체크해 주세요.');
       window.location.href = "/login";
     }
   }
@@ -166,8 +167,7 @@ function Login() {
   };
 
   const kakaoLogin = () =>{
-    const redirect_uri = `${window.location}`;
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
     window.location.href = kakaoURL;
   };
@@ -193,7 +193,7 @@ function Login() {
           <div className={styles.title}>
             <p>로그인</p>
           </div>
-
+          <div className={styles.formContainer}>
           <form
             onSubmit={(e) => {
               login(e);
@@ -235,7 +235,7 @@ function Login() {
 
           <div className={styles.kakaoContainer}>
             <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
-              <img src = {kakaoLoginImgPath}></img>
+              <HiChatBubbleOvalLeft />카카오 로그인
             </button>
           </div>
 
@@ -247,6 +247,7 @@ function Login() {
               </span>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </>
