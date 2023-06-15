@@ -13,6 +13,10 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .container {
   margin-top: $header-height;
   max-width: 1024px;
