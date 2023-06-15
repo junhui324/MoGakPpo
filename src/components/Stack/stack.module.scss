@@ -1,5 +1,5 @@
 @import '/src/variables.scss';
-$input-border-color: #94a3b8;
+$input-border-color: #e8e8e8;
 $suggestion-color: #f1f3f5;
 
 .container {
@@ -70,8 +70,12 @@ $suggestion-color: #f1f3f5;
       outline: none;
       height: 40px;
       padding-left: 1rem;
-      
       padding-right: 36px;
+
+      &:focus{
+        border: 1px solid #94a3b8;
+        outline:none;
+      }
     }
 
     .searchButton {

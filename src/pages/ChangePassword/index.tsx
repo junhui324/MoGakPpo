@@ -95,7 +95,7 @@ export default function ChangePassword() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.title}>비밀번호를 수정하실건가요?</div>
+        <div className={styles.title}>비밀번호 수정</div>
         <div className={styles.main}>
           <form
             onSubmit={(e) => {

@@ -1,5 +1,6 @@
 @import '/src/variables.scss';
-$input-border-color: #94a3b8;
+$input-border-color: #e8e8e8;
+$input-border-focus-color: #94a3b8;
 
 .container {
   margin-top: 2rem;
@@ -26,7 +27,7 @@ $input-border-color: #94a3b8;
       right: 180px;
       cursor: pointer;
       font-size: 30px;
-      fill: $input-border-color;
+      fill: $input-border-focus-color;
     }
 
     .fileInput {
@@ -59,7 +60,7 @@ $input-border-color: #94a3b8;
         position: absolute;
         right: 0;
         padding: 1.4rem 0;
-        color: $input-border-color;
+        color: $input-border-focus-color;
         font-size: 12px;
       }
     }
@@ -77,13 +78,17 @@ $input-border-color: #94a3b8;
         padding: 1rem 1rem 0 1rem;
         font-size: 0.9rem;
         margin-bottom: 1rem;
+
+        &:focus {
+          border: 1px solid $input-border-focus-color;
+        }
       }
 
       & > p {
         position: absolute;
         right: 0;
         padding: 1.4rem 0;
-        color: $input-border-color;
+        color: $input-border-focus-color;
         font-size: 12px;
       }
     }
@@ -97,7 +102,7 @@ $input-border-color: #94a3b8;
         position: absolute;
         right: 0;
         padding: 1.4rem 0;
-        color: $input-border-color;
+        color: $input-border-focus-color;
         font-size: 12px;
       }
     }
@@ -116,6 +121,10 @@ $input-border-color: #94a3b8;
       height: 40px;
       padding-left: 1rem;
       margin-bottom: 1rem;
+
+      &:focus {
+        border: 1px solid $input-border-focus-color;
+      }
     }
 
     .button {
@@ -145,11 +154,11 @@ $input-border-color: #94a3b8;
 
     .cancelButton {
       @extend .button;
-      background-color: $input-border-color;
+      background-color: $input-border-focus-color;
       margin-bottom: 2rem;
 
       &:hover {
-        background-color: rgba($input-border-color, 0.7);
+        background-color: rgba($input-border-focus-color, 0.7);
       }
     }
   }

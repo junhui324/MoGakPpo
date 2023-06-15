@@ -13,7 +13,7 @@ import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
 import defaultUserPath from '../../assets/DefaultUser.png';
-import kakaoLoginImgPath from '../../assets/KakaoLogin.png';
+import { HiChatBubbleOvalLeft } from "react-icons/hi2";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
@@ -193,7 +193,7 @@ function Login() {
           <div className={styles.title}>
             <p>로그인</p>
           </div>
-
+          <div className={styles.formContainer}>
           <form
             onSubmit={(e) => {
               login(e);
@@ -235,7 +235,7 @@ function Login() {
 
           <div className={styles.kakaoContainer}>
             <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
-              <img src = {kakaoLoginImgPath}></img>
+              <HiChatBubbleOvalLeft />카카오 로그인
             </button>
           </div>
 
@@ -247,6 +247,7 @@ function Login() {
               </span>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </>
