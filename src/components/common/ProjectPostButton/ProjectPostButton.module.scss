@@ -14,3 +14,9 @@
 .nonePostButton {
   display: none;
 }
+
+@media (max-width: 768px) {
+  .postButton {
+    align-self: auto;
+  }
+}

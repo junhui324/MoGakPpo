@@ -111,3 +111,30 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    .contentsContainer {
+      .leftContainer {
+        a {
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+      .rightContainer {
+        p {
+          font-size: 12px;
+        }
+        .notLoggedIn {
+          button {
+            font-size: 12px;
+          }
+        }
+        button {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
