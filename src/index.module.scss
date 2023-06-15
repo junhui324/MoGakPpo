@@ -14,15 +14,10 @@ body {
 }
 
 .container {
-  margin-top: $header-height;
-  max-width: 1024px;
+  padding-top: $header-height;
   flex-grow: 1;
   position: relative;
 }
-// .darkMode {
-//   background-color: $main-color;
-//   color: #fff;
-// }
 
 .darkMode {
   background-color: $dark-bg;

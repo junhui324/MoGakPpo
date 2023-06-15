@@ -32,10 +32,14 @@ function PortfolioWriting() {
     getPortfolioData();
   }, [getPortfolioData]);
 
-  return portflioData ? (
-    <PortfolioWritingForm editMode={true} publishedPostData={portflioData} />
-  ) : (
-    <></>
+  return (
+    <div style={{ maxWidth: 1024, margin: '0 auto' }}>
+      {portflioData ? (
+        <PortfolioWritingForm editMode={true} publishedPostData={portflioData} />
+      ) : (
+        <></>
+      )}
+    </div>
   );
 }
 
