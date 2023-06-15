@@ -34,7 +34,7 @@ h2 {
 
 .leftContainer {
   display: grid;
-  margin: 20px 0 10px 20px;
+  margin: 20px 20px 10px 20px;
   grid-template-areas:
     'title'
     'summary'
@@ -62,7 +62,6 @@ h2 {
   }
 
   .summary {
-    margin-bottom: 20px;
     width: 630px;
     .paragraph {
       width: 90%;
@@ -75,7 +74,7 @@ h2 {
   }
 
   .stack {
-    margin: 80px 0;
+    margin: 40px 0;
     width: 630px;
     .logoCircle {
       display: flex;
@@ -111,7 +110,6 @@ h2 {
   .mainText {
     margin-bottom: 40px;
     //width: 630px;
-    width: 1000px;
     .paragraph {
       font-size: $middle-font-size;
       font-weight: 400;
@@ -259,6 +257,7 @@ h2 {
       gap: 10px;
 
       width: 300px;
+      background-color: white;
 
       &::-webkit-scrollbar {
         display: block;
