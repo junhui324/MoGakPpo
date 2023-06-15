@@ -12,6 +12,7 @@
   //grid-template-columns: repeat(2, 1fr);
   grid-template-columns: 700px 424px;
   margin-top: $header-height;
+  margin-bottom: 100px;
 
   .leftContainer {
     margin-bottom: 70px;
@@ -19,8 +20,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 30px;
-      margin-left: 320px;
+      margin-bottom: 50px;
+      margin-left: 330px;
       border: 2px solid $gray-back-color;
       width: 330px;
       height: 50px;
@@ -41,6 +42,7 @@
     height: 145px;
 
     .help {
+      margin-top: 40px;
       text-align: center;
       line-height: 20px;
       margin-bottom: 5px;

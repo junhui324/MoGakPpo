@@ -4,6 +4,7 @@
   height: 40px;
   border-radius: 100px;
   border: 1px solid #f1f3f5;
+  object-fit: cover;
 }
 @mixin textareaStyle {
   border-radius: 8px;

@@ -5,7 +5,7 @@ import { TypeUserProjectPosts } from '../../interfaces/Project.interface';
 import { TypeUserPortfolioPosts } from '../../interfaces/Portfolio.interface';
 import { getUserProjectPostsById, getUserPortfolioPostsById } from '../../apis/Fetcher';
 import Pagination from '../../components/Pagination';
-import Project from '../../components/ProjectList/Project';
+import Project from './Project';
 import PortFolio from './Portfolio';
 import { useParams, useNavigate } from 'react-router-dom';
 import ContentsFilter from './ContentsFilter';
