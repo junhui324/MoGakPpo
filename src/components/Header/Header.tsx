@@ -62,7 +62,6 @@ function Header() {
           </NavLink>
         </div>
         <div className={styles.rightContainer}>
-          <ToggleDarkModeButton />
           {Token.getToken() ? (
             <>
               {loginData.user_name && <p>{loginData.user_name}님 안녕하세요!</p>}
@@ -100,7 +99,7 @@ function Header() {
               </button>
             </div>
           )}
-          {/* <ProjectPostButton /> */}
+          <ToggleDarkModeButton />
         </div>
       </div>
     </div>
