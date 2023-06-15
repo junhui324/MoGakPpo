@@ -87,7 +87,7 @@ function Login() {
       loginAfter(res);
     }
     catch(e:any){
-      alert('카카오 사용자 정보를 다시 확인해주세요.');
+      alert('카카오 이메일 수집 동의에 체크해 주세요.');
       window.location.href = "/login";
     }
   }
