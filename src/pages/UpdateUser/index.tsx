@@ -136,50 +136,52 @@ function UpdateUser() {
     },[navigate]
   );
 
-  const getUserData = useCallback(async () => {
-    try {
-      const { data } = await getUserProfile();
-  
-      if (data.user_stacks === null) {
-        setStackList([]);
-      } else {
-        setStackList(data.user_stacks.stackList || []);
-      }
-  
-      if (data.user_img === null) {
-        setImageSrc(DefaultUser);
-      } else {
-        setImageSrc(data.user_img);
-      }
-  
-      setInputName(data.user_name);
-  
-      setUserInfo((prev) => ({
-        ...prev,
-        user_name: data.user_name,
-        user_img: data.user_img,
-        user_career_goal: data.user_career_goal || '',
-        user_stacks: { stackList: stackList },
-        user_introduction: data.user_introduction || '',
-      }));
-    } catch (loadingError) {
-      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
-        switch (loadingError.message) {
-          case '403':
-            alert('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
-            navigate(`${ROUTES.LOGIN}`);
-            break;
-          default:
-            alert('알 수 없는 오류가 발생했습니다.');
-            break;
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const { data } = await getUserProfile();
+
+        if (data.user_stacks === null) {
+          setStackList([]);
+        } else {
+          setStackList(data.user_stacks.stackList || []);
+        }
+
+        if (data.user_img === null) {
+          setImageSrc(DefaultUser);
+        } else {
+          setImageSrc(data.user_img);
+        }
+
+        setInputName(data.user_name);
+
+        setUserInfo((prev) => {
+          return {
+            ...prev,
+            user_name: data.user_name,
+            user_img: data.user_img,
+            user_career_goal: data.user_career_goal || '',
+            user_stacks: { stackList: stackList },
+            user_introduction: data.user_introduction || '',
+          };
+        });
+      } catch (loadingError) {
+        if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+          switch (loadingError.message) {
+            case '403':
+              alert('잘못된 접근입니다. 회원가입 및 로그인 후 이용해 주세요.');
+              navigate(`${ROUTES.LOGIN}`);
+              break;
+            default:
+              alert('알 수 없는 오류가 발생했습니다.');
+              break;
+          }
         }
       }
-    }
-  }, [navigate, setStackList, setUserInfo]);
-  
-  useEffect(() => {
+    };
+
     getUserData();
-  }, [getUserData]);
+  }, []);
 
   useEffect(() => {
     setIsValid(inputName.length !== 0);
