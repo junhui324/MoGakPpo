@@ -48,6 +48,7 @@ function ProjectWritingForm() {
 
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
+  const [maxLengthValidate, setMaxLengthValidate] = useState(false);
   const { type } = useParams();
   const navigate = useNavigate();
 
@@ -270,6 +271,15 @@ function ProjectWritingForm() {
       goToInvalidField();
       return;
     }
+    if (
+      project.project_title.length > MAX_NUMBER.TITLE ||
+      project.project_summary.length > MAX_NUMBER.SUMMARY
+    ) {
+      setMaxLengthValidate(true);
+      setIsValidate(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     setIsValidate(false);
 
     navigate(`${ROUTES.PREVIEW_PROJECT}`);
@@ -436,7 +446,9 @@ function ProjectWritingForm() {
         <button className={styles.submitButton} onClick={handleSubmitButton}>
           {classification === 'create' ? '작성 완료' : '수정 완료'}
         </button>
-        {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
+        {isValidate && buttonClick && (
+          <ValidateModal maxLengthValidate={maxLengthValidate} setModalOpen={setButtonClick} />
+        )}
       </div>
     </div>
   );
