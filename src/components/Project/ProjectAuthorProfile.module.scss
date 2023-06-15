@@ -28,6 +28,7 @@ $image-box-size: 100px;
     .image {
       width: $image-box-size;
       height: $image-box-size;
+      object-fit: cover;
     }
   }
 

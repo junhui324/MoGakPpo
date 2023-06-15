@@ -11,13 +11,14 @@ import ProjectBody from '../Project/ProjectBody';
 
 import ROUTES from '../../constants/Routes';
 
-import { useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   projectState,
   classificationState,
   projectIdState,
   modifyButtonClickState,
 } from '../../recoil/projectState';
+import { loginAtom } from '../../recoil/loginState';
 
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 import imageCompression from 'browser-image-compression';
@@ -41,8 +42,15 @@ function ProjectPreview() {
   const [titleData, setTitleData] = useState<ProjectType.TypeProjectTitle | null>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
   const navigate = useNavigate();
+  // 로컬 스토리지에 있는 user 정보 가져오기
+  const LoginData = useRecoilState(loginAtom);
+  const userId = LoginData[0];
 
   useEffect(() => {
+    if (!userId.user_id) {
+      alert('로그인이 필요합니다.');
+      navigate(ROUTES.LOGIN);
+    }
     setTitleData(() => {
       return {
         project_type: project.project_type,
@@ -268,7 +276,7 @@ function ProjectPreview() {
         <div className={styles.rightContainer}>
           <div className={`${styles.help} ${classification === 'modify' ? styles.modifyTrue : ''}`}>
             <p>
-              <span>*</span> 기술 스택이 <span>초기화</span> 됩니다.
+              <span>*</span> 편집 시, 기술 스택이 <span>초기화</span> 됩니다.
             </p>
             <p>다시 설정해 주세요!</p>
           </div>
