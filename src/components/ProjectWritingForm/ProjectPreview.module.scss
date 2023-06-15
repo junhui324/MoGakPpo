@@ -87,7 +87,36 @@
 
 @media (max-width: 768px) {
   .container {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
     flex-direction: column-reverse;
-    align-items: center;
+
+    .leftContainer {
+      .help {
+        margin: 0;
+        margin-bottom: 20px;
+      }
+      .main {
+      }
+    }
+    .rightContainer {
+      height: 80px;
+      display: flex;
+      margin: 0;
+      width: 100%;
+      .help {
+        margin: 0;
+        margin-right: 10px;
+      }
+      .modify {
+        width: 140px;
+        margin-right: 10px;
+      }
+      .submit {
+        width: 140px;
+      }
+    }
   }
 }
