@@ -23,7 +23,7 @@ function Header() {
     Token.removeToken();
     resetLogin();
     resetIsLogin();
-    navigate(`${ROUTES.HOME}`);
+    navigate(`${ROUTES.MAIN}`);
   };
   const handleLogoClick = () => {
     setClassification('/');
