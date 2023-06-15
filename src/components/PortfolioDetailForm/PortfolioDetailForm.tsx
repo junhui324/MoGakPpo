@@ -131,24 +131,20 @@ function PortfolioDetailForm() {
       <div className={styles.leftContainer}>
         <div className={styles.title}>
           <h2>💜 {portfolio.portfolio_title}</h2>
-          <span>🕒 {projectDate()}</span>
+          <span>{projectDate()}</span>
+          <span> · </span>
+          <span>조회수 {portfolio.portfolio_views_count}</span>
+          <span> · </span>
+          <span>댓글 {portfolio.portfolio_comments_count}</span>
+          <span> · </span>
+          <span>북마크 {portfolio.portfolio_bookmark_count}</span>
         </div>
 
         <div className={styles.summary}>
           <h2>🔍 프로젝트 요약</h2>
           <div className={styles.paragraph}>{portfolio.portfolio_summary}</div>
         </div>
-
-        <div className={styles.etc}>
-          <h2>🔥 이 포트폴리오의 인기는?</h2>
-          <span>👀</span>
-          <span className={styles.count}>{portfolio.portfolio_views_count}</span>
-          <span>💬</span>
-          <span className={styles.count}>{portfolio.portfolio_comments_count}</span>
-          <span>📌</span>
-          <span className={styles.count}>{portfolio.portfolio_bookmark_count}</span>
-        </div>
-
+        
         <div className={styles.stack}>
           <h2>🔨 프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
