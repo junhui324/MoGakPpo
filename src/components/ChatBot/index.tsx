@@ -32,7 +32,7 @@ function ChatBot() {
   const handleLinkClick = (link: string) => {
     const selected = chatData.find((item) => item.link === link);
 
-    switch(selected?.to) {
+    switch (selected?.to) {
       case '/projects': {
         navigate(`${ROUTES.PROJECT_LIST}`);
         break;
@@ -71,46 +71,53 @@ function ChatBot() {
         break;
       }
     }
-  }
+  };
 
   useEffect(() => {
     setSelectedQuestion('');
     setSelectedAnswer('');
   }, [isLoading]);
-  
+
   return (
     <div className={styles.stickyButtonWrapper}>
       {showChatBox ? (
         <div className={styles.chatContainer}>
           <div className={styles.header}>
             <div>모프</div>
-            <IoIosClose onClick={handleClick}/>
+            <IoIosClose onClick={handleClick} />
           </div>
           <div className={styles.body}>
             <div className={styles.question}>{chatData[0].question}</div>
-            <div className={styles.questionWrapper} >
+            <div className={styles.questionWrapper}>
               {chatData.map((v, i) => {
                 if (i >= 1) {
                   return (
-                      <div 
-                        className={styles.questionButton}
-                        key={i}
-                        onClick={() => handleQuestionClick(v.question)}
-                      >
-                        {v.question}
-                      </div>
-                  )
+                    <div
+                      className={styles.questionButton}
+                      key={i}
+                      onClick={() => handleQuestionClick(v.question)}
+                    >
+                      {v.question}
+                    </div>
+                  );
                 }
               })}
             </div>
-            {selectedQuestion 
-              ? (<div>
-                  <div className={styles.question}>{selectedQuestion}을(를) 물어보셨네요!</div>
-                  <div className={styles.answer}>{selectedAnswer}</div>
-                  {selectedLink ? <div className={styles.link} onClick={() => handleLinkClick(selectedLink)}>{selectedLink}</div>: ''}
-                </div>)
-              : ''
-            }
+            {selectedQuestion ? (
+              <div>
+                <div className={styles.question}>{selectedQuestion}을(를) 물어보셨네요!</div>
+                <div className={styles.answer}>{selectedAnswer}</div>
+                {selectedLink ? (
+                  <div className={styles.link} onClick={() => handleLinkClick(selectedLink)}>
+                    {selectedLink}
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       ) : (
