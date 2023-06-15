@@ -33,7 +33,6 @@ function Login() {
 
   useEffect(() =>{
     if(isLogin){
-      console.log(isLogin);
       navigate("/");
     }
   }, []);
@@ -84,7 +83,6 @@ function Login() {
     try{
       const res = await getKakaoLogin(code);
       setIsKakaoLoading(false);
-      console.log(res)
       loginAfter(res);
     }
     catch(e:any){
@@ -162,7 +160,6 @@ function Login() {
       loginAfter(res);
     }
     catch (e:any) {
-      console.log(e.message);
       alert('사용자 정보를 다시 확인해주세요.');
       return;
     }
