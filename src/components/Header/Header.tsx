@@ -35,9 +35,8 @@ function Header() {
     setClassification('/');
   };
   const darkMode = useRecoilValue(themeState);
-
   const toggleStyle = {
-    backgroundColor: darkMode ? '#000' : '#fff',
+    backgroundColor: darkMode ? '#1D202E' : '#fff',
     color: darkMode ? '#fff' : '#000',
   };
   return (
@@ -66,10 +65,10 @@ function Header() {
           </NavLink>
         </div>
         <div className={styles.rightContainer}>
+          <ToggleDarkModeButton />
           {Token.getToken() ? (
             <>
               {loginData.user_name && <p>{loginData.user_name}님 안녕하세요!</p>}
-              <ToggleDarkModeButton />
               <button
                 className={styles.userButton}
                 onClick={() => {

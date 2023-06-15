@@ -1,6 +1,6 @@
 // import React from 'react';
 import './reset.css';
-import {useEffect} from "react";
+import { useEffect } from 'react';
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectListMain from './pages/ProjectList';
@@ -26,18 +26,24 @@ import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
 import PortfolioModify from './pages/PortfolioModify';
 import { loginAtom } from './recoil/loginState';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { themeState } from './recoil/themeState';
 
 function App() {
+  const darkMode = useRecoilValue(themeState);
+  const toggleStyle = {
+    backgroundColor: darkMode ? '#1D202E' : '#fff',
+    color: darkMode ? '#fff' : '#000',
+  };
   const resetLogin = useResetRecoilState(loginAtom);
-  useEffect(()=>{
+  useEffect(() => {
     resetLogin();
   }, []);
 
   return (
     <BrowserRouter>
       <Header />
-      <div className={styles.container}>
+      <div className={styles.container} style={toggleStyle}>
         <Routes>
           <Route path="*" element={<Error />} />
           <Route path="/" element={<Home />} />
