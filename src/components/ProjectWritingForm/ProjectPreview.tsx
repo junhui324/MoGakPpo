@@ -270,8 +270,10 @@ function ProjectPreview() {
           <div className={styles.help}>
             <p>✨ 모집글 등록 전에 미리 확인해 보세요!</p>
           </div>
-          <ProjectTitle titleData={titleData} />
-          <ProjectBody bodyData={bodyData} />
+          <div className={styles.main}>
+            <ProjectTitle titleData={titleData} />
+            <ProjectBody bodyData={bodyData} />
+          </div>
         </div>
         <div className={styles.rightContainer}>
           <div className={`${styles.help} ${classification === 'modify' ? styles.modifyTrue : ''}`}>

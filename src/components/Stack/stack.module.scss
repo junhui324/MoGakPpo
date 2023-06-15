@@ -70,7 +70,7 @@ $suggestion-color: #f1f3f5;
       outline: none;
       height: 40px;
       padding-left: 1rem;
-      
+
       padding-right: 36px;
     }
 
@@ -91,13 +91,13 @@ $suggestion-color: #f1f3f5;
     &::-webkit-scrollbar {
       width: 8px;
     }
-  
+
     &::-webkit-scrollbar-thumb {
       height: 30%;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 10px;
     }
-  
+
     &::-webkit-scrollbar-track {
       background-color: $suggestion-color;
       border-radius: 0 0 8px 0;
@@ -112,6 +112,42 @@ $suggestion-color: #f1f3f5;
 
       &:last-child {
         border-bottom: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 390px;
+    margin: 0;
+    .stackContainer {
+      width: 100%;
+    }
+    .inputContainer {
+      width: 100%;
+      .input {
+        margin-right: 0;
+        padding-right: 0;
+        width: 95%;
+      }
+    }
+  }
+}
+
+@media (max-width: 390px) {
+  .container {
+    width: 320px;
+    margin: 0;
+    .stackContainer {
+      width: 100%;
+    }
+    .inputContainer {
+      width: 100%;
+      .input {
+        margin-right: 0;
+        padding-right: 0;
+        width: 95%;
       }
     }
   }

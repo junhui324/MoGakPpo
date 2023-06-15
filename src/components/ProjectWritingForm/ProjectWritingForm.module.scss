@@ -237,6 +237,53 @@ h2 {
       'introduce'
       'stack';
   }
+  .editorBox {
+    width: 100%;
+  }
+  .titleHelpBox {
+    display: none;
+  }
+  .summaryHelpBox {
+    display: none;
+  }
+  .introHelpBox {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    display: flex;
+    width: 390px;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  .editorBox {
+    width: 100%;
+  }
+  .titleHelpBox {
+    display: none;
+  }
+  .summaryHelpBox {
+    display: none;
+  }
+  .introHelpBox {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .container {
+    display: flex;
+    width: 320px;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  .editorBox {
+    width: 100%;
+  }
   .titleHelpBox {
     display: none;
   }
