@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 @font-face {
@@ -20,6 +21,6 @@ body {
 }
 
 .darkMode {
-  background-color: $dark-bg;
-  color: #fff;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }

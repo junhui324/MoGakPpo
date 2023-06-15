@@ -1,0 +1,13 @@
+@use './color.scss' as *;
+.darkMode {
+  --color-text: #{$dark-gray100};
+  --color-text-sub: #{$dark-gray80};
+  --color-bg: #{$dark-gray0};
+  --color-border: #{$dark-gray20};
+}
+html:not(.darkMode) {
+  --color-text: #{$light-gray100};
+  --color-text-sub: #{$light-gray80};
+  --color-bg: #{$light-gray0};
+  --color-border: #{$light-gray20};
+}
