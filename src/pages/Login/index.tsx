@@ -17,6 +17,7 @@ import kakaoLoginImgPath from '../../assets/KakaoLogin.png';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 
 function Login() {
   const emailRef = useRef<any>(null);
@@ -166,8 +167,7 @@ function Login() {
   };
 
   const kakaoLogin = () =>{
-    const redirect_uri = `${window.location}`;
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
     window.location.href = kakaoURL;
   };
