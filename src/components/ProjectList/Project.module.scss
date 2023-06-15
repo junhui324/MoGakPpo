@@ -167,3 +167,22 @@
   border-color: #d0dee0;
   box-shadow: 0 0 15px #e2eaf1;
 }
+
+@media (max-width: 768px) {
+  .topContainer {
+    flex-direction: column;
+    div:nth-child(1) {
+      text-align: center;
+      .type {
+        display: inline-block;
+        margin-left: auto;
+      }
+      .goal {
+        margin-top: 6px;
+        display: inline-block;
+      }
+    }
+    div:nth-child(2) {
+    }
+  }
+}
