@@ -23,14 +23,14 @@
         margin-right: 8px;
         padding: 4px 6px 4px 6px;
         color: rgb(148 163 184);
-        font-size: 14px;
+        font-size: 12px;
         border-radius: 4px;
         background-color: rgb(241 245 249);
       }
       .goal {
         padding: 4px 6px 4px 6px;
         color: rgb(148 163 184);
-        font-size: 14px;
+        font-size: 12px;
         border-radius: 4px;
         background-color: rgb(241 245 249);
       }
@@ -41,6 +41,7 @@
       align-items: center;
       .participationTime {
         align-self: c;
+        font-size: 14px;
         color: rgb(148 163 184);
       }
       .bookmarkButton {
@@ -50,7 +51,7 @@
         background-color: unset;
         cursor: pointer;
         svg {
-          font-size: 18px;
+          font-size: 14px;
           color: $main-color;
         }
       }
@@ -58,7 +59,7 @@
   }
   .secondContainer {
     width: 100%;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 550;
     line-height: 2.2rem;
     .status.recruiting {
@@ -89,7 +90,7 @@
   .summary {
     word-break: break-all;
     width: inherit;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6rem;
   }
 
@@ -98,7 +99,8 @@
     flex-wrap: wrap;
     gap: 10px;
     li {
-      padding: 8px 16px 8px 16px;
+      font-size: 14px;
+      padding: 6px 12px;
       border: 1px solid $main-color;
       background-color: unset;
       color: $main-color;
@@ -112,7 +114,7 @@
     word-break: break-all;
     display: inline;
     line-height: 1.5rem;
-    font-size: 16px;
+    font-size: 14px;
     color: rgb(130, 141, 157);
     font-weight: 500;
     span {
@@ -145,7 +147,7 @@
 
   .countContainer {
     display: flex;
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(168, 180, 197);
     li {
       span:nth-child(1) {

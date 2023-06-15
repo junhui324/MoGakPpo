@@ -225,6 +225,29 @@ h2 {
   }
 }
 
+@media (max-width: 768px) {
+  .container {
+    display: grid;
+    margin-left: 30px;
+    margin-right: 30px;
+    grid-template-areas:
+      'title'
+      'summary'
+      'checkRadioBox'
+      'introduce'
+      'stack';
+  }
+  .titleHelpBox {
+    display: none;
+  }
+  .summaryHelpBox {
+    display: none;
+  }
+  .introHelpBox {
+    display: none;
+  }
+}
+
 /*여기서부터 말풍선 css*/
 
 .speechBubble {

@@ -1,14 +1,16 @@
 .container {
+  margin: 2rem 0;
   ul {
     h2 {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 24px;
     }
     li {
+      padding: 0.2rem 0;
       margin-bottom: 16px;
       color: rgb(148, 163, 184);
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 500;
       cursor: pointer;
     }
