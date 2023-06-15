@@ -11,7 +11,7 @@ import { classificationState } from '../../recoil/projectState';
 import ToggleDarkModeButton from '../common/DarkMode/ToggleDarkMode';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import Logo from '../../assets/Logo.png';
-import { themeState } from '../../recoil/themeState';
+import { themeAtom } from '../../recoil/themeState';
 
 function Header() {
   const loginData = useRecoilValue(loginAtom);
@@ -34,13 +34,10 @@ function Header() {
   const handleNavLinkClick = () => {
     setClassification('/');
   };
-  const darkMode = useRecoilValue(themeState);
-  const toggleStyle = {
-    backgroundColor: darkMode ? '#1D202E' : '#fff',
-    color: darkMode ? '#fff' : '#000',
-  };
+  const darkMode = useRecoilValue(themeAtom);
+
   return (
-    <div className={styles.container} style={toggleStyle}>
+    <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
           <img

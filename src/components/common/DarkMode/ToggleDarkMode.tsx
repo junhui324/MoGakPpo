@@ -1,16 +1,14 @@
-import { themeState } from '../../../recoil/themeState';
+import { themeAtom } from '../../../recoil/themeState';
 import { useRecoilState } from 'recoil';
 import { RiMoonClearFill, RiSunFill } from 'react-icons/ri';
 import { useEffect } from 'react';
 
 export default function ToggleDarkModeButton() {
-  const [darkMode, setDarkMode] = useRecoilState(themeState);
+  const [darkMode, setDarkMode] = useRecoilState(themeAtom);
 
   const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
+    setDarkMode((prev: boolean) => !prev);
   };
-  useEffect(() => {
-    localStorage.setItem('dark-mode', `${darkMode}`);
-  }, [darkMode]);
+
   return <button onClick={toggleDarkMode}>{darkMode ? <RiSunFill /> : <RiMoonClearFill />}</button>;
 }

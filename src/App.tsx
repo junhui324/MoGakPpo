@@ -27,10 +27,10 @@ import PortfolioList from './pages/PortfolioList';
 import PortfolioModify from './pages/PortfolioModify';
 import { loginAtom } from './recoil/loginState';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { themeState } from './recoil/themeState';
+import { themeAtom } from './recoil/themeState';
 
 function App() {
-  const darkMode = useRecoilValue(themeState);
+  const darkMode = useRecoilValue(themeAtom);
 
   const resetLogin = useResetRecoilState(loginAtom);
   useEffect(() => {
