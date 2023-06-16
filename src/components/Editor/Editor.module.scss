@@ -1,7 +1,4 @@
 @use '/src/theme.scss' as *;
-@import '~quill/dist/quill.core.css';
-@import '~quill/dist/quill.bubble.css';
-@import '~quill/dist/quill.snow.css';
 
 @mixin basicCSS {
   div {
@@ -81,5 +78,6 @@
 .editorMiddleContainer {
   height: 100%;
   min-height: 300px;
+  border: 1px solid var(--color-text3) !important;
   border-radius: 0 0 10px 10px;
 }
