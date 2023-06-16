@@ -1,10 +1,11 @@
+@use './src/theme.scss' as *;
 .modalContainer {
   transform: translateX(24px) translateY(-10px);
   .modalList {
     width: 60px;
     li {
       cursor: pointer;
-      color: #64748b;
+      color: var(--color-text2);
       padding: 4px;
       display: flex;
       gap: 4px;
