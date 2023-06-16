@@ -5,11 +5,12 @@
   .noneContentContainer {
     box-sizing: border-box;
     width: auto;
-    margin: 0;
+    margin-bottom: 100vh;
     height: 350px;
     background-color: var(--color-bg2);
     display: flex;
     border-radius: 12px;
+
     .noneContent {
       box-sizing: border-box;
       display: inline-block;
