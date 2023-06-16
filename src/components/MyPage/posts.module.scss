@@ -13,7 +13,7 @@
   }
   
   .contentCount {
-    color: #94a3b8;
+    color: var(--color-text3);
     font-weight: 500;
     padding-left: 0.8rem;
   }
@@ -50,7 +50,7 @@
     }
 
     .noContent {
-      color: #64748b;
+      color: var(--color-text2);
       margin-top: 2rem;
     }
   }
