@@ -50,7 +50,7 @@ function Profile({ onError }: ProfileProps) {
 
   useEffect(() => {
     getUserData();
-  }, [getUserData]);
+  }, []);
 
   return (
     <div className={styles.profileContainer}> 

@@ -17,7 +17,7 @@ function UserPage() {
   return (
     <div className={styles.container}>
       <Profile />
-      {!errorMessage && <Posts onError={handleContentsError} />}
+      {<Posts onError={handleContentsError} />}
     </div>
   );
 }
