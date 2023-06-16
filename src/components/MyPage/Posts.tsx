@@ -64,9 +64,6 @@ function Posts({ onError }: PostsProps) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getUserProjectPostsData();
-    setProjects([]);
-    setPortfolios([]);
   }, []);
 
   useEffect(() => {
