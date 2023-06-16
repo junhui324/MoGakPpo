@@ -3,8 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './profile.module.scss';
 import { TypeUserProfile } from '../../interfaces/User.interface';
 import { getUserProfileById } from '../../apis/Fetcher';
-import Error from '../common/Error';
-
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import { FcBriefcase, FcSupport } from 'react-icons/fc';
 
