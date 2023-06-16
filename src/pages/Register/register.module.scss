@@ -36,7 +36,7 @@
   align-items: center;
   margin-top:30px;
   width: 430px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid var(--color-border);
   border-radius: 16px;
 }
 
@@ -76,13 +76,14 @@
 .inputMethod{
   width:100%;
   border-radius: 5px;
-  border:0;
+  border: 1px solid var(--color-border);
   padding:11px;
-  border: 1px solid #e8e8e8;
+  background-color: var(--color-bg1);
+  color: var(--color-text1);
   outline:none;
 
   &:focus{
-    border: 1px solid #94a3b8;
+    border: 1px solid var(--color-border-hover);
     outline:none;
   }
 
