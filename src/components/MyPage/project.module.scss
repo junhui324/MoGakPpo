@@ -1,5 +1,5 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
-$grey: #64748B;
 
 .listContainer {
   display: flex;
@@ -7,9 +7,9 @@ $grey: #64748B;
   flex-direction: column;
   gap: 1rem;
   padding: 24px 24px 24px 24px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--color-border);
   border-radius: 16px;
-  background-color: #ffff;
+  background-color: var(--color-bg1);
   cursor: pointer;
 
   .topContainer {
@@ -21,17 +21,17 @@ $grey: #64748B;
       .type {
         margin-right: 8px;
         padding: 4px 6px 4px 6px;
-        color: rgb(148 163 184);
+        color: var(--color-text3);
         font-size: 12px;
         border-radius: 4px;
-        background-color: rgb(241 245 249);
+        background-color: var(--color-bg2);
       }
       .goal {
         padding: 4px 6px 4px 6px;
-        color: rgb(148 163 184);
+        color: var(--color-text3);
         font-size: 12px;
         border-radius: 4px;
-        background-color: rgb(241 245 249);
+        background-color: var(--color-bg2);
       }
     }
     div:nth-child(2) {
@@ -41,7 +41,7 @@ $grey: #64748B;
       .participationTime {
         font-size: 14px;
         align-self: c;
-        color: rgb(148 163 184);
+        color: var(--color-text3);
       }
       .bookmarkButton {
         display: flex;
@@ -51,7 +51,7 @@ $grey: #64748B;
         cursor: pointer;
         svg {
           font-size: 14px;
-          color: $main-color;
+          color: var(--color-pink);
         }
       }
     }
@@ -95,11 +95,11 @@ $grey: #64748B;
 }
 
 .listContainer:hover {
-  border-color: #d0dee0;
-  box-shadow: 0 0 15px #e2eaf1;
+  border-color: var(--color-border-hover);
+  box-shadow: 0 0 15px var(--color-border);
 }
 
 .createdAt {
-  color: $grey;
+  color: var(--color-text2);
   font-weight: 100;
 }

@@ -1,6 +1,8 @@
+@use '/src/theme.scss' as *;
+
 .container {
-  border-top: 1px solid rgba(226, 232, 240);
-  background-color: rgba(226, 232, 240, 0.3);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg2);
   height: 50vh;
   padding-top: 1.4rem;
   min-height: 480px;
@@ -12,16 +14,10 @@
   }
   
   .contentCount {
-    color: #94a3b8;
+    color: var(--color-text3);
     font-weight: 500;
     padding-left: 0.8rem;
   }
-}
-
-.postType {
-  padding: 6px;
-  border-radius: 5px;
-  background-color: rgb(152, 152, 152);
 }
 
 .bookMarks {
@@ -36,7 +32,7 @@
   }
 
   .noContent {
-    color: #64748b;
+    color: var(--color-text2);
     margin-top: 2rem;
   }
 }

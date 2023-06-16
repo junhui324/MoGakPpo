@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .container {
@@ -7,12 +8,14 @@
   padding-bottom: 2rem;
 
   .leftArrow {
+    color: var(--color-text1);
     background-color: transparent;
     border: none;
     cursor: pointer;
   }
   
   .rightArrow {
+    color: var(--color-text1);
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -35,7 +38,7 @@
     }
 
     &.active, &:hover {
-      background-color: $main-color;
+      background-color: var(--color-pink);
       color: white;
     }
   }

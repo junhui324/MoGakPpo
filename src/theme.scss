@@ -5,6 +5,7 @@
   --color-text1: #{$dark-gray100};
   --color-text2: #{$dark-gray80};
   --color-text3: #{$dark-gray60};
+  --color-text90: #{$dark-gray90};
   --color-bg1: #{$dark-gray0};
   --color-bg2: #{$dark-gray10};
   --color-border: #{$dark-gray20};
@@ -20,6 +21,7 @@ html:not(.darkMode) {
   --color-text1: #{$light-gray100};
   --color-text2: #{$light-gray80};
   --color-text3: #{$light-gray60};
+  --color-text90: #{$light-gray90};
   --color-bg1: #{$light-gray0};
   --color-bg2: #{$light-gray10};
   --color-border: #{$light-gray20};
