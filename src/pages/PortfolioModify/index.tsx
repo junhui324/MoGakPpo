@@ -12,7 +12,7 @@ function PortfolioWriting() {
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
   const params = useParams();
-  const [portflioData, setPortfolioData] = useState<Interface.TypePortfolioDetail>();
+  const [portfolioData, setPortfolioData] = useState<Interface.TypePortfolioDetail>();
   const getPortfolioData = useCallback(async () => {
     try {
       const response = await Fetcher.getPortfolio(params.id!);
@@ -34,8 +34,8 @@ function PortfolioWriting() {
 
   return (
     <div style={{ maxWidth: 1024, margin: '0 auto' }}>
-      {portflioData ? (
-        <PortfolioWritingForm editMode={true} publishedPostData={portflioData} />
+      {portfolioData ? (
+        <PortfolioWritingForm editMode={true} publishedPostData={portfolioData} />
       ) : (
         <></>
       )}

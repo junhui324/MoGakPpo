@@ -4,8 +4,6 @@ import NewPosts from '../../components/Home/NewPosts';
 import BestStacks from '../../components/Home/BestStacks';
 import Footer from '../../components/Footer';
 import { useEffect } from 'react';
-import { themeAtom } from '../../recoil/themeState';
-import { useRecoilValue } from 'recoil';
 
 export default function Main() {
   useEffect(() => {
