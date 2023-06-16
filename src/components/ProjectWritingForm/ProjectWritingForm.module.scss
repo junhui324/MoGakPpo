@@ -64,6 +64,7 @@ h2 {
 .container {
   margin: 0 auto;
   max-width: 1024px;
+  min-height: 100vh;
   border: 1px solid var(--color-border);
   display: grid;
   padding: 20px;

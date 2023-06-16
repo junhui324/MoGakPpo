@@ -3,6 +3,7 @@
 
 .container {
   max-width: 1024px;
+  min-height: 100vh;
   margin: 0 auto;
   width: 100%;
   display: flex;
@@ -28,7 +29,6 @@
     flex-direction: column;
     gap: 32px;
     width: 100%;
-    margin-bottom: 100vh;
     .searchContainer {
       align-items: center;
       display: flex;
