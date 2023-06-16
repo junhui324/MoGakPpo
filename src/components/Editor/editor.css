@@ -11,9 +11,15 @@
   }
 }
 
-.ql-toolbar.ql-snow {
+.ql-snow.ql-toolbar {
   border: 1px solid var(--color-text3);
   border-bottom: none;
+  .ql-picker-options {
+    border-radius: 8px;
+    border-color: var(--color-border);
+    background-color: var(--color-bg1);
+    box-shadow: 0px 5px 15px var(--color-border);
+  }
   .ql-formats span::before {
     color: var(--color-text1);
   }

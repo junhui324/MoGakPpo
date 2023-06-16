@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 .ulContainer {
   padding: 16px;
@@ -7,6 +8,7 @@
   p {
     font-size: 18px;
     margin-bottom: 12px;
+    color: var(--color-text1);
   }
   li {
     display: flex;
@@ -14,7 +16,8 @@
     padding: 18px;
     font-size: 14px;
     font-weight: 500;
-    background-color: rgb(255, 255, 255);
+    color: var(--color-text1);
+    background-color: var(--color-bg1);
     border: 1px solid $container-border-color;
     border-radius: 10px;
     cursor: pointer;
