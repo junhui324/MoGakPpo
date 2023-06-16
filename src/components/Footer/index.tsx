@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <div className={styles.footerContainer}>
       <div className={styles.footerTop}>
-        <img src={Logo} onClick={handleLogoClick} style={{ width: 120 }} />
+        <img src={Logo} onClick={handleLogoClick} style={{ width: 120 }} alt="logo" />
       </div>
       <div className={styles.footerMain}>
         <div className={styles.contact}>

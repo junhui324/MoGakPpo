@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .container {
@@ -12,17 +13,18 @@
     font-size: 16px;
 
     border-radius: 30px;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--color-border);
     padding: 0 20px;
     width: 25%;
     height: 50px;
 
-    transition: all 0.5s;
+    transition-property: box-shadow, width;
+    transition-duration: 0.5s;
 
     &:focus-within {
       width: 35%;
-      border-color: #d0dee0;
-      box-shadow: 0 0 15px #e2eaf1;
+      border-color: var(--color-border-hover);
+      box-shadow: 0 0 15px var(--color-border-hover);
     }
 
     &::placeholder {
@@ -44,8 +46,13 @@
     }
     input {
       width: 100%;
+      background-color: var(--color-bg1);
+      color: var(--color-text90);
       padding: 4px 0;
       border: none;
+      &::placeholder {
+        color: var(--color-text3);
+      }
     }
     input:focus {
       outline: none;
@@ -60,7 +67,7 @@
     font-size: 16px;
     color: aliceblue;
 
-    background-color: #6636da;
+    background-color: var(--color-main);
 
     cursor: pointer;
   }

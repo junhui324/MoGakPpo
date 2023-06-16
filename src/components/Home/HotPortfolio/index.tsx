@@ -1,6 +1,6 @@
 import { getPortfolioList } from '../../../apis/Fetcher';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './HotPortfolio.module.scss';
 import { TypePortfolioList } from '../../../interfaces/Portfolio.interface';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -13,7 +13,6 @@ export default function HotPortfolio() {
     'https://i0.wp.com/sciencefestival.kr/wp-content/uploads/2023/02/placeholder.png?ssl=1';
 
   const [portfolioList, setPortfolioList] = useState<TypePortfolioList[]>([]);
-  const hotPortfolioRef = useRef<HTMLDivElement>(null);
 
   const getPortfolioListData = async () => {
     try {

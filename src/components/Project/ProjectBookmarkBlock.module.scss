@@ -17,11 +17,11 @@
     height: 50px;
     border-radius: 6px;
 
-    border: var(--color-main) solid 1px;
+    border: var(--color-pink) solid 1px;
     background-color: rgba(255, 255, 255, 0);
 
     font-size: 18px;
-    color: var(--color-main);
+    color: var(--color-pink);
 
     cursor: pointer;
 
@@ -33,13 +33,13 @@
 
     .bookmarkNot {
       width: 22px;
-      stroke: $main-color;
+      stroke: var(--color-pink);
     }
 
     .bookmarkYes {
       width: 22px;
-      stroke: $main-color;
-      fill: $main-color;
+      stroke: var(--color-pink);
+      fill: var(--color-pink);
     }
 
     .bookmarkName {
@@ -65,7 +65,7 @@
         width: 18px;
         height: 18px;
         border-radius: 18px;
-        border: 1px white solid;
+        border: 1px var(--color-bg1) solid;
         overflow: hidden;
         .bookmarkUserImage {
           width: 20px;

@@ -26,7 +26,7 @@ function PortfolioList() {
   };
 
   return (
-    <div className={styles.container} style={{ maxWidth: 1024, margin: '0 auto' }}>
+    <div className={styles.container} style={{ maxWidth: 1024, margin: '45px auto' }}>
       <div className={styles.searchContainer}>
         <PortfolioSearch onSearch={handleSearch} value={value} />
       </div>
