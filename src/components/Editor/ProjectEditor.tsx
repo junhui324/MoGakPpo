@@ -5,6 +5,7 @@ import styles from './Editor.module.scss';
 import { HighlightModules } from './Highlight';
 import { useRecoilValue } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
+import { themeAtom } from '../../recoil/themeState';
 import { useParams } from 'react-router-dom';
 
 interface EditorProps {
