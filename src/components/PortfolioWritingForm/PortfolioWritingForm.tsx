@@ -9,6 +9,7 @@ import ROUTES from '../../constants/Routes';
 import styles from './PortfolioCreateWriting.module.scss';
 import * as Fetcher from '../../apis/Fetcher';
 import * as Token from '../../apis/Token';
+import '../Editor/editor.css';
 
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { TypeTeamProjectUser } from '../../interfaces/User.interface';

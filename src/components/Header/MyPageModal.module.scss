@@ -6,13 +6,13 @@
   gap: 16px;
   li {
     width: 150px;
-    color: #252525;
+    color: var(--color-text1);
     font-weight: 400;
     cursor: pointer;
   }
   hr {
     border: none;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--color-border);
     margin: 10px 0;
   }
 }

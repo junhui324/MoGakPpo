@@ -1,13 +1,14 @@
+@use '/src/theme.scss' as *;
 .container {
   position: absolute;
   height: fit-content;
   z-index: 9999;
   .contentsContainer {
-    background-color: rgb(255, 255, 255);
+    background-color: var(--color-bg1);
     padding: 18px 18px 18px 18px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.168);
+    box-shadow: 0 4px 15px var(--color-border);
     border-radius: 8px;
   }
   .closeContainer {
@@ -19,6 +20,7 @@
       height: 32px;
       border: none;
       background-color: unset;
+      color: var(--color-text1);
     }
   }
 }

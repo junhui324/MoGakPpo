@@ -1,4 +1,26 @@
+@use '/src/theme.scss' as *;
+
 #editor-container {
   height: 60vh;
   font-size: 16px;
+  border: 1px solid var(--color-text3);
+  color: var(--color-text1);
+
+  .ql-editor.ql-blank::before {
+    color: var(--color-text3);
+  }
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid var(--color-text3);
+  border-bottom: none;
+  .ql-formats span::before {
+    color: var(--color-text1);
+  }
+  .ql-stroke {
+    stroke: var(--color-text1);
+  }
+  .ql-fill {
+    fill: var(--color-text1);
+  }
 }
