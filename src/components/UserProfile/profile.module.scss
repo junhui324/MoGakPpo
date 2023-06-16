@@ -1,5 +1,4 @@
-$main-color: #6636DA;
-$intro-color: #64748B;
+@use '/src/theme.scss' as *;
 
 .profileContainer {
   display: flex;
@@ -17,21 +16,8 @@ $intro-color: #64748B;
       object-fit: cover;
       border-radius: 100px;
     }
-
-    .updateButton {
-      width: 70px;
-      height: 50px;
-      font-size: 18px;
-      font-weight: 600;
-      border: 1.6px solid $main-color;
-      border-radius: 4px;
-      color: $main-color;
-      background-color: white;
-      cursor: pointer;
-    }
   }
   
-
   .introWrapper {
     margin-top: 2.6rem;
 
@@ -43,7 +29,7 @@ $intro-color: #64748B;
     }
     
     .intro {
-      color: $intro-color;
+      color: var(--color-text2);
       margin-bottom: 3rem;
       line-height : 2rem;
     }
@@ -61,7 +47,7 @@ $intro-color: #64748B;
     }
 
     .emptyCareer {
-      color: $intro-color;
+      color: var(--color-text2);
       opacity: 0.4;
     }
     
@@ -80,7 +66,7 @@ $intro-color: #64748B;
         position: relative;
         margin: 0 1rem 1rem 0;
         padding: 6px;
-        color: $intro-color;
+        color: var(--color-text2);
       }
 
       .stack::before {
@@ -90,14 +76,14 @@ $intro-color: #64748B;
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: $intro-color;
+        background-color: var(--color-text2);
         opacity: 0.2;
         border-radius: 4px;
       }
 
       .emptyStack {
         margin-bottom: 1rem;
-        color: $intro-color;
+        color: var(--color-text2);
         opacity: 0.4;
       }
     }

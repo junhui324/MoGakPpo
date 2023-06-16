@@ -62,17 +62,17 @@
     font-weight: 550;
     line-height: 2.2rem;
     .status.recruiting {
-      color: $green;
+      color: var(--color-green);
     }
     .status.done {
-      color: #95a4b0;
+      color: var(--color-text2);
     }
     .status::after {
       margin-left: 8px;
       margin-right: 8px;
       content: '|';
       font-weight: 400;
-      color: #d0d8de;
+      color: var(--color-border);
     }
     .title {
       display: inline;
@@ -84,7 +84,7 @@
       margin-left: 8px;
       align-self: center;
       font-size: 14px;
-      color: $blue;
+      color: var(--color-blue);
     }
   }
 
