@@ -16,7 +16,7 @@
   background-color: var(--color-bg1);
   color: var(--color-text1);
   &:focus {
-    border: 2px solid #dfd6ff;
+    border: 2px solid var(--color-input-focus);
     outline-style: none;
   }
 }
