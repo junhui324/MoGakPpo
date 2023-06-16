@@ -69,7 +69,7 @@
           transition: all 0.2s;
           cursor: pointer;
           font-size: 0.9rem;
-  
+
           &:hover {
             color: white;
             background-color: var(--color-pink);
@@ -108,10 +108,10 @@
     right: 2rem;
     padding: 1rem;
     background-color: #e9e0fd;
-    border: none;
+    border: 0.5px solid #dcd3f1;
     border-radius: 50%;
     outline: none;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 2px 15px #d4dade;
     cursor: pointer;
 
     & > img {

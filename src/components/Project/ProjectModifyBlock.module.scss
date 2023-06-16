@@ -10,8 +10,8 @@
   height: 50px;
   border-radius: 6px;
 
-  border: $main-color solid 1px;
-  background-color: $main-color;
+  border: var(--color-main) solid 1px;
+  background-color: var(--color-main);
 
   font-size: 18px;
   color: #ffffff;
@@ -46,11 +46,11 @@
   height: 50px;
   border-radius: 6px;
 
-  border: $main-color solid 1px;
+  border: var(--color-main) solid 1px;
   background-color: rgb(255, 255, 255, 0);
 
   font-size: 18px;
-  color: $main-color;
+  color: var(--color-main);
 
   margin-bottom: 16px;
 
@@ -123,6 +123,7 @@
   margin: 50px;
 
   .modalText {
+    color: var(--color-text1);
     font-size: 22px;
     color: var(--color-text1);
   }
@@ -163,7 +164,7 @@
   width: 100%;
   padding-top: 16px;
 
-  border-top: 1px solid #d0d8de;
+  border-top: 1px solid var(--color-text2);
 
   .recruitingButton {
     @include fill-button-style;

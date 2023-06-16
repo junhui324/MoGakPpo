@@ -1,5 +1,4 @@
 @use '/src/theme.scss' as *;
-@import '/src/variables.scss';
 
 .listContainer {
   display: flex;
@@ -60,7 +59,7 @@
         .newTag {
           margin-left: 8px;
           font-size: 14px;
-          color: $blue;
+          color: var(--color-blue);
         }
       }
     }
