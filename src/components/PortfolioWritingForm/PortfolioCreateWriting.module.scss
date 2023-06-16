@@ -46,6 +46,10 @@
           font-size: normal;
           border-radius: 8px;
           padding: 4px 12px;
+          &:focus {
+            border: 2px solid #dfd6ff;
+            outline-style: none;
+          }
         }
       }
     }
