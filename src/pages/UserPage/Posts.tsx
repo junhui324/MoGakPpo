@@ -63,7 +63,6 @@ function Posts({ onError }: PostsProps) {
   }, [selectedOption, onError, offset]);
   const handleSelectFilter = (value: string) => {
     setSelectedOption(value);
-    console.log(value);
     setCurrPage(0);
   };
   useEffect(() => {
