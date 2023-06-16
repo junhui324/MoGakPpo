@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import getUserInfo from '../../utils/getUserInfo';
 import Comment from '../../components/Comment';
 import * as Token from '../../apis/Token';
 
