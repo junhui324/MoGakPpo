@@ -80,7 +80,11 @@ function Comments({ onError }: CommentsProps) {
   useEffect(() => {
     window.scrollTo(0, 0);
     getUserCommentData();
-  }, [getUserCommentData]);
+  }, []);
+
+  useEffect(() => {
+    getUserCommentData();
+  }, [selectedOption, offset]);
 
   return (
     <div className={styles.container}>

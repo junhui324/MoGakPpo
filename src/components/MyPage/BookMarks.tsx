@@ -67,7 +67,11 @@ function BookMarks({ onError }: BookMarksProps) {
     getUserProjectPostsData();
     setProjects([]);
     setPortfolios([]);
-  }, [getUserProjectPostsData]);
+  }, []);
+
+  useEffect(() => {
+    getUserProjectPostsData();
+  }, [selectedOption, offset]);
 
   return (
     <div className={styles.container}>

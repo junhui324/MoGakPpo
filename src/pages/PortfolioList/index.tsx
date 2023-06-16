@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import debounce from '../../utils/debounce';
 
 // component
 import PortfolioSearch from '../../components/PortfolioList/PortfolioSearch';
