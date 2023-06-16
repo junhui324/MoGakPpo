@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 $image-box-size: 100px;
@@ -13,7 +14,7 @@ $image-box-size: 100px;
   width: 100%;
   height: 230px;
   padding: 5px;
-  background-color: $gray-back-color;
+  background-color: var(--color-bg2);
   border-radius: 6px;
 
   cursor: pointer;
@@ -52,7 +53,7 @@ $image-box-size: 100px;
       font-weight: 300;
       font-size: 14px;
 
-      color: rgb(118, 133, 154);
+      color: var(--color-text3);
     }
   }
 }
