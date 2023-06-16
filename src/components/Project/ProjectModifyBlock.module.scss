@@ -14,7 +14,7 @@
   background-color: var(--color-pink);
 
   font-size: 18px;
-  color: #ffffff;
+  color: var(--color-bg1);
 
   margin-bottom: 16px;
 
@@ -168,15 +168,14 @@
   .completeButton {
     @include fill-button-style;
 
-    border: #cfd9ff solid 1px;
-    background-color: #cfd9ff;
+    border: var(--color-bg2) solid 1px;
+    background-color: var(--color-bg2);
 
     cursor: default;
 
     &:hover,
     &:active {
-      background-color: #cfd9ff;
-      border-color: #cfd9ff;
+      transform: scale(1, 1);
     }
   }
 
@@ -193,15 +192,14 @@
       @include border-button-style;
 
       width: 50%;
-      color: #cfd9ff;
-      border: #cfd9ff solid 1px;
+      color: var(--color-bg2);
+      border: var(--color-bg2) solid 1px;
 
       cursor: default;
 
       &:hover,
       &:active {
-        color: #cfd9ff;
-        border-color: #cfd9ff;
+        transform: scale(1, 1);
       }
     }
 

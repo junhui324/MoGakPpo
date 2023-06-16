@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import debounce from '../../utils/debounce';
 
 // component
@@ -24,6 +24,12 @@ function PortfolioList() {
     timer.current && clearTimeout(timer.current);
     timer.current = setTimeout(() => setKeyword(() => event.target.value), DEBOUNCING);
   };
+
+  // 렌더링 시에 수행합니다.
+  useEffect(() => {
+    // 윈도우 스크롤을 초기화 합니다.
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div
