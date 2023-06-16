@@ -78,9 +78,15 @@ function ProjectWritingForm() {
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
+          case '400':
+            navigate('/notfound');
+            break;
           case '401':
             alert(`${error}: 토큰이 만료되었습니다.`);
             Token.removeToken();
+            break;
+          case '404':
+            navigate('/notfound');
             break;
           default:
             alert(`${error}: 예기치 못한 서버 오류입니다.`);
