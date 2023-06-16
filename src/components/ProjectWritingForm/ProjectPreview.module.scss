@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 @mixin btn {
@@ -8,8 +9,10 @@
 }
 
 .container {
+  max-width: 1024px;
+  min-height: 100vh;
+  margin: 0 auto;
   display: grid;
-  //grid-template-columns: repeat(2, 1fr);
   grid-template-columns: 700px 424px;
   margin-top: $header-height;
   margin-bottom: 100px;
@@ -22,10 +25,10 @@
       align-items: center;
       margin-bottom: 50px;
       margin-left: 330px;
-      border: 2px solid $gray-back-color;
+      border: 2px solid var(--color-bg2);
       width: 330px;
       height: 50px;
-      background-color: $gray-back-color;
+      background-color: var(--color-bg2);
       border-radius: 10px;
       p {
         font-size: 18px;
@@ -50,7 +53,7 @@
         font-weight: 500;
       }
       span {
-        color: red;
+        color: var(--color-red);
         font-weight: 500;
       }
     }
@@ -87,7 +90,34 @@
 
 @media (max-width: 768px) {
   .container {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
     flex-direction: column-reverse;
-    align-items: center;
+
+    .leftContainer {
+      .help {
+        margin: 0;
+        margin-bottom: 20px;
+      }
+    }
+    .rightContainer {
+      height: 80px;
+      display: flex;
+      margin: 0;
+      width: 100%;
+      .help {
+        margin: 0;
+        margin-right: 10px;
+      }
+      .modify {
+        width: 140px;
+        margin-right: 10px;
+      }
+      .submit {
+        width: 140px;
+      }
+    }
   }
 }

@@ -12,9 +12,11 @@ export default function Main() {
   return (
     <div>
       <Banner />
-      <NewPosts />
-      <HotPortfolio />
-      <BestStacks />
+      <div style={{ maxWidth: 1024, margin: '0 auto' }}>
+        <NewPosts />
+        <HotPortfolio />
+        <BestStacks />
+      </div>
       <Footer />
     </div>
   );

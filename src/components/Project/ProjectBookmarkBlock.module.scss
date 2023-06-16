@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .container {
@@ -16,11 +17,11 @@
     height: 50px;
     border-radius: 6px;
 
-    border: $main-color solid 1px;
+    border: var(--color-pink) solid 1px;
     background-color: rgba(255, 255, 255, 0);
 
     font-size: 18px;
-    color: $main-color;
+    color: var(--color-pink);
 
     cursor: pointer;
 
@@ -32,13 +33,13 @@
 
     .bookmarkNot {
       width: 22px;
-      stroke: $main-color;
+      stroke: var(--color-pink);
     }
 
     .bookmarkYes {
       width: 22px;
-      stroke: $main-color;
-      fill: $main-color;
+      stroke: var(--color-pink);
+      fill: var(--color-pink);
     }
 
     .bookmarkName {
@@ -64,7 +65,7 @@
         width: 18px;
         height: 18px;
         border-radius: 18px;
-        border: 1px white solid;
+        border: 1px var(--color-bg1) solid;
         overflow: hidden;
         .bookmarkUserImage {
           width: 20px;
@@ -77,7 +78,7 @@
       height: 13px;
       font-size: 13px;
       margin-bottom: 1px;
-      color: rgb(118, 133, 154);
+      color: var(--color-text2);
     }
   }
 }

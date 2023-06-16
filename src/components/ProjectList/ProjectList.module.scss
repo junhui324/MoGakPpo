@@ -1,19 +1,20 @@
+@use '/src/theme.scss' as *;
 .container {
   box-sizing: border-box;
   width: 100%;
   .noneContentContainer {
     box-sizing: border-box;
     width: auto;
-    margin: 0;
     height: 350px;
-    background-color: rgb(230, 237, 239);
+    background-color: var(--color-bg2);
     display: flex;
     border-radius: 12px;
+
     .noneContent {
       box-sizing: border-box;
       display: inline-block;
       width: 100%;
-      color: rgb(70, 82, 82);
+      color: var(--color-text1);
       font-weight: 500;
       align-self: center;
       text-align: center;

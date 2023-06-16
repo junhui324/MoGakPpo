@@ -1,18 +1,17 @@
-@import '/src/variables.scss';
-$grey: #64748B;
+@use '/src/theme.scss' as *;
 
 .listContainer {
   display: flex;
   justify-content: space-between;
   margin-bottom: 32px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--color-border);
   border-radius: 16px;
-  background-color: #ffff;
+  background-color: var(--color-bg1);
   cursor: pointer;
 
   &:hover {
-    border-color: #d0dee0;
-    box-shadow: 0 0 15px #e2eaf1;
+    border-color: var(--color-border-hover);
+    box-shadow: 0 0 15px var(--color-border);
     
     .topContainer img {
       transform: scale(1.1);
@@ -60,7 +59,7 @@ $grey: #64748B;
         .newTag {
           margin-left: 8px;
           font-size: 14px;
-          color: $blue;
+          color: var(--color-blue);
         }
       }
     }
@@ -74,7 +73,7 @@ $grey: #64748B;
         cursor: pointer;
         svg {
           font-size: 14px;
-          color: $main-color;
+          color: var(--color-pink);
         }
       }
     }
@@ -88,7 +87,7 @@ $grey: #64748B;
     }
     
     .createdAt {
-      color: $grey;
+      color: var(--color-text2);
       font-weight: 100;
       margin-top: 1.5rem;
     }

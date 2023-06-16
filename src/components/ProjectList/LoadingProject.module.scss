@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .loadingList {
@@ -6,15 +7,15 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 24px 24px 24px 24px;
-  border: 1px solid #f3f3f3;
+  border: 1px solid var(--color-border);
   border-radius: 16px;
-  background-color: #ffff;
+  background-color: var(--color-bg1);
   cursor: pointer;
 
   .loadingBox {
     display: inline-block;
     border-radius: 4px;
-    background-color: #ecf2f3;
+    background-color: var(--color-bg2);
     height: 26px;
   }
 

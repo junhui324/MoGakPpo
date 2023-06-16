@@ -37,9 +37,9 @@ function MyPage() {
     <div className={styles.container}>
       <Profile onError={handleProfileError}/>
       <Tab tabs={tabs} currTab={currTab} onClick={handleClickTab} />
-      {!errorMessage && currTab === '게시글' && <Posts onError={handleContentsError} />}
-      {!errorMessage && currTab === '댓글' && <Comments onError={handleContentsError} />}
-      {!errorMessage && currTab === '북마크' && <BookMarks onError={handleContentsError} />}
+      {currTab === '게시글' && <Posts onError={handleContentsError} />}
+      {currTab === '댓글' && <Comments onError={handleContentsError} />}
+      {currTab === '북마크' && <BookMarks onError={handleContentsError} />}
     </div>
   );
 }

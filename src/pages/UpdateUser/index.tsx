@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, ChangeEvent, MouseEvent } from 'react';
+import { useEffect, useState, useRef, ChangeEvent, MouseEvent, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { loginAtom, userStackListState } from '../../recoil/loginState';
@@ -37,26 +37,19 @@ function UpdateUser() {
     const file = e.target.files?.[0];
 
     const options = {
-      maxSizeMB: 1, // 허용하는 최대 사이즈 지정
-      maxWidthOrHeight: 1920, // 허용하는 최대 width, height 값 지정
-      useWebWorker: true // webworker 사용 여부
-    }
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
 
     if (file) {
       try {
-        // 기존 이미지
-        console.log(file);
-
-        // 이미지 압축
         const compressedBlob = await imageCompression(file, options);
-        console.log('이미지 압축한 blob 객체', compressedBlob);
 
-        // Blob을 File 객체로 변환
         const convertedFile = new File([compressedBlob], file.name, {
           type: file.type,
-          lastModified: Date.now()
+          lastModified: Date.now(),
         });
-        console.log('압축한 blob을 file 객체로 변환', convertedFile);
 
         setImageFile(convertedFile);
         const reader = new FileReader();
@@ -75,69 +68,83 @@ function UpdateUser() {
     setStackList(stacks);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
-    const { name, value } = e.target;
-    if (name === 'user_name' && value.length <= max) {
-      setInputName(e.target.value);
-    }
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, max: number) => {
+      const { name, value } = e.target;
+      if (name === 'user_name' && value.length <= max) {
+        setInputName(e.target.value);
+      } else if (name !== 'user_name' && value.length <= max) {
+        setUserInfo((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      }
+    },
+    [setUserInfo]
+  );
 
-    else if (name !== 'user_name' && value.length <= max) {
-      setUserInfo((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
+  const handleSubmit = useCallback(
+    async (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
 
-  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+      if (isValid && window.confirm('수정하시겠습니까?')) {
+        try {
+          const formData = new FormData();
 
-    if (isValid && window.confirm('수정하시겠습니까?')) {
-      try {
-        const formData = new FormData();
+          if (imageFile) {
+            formData.append('user_img', imageFile as File);
+          }
+          formData.append('user_name', inputName.trim());
+          formData.append('user_introduction', userInfo.user_introduction);
+          formData.append('user_career_goal', userInfo.user_career_goal);
+          formData.append('user_stacks', JSON.stringify(stackList || []));
 
-        if (imageFile) {
-          formData.append('user_img', imageFile as File);
-        }
-        formData.append('user_name', inputName.trim());
-        formData.append('user_introduction', userInfo.user_introduction);
-        formData.append('user_career_goal', userInfo.user_career_goal);
-        formData.append('user_stacks', JSON.stringify(stackList || []));
+          await updateUserProfile(formData);
 
-        await updateUserProfile(formData);
-
-        navigate(`${ROUTES.MY_PAGE}`);
-      } catch (error) {
-        if (error instanceof Error && typeof error.message === 'string') {
-          switch (error.message) {
-            case '400':
-              alert(`모든 정보를 입력해 주세요.`);
-              break;
-            case '401':
-              alert(`토큰이 만료되었습니다.`);
-              Token.removeToken();
-              navigate(ROUTES.LOGIN);
-              break;
-            case '413': {
-              alert('파일 용량이 너무 큽니다!');
-              break;
+          navigate(`${ROUTES.MY_PAGE}`);
+        } catch (error) {
+          if (error instanceof Error && typeof error.message === 'string') {
+            switch (error.message) {
+              case '400':
+                alert(`모든 정보를 입력해 주세요.`);
+                break;
+              case '401':
+                alert(`토큰이 만료되었습니다.`);
+                Token.removeToken();
+                navigate(ROUTES.LOGIN);
+                break;
+              case '413':
+                alert('파일 용량이 너무 큽니다!');
+                break;
+              default:
+                alert(`${error}: 예기치 못한 서버 오류입니다.`);
+                navigate(ROUTES.MAIN);
             }
-            default:
-              alert(`${error}: 예기치 못한 서버 오류입니다.`);
-              navigate(ROUTES.MAIN);
           }
         }
       }
-    }
-  };
+    },
+    [
+      isValid,
+      inputName,
+      imageFile,
+      stackList,
+      navigate,
+      userInfo.user_career_goal,
+      userInfo.user_introduction,
+    ]
+  );
 
-  const handleCancel = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleCancel = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
 
-    if (window.confirm('취소 하시겠습니까?')) {
-      navigate(`${ROUTES.MY_PAGE}`);
-    }
-  };
+      if (window.confirm('취소 하시겠습니까?')) {
+        navigate(`${ROUTES.MY_PAGE}`);
+      }
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     const getUserData = async () => {
@@ -233,9 +240,15 @@ function UpdateUser() {
               maxLength={MAX_INTRO_COUNT}
               onChange={(e) => handleChange(e, MAX_INTRO_COUNT)}
             />
-            {userInfo.user_introduction === null
-            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
-            : <p>{userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}</p>}
+            {userInfo.user_introduction === null ? (
+              <p>
+                {0}/{MAX_INTRO_COUNT}
+              </p>
+            ) : (
+              <p>
+                {userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}
+              </p>
+            )}
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
@@ -247,9 +260,15 @@ function UpdateUser() {
               maxLength={MAX_CAREER_COUNT}
               onChange={(e) => handleChange(e, MAX_CAREER_COUNT)}
             />
-            {userInfo.user_career_goal === null
-            ? <p>{0}/{MAX_CAREER_COUNT}</p> 
-            : <p>{userInfo.user_career_goal.length || 0}/{MAX_CAREER_COUNT}</p>}
+            {userInfo.user_career_goal === null ? (
+              <p>
+                {0}/{MAX_CAREER_COUNT}
+              </p>
+            ) : (
+              <p>
+                {userInfo.user_career_goal.length || 0}/{MAX_CAREER_COUNT}
+              </p>
+            )}
           </div>
           <Stack selectedStack={stackList || []} setStackList={handleSetStackList} />
           <button

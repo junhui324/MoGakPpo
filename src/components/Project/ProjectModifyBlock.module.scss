@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 @mixin fill-button-style {
@@ -9,8 +10,8 @@
   height: 50px;
   border-radius: 6px;
 
-  border: $main-color solid 1px;
-  background-color: $main-color;
+  border: var(--color-pink) solid 1px;
+  background-color: var(--color-pink);
 
   font-size: 18px;
   color: #ffffff;
@@ -19,18 +20,16 @@
 
   cursor: pointer;
 
-  transition-property: background-color, border-color;
+  transition-property: transform;
   transition-duration: 0.5s;
   transition-timing-function: ease;
 
   &:hover {
-    background-color: #7e58db;
-    border-color: #7e58db;
+    transform: scale(0.99, 0.99);
   }
 
   &:active {
-    background-color: #9878e5;
-    border-color: #9878e5;
+    transform: scale(0.98, 0.98);
 
     transition: none;
   }
@@ -45,28 +44,26 @@
   height: 50px;
   border-radius: 6px;
 
-  border: $main-color solid 1px;
+  border: var(--color-pink) solid 1px;
   background-color: rgb(255, 255, 255, 0);
 
   font-size: 18px;
-  color: $main-color;
+  color: var(--color-pink);
 
   margin-bottom: 16px;
 
   cursor: pointer;
 
-  transition-property: border-color, color;
+  transition-property: transform;
   transition-duration: 0.5s;
   transition-timing-function: ease;
 
   &:hover {
-    border-color: #9878e5;
-    color: #9878e5;
+    transform: scale(0.99, 0.99);
   }
 
   &:active {
-    border-color: #a5b4ee;
-    color: #a5b4ee;
+    transform: scale(0.98, 0.98);
 
     transition: none;
   }
@@ -81,29 +78,28 @@
   height: 50px;
   border-radius: 6px;
 
-  border: #cc0000 solid 1px;
+  border: var(--color-red) solid 1px;
   background-color: rgb(255, 255, 255, 0);
 
   font-size: 18px;
-  color: #cc0000;
+  color: var(--color-red);
 
   margin-bottom: 16px;
 
   cursor: pointer;
 
-  transition-property: background-color, color;
+  transition-property: background-color, color, transform;
   transition-duration: 0.5s;
   transition-timing-function: ease;
 
   &:hover {
-    background-color: #cc0000;
+    transform: scale(0.99, 0.99);
+    background-color: var(--color-red);
     color: #ffffff;
   }
 
   &:active {
-    background-color: #ea3e3e;
-    border-color: #ea3e3e;
-    color: #ffffff;
+    transform: scale(0.98, 0.98);
 
     transition: none;
   }
@@ -122,7 +118,9 @@
   margin: 50px;
 
   .modalText {
+    color: var(--color-text1);
     font-size: 22px;
+    color: var(--color-text1);
   }
   .modalWarningText {
     margin-top: 12px;
@@ -161,7 +159,7 @@
   width: 100%;
   padding-top: 16px;
 
-  border-top: 1px solid #d0d8de;
+  border-top: 1px solid var(--color-text2);
 
   .recruitingButton {
     @include fill-button-style;

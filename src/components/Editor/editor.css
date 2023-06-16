@@ -1,5 +1,39 @@
+@use '/src/theme.scss' as *;
+
 #editor-container {
   height: 60vh;
   font-size: 16px;
-  overflow-y: scroll;
+  border: 1px solid var(--color-text3);
+  color: var(--color-text1);
+
+  .ql-editor.ql-blank::before {
+    color: var(--color-text3);
+  }
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid var(--color-text3);
+  .ql-picker-options {
+    border-radius: 8px;
+    border-color: var(--color-border);
+    background-color: var(--color-bg1);
+    box-shadow: 0px 5px 15px var(--color-border);
+  }
+  .ql-formats span::before {
+    color: var(--color-text1);
+  }
+  .ql-stroke {
+    stroke: var(--color-text1);
+  }
+  .ql-fill {
+    fill: var(--color-text1);
+  }
+}
+
+.ql-editor.ql-blank::before {
+  color: var(--color-text3);
+}
+
+.ql-container.ql-snow {
+  border: 1px solid var(--color-text3);
 }

@@ -1,7 +1,10 @@
 .container {
   display: flex;
   flex-direction: column;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--color-border);
+  margin: 0 auto;
+  max-width: 1024px;
+  min-height: 100vh;
 
   .mainFormContainer {
     box-sizing: border-box;
@@ -42,15 +45,18 @@
           height: 42px;
           font-weight: normal;
           font-size: normal;
-          border: 1px solid #e8e8e8;
           border-radius: 8px;
           padding: 4px 12px;
+          &:focus {
+            border: 2px solid #dfd6ff;
+            outline-style: none;
+          }
         }
       }
     }
     .required::after {
       content: ' *';
-      color: red;
+      color: var(--color-red);
     }
 
     .inputTop {
@@ -87,7 +93,7 @@
 
   .buttonsContainer {
     box-sizing: border-box;
-    box-shadow: 0 -5px 10px #f1f1f1;
+    box-shadow: 0 -5px 10px var(--color-border);
     border-radius: 16px 16px 0 0;
     padding: 16px;
     width: 100%;
@@ -96,7 +102,7 @@
     z-index: 9999;
     bottom: 0;
     display: flex;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--color-bg1);
     justify-content: space-between;
 
     button {
@@ -110,19 +116,21 @@
 
     .importButton {
       width: 200px;
-      background-color: rgb(243, 243, 243);
+      background-color: var(--color-bg2);
+      color: var(--color-text1);
     }
 
     .saveButton {
-      border: 1px solid #6636da;
-      background-color: rgb(255, 255, 255);
-      color: #6636da;
+      border: 1px solid var(--color-pink);
+      background-color: var(--color-bg1);
+      color: var(--color-pink);
     }
 
     .submitButton {
+      box-sizing: border-box;
       width: 25%;
-      color: #f1f1f1;
-      background-color: #6636da;
+      color: white;
+      background-color: var(--color-main);
     }
 
     div {
@@ -131,5 +139,11 @@
       justify-content: end;
       gap: 12px;
     }
+  }
+  input {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg1);
+    color: var(--color-text1);
+    font-weight: 400;
   }
 }

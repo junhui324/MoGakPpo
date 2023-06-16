@@ -1,15 +1,17 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 .titleTextWrapper {
   & > h1 {
     font-size: 24px;
     font-weight: 600;
     padding: 1rem 0;
+    color: var(--color-text1);
   }
 
   & > p {
     font-size: 14px;
     padding-bottom: 2rem;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--color-text3);
   }
 }
 
@@ -38,7 +40,7 @@
     &:nth-child(1),
     &:nth-child(2),
     &:nth-child(3) {
-      color: $main-color;
+      color: var(--color-pink);
     }
 
     .stackRank {
@@ -46,7 +48,7 @@
       display: flex;
       align-items: center;
       font-weight: 700;
-      color: #9a9a9a;
+      color: var(--color-text3);
       svg {
         margin: 0 20px;
       }
@@ -71,7 +73,7 @@
 .noContent {
   height: 220px;
   width: 100%;
-  background-color: #f9f9f9;
+  background-color: var(--color-bg2);
   line-height: 1.5rem;
   font-size: 18px;
   font-weight: 500;

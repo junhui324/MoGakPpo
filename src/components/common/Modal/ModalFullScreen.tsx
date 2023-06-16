@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import styles from './ModalFullScreen.module.scss';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import ReactDOM from 'react-dom';
+import { useRecoilValue } from 'recoil';
+import { themeAtom } from '../../../recoil/themeState';
 
 interface ModalFullScreenProps {
   setModalOpen: (newValue: boolean) => void;
@@ -9,6 +11,9 @@ interface ModalFullScreenProps {
   closeButton?: boolean;
 }
 function ModalFullScreen({ setModalOpen, children, closeButton }: ModalFullScreenProps) {
+  // 다크 모드 설정
+  const darkMode = useRecoilValue(themeAtom);
+
   // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
   const closeModal = () => {
     setModalOpen(false);
@@ -39,7 +44,7 @@ function ModalFullScreen({ setModalOpen, children, closeButton }: ModalFullScree
   });
 
   return ReactDOM.createPortal(
-    <div className={styles.container}>
+    <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
       <div className={styles.overlay}></div>
       <div ref={modalRef} className={styles.contentsContainer}>
         {closeButton && (

@@ -1,8 +1,10 @@
+@use '/src/theme.scss' as *;
+
 $large-font-size: 18px;
 $middle-font-size: 16px;
 
 .container {
-  color: #555555;
+  color: var(--color-text90);
 
   div {
     div .logoCircle {
@@ -15,7 +17,7 @@ $middle-font-size: 16px;
       height: 36px;
       border-radius: 36px;
 
-      background-color: #f5f5f5;
+      background-color: var(--color-bg2);
     }
     .logoLine {
       display: flex;
@@ -36,7 +38,7 @@ $middle-font-size: 16px;
     }
 
     .paragraphTitle {
-      color: #000000;
+      color: var(--color-text1);
       font-size: $large-font-size;
       font-weight: 600;
 
@@ -50,6 +52,7 @@ $middle-font-size: 16px;
 
       line-height: 24px;
       white-space: pre-wrap;
+
       .paragraphChild {
         width: 100%;
         word-break: break-all;
@@ -111,9 +114,9 @@ $middle-font-size: 16px;
       }
 
       pre {
-        background-color: rgba(grey, 0.1) !important;
-        color: black !important;
-        overflow: visible !important;
+        background-color: var(--color-pink2);
+        color: black;
+        overflow: visible;
       }
     }
   }

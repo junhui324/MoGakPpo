@@ -1,5 +1,5 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 @mixin subtitle {
   font-weight: bold;
@@ -11,9 +11,9 @@
   margin-left: 100px;
   width: 320px;
   height: 80px;
-  border: 1px solid $gray-back-color;
+  border: 1px solid var(--color-bg2);
   border-radius: 10px;
-  background-color: $gray-back-color;
+  background-color: var(--color-bg2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +33,11 @@ input {
   font-weight: 600;
   padding: 6px;
   &::placeholder {
-    color: #ccc;
+    color: var(--color-text3);
+  }
+  &:focus {
+    border: 2px solid var(--color-input-focus);
+    outline-style: none;
   }
 }
 
@@ -49,8 +53,15 @@ textarea {
   font-size: 16px;
   resize: none;
   overflow: hidden;
+  border-radius: 7px;
+  background-color: var(--color-bg1);
+  color: var(--color-text1);
   &::placeholder {
-    color: #ccc;
+    color: var(--color-text3);
+  }
+  &:focus {
+    border: 2px solid var(--color-input-focus);
+    outline-style: none;
   }
 }
 
@@ -61,7 +72,8 @@ h2 {
 .container {
   margin: 0 auto;
   max-width: 1024px;
-  border: 1px solid rgb(234, 234, 234);
+  min-height: 100vh;
+  border: 1px solid var(--color-border);
   display: grid;
   padding: 20px;
   grid-template-areas:
@@ -78,7 +90,7 @@ h2 {
     display: flex;
     width: 85px;
     height: 20px;
-    background-color: $main-color;
+    background-color: var(--color-main);
     text-align: center;
     color: white;
     justify-content: center;
@@ -121,10 +133,15 @@ h2 {
   height: 58px;
   border-style: none;
   margin: 20px 0;
+  border-radius: 8px;
+  &:focus {
+    border: 2px solid var(--color-input-focus);
+    outline-style: none;
+  }
 }
 .maxLengthTitle {
   border-style: solid;
-  border-color: red;
+  border-color: var(--color-red);
   background-color: rgba($color: #e00c0c50, $alpha: 0.1);
 }
 
@@ -138,11 +155,16 @@ h2 {
     border-style: none;
     font-size: 16px;
     resize: none;
+    border-radius: 8px;
+    &:focus {
+      border: 2px solid var(--color-input-focus);
+      outline-style: none;
+    }
   }
 }
 .maxLengthSummary {
   border-style: solid;
-  border-color: red;
+  border-color: var(--color-red);
   background-color: rgba($color: #e00c0c50, $alpha: 0.1);
 }
 
@@ -161,7 +183,7 @@ h2 {
   }
   input,
   progress {
-    accent-color: $main-color;
+    accent-color: var(--color-main);
   }
 }
 
@@ -173,12 +195,12 @@ h2 {
   margin-bottom: 40px;
   input,
   progress {
-    accent-color: $main-color;
+    accent-color: var(--color-main);
   }
 }
 
 .stack {
-  border: 2px solid $main-color;
+  border: 2px solid var(--color-main);
   width: 200px;
   height: 40px;
 }
@@ -201,15 +223,16 @@ h2 {
   margin: 10px 20px 10px 0;
   font-size: 18px;
   font-weight: 600;
-  background-color: $main-color;
+  background-color: var(--color-main);
   color: white;
-  border-color: $main-color;
+  border-color: var(--color-main);
   border-radius: 8px;
+  border: none;
 }
 
 .essential {
   padding-left: 4px;
-  color: red;
+  color: var(--color-red);
 }
 
 .introduction {
@@ -236,6 +259,53 @@ h2 {
       'checkRadioBox'
       'introduce'
       'stack';
+  }
+  .editorBox {
+    width: 100%;
+  }
+  .titleHelpBox {
+    display: none;
+  }
+  .summaryHelpBox {
+    display: none;
+  }
+  .introHelpBox {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    display: flex;
+    width: 390px;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  .editorBox {
+    width: 100%;
+  }
+  .titleHelpBox {
+    display: none;
+  }
+  .summaryHelpBox {
+    display: none;
+  }
+  .introHelpBox {
+    display: none;
+  }
+}
+
+@media (max-width: 390px) {
+  .container {
+    display: flex;
+    width: 320px;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  .editorBox {
+    width: 100%;
   }
   .titleHelpBox {
     display: none;
@@ -270,7 +340,7 @@ h2 {
     max-width: 220px;
     font-size: 14px;
     padding: 8px;
-    background-color: $main-color;
+    background-color: var(--color-main);
     color: #fff;
     text-align: center;
     border-radius: 5px;
@@ -289,6 +359,6 @@ h2 {
     margin-left: -8px;
     border-width: 8px;
     border-style: solid;
-    border-color: $main-color transparent transparent transparent;
+    border-color: var(--color-main) transparent transparent transparent;
   }
 }
