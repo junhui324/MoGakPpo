@@ -51,27 +51,29 @@ function Project() {
 
   // 데이터 API 호출 함수
   const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const data = await Fetcher.getProject(projectId);
-      setProjectIdRecoil(projectId);
-      setProjectData(data);
-    } catch (loadingError) {
-      if (loadingError instanceof Error && typeof loadingError.message === 'string') {
-        switch (loadingError.message) {
-          case '404':
-            alert(`${loadingError}: 존재하지 않는 요청입니다.`);
-            Token.removeToken();
-            break;
-          default:
-            alert(`${loadingError}: 예기치 못한 서버 오류입니다.`);
+    if (isUpdate) {
+      setIsLoading(true);
+      try {
+        const data = await Fetcher.getProject(projectId);
+        setProjectIdRecoil(projectId);
+        setProjectData(data);
+      } catch (loadingError) {
+        if (loadingError instanceof Error && typeof loadingError.message === 'string') {
+          switch (loadingError.message) {
+            case '404':
+              alert(`${loadingError}: 존재하지 않는 요청입니다.`);
+              Token.removeToken();
+              break;
+            default:
+              alert(`${loadingError}: 예기치 못한 서버 오류입니다.`);
+          }
         }
+        navigate(ROUTES.PROJECT_LIST);
+      } finally {
+        setIsLoading(false);
       }
-      navigate(ROUTES.PROJECT_LIST);
-    } finally {
-      setIsLoading(false);
     }
-  }, [navigate, setProjectIdRecoil, projectId, bookmarksData, modifyData]);
+  }, [navigate, setProjectIdRecoil, projectId, isUpdate]);
 
   // 글 작성자가 현재 작성자인지 확인하는 함수
   const isAuthor = (): boolean => {
@@ -80,14 +82,11 @@ function Project() {
     return userId === projectData?.user_id ? true : false;
   };
 
-  // 게시글 아이디에 맞게 로딩할 것
+  // 업데이트 시에 fetchDate 수행
   useEffect(() => {
     isUpdate && fetchData();
-
-    // 클린업 코드를 통해 isUpdate 상태를 다시 false로 돌립니다.
-    return () => {
-      setIsUpdate(false);
-    };
+    // 업데이트 상태를 false로 변경
+    setIsUpdate(false);
   }, [isUpdate, fetchData]);
 
   // 데이터가 로딩되면 각 props데이터 할당함
