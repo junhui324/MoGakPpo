@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .newPosts {
@@ -14,12 +15,13 @@
         font-size: 24px;
         font-weight: 600;
         padding: 1rem 0;
+        color: var(--color-text1);
       }
 
       & > p {
         font-size: 14px;
         padding-bottom: 2rem;
-        color: rgba(0, 0, 0, 0.5);
+        color: var(--color-text3);
       }
     }
   }
@@ -35,6 +37,10 @@
         background-color: transparent;
         font-size: 20px;
         cursor: pointer;
+        color: var(--color-text1);
+        &:disabled {
+          color: var(--color-text3);
+        }
       }
     }
     .toAllButton {
@@ -48,10 +54,7 @@
       background-color: transparent;
       cursor: pointer;
       transition: all 0.2s;
-
-      &:hover {
-        color: rgba(0, 0, 0, 0.7);
-      }
+      color: var(--color-text1);
     }
   }
   .slideArea {
@@ -63,7 +66,7 @@
       transition: transform 0.5s ease-in-out;
       a {
         text-decoration: 0;
-        color: black;
+        color: var(--color-text1);
       }
     }
 
@@ -79,29 +82,29 @@
         height: 220px;
         padding: 20px;
         padding: 24px 24px 24px 24px;
-        border: 1px solid #e8e8e8;
+        border: 1px solid var(--color-border);
         border-radius: 16px;
 
         &:hover {
-          border-color: #d0dee0;
-          box-shadow: 0 0 15px #e2eaf1;
+          border-color: var(--color-border-hover);
+          box-shadow: 0 0 15px var(--color-border);
         }
 
         .type {
           margin-right: 8px;
           padding: 4px 6px 4px 6px;
-          color: rgb(148 163 184);
+          color: var(--color-text3);
           font-size: 14px;
           border-radius: 4px;
-          background-color: rgb(241 245 249);
+          background-color: var(--color-bg2);
         }
 
         .goal {
           padding: 4px 6px 4px 6px;
-          color: rgb(148 163 184);
+          color: var(--color-text3);
           font-size: 14px;
           border-radius: 4px;
-          background-color: rgb(241 245 249);
+          background-color: var(--color-bg2);
         }
 
         .summary {
@@ -118,9 +121,9 @@
             margin-right: 0.4rem;
             font-size: 12px;
             padding: 4px 8px;
-            border: 1px solid $main-color;
+            border: 1px solid var(--color-pink);
             background-color: unset;
-            color: $main-color;
+            color: var(--color-pink);
             border-radius: 30px;
           }
         }
@@ -141,7 +144,7 @@
           .newTag {
             align-self: center;
             font-size: 14px;
-            color: blue;
+            color: var(--color-pink);
             margin-left: 0.6rem;
           }
         }
@@ -156,7 +159,7 @@
 
           .count {
             margin: 0 0.4rem;
-            color: rgb(168, 180, 197);
+            color: var(--color-text2);
 
             &::after {
               margin-left: 4px;
@@ -176,7 +179,7 @@
 .noContent {
   height: 220px;
   width: 100%;
-  background-color: #f9f9f9;
+  background-color: var(--color-bg2);
   line-height: 1.5rem;
   font-size: 18px;
   font-weight: 500;

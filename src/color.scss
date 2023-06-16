@@ -1,14 +1,31 @@
-$main: #6636da;
-$main-hover: #7744f1;
+$light-main: #6636da;
+$light-main-hover: #7744f1;
+$light-pink: #6636da;
+$light-green: #76c957;
+$light-red: #f55b5b;
+$light-blue: #7f8df4;
+
+$dark-main: #760dde;
+$dark-main-hover: #8f00ff;
+$dark-pink: #d4a4f9;
+$dark-green: #1edb97;
+$dark-red: #ff98ab;
+$dark-blue: #2dd9ca;
 
 // 다크는 0 검->100 흰
 $dark-gray0: #1d202e;
 $dark-gray100: #f7f7f8;
 $dark-gray80: #999cac;
+$dark-gray60: #717383;
+$dark-gray30: #4e5064;
 $dark-gray20: #343648;
+$dark-gray10: #2d3143;
 
 //라이트는 0흰->100 검
 $light-gray0: #ffffff;
 $light-gray100: #000000;
 $light-gray80: #64748b;
+$light-gray60: #94a3b8;
+$light-gray30: #d0dee0;
 $light-gray20: #e8e8e8;
+$light-gray10: #f1f5f9;
