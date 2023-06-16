@@ -81,7 +81,8 @@
         margin-bottom: 1rem;
 
         &:focus {
-          border: 1px solid var(--color-text3);
+          border: 2px solid var(--color-input-focus);
+          outline-style: none;
         }
       }
 
@@ -126,7 +127,8 @@
       margin-bottom: 1rem;
 
       &:focus {
-        border: 1px solid var(--color-text3);
+        border: 2px solid var(--color-input-focus);
+        outline-style: none;
       }
     }
 
@@ -134,7 +136,7 @@
       border: none;
       border-radius: 8px;
       color: white;
-      background-color: var(--color-pink);
+      background-color: var(--color-main);
       font-size: 18px;
       padding: 1rem;
       margin: 1rem 0;
@@ -142,8 +144,7 @@
       transition: all 0.2s;
 
       &:hover {
-        background-color: var(--color-pink);
-        opacity: 0.7;
+        background-color: var(--color-main-hover);
       }
     }
 

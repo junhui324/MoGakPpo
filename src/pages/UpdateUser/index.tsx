@@ -39,8 +39,8 @@ function UpdateUser() {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
-      useWebWorker: true
-    }
+      useWebWorker: true,
+    };
 
     if (file) {
       try {
@@ -48,7 +48,7 @@ function UpdateUser() {
 
         const convertedFile = new File([compressedBlob], file.name, {
           type: file.type,
-          lastModified: Date.now()
+          lastModified: Date.now(),
         });
 
         setImageFile(convertedFile);
@@ -86,11 +86,11 @@ function UpdateUser() {
   const handleSubmit = useCallback(
     async (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-  
+
       if (isValid && window.confirm('수정하시겠습니까?')) {
         try {
           const formData = new FormData();
-  
+
           if (imageFile) {
             formData.append('user_img', imageFile as File);
           }
@@ -98,9 +98,9 @@ function UpdateUser() {
           formData.append('user_introduction', userInfo.user_introduction);
           formData.append('user_career_goal', userInfo.user_career_goal);
           formData.append('user_stacks', JSON.stringify(stackList || []));
-  
+
           await updateUserProfile(formData);
-  
+
           navigate(`${ROUTES.MY_PAGE}`);
         } catch (error) {
           if (error instanceof Error && typeof error.message === 'string') {
@@ -123,17 +123,27 @@ function UpdateUser() {
           }
         }
       }
-    }, [isValid, inputName, imageFile, stackList, navigate, userInfo.user_career_goal, userInfo.user_introduction]
+    },
+    [
+      isValid,
+      inputName,
+      imageFile,
+      stackList,
+      navigate,
+      userInfo.user_career_goal,
+      userInfo.user_introduction,
+    ]
   );
 
   const handleCancel = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-  
+
       if (window.confirm('취소 하시겠습니까?')) {
         navigate(`${ROUTES.MY_PAGE}`);
       }
-    },[navigate]
+    },
+    [navigate]
   );
 
   useEffect(() => {
@@ -230,9 +240,15 @@ function UpdateUser() {
               maxLength={MAX_INTRO_COUNT}
               onChange={(e) => handleChange(e, MAX_INTRO_COUNT)}
             />
-            {userInfo.user_introduction === null
-            ? <p>{0}/{MAX_INTRO_COUNT}</p> 
-            : <p>{userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}</p>}
+            {userInfo.user_introduction === null ? (
+              <p>
+                {0}/{MAX_INTRO_COUNT}
+              </p>
+            ) : (
+              <p>
+                {userInfo.user_introduction.length || 0}/{MAX_INTRO_COUNT}
+              </p>
+            )}
           </div>
           <div className={styles.CareerContainer}>
             <label>원하는 직군</label>
@@ -244,9 +260,15 @@ function UpdateUser() {
               maxLength={MAX_CAREER_COUNT}
               onChange={(e) => handleChange(e, MAX_CAREER_COUNT)}
             />
-            {userInfo.user_career_goal === null
-            ? <p>{0}/{MAX_CAREER_COUNT}</p> 
-            : <p>{userInfo.user_career_goal.length || 0}/{MAX_CAREER_COUNT}</p>}
+            {userInfo.user_career_goal === null ? (
+              <p>
+                {0}/{MAX_CAREER_COUNT}
+              </p>
+            ) : (
+              <p>
+                {userInfo.user_career_goal.length || 0}/{MAX_CAREER_COUNT}
+              </p>
+            )}
           </div>
           <Stack selectedStack={stackList || []} setStackList={handleSetStackList} />
           <button

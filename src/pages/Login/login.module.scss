@@ -1,52 +1,52 @@
 @use '../../theme.scss' as *;
 @import '/src/variables.scss';
 
-.container{
-  width:766px;
-  margin:auto auto;
+.container {
+  width: 766px;
+  margin: auto auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color:var(--color-bg1);
+  background-color: var(--color-bg1);
   height: calc(100vh - $header-height);
 }
 
-.component{
+.component {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width:600px;
-  padding-top:60px;
-  padding-left:16px;
-  padding-right:16px;
-  padding-bottom:48px;
+  width: 600px;
+  padding-top: 60px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 48px;
   margin: 0 191px;
   background-color: white;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  background-color:var(--color-bg1);
+  background-color: var(--color-bg1);
 }
 
-.title{
-  height:48px; 
-  text-align:center;
-  font-size:28px;
-  font-weight:700;
-  color:var(--color-text1);
+.title {
+  height: 48px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text1);
 }
 
-.input{
-  height:48px;
-  padding:11px;
+.input {
+  height: 48px;
+  padding: 11px;
   background-color: var(--color-bg1);
   color: var(--color-text1);
 }
 
-.label{
-  height:21px;
-  padding-left:11px;
-  font-weight:700;
-  font-size:16px;
+.label {
+  height: 21px;
+  padding-left: 11px;
+  font-weight: 700;
+  font-size: 16px;
   margin-top: 1rem;
 }
 
@@ -61,20 +61,19 @@
   border-radius: 16px;
 }
 
-input[type=email]{
-  width:300px;
-  height:42px;
-  margin:0 auto;
-  border-radius:5px;
+input[type='email'] {
+  width: 300px;
+  height: 42px;
+  margin: 0 auto;
+  border-radius: 5px;
   border: 1px solid var(--color-border);
   padding: 0 1rem;
   background-color: var(--color-bg1);
   color: var(--color-text1);
-  
 
-  &:focus{
-    border: 1px solid var(--color-border-hover);
-    outline:none;
+  &:focus {
+    border: 2px solid var(--color-input-focus);
+    outline-style: none;
   }
 
   &::placeholder {
@@ -82,19 +81,19 @@ input[type=email]{
   }
 }
 
-.password{
-  width:300px;
-  height:42px;
-  margin:0 auto;
-  border-radius:5px;
+.password {
+  width: 300px;
+  height: 42px;
+  margin: 0 auto;
+  border-radius: 5px;
   border: 1px solid var(--color-border);
   padding: 0 1rem;
   background-color: var(--color-bg1);
   color: var(--color-text1);
 
-  &:focus{
-    border: 1px solid var(--color-border-hover);
-    outline:none;
+  &:focus {
+    border: 2px solid var(--color-input-focus);
+    outline-style: none;
   }
 
   &::placeholder {
@@ -102,158 +101,154 @@ input[type=email]{
   }
 }
 
-.emptyWarning{
-  height:21px;
-  color:red;
-  font-size:12px;
-  font-weight:500;
+.emptyWarning {
+  height: 21px;
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
   padding-left: 11px;
 }
 
-.submit{
+.submit {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height:47px;
-  padding:11px;
-  font-weight:400;
+  height: 47px;
+  padding: 11px;
+  font-weight: 400;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
 }
 
-.submitButton{
-  width:100%;
-  height:47px;
-  background-color:#6636DA;
-  border:0;
-  border-radius:5px;
-  font-size:medium;
-  font-weight:400;
-  color:white;
+.submitButton {
+  width: 100%;
+  height: 47px;
+  background-color: #6636da;
+  border: 0;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: 400;
+  color: white;
   transition: all 0.2s;
 
-  &:hover{
-    background-color: rgba(#6636DA, 0.8);
-    cursor:pointer;
+  &:hover {
+    background-color: rgba(#6636da, 0.8);
+    cursor: pointer;
   }
 }
 
-.hrContainer{
-  margin:0 auto;
+.hrContainer {
+  margin: 0 auto;
 }
 
-.hr{
-  width:100%;
+.hr {
+  width: 100%;
   border: none;
   border-top: 1px gray solid;
   color: #fff;
   height: 1px;
 }
 
-.kakaoContainer{
-  padding:11px;
+.kakaoContainer {
+  padding: 11px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.kakaoLogin{
-  width:334px;
-  height:47px;
-  background-color: #FEE500;
-  border:0;
-  border-radius:5px;
-  font-size:medium;
-  font-weight:400;
-  color:black;
+.kakaoLogin {
+  width: 334px;
+  height: 47px;
+  background-color: #fee500;
+  border: 0;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: 400;
+  color: black;
   transition: all 0.2s;
-  
-  &:hover{
+
+  &:hover {
     background-color: #f0d800;
-    cursor:pointer;
+    cursor: pointer;
   }
   & > svg {
     margin-right: 1rem;
   }
 }
 
-.menu{
-  width:352px;
-  padding-top:60px;
-  padding-right:16px;
-  padding-bottom:48px;
-  font-size:14px;
-  text-align: center;  
+.menu {
+  width: 352px;
+  padding-top: 60px;
+  padding-right: 16px;
+  padding-bottom: 48px;
+  font-size: 14px;
+  text-align: center;
 }
 
-
-.registerContainer{
-  font-weight:600;
+.registerContainer {
+  font-weight: 600;
 }
 
-.register{
-  padding-left:5px;
+.register {
+  padding-left: 5px;
   color: var(--color-pink);
   text-decoration: underline;
 
-  :link{
+  :link {
     color: var(--color-pink);
   }
 
-  :visited{
+  :visited {
     color: var(--color-pink);
   }
 }
 
-.menuLine{
-  padding-top:42px;
+.menuLine {
+  padding-top: 42px;
   font-size: 11px;
-  font-weight:600;
+  font-weight: 600;
 }
 
-.call{
-  padding:0 8px;
+.call {
+  padding: 0 8px;
 }
 
-.forget{
-  padding:0 8px;
+.forget {
+  padding: 0 8px;
 }
 
-.link{
+.link {
   text-decoration: none;
-  color:black;
-
+  color: black;
 }
 
-.kakaoContainer{
-  display:flex;
+.kakaoContainer {
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.kakaoImage{
-  margin-right:10px;
+.kakaoImage {
+  margin-right: 10px;
 }
 
-.loadingContainer{
-  height:806px;
-  display:flex;
+.loadingContainer {
+  height: 806px;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.loadingComponent{
-  display:flex;
+.loadingComponent {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  h3{
-    margin-bottom:20px;
-    font-size:19px;
+  h3 {
+    margin-bottom: 20px;
+    font-size: 19px;
   }
 }
-

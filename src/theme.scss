@@ -15,6 +15,7 @@
   --color-green: #{$dark-green};
   --color-red: #{$dark-red};
   --color-blue: #{$dark-blue};
+  --color-input-focus: #{$light-lavender};
 }
 html:not(.darkMode) {
   --color-main: #{$light-main};
@@ -32,4 +33,5 @@ html:not(.darkMode) {
   --color-green: #{$light-green};
   --color-red: #{$light-red};
   --color-blue: #{$light-blue};
+  --color-input-focus: #{$light-lavender};
 }

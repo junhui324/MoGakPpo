@@ -21,7 +21,7 @@
     .stackWrapper {
       display: flex;
       flex-direction: row;
-      background-color: var(--color-pink);
+      background-color: var(--color-main);
       border-radius: 100px;
       color: white;
       margin: 0 0.6rem 0.6rem 0;
@@ -42,7 +42,7 @@
       .duplicateStack {
         padding: 0.4rem 0.6rem;
         word-break: keep-all;
-        border: 1.4px solid var(--color-pink);
+        border: 1.4px solid var(--color-main);
         border-radius: 100px;
         cursor: pointer;
       }
@@ -74,8 +74,8 @@
       padding-right: 36px;
 
       &:focus {
-        border: 1px solid #dfd6ff;
-        outline: none;
+        border: 2px solid var(--color-input-focus);
+        outline-style: none;
       }
     }
 
