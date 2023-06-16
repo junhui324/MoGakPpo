@@ -64,9 +64,6 @@ function BookMarks({ onError }: BookMarksProps) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getUserProjectPostsData();
-    setProjects([]);
-    setPortfolios([]);
   }, []);
 
   useEffect(() => {
