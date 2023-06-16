@@ -3,7 +3,7 @@
 .container {
   border-top: 1px solid var(--color-border-hover);
   background-color: var(--color-bg2);
-  min-height: 480px;
+  min-height: (100vh);
   padding-top: 1.4rem;
   
   .topContainer {
