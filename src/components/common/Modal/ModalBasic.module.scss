@@ -1,4 +1,4 @@
-@use './src/theme.scss' as *;
+@use '/src/theme.scss' as *;
 .container {
   position: absolute;
   height: fit-content;
@@ -20,6 +20,7 @@
       height: 32px;
       border: none;
       background-color: unset;
+      color: var(--color-text1);
     }
   }
 }

@@ -3,7 +3,6 @@
   div {
     position: relative;
     border-radius: 14px;
-    background-color: rgb(240, 245, 245);
     width: 320px;
     height: 200px;
     display: flex;
@@ -23,12 +22,12 @@
   .buttonContainer {
     position: absolute;
     z-index: 2;
-    background-color: rgba(0, 0, 0, 0.282);
+    background-color: var(--color-border);
     .thumbnailButton {
       cursor: pointer;
       position: absolute;
       z-index: 2;
-      background-color: #6636da;
+      background-color: var(--color-main);
       color: white;
       border: none;
       padding: 6px 12px;

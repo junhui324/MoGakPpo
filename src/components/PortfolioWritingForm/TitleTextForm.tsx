@@ -1,5 +1,4 @@
 import { RefObject } from 'react';
-import styles from './TitleTextForm.module.scss';
 
 interface TitleTextFormProps {
   value: string;
@@ -9,7 +8,7 @@ interface TitleTextFormProps {
 
 function TitleTextForm({ value, onChange, innerRef }: TitleTextFormProps) {
   return (
-    <div className={styles.container}>
+    <div>
       <input
         ref={innerRef ? innerRef : undefined}
         type="text"
