@@ -33,13 +33,13 @@
 
     .bookmarkNot {
       width: 22px;
-      stroke: $main-color;
+      stroke: var(--color-main);
     }
 
     .bookmarkYes {
       width: 22px;
-      stroke: $main-color;
-      fill: $main-color;
+      stroke: var(--color-main);
+      fill: var(--color-main);
     }
 
     .bookmarkName {
@@ -65,7 +65,7 @@
         width: 18px;
         height: 18px;
         border-radius: 18px;
-        border: 1px white solid;
+        border: 1px var(--color-bg1) solid;
         overflow: hidden;
         .bookmarkUserImage {
           width: 20px;
