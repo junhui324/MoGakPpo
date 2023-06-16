@@ -5,7 +5,7 @@ interface QuillEditorProps {
   innerRef: any;
 }
 const QuillEditor = ({ innerRef }: QuillEditorProps) => {
-  return <div ref={innerRef} className={styles.editor} id="editor-container" />;
+  return <div ref={innerRef} className={`${styles.editor}`} id="editor-container" />;
 };
 
 export default QuillEditor;

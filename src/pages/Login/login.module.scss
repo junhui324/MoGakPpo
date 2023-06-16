@@ -1,4 +1,5 @@
 @use '../../theme.scss' as *;
+@import '/src/variables.scss';
 
 .container {
   width: 766px;
@@ -7,6 +8,7 @@
   flex-direction: column;
   align-items: center;
   background-color: var(--color-bg1);
+  height: calc(100vh - $header-height);
 }
 
 .component {
@@ -36,6 +38,8 @@
 .input {
   height: 48px;
   padding: 11px;
+  background-color: var(--color-bg1);
+  color: var(--color-text1);
 }
 
 .label {
@@ -53,7 +57,7 @@
   margin-top: 3rem;
   padding-top: 2rem;
   width: 400px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   border-radius: 16px;
 }
 
@@ -62,8 +66,10 @@ input[type='email'] {
   height: 42px;
   margin: 0 auto;
   border-radius: 5px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--color-border);
   padding: 0 1rem;
+  background-color: var(--color-bg1);
+  color: var(--color-text1);
 
   &:focus {
     border: 2px solid var(--color-input-focus);
@@ -80,8 +86,10 @@ input[type='email'] {
   height: 42px;
   margin: 0 auto;
   border-radius: 5px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--color-border);
   padding: 0 1rem;
+  background-color: var(--color-bg1);
+  color: var(--color-text1);
 
   &:focus {
     border: 2px solid var(--color-input-focus);
@@ -181,10 +189,19 @@ input[type='email'] {
 .registerContainer {
   font-weight: 600;
 }
+
 .register {
   padding-left: 5px;
-  color: #6636da;
+  color: var(--color-pink);
   text-decoration: underline;
+
+  :link {
+    color: var(--color-pink);
+  }
+
+  :visited {
+    color: var(--color-pink);
+  }
 }
 
 .menuLine {
