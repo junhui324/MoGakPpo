@@ -3,9 +3,7 @@ import { loginAtom } from '../../recoil/loginState';
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 //@ts-ignore
-import { Link, /*useNavigate*/ 
-Navigate,
-useNavigate} from 'react-router-dom';
+import { Link /*useNavigate*/, Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 //@ts-ignore
 import styles from './register.module.scss';
@@ -28,25 +26,24 @@ function Register() {
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
 
-  const CheckEmail = (str: any) =>{
+  const CheckEmail = (str: any) => {
     var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
     if (!reg_email.test(str)) {
       return false;
     } else {
       return true;
     }
-  }
+  };
 
-  const checkLength = (str:string) =>{
-    if(str.length > 30){
+  const checkLength = (str: string) => {
+    if (str.length > 30) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
-  }
+  };
 
-  const isAllCheck = () =>{
+  const isAllCheck = () => {
     if (allRef.current.checked) {
       ageRef.current.checked = true;
       useInfoRef.current.checked = true;
@@ -58,9 +55,9 @@ function Register() {
       privacyRef.current.checked = false;
       marketingRef.current.checked = false;
     }
-  }
+  };
 
-  const isEmailBlank = () =>{
+  const isEmailBlank = () => {
     if (!CheckEmail(emailRef.current.value)) {
       setIsEmail(true);
 
@@ -70,7 +67,7 @@ function Register() {
 
       return false;
     }
-  }
+  };
 
   const isNameBlank = () => {
     if (nameRef.current.value === '') {
@@ -82,9 +79,9 @@ function Register() {
 
       return false;
     }
-  }
+  };
 
-  const isPasswordBlank = () =>{
+  const isPasswordBlank = () => {
     if (passwordRef.current.value.length < 6) {
       setIsPassword(true);
 
@@ -94,21 +91,20 @@ function Register() {
 
       return false;
     }
-  }
+  };
 
-  const isAll = () =>{
+  const isAll = () => {
     if (
       ageRef.current.checked === true &&
-      useInfoRef.current.checked === true && 
+      useInfoRef.current.checked === true &&
       privacyRef.current.checked === true &&
-      marketingRef.current.checked === true){
-        allRef.current.checked = true;
-      }
-      else{
-        allRef.current.checked = false;
-      }
-
-  }
+      marketingRef.current.checked === true
+    ) {
+      allRef.current.checked = true;
+    } else {
+      allRef.current.checked = false;
+    }
+  };
 
   const register = async (e: any) => {
     e.preventDefault();
@@ -117,11 +113,11 @@ function Register() {
       return;
     }
 
-    if(checkLength(emailRef.current.value) || checkLength(nameRef.current.value)){
-      alert("아이디 혹은 이메일은 30글자를 넘을 수 없습니다.");
+    if (checkLength(emailRef.current.value) || checkLength(nameRef.current.value)) {
+      alert('아이디 혹은 이메일은 30글자를 넘을 수 없습니다.');
       return;
     }
-    
+
     if (!ageRef.current.checked) {
       alert('만 14세 이상에 동의해주세요.');
       return;
@@ -135,28 +131,31 @@ function Register() {
       return;
     }
 
-    try{
+    try {
       const header = {
         headers: {
           'Content-type': 'application/json',
         },
       };
 
-      const res = await axios.post(`${API_KEY}/users/signup`, {
-      user_email:emailRef.current.value,
-      user_name:nameRef.current.value,
-      user_password:passwordRef.current.value,
-    }, header);
+      const res = await axios.post(
+        `${API_KEY}/users/signup`,
+        {
+          user_email: emailRef.current.value,
+          user_name: nameRef.current.value,
+          user_password: passwordRef.current.value,
+        },
+        header
+      );
 
-    const data = res.data;
+      const data = res.data;
 
-    if(res.status === 201){
-      alert("회원가입이 완료되었습니다.");
-      navigate("/login");
-    }
-    }
-    catch(e:any){
-      alert("해당 이메일은 사용할 수 없습니다.");
+      if (res.status === 201) {
+        alert('회원가입이 완료되었습니다.');
+        navigate('/login');
+      }
+    } catch (e: any) {
+      alert('해당 이메일은 사용할 수 없습니다.');
       return;
     }
   };
@@ -189,7 +188,7 @@ function Register() {
                   <input
                     type="text"
                     className={styles.inputMethod}
-                    placeholder="example@publy.co"
+                    placeholder="example@moppe.com"
                     onBlur={isEmailBlank}
                     ref={emailRef}
                   ></input>
@@ -223,13 +222,25 @@ function Register() {
                   </label>
                 </div>
                 <div className={styles.allCheck}>
-                  <input type="checkbox" id="age" className={styles.all} ref={ageRef} onChange={isAll}></input>
+                  <input
+                    type="checkbox"
+                    id="age"
+                    className={styles.all}
+                    ref={ageRef}
+                    onChange={isAll}
+                  ></input>
                   <label htmlFor="age" className={styles.checkLabel}>
                     (필수) 만 14세 이상입니다.
                   </label>
                 </div>
                 <div className={styles.allCheck}>
-                  <input type="checkbox" id="use" className={styles.all} ref={useInfoRef} onChange={isAll}></input>
+                  <input
+                    type="checkbox"
+                    id="use"
+                    className={styles.all}
+                    ref={useInfoRef}
+                    onChange={isAll}
+                  ></input>
                   <label htmlFor="use" className={styles.checkLabel}>
                     (필수) 커리어리 이용약관 동의
                   </label>
