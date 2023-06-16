@@ -13,7 +13,7 @@
     border: none;
     cursor: pointer;
   }
-  
+
   .rightArrow {
     color: var(--color-text1);
     background-color: transparent;
@@ -38,8 +38,9 @@
       margin-left: 8px;
     }
 
-    &.active, &:hover {
-      background-color: var(--color-pink);
+    &.active,
+    &:hover {
+      background-color: var(--color-main);
       color: white;
     }
   }
