@@ -1,5 +1,5 @@
 import './reset.css';
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProjectListMain from './pages/ProjectList';
@@ -23,20 +23,23 @@ import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
 import PortfolioModify from './pages/PortfolioModify';
 import { loginAtom } from './recoil/loginState';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { themeAtom } from './recoil/themeState';
 
 function App() {
+  const darkMode = useRecoilValue(themeAtom);
+
   const resetLogin = useResetRecoilState(loginAtom);
-  useEffect(()=>{
-    return ()=>{
+  useEffect(() => {
+    return () => {
       resetLogin();
-    }
+    };
   }, []);
 
   return (
     <BrowserRouter>
       <Header />
-      <div className={styles.container}>
+      <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
         <Routes>
           <Route path="*" element={<Error />} />
           <Route path="/" element={<Main />} />

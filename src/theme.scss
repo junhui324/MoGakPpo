@@ -1,0 +1,31 @@
+@use './color.scss' as *;
+.darkMode {
+  --color-main: #{$dark-main};
+  --color-main-hover: #{$dark-main-hover};
+  --color-text1: #{$dark-gray100};
+  --color-text2: #{$dark-gray80};
+  --color-text3: #{$dark-gray60};
+  --color-bg1: #{$dark-gray0};
+  --color-bg2: #{$dark-gray10};
+  --color-border: #{$dark-gray20};
+  --color-border-hover: #{$dark-gray30};
+  --color-pink: #{$dark-pink};
+  --color-green: #{$dark-green};
+  --color-red: #{$dark-red};
+  --color-blue: #{$dark-blue};
+}
+html:not(.darkMode) {
+  --color-main: #{$light-main};
+  --color-main-hover: #{$light-main-hover};
+  --color-text1: #{$light-gray100};
+  --color-text2: #{$light-gray80};
+  --color-text3: #{$light-gray60};
+  --color-bg1: #{$light-gray0};
+  --color-bg2: #{$light-gray10};
+  --color-border: #{$light-gray20};
+  --color-border-hover: #{$light-gray30};
+  --color-pink: #{$light-pink};
+  --color-green: #{$light-green};
+  --color-red: #{$light-red};
+  --color-blue: #{$light-blue};
+}

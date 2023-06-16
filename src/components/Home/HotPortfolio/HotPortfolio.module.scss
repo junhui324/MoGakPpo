@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .HotPortfolio {
@@ -14,12 +15,13 @@
         font-size: 24px;
         font-weight: 600;
         padding: 1rem 0;
+        color: var(--color-text1);
       }
 
       & > p {
         font-size: 14px;
         padding-bottom: 2rem;
-        color: rgba(0, 0, 0, 0.5);
+        color: var(--color-text3);
       }
     }
   }
@@ -35,6 +37,10 @@
         background-color: transparent;
         font-size: 20px;
         cursor: pointer;
+        color: var(--color-text1);
+        &:disabled {
+          color: var(--color-text3);
+        }
       }
     }
     .toAllButton {
@@ -48,10 +54,7 @@
       background-color: transparent;
       cursor: pointer;
       transition: all 0.2s;
-
-      &:hover {
-        color: rgba(0, 0, 0, 0.7);
-      }
+      color: var(--color-text1);
     }
   }
 
@@ -64,7 +67,7 @@
       transition: transform 0.5s ease-in-out;
       a {
         text-decoration: 0;
-        color: black;
+        color: var(--color-text1);
       }
 
       .portfolioContainer {
@@ -75,14 +78,14 @@
           position: relative;
           border-radius: 16px;
           box-sizing: border-box;
-          border: 1px solid #e8e8e8;
+          border: 1px solid var(--color-border);
           margin-right: 16px;
           height: 430px;
           cursor: pointer;
 
           &:hover {
-            border-color: #d0dee0;
-            box-shadow: 0 0 15px #e2eaf1;
+            border-color: var(--color-border-hover);
+            box-shadow: 0 0 15px var(--color-border);
 
             .imgContainer img {
               transform: scale(1.05);
@@ -137,12 +140,12 @@
                 margin-right: 0.4rem;
                 font-size: 12px;
                 padding: 4px 8px;
-                background-color: #e2eaf1;
-                color: black;
+                background-color: var(--color-bg2);
+                color: var(--color-text3);
                 border-radius: 0.2rem;
               }
               & > span {
-                color: #9d9d9d;
+                color: var(--color-text3);
               }
             }
 
@@ -172,32 +175,12 @@
         }
       }
     }
-
-    .leftArrow {
-      position: absolute;
-      top: 260px;
-      left: -40px;
-      border: none;
-      background-color: transparent;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .rightArrow {
-      position: absolute;
-      top: 260px;
-      right: -40px;
-      border: none;
-      background-color: transparent;
-      font-size: 20px;
-      cursor: pointer;
-    }
   }
 }
 .noContent {
   height: 220px;
   width: 100%;
-  background-color: #f9f9f9;
+  background-color: var(--color-bg2);
   line-height: 1.5rem;
   font-size: 18px;
   font-weight: 500;

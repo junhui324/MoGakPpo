@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 @import '/src/assets/fonts/font.module.scss';
 
@@ -11,8 +12,12 @@ body {
 }
 
 .container {
-  margin-top: $header-height;
-  max-width: 1024px;
+  padding-top: $header-height;
   flex-grow: 1;
   position: relative;
+}
+
+.darkMode {
+  background-color: var(--color-bg1);
+  color: var(--color-text1);
 }

@@ -8,8 +8,10 @@ import { MyPageModal } from './MyPageModal';
 import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
+import ToggleDarkModeButton from '../common/DarkMode/ToggleDarkMode';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import Logo from '../../assets/Logo.png';
+import { themeAtom } from '../../recoil/themeState';
 
 function Header() {
   const loginData = useRecoilValue(loginAtom);
@@ -32,9 +34,10 @@ function Header() {
   const handleNavLinkClick = () => {
     setClassification('/');
   };
+  const darkMode = useRecoilValue(themeAtom);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
           <img
@@ -61,7 +64,7 @@ function Header() {
         <div className={styles.rightContainer}>
           {Token.getToken() ? (
             <>
-              {loginData.user_name && <p>{loginData.user_name}님 안녕하세요!</p>}{' '}
+              {loginData.user_name && <p>{loginData.user_name}님 안녕하세요!</p>}
               <button
                 className={styles.userButton}
                 onClick={() => {
@@ -96,7 +99,7 @@ function Header() {
               </button>
             </div>
           )}
-          {/* <ProjectPostButton /> */}
+          <ToggleDarkModeButton />
         </div>
       </div>
     </div>
