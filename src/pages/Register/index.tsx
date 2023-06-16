@@ -1,11 +1,6 @@
-//import axios from "axios";
-import { loginAtom } from '../../recoil/loginState';
 import axios from 'axios';
-import { useState, useRef, useEffect } from 'react';
-//@ts-ignore
-import { Link /*useNavigate*/, Navigate, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-//@ts-ignore
+import { useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './register.module.scss';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -23,7 +18,6 @@ function Register() {
   const [isEmail, setIsEmail] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
 
   const CheckEmail = (str: any) => {
@@ -147,8 +141,6 @@ function Register() {
         },
         header
       );
-
-      const data = res.data;
 
       if (res.status === 201) {
         alert('회원가입이 완료되었습니다.');
