@@ -20,7 +20,7 @@
         height: 42px;
         font-weight: normal;
         font-size: normal;
-        border: 1px solid #e8e8e8;
+        border: 1px solid var(--color-border);
         border-radius: 8px;
         padding: 4px 12px;
       }
@@ -34,16 +34,16 @@
         overflow: scroll;
         overflow-x: hidden;
         border-radius: 12px;
-        border: 1px solid #d8d8d8;
+        border: 1px solid var(--color-border);
       }
       ::-webkit-scrollbar {
         background-color: transparent;
         width: 16px;
       }
       ::-webkit-scrollbar-thumb {
-        background-color: #d3d3d3;
+        background-color: var(--color-border);
         border-radius: 30px;
-        border: 4px solid #ffffff;
+        border: 4px solid var(--color-bg1);
       }
     }
 
@@ -56,13 +56,13 @@
         h4 {
           font-size: 15px;
           font-weight: 500;
-          color: #6636da;
+          color: var(--color-pink);
         }
       }
 
       padding: 8px;
       width: 50%;
-      background-color: rgb(247, 247, 247);
+      background-color: var(--color-bg2);
       border-radius: 8px;
 
       ul {
@@ -72,7 +72,7 @@
         display: flex;
         flex-direction: column;
         gap: 16px;
-        background-color: #ffffff;
+        background-color: var(--color-bg1);
         border-radius: 8px;
       }
     }

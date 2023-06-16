@@ -9,6 +9,7 @@ import ROUTES from '../../constants/Routes';
 import styles from './PortfolioCreateWriting.module.scss';
 import * as Fetcher from '../../apis/Fetcher';
 import * as Token from '../../apis/Token';
+import '../Editor/editor.css';
 
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { TypeTeamProjectUser } from '../../interfaces/User.interface';
@@ -251,7 +252,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     // 썸네일 옵션
     const thumbnailOptions = {
       maxSizeMB: 1, // 허용하는 최대 사이즈 지정
-      maxWidthOrHeight: 300, // 허용하는 최대 width, height 값 지정
+      maxWidthOrHeight: 600, // 허용하는 최대 width, height 값 지정
       useWebWorker: true, // webworker 사용 여부
     };
     // 썸네일 File을 Blob로 압축

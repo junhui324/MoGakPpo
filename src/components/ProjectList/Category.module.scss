@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 .container {
   margin: 2rem 0;
   ul {
@@ -9,13 +10,13 @@
     li {
       padding: 0.2rem 0;
       margin-bottom: 16px;
-      color: rgb(148, 163, 184);
+      color: var(--color-text2);
       font-size: 22px;
       font-weight: 500;
       cursor: pointer;
     }
     li.selected {
-      color: rgb(0, 0, 0);
+      color: var(--color-text1);
       font-weight: 700;
     }
   }
