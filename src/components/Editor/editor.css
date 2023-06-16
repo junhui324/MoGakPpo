@@ -24,3 +24,7 @@
     fill: var(--color-text1);
   }
 }
+
+.ql-editor.ql-blank::before {
+  color: var(--color-text3);
+}
