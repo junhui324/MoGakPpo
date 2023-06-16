@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .modalContainer {
@@ -14,7 +15,7 @@
     font-size: 18px;
     margin-bottom: 12px;
     span {
-      color: red;
+      color: var(--color-red);
       padding-right: 2px;
       font-weight: 600;
     }

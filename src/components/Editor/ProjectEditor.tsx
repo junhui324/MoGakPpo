@@ -5,6 +5,7 @@ import styles from './Editor.module.scss';
 import { HighlightModules } from './Highlight';
 import { useRecoilValue } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
+import { themeAtom } from '../../recoil/themeState';
 import { useParams } from 'react-router-dom';
 
 interface EditorProps {
@@ -15,6 +16,7 @@ function Editor({ value, onChange }: EditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
   const classification = useRecoilValue(classificationState);
+  const darkMode = useRecoilValue(themeAtom);
   const { type } = useParams();
 
   useEffect(() => {
@@ -62,7 +64,7 @@ function Editor({ value, onChange }: EditorProps) {
   }, [value, classification, type]);
 
   return (
-    <div className={styles.editorContainer}>
+    <div className={`${styles.editorContainer} ${darkMode ? `${styles.darkMode}` : ''}`}>
       <div className={styles.editorMiddleContainer} ref={editorRef}>
         <div dangerouslySetInnerHTML={{ __html: value }}></div>
       </div>

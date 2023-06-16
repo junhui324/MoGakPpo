@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
@@ -7,6 +8,9 @@
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
       display: none;
+    }
+    &::placeholder {
+      color: var(--color-text3);
     }
   }
 
@@ -56,19 +60,10 @@
   }
 
   pre {
-    background-color: rgba(grey, 0.1) !important;
+    background-color: var(--color-pink2) !important;
     color: black !important;
     overflow: visible !important;
   }
-
-  // pre {
-  //   white-space: pre-wrap;
-  //   margin-bottom: 5px;
-  //   margin-top: 5px;
-  //   padding: 5px 10px;
-  //   background-color: white;
-  //   overflow: visible;
-  // }
 }
 
 // Editor2 에서 사용하는 scss

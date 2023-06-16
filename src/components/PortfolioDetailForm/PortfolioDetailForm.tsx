@@ -144,7 +144,7 @@ function PortfolioDetailForm() {
           <h2>🔍 프로젝트 요약</h2>
           <div className={styles.paragraph}>{portfolio.portfolio_summary}</div>
         </div>
-        
+
         <div className={styles.stack}>
           <h2>🔨 프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
