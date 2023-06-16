@@ -47,6 +47,7 @@ function ProjectPreview() {
   const userId = LoginData[0];
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!userId.user_id) {
       alert('로그인이 필요합니다.');
       navigate(ROUTES.LOGIN);
