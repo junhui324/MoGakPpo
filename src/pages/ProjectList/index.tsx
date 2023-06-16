@@ -67,6 +67,7 @@ function ProjectListMain() {
   );
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setIsFirstFetch(false);
     setClassification('/');
     getProjectListData();

@@ -82,6 +82,12 @@ function Project() {
     return userId === projectData?.user_id ? true : false;
   };
 
+  // 렌더링 시에 수행합니다.
+  useEffect(() => {
+    // 윈도우 스크롤을 초기화 합니다.
+    window.scrollTo(0, 0);
+  }, []);
+
   // 업데이트 시에 fetchDate 수행
   useEffect(() => {
     isUpdate && fetchData();

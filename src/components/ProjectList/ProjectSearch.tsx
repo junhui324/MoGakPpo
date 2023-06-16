@@ -9,7 +9,7 @@ interface ProjectSearchProps {
 function ProjectSearch({ handleChange, value, isSearched }: ProjectSearchProps) {
   return (
     <div className={styles.container}>
-      <form>
+      <div>
         <span>🔍</span>
         <input
           type="text"
@@ -17,7 +17,7 @@ function ProjectSearch({ handleChange, value, isSearched }: ProjectSearchProps) 
           onChange={(e) => handleChange(e.target.value)}
           value={value}
         ></input>
-      </form>
+      </div>
       {value.length > 0 && (
         <div className={styles.resultContainer}>
           <p>"{value}"(으)로 검색한 결과</p>
