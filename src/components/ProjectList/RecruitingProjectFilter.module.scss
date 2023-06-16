@@ -1,7 +1,10 @@
 .container {
-  margin-top: 1rem;
-  label {
-    font-size: 14px;
-    color: #95a4b0;
+  align-items: center;
+  select {
+    border-radius: 4px;
+    padding: 6px 16px 6px 6px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg1);
+    color: var(--color-text1);
   }
 }
