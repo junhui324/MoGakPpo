@@ -71,7 +71,11 @@ function Posts({ onError }: PostsProps) {
     getUserProjectPostsData();
     setProjects([]);
     setPortfolios([]);
-  }, [getUserProjectPostsData]);
+  }, []);
+
+  useEffect(() => {
+    getUserProjectPostsData();
+  }, [selectedOption, offset]);
 
   return (
     <div className={styles.container}>
