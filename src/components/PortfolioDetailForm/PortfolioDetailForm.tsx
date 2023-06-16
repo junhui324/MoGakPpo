@@ -9,9 +9,10 @@ import * as Fetcher from '../../apis/Fetcher';
 import * as Token from '../../apis/Token';
 
 //recoil
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { portfolioState } from '../../recoil/portfolioState';
 import { loginAtom } from '../../recoil/loginState';
+import { themeAtom } from '../../recoil/themeState';
 
 import DetailShareButton from './DetailShareButton';
 import ProjectAuthorProfile from '../Project/ProjectAuthorProfile';
@@ -38,6 +39,9 @@ function PortfolioDetailForm() {
   // 로컬 스토리지에 있는 user 정보 가져오기
   const LoginData = useRecoilState(loginAtom);
   const userId = LoginData[0];
+
+  // 테마 정보
+  const darkMode = useRecoilValue(themeAtom);
 
   // 업데이트 필요 시에 변경되는 상태
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
@@ -144,7 +148,7 @@ function PortfolioDetailForm() {
           <h2>🔍 프로젝트 요약</h2>
           <div className={styles.paragraph}>{portfolio.portfolio_summary}</div>
         </div>
-        
+
         <div className={styles.stack}>
           <h2>🔨 프로젝트에 사용된 기술 스택</h2>
           <div className={styles.logoLine}>
@@ -224,7 +228,7 @@ function PortfolioDetailForm() {
           </button>
         </div>
 
-        <div className={styles.share}>
+        <div className={`${styles.share} ${darkMode ? `${styles.darkMode}` : ''}`}>
           <DetailShareButton title="temp"></DetailShareButton>
         </div>
 
