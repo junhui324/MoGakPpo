@@ -52,6 +52,7 @@ $middle-font-size: 16px;
 
       line-height: 24px;
       white-space: pre-wrap;
+
       .paragraphChild {
         width: 100%;
         word-break: break-all;
@@ -113,9 +114,9 @@ $middle-font-size: 16px;
       }
 
       pre {
-        background-color: rgba(grey, 0.1) !important;
-        color: black !important;
-        overflow: visible !important;
+        background-color: var(--color-pink2);
+        color: black;
+        overflow: visible;
       }
     }
   }

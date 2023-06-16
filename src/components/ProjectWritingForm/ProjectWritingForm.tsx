@@ -21,6 +21,7 @@ import Checkbox from './Checkbox';
 import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
 import Editor from '../Editor/ProjectEditor';
+import '../Editor/editor.css';
 
 import * as Token from '../../apis/Token';
 
