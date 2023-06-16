@@ -64,7 +64,7 @@ function Editor({ value, onChange }: EditorProps) {
   }, [value, classification, type]);
 
   return (
-    <div className={`${styles.editorContainer} ${darkMode ? `${styles.darkMode}` : ''}`}>
+    <div className={`${styles.editorContainer}`}>
       <div className={styles.editorMiddleContainer} ref={editorRef}>
         <div dangerouslySetInnerHTML={{ __html: value }}></div>
       </div>

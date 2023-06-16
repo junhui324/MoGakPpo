@@ -11,9 +11,8 @@
   }
 }
 
-.ql-snow.ql-toolbar {
+.ql-toolbar.ql-snow {
   border: 1px solid var(--color-text3);
-  border-bottom: none;
   .ql-picker-options {
     border-radius: 8px;
     border-color: var(--color-border);
@@ -33,4 +32,8 @@
 
 .ql-editor.ql-blank::before {
   color: var(--color-text3);
+}
+
+.ql-container.ql-snow {
+  border: 1px solid var(--color-text3);
 }

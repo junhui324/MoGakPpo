@@ -52,7 +52,7 @@ export default function Comment() {
     if (location.pathname.split('/')[1] === 'portfolios') {
       setPostType('portfolio');
     }
-  }, []);
+  }, [location.pathname]);
 
   //코멘트 api get요청
   const getCommentData = useCallback(async () => {
@@ -65,10 +65,10 @@ export default function Comment() {
     } catch (error) {
       console.log(error);
     }
-  }, [isListUpdated, postId, currPage]);
+  }, [postId, currPage, location.pathname]);
   useEffect(() => {
     getCommentData();
-  }, [getCommentData]);
+  }, [getCommentData, isListUpdated]);
 
   //게시글 작성자 정보 받아오기
   const getAuthor = useCallback(async () => {
