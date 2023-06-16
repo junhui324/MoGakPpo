@@ -155,7 +155,7 @@ function Project() {
 
   return projectData ? (
     <>
-      <div className={styles.container} style={{ maxWidth: 1024, margin: '0 auto' }}>
+      <div className={styles.container} style={{ maxWidth: 1024, margin: '76px auto' }}>
         <div className={styles.leftContainer}>
           <ProjectTitle titleData={titleData} />
           <ProjectBody bodyData={bodyData} />
