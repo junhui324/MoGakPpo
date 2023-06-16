@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { LegacyRef, RefObject, useCallback, useEffect, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
@@ -21,6 +21,7 @@ function ProjectListMain() {
   const [isSearched, setIsSearched] = useState(false);
   const [recruitingFilter, setRecruitingFilter] = useState('all');
   const [isFirstFetch, setIsFirstFetch] = useState(true);
+  const setClassification = useSetRecoilState(classificationState);
 
   const getProjectListData = useCallback(
     async (isPagenation?: boolean): Promise<void> => {
@@ -68,6 +69,7 @@ function ProjectListMain() {
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsFirstFetch(false);
+    setClassification('/');
     getProjectListData();
   }, []);
 
