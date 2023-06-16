@@ -7,13 +7,13 @@ import * as PortfolioType from '../interfaces/Portfolio.interface';
 import * as UserType from '../interfaces/User.interface';
 import * as StackType from '../interfaces/Stack.interface';
 import * as CommentType from '../interfaces/Comment.interface';
-import { Axios, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import * as Token from './Token';
-import { TypePortfolioList, TypePortfolio } from '../interfaces/Portfolio.interface';
+import { TypePortfolioList } from '../interfaces/Portfolio.interface';
 
 const domain = `/mock`;
 
-const DOMAIN = `http://34.64.242.119:5000/api/v1`;
+// const DOMAIN = `http://34.64.242.119:5000/api/v1`;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 /*

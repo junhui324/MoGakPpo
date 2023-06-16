@@ -1,5 +1,5 @@
 @use './src/theme.scss' as *;
-@import '/src/variables.scss';
+@import './src/variables.scss';
 
 .footerContainer {
   background-color: var(--color-bg2);
@@ -56,7 +56,7 @@
   }
   a {
     font-size: 13px;
-    text-decoration: 0;
+    text-decoration: none;
     color: var(--color-text3);
     &:hover {
       text-decoration: underline;
