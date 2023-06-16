@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .container {
@@ -16,11 +17,11 @@
     height: 50px;
     border-radius: 6px;
 
-    border: $main-color solid 1px;
+    border: var(--color-main) solid 1px;
     background-color: rgba(255, 255, 255, 0);
 
     font-size: 18px;
-    color: $main-color;
+    color: var(--color-main);
 
     cursor: pointer;
 
@@ -77,7 +78,7 @@
       height: 13px;
       font-size: 13px;
       margin-bottom: 1px;
-      color: rgb(118, 133, 154);
+      color: var(--color-text2);
     }
   }
 }

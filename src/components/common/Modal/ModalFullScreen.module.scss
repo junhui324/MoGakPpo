@@ -1,3 +1,5 @@
+@use '/src/theme.scss' as *;
+
 .container {
   position: fixed;
   z-index: 99999;
@@ -19,7 +21,7 @@
   }
 
   .contentsContainer {
-    background-color: rgb(255, 255, 255);
+    background-color: var(--color-bg1);
     padding: 18px 18px 18px 18px;
     display: flex;
     flex-direction: column;
