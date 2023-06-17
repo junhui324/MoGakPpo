@@ -25,6 +25,10 @@
   line-height: 19px;
 }
 
+.printHtmlCode {
+  margin: 20px;
+}
+
 input {
   font-weight: 600;
   padding: 6px;
@@ -201,6 +205,13 @@ h2 {
 .essential {
   padding-left: 4px;
   color: red;
+}
+
+.editorBox {
+  img {
+    max-width: 100%;
+    max-height: 80%;
+  }
 }
 
 /*여기서부터 말풍선 css*/

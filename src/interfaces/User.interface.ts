@@ -29,3 +29,8 @@ export type TypeUser = Pick<
   | 'user_introduction'
   | 'user_img'
 >;
+
+export type TypeTeamProjectUser = Pick<
+  User,
+  'user_id' | 'user_email' | 'user_name' | 'user_career_goal' | 'user_img'
+>;

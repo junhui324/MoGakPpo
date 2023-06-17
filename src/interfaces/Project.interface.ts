@@ -14,12 +14,12 @@ interface Project {
   project_goal: string;
   project_participation_time: string;
   project_introduction: string;
-  project_img: string | null;
+  project_img: string | undefined;
   project_bookmark_count: number;
   project_comments_count: number;
   project_views_count: number;
   project_created_at: string;
-  project_bookmark_users: { user_name: string; user_img: string }[];
+  project_bookmark_users: { user_id: number; user_name: string; user_img: string }[];
   user_id: number;
   user_name: string;
   user_introduction: string;
@@ -78,7 +78,11 @@ export type TypeProjectAuthor = Pick<
 
 export type TypeProjectBookmarks = Pick<
   Project,
-  'is_bookmarked' | 'project_bookmark_count' | 'project_bookmark_users' | 'project_type'
+  | 'project_id'
+  | 'is_bookmarked'
+  | 'project_bookmark_count'
+  | 'project_bookmark_users'
+  | 'project_type'
 >;
 
 export type TypeProjectModify = Pick<

@@ -1,0 +1,104 @@
+{
+  "pageSize": 3,
+  "pagenatedPortfolios": [
+    {
+      "portfolio_id": 10,
+      "img": null,
+      "title": "제목10",
+      "summary": "요약10",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 11,
+      "img": null,
+      "title": "제목11",
+      "summary": "요약11",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 12,
+      "img": null,
+      "title": "제목12",
+      "summary": "요약12",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 13,
+      "img": null,
+      "title": "제목13",
+      "summary": "요약13",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 14,
+      "img": null,
+      "title": "제목14",
+      "summary": "요약14",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 15,
+      "img": null,
+      "title": "제목15",
+      "summary": "요약15",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 16,
+      "img": null,
+      "title": "제목16",
+      "summary": "요약16",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 17,
+      "img": null,
+      "title": "제목17",
+      "summary": "요약17",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    },
+    {
+      "portfolio_id": 18,
+      "img": null,
+      "title": "제목18",
+      "summary": "요약18",
+      "stack": { "stackList": ["CSS"] },
+      "views": 2,
+      "comments": 2,
+      "bookmarks": 2,
+      "is_bookmarked": false
+    }
+  ]
+}

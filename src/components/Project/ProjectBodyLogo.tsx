@@ -8,12 +8,18 @@ import {
   TbBrandJavascript,
   TbFlagFilled,
   TbClock,
+  TbBrandTypescript,
+  TbBrandReact,
+  TbBrandPython,
 } from 'react-icons/tb';
 import {
   MdOutlineDesignServices,
   MdOutlineIntegrationInstructions,
   MdEmojiPeople,
 } from 'react-icons/md';
+import { IoLogoNodejs } from 'react-icons/io';
+import { FaJava } from 'react-icons/fa';
+import { BiGitBranch } from 'react-icons/bi';
 
 //상수
 import { PROJECT_RECRUITMENT_ROLES } from '../../constants/project';
@@ -51,6 +57,12 @@ export function StackIcon({ stack }: { stack: string }) {
     HTML: '#FFA382',
     CSS: '#9AC6E8',
     JS: '#FFF4A7',
+    NodeJS: '#7BB661',
+    TS: '#007ACC',
+    React: '#61DAFB',
+    Java: '#FDBE79',
+    Python: '#3776AB',
+    Git: '#F34F29',
   };
 
   switch (stack) {
@@ -60,6 +72,18 @@ export function StackIcon({ stack }: { stack: string }) {
       return <TbBrandCss3 size={LOGO_SIZE} color={LOGO_COLOR.CSS} />;
     case 'JavaScript':
       return <TbBrandJavascript size={LOGO_SIZE} color={LOGO_COLOR.JS} />;
+    case 'Node.js':
+      return <IoLogoNodejs size={LOGO_SIZE} color={LOGO_COLOR.NodeJS} />;
+    case 'TypeScript':
+      return <TbBrandTypescript size={LOGO_SIZE} color={LOGO_COLOR.TS} />;
+    case 'React':
+      return <TbBrandReact size={LOGO_SIZE} color={LOGO_COLOR.React} />;
+    case 'Java':
+      return <FaJava size={LOGO_SIZE} color={LOGO_COLOR.Java} />;
+    case 'Python':
+      return <TbBrandPython size={LOGO_SIZE} color={LOGO_COLOR.Python} />;
+    case 'Git':
+      return <BiGitBranch size={LOGO_SIZE} color={LOGO_COLOR.Git} />;
     default:
       return <RiCodeView size={LOGO_SIZE} color={LOGO_DEFAULT_COLOR} />;
   }

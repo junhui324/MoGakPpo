@@ -39,26 +39,48 @@ $intro-color: #64748B;
       font-size: 30px;
       font-weight: 500;
       margin: 0.8rem 0;
+      line-height : 3rem;
     }
     
     .intro {
       color: $intro-color;
       margin-bottom: 3rem;
+      line-height : 2rem;
     }
 
     .career {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       margin-bottom: 1.2rem;
+      line-height : 2rem;
+
+      & > svg {
+        margin-right: 0.8rem;
+      }
+    }
+
+    .emptyCareer {
+      color: $intro-color;
+      opacity: 0.4;
     }
     
     .stacks {
       display: flex;
-      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      & > svg {
+        margin-right: 0.8rem;
+        margin-bottom: 1rem;
+      }
       
       .stack {
         position: relative;
-        margin-right: 1rem;
+        margin: 0 1rem 1rem 0;
         padding: 6px;
-        color: $main-color;
+        color: $intro-color;
       }
 
       .stack::before {
@@ -68,9 +90,15 @@ $intro-color: #64748B;
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: $main-color;
+        background-color: $intro-color;
         opacity: 0.2;
         border-radius: 4px;
+      }
+
+      .emptyStack {
+        margin-bottom: 1rem;
+        color: $intro-color;
+        opacity: 0.4;
       }
     }
   }

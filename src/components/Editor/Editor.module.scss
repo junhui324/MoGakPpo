@@ -1,0 +1,90 @@
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
+
+@mixin basicCSS {
+  div {
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+  }
+
+  ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+  }
+
+  li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  .code-block {
+    background-color: rgba(grey, 0.1) !important; 
+    color: black !important;
+    overflow: visible !important;
+  }
+
+  .ql-snow .ql-editor pre.ql-syntax {
+    background-color: rgba(grey, 0.1) !important;
+    color: black !important;
+    overflow: visible !important;
+  }
+
+  pre {
+    background-color: rgba(grey, 0.1) !important; 
+    color: black !important;
+    overflow: visible !important;
+  }
+
+  // pre {
+  //   white-space: pre-wrap;
+  //   margin-bottom: 5px;
+  //   margin-top: 5px;
+  //   padding: 5px 10px;
+  //   background-color: white;
+  //   overflow: visible;
+  // }
+}
+
+// Editor2 에서 사용하는 scss
+.editor {
+  @include basicCSS;
+}
+
+.editorContainer {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  border-style: none;
+  @include basicCSS;
+}
+
+.editorMiddleContainer {
+  height: 100%;
+  min-height: 400px;
+  border-radius: 0 0 10px 10px;
+}

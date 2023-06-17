@@ -1,0 +1,14 @@
+@import '/src/variables.scss';
+
+.container {
+  margin: $header-height 0;
+  width: 1024px;
+
+  .searchContainer {
+    display: flex;
+    align-items: center;
+
+    height: 125px;
+    background: $gray-back-color;
+  }
+}

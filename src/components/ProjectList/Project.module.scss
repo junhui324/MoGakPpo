@@ -4,9 +4,8 @@
   display: flex;
   margin-bottom: 32px;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 24px 24px 24px 24px;
-  // width: 100%;
   border: 1px solid #e8e8e8;
   border-radius: 16px;
   background-color: #ffff;
@@ -57,9 +56,9 @@
   }
   .secondContainer {
     width: 100%;
-    display: flex;
     font-size: 24px;
     font-weight: 550;
+    line-height: 2.2rem;
     .status.recruiting {
       color: $green;
     }
@@ -74,7 +73,7 @@
       color: #d0d8de;
     }
     .title {
-      line-height: 1.6rem;
+      display: inline;
     }
     .newTag {
       margin-left: 8px;
@@ -91,8 +90,9 @@
 
   .roleContainer {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     li {
-      margin-right: 8px;
       padding: 8px 16px 8px 16px;
       border: 1px solid $main-color;
       background-color: unset;
@@ -104,11 +104,18 @@
   }
 
   .stacksContainer {
-    display: flex;
+    display: inline;
+    line-height: 1.5rem;
     font-size: 16px;
     color: rgb(130, 141, 157);
     font-weight: 500;
+    span {
+      display: inline;
+      width: fit-content;
+    }
+
     span::after {
+      display: inline;
       margin-left: 8px;
       margin-right: 8px;
       content: '|';
@@ -121,6 +128,12 @@
     }
     li:last-child::after {
       content: none;
+    }
+    ul {
+      display: inline;
+    }
+    ul > li {
+      display: inline;
     }
   }
 
@@ -142,4 +155,9 @@
       content: none;
     }
   }
+}
+
+.listContainer:hover {
+  border-color: #d0dee0;
+  box-shadow: 0 0 15px #e2eaf1;
 }

@@ -1,9 +1,13 @@
 import { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import { EditorProps } from '../../interfaces/Editor.interface';
+import styles from './Editor.module.scss';
 
-function Editor({ content }: EditorProps) {
+interface EditorProps {
+  value: string;
+  onChange: (content: string) => void;
+}
+function Editor({ value, onChange }: EditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -16,8 +20,8 @@ function Editor({ content }: EditorProps) {
           [{ header: [1, 2, 3, 4, 5, 6, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ color: [] }, { background: [] }],
           ['link', 'code-block'],
-          ['clean'],
         ],
       },
       theme: 'snow',
@@ -25,14 +29,14 @@ function Editor({ content }: EditorProps) {
 
     // 텍스트 변경 시 이벤트 처리
     quill.on('text-change', () => {
-      content = quill.root.innerHTML;
-      //console.log(content);
+      const value = quill.root.innerHTML;
+      onChange(value);
     });
   }, []);
 
   return (
-    <div>
-      <div ref={editorRef}></div>
+    <div ref={editorRef}>
+      <div className={styles.middleContainer} dangerouslySetInnerHTML={{ __html: value }}></div>
     </div>
   );
 }

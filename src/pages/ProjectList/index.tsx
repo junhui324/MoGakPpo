@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  getProjects,
-  getProjectsByCategory,
-  getProjectsByKeyword,
-  getRecruitingProjects,
-} from '../../apis/Fetcher';
+import { getProjects } from '../../apis/Fetcher';
 import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
@@ -12,79 +7,93 @@ import ProjectPostButton from '../../components/common/ProjectPostButton';
 import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
 import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 function ProjectListMain() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [pageCount, setPageCount] = useState(1);
+  const [pageSize, setPageSize] = useState(0);
+  const [moreData, setMoreData] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [keywordValue, setKeywordValue] = useState('');
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [isSearched, setIsSearched] = useState(false);
-  const [isRecruitingFiltered, setIsRecruitingFiltered] = useState(false);
+  const [recruitingFilter, setRecruitingFilter] = useState('all');
 
-  const getProjectListData = useCallback(async (): Promise<void> => {
-    try {
-      if (!isRecruitingFiltered) {
-        const projectList =
-          selectedCategory === 'ALL'
-            ? await getProjects()
-            : await getProjectsByCategory(`"${selectedCategory}"`);
-        setProjectList(projectList.data);
-        setIsLoading(true);
-      } else if (isRecruitingFiltered) {
-        const projectList = await getRecruitingProjects(selectedCategory);
-        setProjectList(projectList.data);
-        setIsLoading(true);
+  const getProjectListData = useCallback(
+    async (isPagenation?: boolean): Promise<void> => {
+      try {
+        const projectList = await getProjects(
+          selectedCategory,
+          recruitingFilter,
+          keywordValue,
+          pageCount
+        );
+        if (isPagenation) {
+          // 무한스크롤을 위한 다음 페이지 데이터 get
+          pageSize <= pageCount && setMoreData(false);
+          setProjectList((prev) => [...prev, ...projectList.data.pagenatedProjects]);
+          setPageCount((prev) => prev + 1);
+        } else {
+          // 카테고리/모집 중/검색어 필터 변경 시 새로운 데이터 get
+          const pageSize = projectList.data.pageSize;
+          setPageSize(pageSize);
+          // 가져온 프로젝트 리스트 사이즈가 1일 경우 moreDat 컴포넌트 렌더링x
+          pageSize <= 1 && setMoreData(false);
+          setProjectList(projectList.data.pagenatedProjects);
+          setPageCount((prev) => prev + 1);
+        }
+      } catch (error: any) {
+        if (error.message === '404') {
+          setMoreData(false);
+          setIsLoading(false);
+          setProjectList([]);
+        }
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('포스팅을 가져오지 못했어요');
-    }
-  }, [isRecruitingFiltered, selectedCategory]);
+    },
+    [selectedCategory, recruitingFilter, keywordValue, pageCount, pageSize]
+  );
 
-  const getSearchListData = async () => {
-    try {
-      const projectList = await getProjectsByKeyword(selectedCategory, keywordValue.toLowerCase());
-      //console.log(projectList.data);
-      setProjectList(projectList.data);
-    } catch (error) {
-      console.error('포스팅을 가져오지 못했어요');
-    }
-  };
+  const target = useInfiniteScroll(async (entry, observer) => {
+    //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
+    pageSize >= pageCount && (await getProjectListData(true));
+  });
 
-  const handleCategoryClick = (key: string) => {
+  useEffect(() => {
+    window.scroll(0, 0);
+    getProjectListData();
+  }, [selectedCategory, recruitingFilter]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      window.scroll(0, 0);
+      getProjectListData();
+    }, 700); // 디바운스 타임 설정
+    return () => clearTimeout(delayDebounceFn);
+  }, [keywordValue]);
+
+  const handleCategoryClick = async (key: string) => {
     setSelectedCategory(key);
+    setKeywordValue('');
+    setPageCount(1);
+    setMoreData(true);
   };
 
   const handleSearchChange = (keyword: string) => {
+    setSelectedCategory('all');
     setKeywordValue(keyword);
+    setPageCount(1);
+    setMoreData(true);
+    setIsSearched(true);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearchKeyword(keywordValue);
-    keywordValue && getSearchListData();
-    if (keywordValue) {
-      setIsSearched(true);
-    } else if (isSearched && !keywordValue) {
-      setIsSearched(false);
-      getProjectListData();
-    }
+  const handleRecruitingSelect = (value: string) => {
+    setRecruitingFilter(value);
+    setPageCount(1);
+    setMoreData(true);
   };
-
-  const handleSearchCancelClick = () => {
-    setIsSearched(false);
-    getProjectListData();
-    setKeywordValue('');
-  };
-
-  const handleRecruitingFilterCheck = () => {
-    setIsRecruitingFiltered((prev) => !prev);
-    // isRecruitingFiltered ? getRecruitingListData() : getProjectListData();
-  };
-
-  useEffect(() => {
-    getProjectListData();
-  }, [getProjectListData]);
 
   return (
     <div className={styles.container}>
@@ -95,19 +104,20 @@ function ProjectListMain() {
         </div>
       </div>
       <div className={styles.rightContainer}>
-        <ProjectSearch
-          handleSubmit={handleSearchSubmit}
-          handleChange={handleSearchChange}
-          value={keywordValue}
-          searchKeyword={searchKeyword}
-          isSearched={isSearched}
-          handleSearchCancelClick={handleSearchCancelClick}
+        <div className={styles.searchContainer}>
+          <ProjectSearch
+            handleChange={handleSearchChange}
+            value={keywordValue}
+            isSearched={isSearched}
+          />
+          <RecruitingProjectFilter onChange={handleRecruitingSelect} />
+        </div>
+        <ProjectList
+          projectList={projectList}
+          isLoading={isLoading}
+          moreData={moreData}
+          innerRef={target}
         />
-        <RecruitingProjectFilter
-          isFilterChecked={isRecruitingFiltered}
-          onChange={handleRecruitingFilterCheck}
-        />
-        <ProjectList projectList={projectList} isLoading={isLoading} />
       </div>
     </div>
   );

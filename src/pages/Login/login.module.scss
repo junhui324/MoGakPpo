@@ -50,11 +50,8 @@ input[type=email]{
   border:1px solid gray;
   padding:3px;
 
-  &:hover{
-    border:1px solid pink;
-  }
-
   &:focus{
+    border:1px solid pink;
     outline:none;
   }
 }
@@ -67,11 +64,8 @@ input[type=email]{
   border:1px solid gray;
   padding:3px;
 
-  &:hover{
-    border:1px solid pink;
-  }
-
   &:focus{
+    border:1px solid pink;
     outline:none;
   }
 }
@@ -98,7 +92,7 @@ input[type=email]{
 .submitButton{
   width:337px;
   height:47px;
-  background-color: orange;
+  background-color:#6636DA;
   border:0;
   border-radius:5px;
   font-size:medium;
@@ -106,7 +100,7 @@ input[type=email]{
   color:white;
 
   &:hover{
-    border:3px solid pink;
+    border:1px solid pink;
     cursor:pointer;
   }
 }
@@ -138,7 +132,7 @@ input[type=email]{
   color:black;
   
   &:hover{
-    border:3px solid pink;
+    border:0px solid pink;
     cursor:pointer;
   }
 
@@ -183,3 +177,34 @@ input[type=email]{
   color:black;
 
 }
+
+.kakaoContainer{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kakaoImage{
+  margin-right:10px;
+}
+
+.loadingContainer{
+  height:806px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingComponent{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h3{
+    margin-bottom:20px;
+    font-size:19px;
+  }
+}
+

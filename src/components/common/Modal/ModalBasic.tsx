@@ -1,14 +1,22 @@
 import { useEffect, useRef } from 'react';
 import styles from './ModalBasic.module.scss';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import ReactDOM from 'react-dom';
 
 type TypeModalBasicProps = {
   setModalOpen: (newValue: boolean) => void;
   children: React.ReactNode;
   closeButton?: boolean;
   fullScreen?: boolean;
+  position?: string;
 };
-function ModalBasic({ setModalOpen, children, closeButton, fullScreen }: TypeModalBasicProps) {
+function ModalBasic({
+  setModalOpen,
+  children,
+  closeButton,
+  fullScreen,
+  position = 'left',
+}: TypeModalBasicProps) {
   // 모달 끄기 (X버튼 onClick 이벤트 핸들러)
   const closeModal = () => {
     setModalOpen(false);
@@ -39,24 +47,18 @@ function ModalBasic({ setModalOpen, children, closeButton, fullScreen }: TypeMod
   });
 
   return (
-    <>
-      <div className={`${styles.container} ${fullScreen && styles.wideContainer}`}>
-        <div className={`${fullScreen && styles.overlay}`}></div>
-        <div
-          ref={modalRef}
-          className={`${styles.contentsContainer} ${fullScreen && styles.fullScreen}`}
-        >
-          {closeButton && (
-            <div className={styles.closeContainer}>
-              <button className={styles.close} onClick={closeModal}>
-                <AiOutlineCloseCircle size={24} />
-              </button>
-            </div>
-          )}
-          {children}
-        </div>{' '}
+    <div className={`${styles.container} ${position === 'left' ? styles.left : styles.right}`}>
+      <div ref={modalRef} className={styles.contentsContainer}>
+        {closeButton && (
+          <div className={styles.closeContainer}>
+            <button className={styles.close} onClick={closeModal}>
+              <AiOutlineCloseCircle size={24} />
+            </button>
+          </div>
+        )}
+        {children}
       </div>
-    </>
+    </div>
   );
 }
 export default ModalBasic;

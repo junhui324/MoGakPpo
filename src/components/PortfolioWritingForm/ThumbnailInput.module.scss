@@ -1,0 +1,39 @@
+.container {
+  margin: 12px 0;
+  div {
+    position: relative;
+    border-radius: 14px;
+    background-color: rgb(240, 245, 245);
+    width: 320px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    input {
+      display: none;
+    }
+  }
+  .buttonContainer {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.282);
+    .thumbnailButton {
+      cursor: pointer;
+      position: absolute;
+      z-index: 2;
+      background-color: #6636da;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      font-size: 16px;
+      border-radius: 30px;
+    }
+  }
+}

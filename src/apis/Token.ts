@@ -15,4 +15,9 @@ function removeToken(): void {
   cookie.remove('accessToken', { path: '/' });
 }
 
-export { setToken, getToken, removeToken };
+// 쿠키에 저장된 리프레시 토큰을 반환합니다.
+function getRefreshToken(): string | null {
+  return cookie.load('refreshToken');
+}
+
+export { setToken, getToken, removeToken, getRefreshToken };

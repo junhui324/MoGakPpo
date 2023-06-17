@@ -8,7 +8,7 @@ interface CategoryProps {
 }
 function Category({ handleClick, selectedCategory }: CategoryProps) {
   const categories = Object.entries(PROJECT_RECRUITMENT_ROLES);
-  categories.unshift(['ALL', '전체']);
+  categories.unshift(['all', '전체']);
 
   return (
     <div className={styles.container}>

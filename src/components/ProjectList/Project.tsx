@@ -1,3 +1,4 @@
+import * as Token from '../../apis/Token';
 import {
   PROJECT_GOAL,
   PROJECT_PARTICIPATION_TIME,
@@ -11,6 +12,8 @@ import ROUTES from '../../constants/Routes';
 import styles from './Project.module.scss';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import React, { useState } from 'react';
+import { deleteProjectBookmark, postProjectBookmark } from '../../apis/Fetcher';
+import { getIsNew } from '../../utils/getIsNew';
 
 interface projectDataProps {
   projectData: TypeProjectList;
@@ -18,12 +21,6 @@ interface projectDataProps {
 
 function Project({ projectData }: projectDataProps) {
   const navigate = useNavigate();
-  const isNewProject = (createdAt: string) => {
-    const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    const createdAtDate = new Date(createdAt);
-    return createdAtDate > threeDaysAgo;
-  };
 
   const {
     is_bookmarked: isBookmarked,
@@ -44,10 +41,23 @@ function Project({ projectData }: projectDataProps) {
 
   const [bookmark, setBookmark] = useState(isBookmarked);
 
-  const handleBookmarkClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleBookmarkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    setBookmark((prev) => !prev);
-    // 북마크 api 호출
+    if (Token.getToken()) {
+      const updatedBookmark = !bookmark;
+      setBookmark(updatedBookmark);
+      try {
+        updatedBookmark
+          ? await postProjectBookmark(projectId)
+          : await deleteProjectBookmark(projectId);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      // 로그인 되어있지 않으면 alert을 띄워주고 로그인 페이지로 이동합니다.
+      alert('로그인 후 사용 가능합니다.');
+      navigate(ROUTES.LOGIN);
+    }
   };
 
   return (
@@ -72,7 +82,7 @@ function Project({ projectData }: projectDataProps) {
             )}
             {isBookmarked !== undefined && (
               <button className={styles.bookmarkButton} onClick={(e) => handleBookmarkClick(e)}>
-                {bookmark ? <BsBookmark /> : <BsBookmarkFill />}
+                {bookmark ? <BsBookmarkFill /> : <BsBookmark />}
               </button>
             )}
           </div>
@@ -91,22 +101,26 @@ function Project({ projectData }: projectDataProps) {
           {PROJECT_RECRUITMENT_STATUS[recruitmentStatus]}
         </span>
         <p className={styles.title}>{title}</p>
-        {isNewProject(createdAt) && <span className={styles.newTag}>NEW</span>}
+        {getIsNew(createdAt) && <span className={styles.newTag}>NEW</span>}
       </div>
       {summary && <p className={styles.summary}>{summary}</p>}{' '}
       {recruitmentRoles && (
         <ul className={styles.roleContainer}>
-          {recruitmentRoles.roleList.map((role, index) => (
-            <li key={index}>{PROJECT_RECRUITMENT_ROLES[role]}</li>
-          ))}
+          {recruitmentRoles.roleList &&
+            recruitmentRoles.roleList.map((role, index) => (
+              <li key={`role-${index}`}>{PROJECT_RECRUITMENT_ROLES[role] ?? role}</li>
+            ))}
         </ul>
       )}
       {requiredStacks && (
         <ul className={styles.stacksContainer}>
           <span>기술스택</span>
-          {requiredStacks.stackList.map((stack, index) => (
-            <li key={index}>{stack}</li>
-          ))}
+          <ul>
+            {requiredStacks.stackList &&
+              requiredStacks.stackList.map((stack, index) => (
+                <li key={`stack-${index}`}>{stack}</li>
+              ))}
+          </ul>
         </ul>
       )}
       {(bookmarkCount > 0 || commentsCount > 0 || viewsCount > 0) && (

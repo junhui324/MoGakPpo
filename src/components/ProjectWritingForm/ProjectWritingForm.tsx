@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RadioButton from './RadioButton';
 import Checkbox from './Checkbox';
-import { TypeProjectPost } from '../../interfaces/Project.interface';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import * as Fetcher from '../../apis/Fetcher';
@@ -18,26 +17,92 @@ import ValidateModal from './ValidateModal';
 import useBeforeUnload from '../../hooks/useBeforeUnload';
 import { useNavigate } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
+import ROUTES from '../../constants/Routes';
+import * as Token from '../../apis/Token';
+import Editor from '../Editor/ProjectEditor';
+
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import {
+  projectState,
+  stackListState,
+  classificationState,
+  projectIdState,
+  modifyButtonClickState,
+  editorIntroductionState,
+} from '../../recoil/projectState';
 
 function ProjectWritingForm() {
-  const [project, setProject] = useState<TypeProjectPost>({
-    project_type: '',
-    project_title: '',
-    project_summary: '',
-    project_recruitment_roles: { roleList: [] as string[] },
-    project_required_stacks: { stackList: [] as string[] },
-    project_goal: '',
-    project_participation_time: '',
-    project_introduction: '',
-    project_img: null,
-  });
-  const [selectedGoalRadioValue, setSelectedGoalRadioValue] = useState<string>('');
-  const [selectedTimeRadioValue, setSelectedTimeRadioValue] = useState<string>('');
+  const [project, setProject] = useRecoilState(projectState);
+  const classification = useRecoilValue(classificationState);
+  const projectId = useRecoilValue(projectIdState);
+  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
+  const resetProject = useResetRecoilState(projectState);
   const { type } = useParams();
-  const [stackList, setStackList] = useState<string[]>([]);
+  const [stackList, setStackList] = useRecoilState(stackListState);
+  const resetStackList = useResetRecoilState(stackListState);
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
+  const [description, setDescription] = useRecoilState(editorIntroductionState);
+  const resetDescription = useResetRecoilState(editorIntroductionState);
   const navigate = useNavigate();
+
+  // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
+  const getProjectData = async () => {
+    try {
+      const data = await Fetcher.getProject(projectId);
+      setProject({
+        ...project,
+        project_type: data.project_type,
+        project_title: data.project_title,
+        project_summary: data.project_summary,
+        project_recruitment_roles: { roleList: [...data.project_recruitment_roles.roleList] },
+        project_required_stacks: { stackList: [...data.project_required_stacks.stackList] },
+        project_goal: data.project_goal,
+        project_participation_time: data.project_participation_time,
+        project_introduction: data.project_introduction,
+        project_img: undefined,
+      });
+      setDescription(data.project_introduction);
+      setStackList(data.project_required_stacks.stackList);
+    } catch (error) {
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '401':
+            alert(`${error}: 토큰이 만료되었습니다.`);
+            Token.removeToken();
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+        }
+      }
+      navigate(ROUTES.HOME);
+    }
+  };
+
+  useEffect(() => {
+    if (classification === 'create') {
+      if (modifyButtonClick) {
+        setModifyButtonClick(false);
+      } else {
+        resetProject();
+        resetDescription();
+        resetStackList();
+
+        const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
+        const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
+        if (projectTypeValue && key) {
+          setProject((prevProject) => ({
+            ...prevProject,
+            project_type: key,
+          }));
+        }
+      }
+    } else if (classification === 'modify') {
+      getProjectData();
+      setDescription(project.project_introduction);
+      setStackList(project.project_required_stacks.stackList);
+    }
+  }, [classification, type]);
 
   const handleSetStackList = (stacks: string[]) => {
     setStackList(stacks);
@@ -53,14 +118,16 @@ function ProjectWritingForm() {
         project_type: key,
       }));
     }
-  }, [type]);
+  }, [type, setProject]);
 
   useEffect(() => {
-    if (stackList.length === 0) {
+    if (stackList.length === 0 && project.project_required_stacks.stackList.length === 0) {
       setStackList(['미정']);
     }
     if (stackList[0] === '미정' && stackList.length === 2) {
-      stackList.shift();
+      const newStackList = [...stackList];
+      newStackList.shift();
+      setStackList(newStackList);
     }
     setProject((prevProject) => ({
       ...prevProject,
@@ -68,7 +135,7 @@ function ProjectWritingForm() {
         stackList: stackList,
       },
     }));
-  }, [stackList]);
+  }, [stackList, project.project_required_stacks.stackList.length, setProject, setStackList]);
 
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -81,9 +148,9 @@ function ProjectWritingForm() {
   };
 
   //목표 라디오 버튼
-  const handleGoalRadioChange = (value: string) => {
-    const key = Object.keys(PROJECT_GOAL).find((key) => PROJECT_GOAL[key] === value);
-    setSelectedGoalRadioValue(value);
+  const handleGoalRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const key = Object.keys(PROJECT_GOAL).find((key) => key === value);
     if (key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -93,11 +160,9 @@ function ProjectWritingForm() {
   };
 
   //참여 시간 라디오 버튼
-  const handleTimeRadioChange = (value: string) => {
-    const key = Object.keys(PROJECT_PARTICIPATION_TIME).find(
-      (key) => PROJECT_PARTICIPATION_TIME[key] === value
-    );
-    setSelectedTimeRadioValue(value);
+  const handleTimeRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const key = Object.keys(PROJECT_PARTICIPATION_TIME).find((key) => key === value);
     if (key) {
       setProject((prevProject) => ({
         ...prevProject,
@@ -155,22 +220,7 @@ function ProjectWritingForm() {
       },
     }));
 
-    (async () => {
-      const res = await postProject();
-      console.log('res: ', res);
-      //navigate(`/project/${res}`);
-    })();
-  };
-
-  //백엔드에 데이터 전송하는 함수
-  const postProject = async () => {
-    try {
-      const res = await Fetcher.postProject(project);
-      // @ts-ignore
-      return res.data.project_id;
-    } catch (error) {
-      console.log(`POST 요청 에러 : ${error}`);
-    }
+    navigate(`${ROUTES.PREVIEW_PROJECT}`);
   };
 
   // 유효성 검사
@@ -202,6 +252,17 @@ function ProjectWritingForm() {
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const handleEditorChange = (content: string) => {
+    setDescription(content);
+  };
+
+  useEffect(() => {
+    setProject({
+      ...project,
+      project_introduction: description,
+    });
+  }, [description]);
 
   useBeforeUnload();
 
@@ -264,6 +325,7 @@ function ProjectWritingForm() {
                 id={role}
                 label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
                 onChange={handleCheckboxChange}
+                isChecked={project.project_recruitment_roles.roleList.includes(role)}
               />
             ))}
           </div>
@@ -274,13 +336,13 @@ function ProjectWritingForm() {
             목적<span className={styles.essential}>*</span>
           </h2>
           <div className={styles.radioBox}>
-            {Object.values(PROJECT_GOAL).map((goal) => (
+            {Object.keys(PROJECT_GOAL).map((goal) => (
               <RadioButton
                 key={goal}
-                label={goal}
+                label={PROJECT_GOAL[goal as keyof typeof PROJECT_GOAL]}
                 value={goal}
                 name="PROJECT_GOAL"
-                checked={selectedGoalRadioValue === goal}
+                checked={project.project_goal === goal}
                 onChange={handleGoalRadioChange}
               />
             ))}
@@ -299,13 +361,13 @@ function ProjectWritingForm() {
           </div>
 
           <div className={styles.radioBox}>
-            {Object.values(PROJECT_PARTICIPATION_TIME).map((time) => (
+            {Object.keys(PROJECT_PARTICIPATION_TIME).map((time) => (
               <RadioButton
                 key={time}
-                label={time}
+                label={PROJECT_PARTICIPATION_TIME[time as keyof typeof PROJECT_PARTICIPATION_TIME]}
                 value={time}
                 name="PROJECT_PARTICIPATION_TIME"
-                checked={selectedTimeRadioValue === time}
+                checked={project.project_participation_time === time}
                 onChange={handleTimeRadioChange}
               />
             ))}
@@ -318,15 +380,8 @@ function ProjectWritingForm() {
         <h2 className={styles.introduction}>
           소개<span className={styles.essential}>*</span>
         </h2>
-        <div>
-          <TextareaAutosize
-            className="introduceTextarea"
-            minRows={10}
-            name="project_introduction"
-            value={project.project_introduction}
-            onChange={handleProjectChange}
-            placeholder={PLACEHOLDER_STRING.INTRODUCE}
-          />
+        <div className={styles.editorBox}>
+          <Editor value={description} onChange={handleEditorChange}></Editor>
         </div>
       </div>
       <div className={styles.introHelpBox}>
@@ -352,10 +407,7 @@ function ProjectWritingForm() {
       <div>
         <h2>기술 스택</h2>
         <div>
-          <Stack
-            selectedStack={project.project_required_stacks.stackList}
-            setStackList={handleSetStackList}
-          />
+          <Stack selectedStack={stackList} setStackList={handleSetStackList} />
         </div>
       </div>
 
@@ -363,7 +415,7 @@ function ProjectWritingForm() {
 
       <div>
         <button className={styles.submitButton} onClick={handleSubmitButton}>
-          작성 완료
+          {classification === 'create' ? '작성 완료' : '수정 완료'}
         </button>
         {isValidate && buttonClick && <ValidateModal setModalOpen={setButtonClick} />}
       </div>

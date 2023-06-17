@@ -14,23 +14,21 @@ export default function ProjectAuthorProfile({
 }: {
   authorData: TypeProjectAuthor | null;
 }) {
-  if (authorData) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.imageBox}>
-          <img
-            className={styles.image}
-            src={authorData.user_img ? authorData.user_img : DefaultUserImage}
-            alt="사용자 프로필"
-          />
-        </div>
-        <div className={styles.authorBox}>
-          <p className={styles.authorName}>{authorData.user_name}</p>
-          <p className={styles.authorIntroduction}>{authorData.user_introduction}</p>
-        </div>
+  if (!authorData) return <></>;
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.imageBox}>
+        <img
+          className={styles.image}
+          src={authorData.user_img ?? DefaultUserImage}
+          alt={`${authorData.user_name}의 사용자 이미지`}
+        />
       </div>
-    );
-  } else {
-    return <></>;
-  }
+      <div className={styles.authorBox}>
+        <p className={styles.authorName}>{authorData.user_name}</p>
+        <p className={styles.authorIntroduction}>{authorData.user_introduction}</p>
+      </div>
+    </div>
+  );
 }

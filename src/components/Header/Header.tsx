@@ -1,39 +1,73 @@
+import * as Token from '../../apis/Token';
 import ROUTES from '../../constants/Routes';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 import styles from './Header.module.scss';
 import { MyPageModal } from './MyPageModal';
-import { FaUserCircle } from 'react-icons/fa';
-import ProjectPostButton from '../common/ProjectPostButton';
-// import { isLoggedIn } from '../../hooks/login';
+import { loginAtom } from '../../recoil/loginState';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { classificationState } from '../../recoil/projectState';
+import DefaultUserImg from '../../assets/DefaultUser.png';
 
 function Header() {
+  const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(isLoggedIn);
-  }, []);
   const [modalOpen, setModalOpen] = useState(false);
+  const setClassification = useSetRecoilState(classificationState);
+
+  const onClickLogout = () => {
+    Token.removeToken();
+    navigate(`${ROUTES.HOME}`);
+  };
+  const handleLogoClick = () => {
+    setClassification('/');
+    navigate(`${ROUTES.MAIN}`);
+  };
+  const handleNavLinkClick = () => {
+    setClassification('/');
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
-          <span className={styles.logo} onClick={() => navigate(ROUTES.HOME)}>
+          <span className={styles.logo} onClick={handleLogoClick}>
             모프 🪄
           </span>
+          <NavLink
+            to={`${ROUTES.PROJECT_LIST}`}
+            className={({ isActive }) => (isActive ? styles.active : '')}
+            onClick={handleNavLinkClick}
+          >
+            <span>멤버 모집</span>
+          </NavLink>
+          <NavLink
+            to={`${ROUTES.PORTFOLIO_LIST}`}
+            className={({ isActive }) => (isActive ? styles.active : '')}
+            onClick={handleNavLinkClick}
+          >
+            <span> 프로젝트 자랑</span>
+          </NavLink>
         </div>
         <div className={styles.rightContainer}>
-          {isLoggedIn ? (
+          {Token.getToken() ? (
             <>
+              {loginData.user_name && <p>{loginData.user_name}님 안녕하세요!</p>}{' '}
               <button
                 className={styles.userButton}
                 onClick={() => {
                   setModalOpen(true);
                 }}
               >
-                <FaUserCircle />
+                {<img src={loginData.user_img || DefaultUserImg} alt="유저 프로필" />}
+                {/* <FaUserCircle /> */}
               </button>
-              <MyPageModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+              <MyPageModal
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                onClickLogout={onClickLogout}
+              />
             </>
           ) : (
             <div className={styles.notLoggedIn}>
@@ -45,10 +79,16 @@ function Header() {
                 로그인
               </button>
               <span>|</span>
-              <button>회원가입</button>
+              <button
+                onClick={() => {
+                  navigate(ROUTES.REGISTER);
+                }}
+              >
+                회원가입
+              </button>
             </div>
           )}
-          <ProjectPostButton />
+          {/* <ProjectPostButton /> */}
         </div>
       </div>
     </div>

@@ -1,0 +1,218 @@
+@import '/src/variables.scss';
+@import '../Editor/Editor.module.scss';
+$large-font-size: 18px;
+$middle-font-size: 16px;
+
+@mixin subtitle {
+  font-weight: bold;
+  font-size: 23px;
+  margin-bottom: 40px;
+}
+
+@mixin btn {
+  width: 300px;
+  height: 50px;
+  border-radius: 7px;
+  font-size: 17px;
+}
+
+h2 {
+  @include subtitle;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1024px;
+  border: 1px solid rgb(234, 234, 234);
+  display: grid;
+  padding: 15px;
+  padding-top: 50px;
+  padding-bottom: 90px;
+  grid-template-columns: 1fr 424px;
+  @include basicCSS;
+}
+
+.leftContainer {
+  display: grid;
+  margin: 20px 20px 10px 20px;
+  grid-template-areas:
+    'title'
+    'summary'
+    'etc'
+    'stack'
+    'mainText';
+  row-gap: 30px;
+
+  .title {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    h2 {
+      font-weight: 700;
+      font-size: 37px;
+      margin-bottom: 10px;
+      margin-left: 30px;
+      color: $main-color;
+    }
+  }
+
+  .summary {
+    margin-bottom: 40px;
+    .paragraph {
+      font-size: $middle-font-size;
+      font-weight: 400;
+      line-height: 24px;
+      white-space: pre-wrap;
+    }
+  }
+
+  .etc {
+    margin-bottom: 40px;
+    span {
+      padding-right: 10px;
+      font-size: 20px;
+    }
+    .count {
+      font-weight: 700;
+    }
+  }
+
+  .stack {
+    margin-bottom: 40px;
+    .logoCircle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-right: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 36px;
+
+      background-color: #f5f5f5;
+    }
+    .logoLine {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      line-height: 50px;
+
+      .logoBlock {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-right: $middle-font-size;
+      }
+      .logoText {
+        font-size: $middle-font-size;
+      }
+    }
+  }
+
+  .mainText {
+    margin-bottom: 40px;
+    .paragraph {
+      font-size: $middle-font-size;
+      font-weight: 400;
+      line-height: 24px;
+      white-space: pre-wrap;
+    }
+  }
+}
+
+.rightContainer {
+  margin: 90px 0 10px 90px;
+
+  .profile {
+  }
+
+  .bookmark {
+    margin-bottom: 30px;
+  }
+
+  .link {
+    margin-bottom: 30px;
+
+    .linkButton {
+      @include btn;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+
+      border-style: none;
+      background-color: rgba($color: #49b634, $alpha: 0.5);
+      color: white;
+      &:hover {
+        background-color: rgba($color: #49b634, $alpha: 0.8);
+      }
+
+      .logo {
+        width: 15px;
+        height: 15px;
+      }
+      span {
+        padding-left: 10px;
+      }
+    }
+  }
+  .share {
+    margin-bottom: 30px;
+  }
+  .participate {
+    margin-top: 60px;
+    h2 {
+      margin-bottom: 10px;
+      margin-left: 10px;
+    }
+
+    .userBox {
+      height: auto;
+      border: 2px solid #f5f5f5;
+      border-radius: 7px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      width: 300px;
+
+      .userInfoBox {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+        margin-left: 20px;
+
+        img {
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+        }
+        cursor: pointer;
+
+        .userInfo {
+          p {
+            margin: 5px;
+
+            &:nth-child(1) {
+              font-weight: 500;
+              font-size: 17px;
+            }
+            &:nth-child(2) {
+              font-weight: 500;
+              color: rgb(95, 95, 243);
+            }
+            &:nth-child(3) {
+              font-weight: 500;
+              color: rgb(34, 114, 34);
+            }
+          }
+        }
+      }
+    }
+  }
+}

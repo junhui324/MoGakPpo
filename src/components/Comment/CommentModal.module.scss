@@ -1,0 +1,15 @@
+.modalContainer {
+  transform: translateX(24px) translateY(-10px);
+  .modalList {
+    width: 60px;
+    li {
+      color: #64748b;
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}

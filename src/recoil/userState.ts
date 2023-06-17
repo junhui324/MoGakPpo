@@ -10,4 +10,11 @@
 // 	default: getCookieToken() || '',
 // });
 
+import { atom } from 'recoil';
+
+export const userTokenState = atom<string | null>({
+  key: 'userTokenState',
+  default: '',
+});
+
 export {};

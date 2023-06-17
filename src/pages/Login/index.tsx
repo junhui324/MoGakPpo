@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 //@ts-ignore
 import styles from './login.module.scss';
 //@ts-ignore
@@ -6,18 +6,37 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 //@ts-ignore
 import cookie from 'react-cookies';
+import { userInfo } from 'os';
+import {RiKakaoTalkFill} from "react-icons/ri"; 
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginAtom } from '../../recoil/loginState';
+import { TailSpin } from 'react-loader-spinner';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
+const KAKAO_KEY = process.env.REACT_APP_KAKAO_API_KEY;
 
 function Login() {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const emailRef = useRef<any>(null);
+  const passwordRef = useRef<any>(null);
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const [isKakaoLoading, setIsKakaoLoading] = useState(false);
   const navigate = useNavigate();
+  const setLoginData = useSetRecoilState(loginAtom);
+  useEffect(() =>{
+    const code = new URL(window.location.href).searchParams.get("code");
+    
+    if(code === null){
+      console.log("code empty");
+    }
+    else{
+      console.log(code);
+      setIsKakaoLoading(true);
+    }
+
+    });
 
   function isEmailBlank(): Boolean {
-    //@ts-ignore
     if (emailRef.current.value === '') {
       setIsEmail(true);
 
@@ -30,7 +49,6 @@ function Login() {
   }
 
   function isPasswordBlank(): Boolean {
-    //@ts-ignore
     if (passwordRef.current.value === '') {
       setIsPassword(true);
 
@@ -59,9 +77,7 @@ function Login() {
       const res = await axios.post(
         `${API_KEY}/users/login`,
         {
-          //@ts-ignore
           user_email: emailRef.current.value,
-          //@ts-ignore
           user_password: passwordRef.current.value,
         },
         header
@@ -69,7 +85,7 @@ function Login() {
 
       const data = res.data.data;
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         // const author = await res.headers['authorization'];
         // const token = author.split(' ')[1];
         const accessToken = data.accessToken;
@@ -77,27 +93,63 @@ function Login() {
           path: '/',
         });
 
-        // console.log(data);
+        const refreshToken = data.refreshToken;
+        cookie.save('refreshToken', refreshToken, {
+          path: '/',
+        });
 
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            user_id: data.user_id,
-            user_name: data.user_name,
-            user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
-          })
-        );
+        // localStorage.setItem(
+        //   'user',
+        //   JSON.stringify({
+        //     user_id: data.user_id,
+        //     user_name: data.user_name,
+        //     user_img: data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+        //     user_career_goal:data.user_career_goal,
+        //     user_stacks:data.user_stacks,
+        //     user_introduction:data.user_introduction,
+        //   })
+        // );
+        
+        setLoginData((prev) =>{
+          return {...prev,
+            user_id:data.user_id,
+            user_name:data.user_name,
+            user_img:data.user_img || 'https://api.dicebear.com/6.x/pixel-art/svg?seed=3',
+            user_career_goal:data.user_career_goal,
+            user_stacks:data.user_stacks,
+            user_introduction:data.user_introduction,
+          }
+        });
 
         navigate('/');
-      } else if (res.status == 404) {
-        alert('사용자 정보를 다시 확인해주세요.');
-        return;
       }
     } catch (e) {
       alert('사용자 정보를 다시 확인해주세요.');
       return;
     }
   };
+
+  const kakaoLogin = () =>{
+    const redirect_uri = "http://localhost:3000/login";
+    const kakaoURL = `
+    https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
+
+    window.location.href = kakaoURL;
+  };
+
+  if(isKakaoLoading){
+    return (
+      <>
+          <div className={styles.loadingContainer}>
+              <div className={styles.loadingComponent}>
+              <h3>정보를 가져오는 중 ...</h3>
+              <TailSpin color="#6636DA" height={50} width={50}/>
+              </div>
+          </div>
+      </>
+
+    );
+  }
 
   return (
     <>
@@ -147,8 +199,8 @@ function Login() {
           </form>
 
           <div className={styles.kakaoContainer}>
-            <button type="button" className={styles.kakaoLogin}>
-              카카오로 계속하기
+            <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
+              <div className={styles.kakaoContainer}><RiKakaoTalkFill className={styles.kakaoImage} size="20"/><span className={styles.kakaoDesc}>카카오로 계속하기</span></div>
             </button>
           </div>
 

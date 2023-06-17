@@ -1,8 +1,8 @@
-import ModalBasic from '../Modal/ModalBasic';
 import styles from './PostTypeSelectModal.module.scss';
 import { BsArrowRight } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../../constants/Routes';
+import ModalFullScreen from '../Modal/ModalFullScreen';
 
 interface PostTypeSelectModalProps {
   setModalOpen: (value: boolean) => void;
@@ -10,7 +10,7 @@ interface PostTypeSelectModalProps {
 const PostTypeSelectModal = ({ setModalOpen }: PostTypeSelectModalProps) => {
   const navigate = useNavigate();
   return (
-    <ModalBasic setModalOpen={setModalOpen} closeButton={false} fullScreen={true}>
+    <ModalFullScreen setModalOpen={setModalOpen} closeButton={false}>
       <ul className={styles.ulContainer}>
         <p>작성할 프로젝트 타입을 골라주세요.</p>
         <li
@@ -32,7 +32,7 @@ const PostTypeSelectModal = ({ setModalOpen }: PostTypeSelectModalProps) => {
           <BsArrowRight />
         </li>
       </ul>
-    </ModalBasic>
+    </ModalFullScreen>
   );
 };
 

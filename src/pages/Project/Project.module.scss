@@ -20,7 +20,7 @@
 
 .container {
   display: flex;
-  margin-top: $header-height;
+  margin: $header-height 0;
 
   .leftContainer {
     width: 700px;

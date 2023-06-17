@@ -1,0 +1,81 @@
+$main-color: #6636DA;
+$intro-color: #64748B;
+
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  padding: 2rem 0;
+
+  .imageWrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .image {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 100px;
+    }
+
+    .updateButton {
+      width: 70px;
+      height: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      border: 1.6px solid $main-color;
+      border-radius: 4px;
+      color: $main-color;
+      background-color: white;
+      cursor: pointer;
+    }
+  }
+  
+
+  .introWrapper {
+    margin-top: 2.6rem;
+
+    .name {
+      font-size: 30px;
+      font-weight: 500;
+      margin: 0.8rem 0;
+      line-height : 3rem;
+    }
+    
+    .intro {
+      color: $intro-color;
+      margin-bottom: 3rem;
+      line-height : 2rem;
+    }
+
+    .career {
+      margin-bottom: 1.2rem;
+      line-height : 2rem;
+    }
+    
+    .stacks {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+      
+      .stack {
+        position: relative;
+        margin: 0 1rem 1rem 0;
+        padding: 6px;
+        color: $main-color;
+      }
+
+      .stack::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $main-color;
+        opacity: 0.2;
+        border-radius: 4px;
+      }
+    }
+  }
+}

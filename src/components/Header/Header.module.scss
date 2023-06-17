@@ -19,14 +19,44 @@
     justify-content: space-between;
     .leftContainer {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: space-between;
+      align-items: center;
       gap: 8px;
+      height: 100%;
 
       .logo {
         cursor: pointer;
         font-size: 28px;
         font-weight: 800;
+      }
+
+      ul {
+        align-self: center;
+        display: flex;
+        gap: 24px;
+        li {
+          cursor: pointer;
+        }
+      }
+      a {
+        text-decoration: none;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        span {
+          color: #64748b;
+          font-weight: 500;
+          padding: 16px;
+          &:hover {
+            color: black;
+          }
+        }
+      }
+      .active {
+        box-sizing: border-box;
+        color: black;
+        border-bottom: 3px solid $main-color;
       }
     }
     .rightContainer {
@@ -58,6 +88,9 @@
         }
       }
       .userButton {
+        box-sizing: content-box;
+        width: 48px;
+        height: 48px;
         text-align: center;
         padding: 0 8px;
         display: flex;
@@ -65,10 +98,11 @@
         color: #252525;
         cursor: pointer;
         background-color: unset;
-        svg {
+        img {
+          width: 48px;
+          height: 48px;
           border: 2px solid $main-color;
           border-radius: 50%;
-          font-size: 40px;
           color: #87929c;
           align-self: center;
         }

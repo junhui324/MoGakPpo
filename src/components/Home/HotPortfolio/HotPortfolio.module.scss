@@ -1,0 +1,162 @@
+@import '/src/variables.scss';
+
+.HotPortfolio {
+  margin: 40px 0;
+  position: relative;
+
+  .titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .titleTextWrapper {
+      & > h1 {
+        font-size: 24px;
+        font-weight: 600;
+        padding: 1rem 0;
+      }
+
+      & > p {
+        font-size: 14px;
+        padding-bottom: 2rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    & > button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.7);
+      }
+    }
+  }
+
+  .slideArea {
+    width: 1024px;
+    overflow: hidden;
+
+    .portfolioList {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      a {
+        text-decoration: 0;
+        color: black;
+      }
+
+      .portfolioContainer {
+        flex: none;
+        width: calc(1028px / 3);
+
+        .portfolio {
+          position: relative;
+          border-radius: 16px;
+          box-sizing: border-box;
+          border: 1px solid #e8e8e8;
+          margin-right: 16px;
+          height: 400px;
+          cursor: pointer;
+
+          &:hover {
+            border-color: #d0dee0;
+            box-shadow: 0 0 15px #e2eaf1;
+          }
+
+          img {
+            border-radius: 16px 16px 0 0;
+            width: 100%;
+            height: 40%;
+            object-fit: cover;
+          }
+
+          .contentWrapper {
+            padding: 0 1rem;
+
+            .title {
+              margin: 1rem 0;
+              font-size: 20px;
+              font-weight: 600;
+
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .summary {
+              margin: 0.4rem 0;
+              height: 4.8rem;
+              line-height: 1.2rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: normal;
+            }
+            .stackContainer {
+              height: 3rem;
+              overflow: hidden;
+              margin: 0.8rem 0;
+            }
+            .stack {
+              display: flex;
+              flex-wrap: wrap;
+              & > p {
+                box-sizing: border-box;
+                margin: 0 0.4rem 0.4rem 0;
+                font-size: 12px;
+                padding: 4px 8px;
+                background-color: #e2eaf1;
+                color: black;
+                border-radius: 0.2rem;
+              }
+            }
+
+            .viewWrapper {
+              position: absolute;
+              bottom: 24px;
+
+              & > * {
+                font-size: 14px;
+              }
+
+              .count {
+                margin: 0 0.4rem;
+                color: rgb(168, 180, 197);
+
+                &::after {
+                  margin-left: 4px;
+                  margin-right: 4px;
+                  content: '·';
+                }
+                &:last-child::after {
+                  content: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .leftArrow {
+      position: absolute;
+      top: 260px;
+      left: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .rightArrow {
+      position: absolute;
+      top: 260px;
+      right: -40px;
+      border: none;
+      background-color: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+}
