@@ -3,7 +3,6 @@
 .profileContainer {
   display: flex;
   flex-direction: column;
-  width: 800px;
   padding: 2rem 0;
 
   .imageWrapper {
@@ -98,6 +97,73 @@
         margin-bottom: 1rem;
         color: var(--color-text2);
         opacity: 0.4;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profileContainer {
+    padding: 2rem;
+
+    .imageWrapper { 
+
+      .image {
+        width: 100px;
+        height: 100px;
+      }
+
+      .updateButton {
+        width: 56px;
+        height: 40px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .profileContainer {
+
+    .imageWrapper {
+      .image {
+        width: 80px;
+        height: 80px;
+      }
+
+      .updateButton {
+        width: 42px;
+        height: 30px;
+        font-size: 14px;
+      }
+    }
+
+    .introWrapper {
+      margin-top: 1rem;
+
+      .name {
+        font-size: 1rem;
+        line-height: 1rem;
+      }
+
+      .intro {
+        font-size: 1rem;
+        line-height: 1rem;
+      }
+
+      .career {
+        font-size: 0.8rem;
+        line-height: 1rem;
+      }
+
+      .emptyCareer {
+        font-size: 0.8rem;
+      }
+
+      .stacks {
+        .stack {
+          font-size: 0.8rem;
+        }
       }
     }
   }
