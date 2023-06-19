@@ -23,7 +23,7 @@ function MemberSelectForm({
   const inputTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSearchInputChange = (value: string) => {
-    if (value.length > 0) {
+    if (value.length > 1) {
       getUsersBySearchTerm(value);
       setShowSelectBox(true);
       return;
