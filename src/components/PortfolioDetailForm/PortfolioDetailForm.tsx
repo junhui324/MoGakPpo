@@ -10,7 +10,6 @@ import * as Token from '../../apis/Token';
 
 //recoil
 import { useRecoilState } from 'recoil';
-import { portfolioState } from '../../recoil/portfolioState';
 import { loginAtom } from '../../recoil/loginState';
 
 import DetailShareButton from './DetailShareButton';
@@ -20,6 +19,7 @@ import PortfolioModifyBlock from './PortfolioModifyBlock';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 
 import ROUTES from '../../constants/Routes';
+import { TypePortfolio } from '../../interfaces/Portfolio.interface';
 
 import DefaultUserImage from '../../assets/DefaultUser.png';
 
@@ -29,7 +29,27 @@ const WEEK_DAY = 7;
 const MONTH_ADJUSTMENT = 1;
 
 function PortfolioDetailForm() {
-  const [portfolio, setPortfolio] = useRecoilState(portfolioState);
+  const [portfolio, setPortfolio] = useState<TypePortfolio>({
+    is_bookmarked: false,
+    portfolio_id: 0,
+    portfolio_title: '',
+    portfolio_summary: '',
+    portfolio_thumbnail: '',
+    portfolio_github: '',
+    portfolio_stacks: { stackList: [] as string[] },
+    participated_members: [],
+    portfolio_description: '',
+    portfolio_img: '',
+    portfolio_bookmark_count: 0,
+    portfolio_comments_count: 0,
+    portfolio_views_count: 0,
+    portfolio_created_at: '',
+    portfolio_bookmark_users: [],
+    user_id: 0,
+    user_name: '',
+    user_introduction: '',
+    user_img: '',
+  });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { id } = useParams();
