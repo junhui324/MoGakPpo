@@ -211,14 +211,15 @@ function Login() {
               {isPassword && <div className={styles.emptyWarning}>비밀번호를 입력해주세요.</div>}
               <div className={styles.submit}>
                 <button type="submit" className={styles.submitButton}>
-                  이메일로 계속하기
+                  로그인
                 </button>
               </div>
-
-              <div className={styles.hrContainer}>
-                <hr className={styles.hr}></hr>
-              </div>
             </form>
+            <div className={styles.hrContainer}>
+              <div className={styles.hr}></div>
+              <p>또는</p>
+              <div className={styles.hr}></div>
+            </div>
 
             <div className={styles.kakaoContainer}>
               <button type="button" className={styles.kakaoLogin} onClick={kakaoLogin}>
@@ -229,7 +230,7 @@ function Login() {
 
             <div className={styles.menu}>
               <div className={styles.registerContainer}>
-                <span>아직 회원이 아니신가요? 3초 만에</span>
+                <span>아직 회원이 아니신가요? </span>
                 <span className={styles.register}>
                   <Link to="/register">가입하기</Link>
                 </span>
