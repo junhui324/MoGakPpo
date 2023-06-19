@@ -2,7 +2,7 @@ import { TypeProjectList } from '../../interfaces/Project.interface';
 import styles from './ProjectList.module.scss';
 import Project from './Project';
 import LoadingProject from './LoadingProject';
-import { LegacyRef, RefObject } from 'react';
+import { RefObject } from 'react';
 
 interface ProjectListProps {
   projectList: TypeProjectList[];

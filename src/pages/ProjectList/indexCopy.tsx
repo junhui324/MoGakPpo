@@ -13,13 +13,13 @@ import { classificationState } from '../../recoil/projectState';
 import { projectListAtom } from '../../recoil/projectListFilter';
 
 function ProjectListMain() {
-  const [isFirstFetch, setIsFirstFetch] = useState(true);
   const [projectListState, setProjectListState] = useRecoilState(projectListAtom);
   const setClassification = useSetRecoilState(classificationState);
 
   const getProjectListData = useCallback(
     async (nextPage: number): Promise<void> => {
       const { projectList, selectedCategory, keywordValue, recruitingFilter } = projectListState;
+      console.log('next:', nextPage);
 
       try {
         const response = await getProjects(
@@ -65,9 +65,6 @@ function ProjectListMain() {
 
   const target: RefObject<HTMLElement | HTMLLIElement> = useInfiniteScroll(
     async (entry, observer) => {
-      console.log('pageSize: ', projectListState.pageSize);
-      console.log('pageCount: ', projectListState.pageCount);
-
       //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
       if (projectListState.pageSize > projectListState.pageCount) {
         await getProjectListData(projectListState.pageCount + 1);
@@ -77,24 +74,35 @@ function ProjectListMain() {
   );
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setClassification('/');
-    setProjectListState((prevState) => ({
-      ...prevState,
-    }));
-    setIsFirstFetch(false);
-    getProjectListData(1);
+    const { isFirstFetch, isRefetch } = projectListState;
+    if (isRefetch) {
+      setProjectListState((prevState) => ({
+        ...prevState,
+        isRefetch: false,
+      }));
+    }
+    if (isFirstFetch && !isRefetch) {
+      window.scrollTo(0, 0);
+      setClassification('/');
+      setProjectListState((prevState) => ({
+        ...prevState,
+        isFirstFetch: false,
+      }));
+      getProjectListData(1);
+    }
   }, []);
 
   useEffect(() => {
-    if (!isFirstFetch) {
+    const { isFirstFetch, isRefetch } = projectListState;
+    if (!isFirstFetch && !isRefetch) {
       window.scroll(0, 0);
       getProjectListData(1);
     }
   }, [projectListState.selectedCategory, projectListState.recruitingFilter]);
 
   useEffect(() => {
-    if (!isFirstFetch) {
+    const { isFirstFetch, isRefetch } = projectListState;
+    if (!isFirstFetch && !isRefetch) {
       const delayDebounceFn = setTimeout(() => {
         window.scroll(0, 0);
         getProjectListData(1);
@@ -102,10 +110,6 @@ function ProjectListMain() {
       return () => clearTimeout(delayDebounceFn);
     }
   }, [projectListState.keywordValue]);
-
-  useEffect(() => {
-    console.log(projectListState.projectList);
-  }, [projectListState.projectList]);
 
   const handleCategoryClick = async (key: string) => {
     setProjectListState((prevState) => ({

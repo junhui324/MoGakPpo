@@ -11,6 +11,8 @@ export interface ProjectListState {
   keywordValue: string;
   isSearched: boolean;
   recruitingFilter: string;
+  isFirstFetch: boolean;
+  isRefetch: boolean;
 }
 
 export const projectListAtom = atom<ProjectListState>({
@@ -25,5 +27,7 @@ export const projectListAtom = atom<ProjectListState>({
     keywordValue: '',
     isSearched: false,
     recruitingFilter: 'all',
+    isFirstFetch: true,
+    isRefetch: false,
   },
 });
