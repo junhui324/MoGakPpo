@@ -153,12 +153,11 @@ function ProjectListMain() {
       </div>
       <div className={styles.rightContainer}>
         <div className={styles.searchContainer}>
-          <ProjectSearch
-            handleChange={handleSearchChange}
-            value={projectListState.keywordValue}
-            isSearched={projectListState.isSearched}
+          <ProjectSearch handleChange={handleSearchChange} value={projectListState.keywordValue} />
+          <RecruitingProjectFilter
+            value={projectListState.recruitingFilter}
+            onChange={handleRecruitingSelect}
           />
-          <RecruitingProjectFilter onChange={handleRecruitingSelect} />
         </div>
         <ProjectList
           projectList={projectListState.projectList}

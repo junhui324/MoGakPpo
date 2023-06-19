@@ -1,5 +1,5 @@
 import './reset.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RecoilRoot } from 'recoil';
 import { useEffect } from 'react';
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -26,8 +26,10 @@ import PortfolioModify from './pages/PortfolioModify';
 import { loginAtom } from './recoil/loginState';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { themeAtom } from './recoil/themeState';
+import { useResetRecoilStateOnPageChange } from './hooks/useResetRecoilState';
 
 function App() {
+  useResetRecoilStateOnPageChange();
   const darkMode = useRecoilValue(themeAtom);
 
   const resetLogin = useResetRecoilState(loginAtom);
@@ -36,10 +38,9 @@ function App() {
       resetLogin();
     };
   }, []);
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <RecoilRoot>
         <Header />
         <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
           <Routes>
@@ -63,8 +64,8 @@ function App() {
           </Routes>
           <ChatBot />
         </div>
-      </BrowserRouter>
-    </QueryClientProvider>
+      </RecoilRoot>
+    </BrowserRouter>
   );
 }
 
