@@ -119,6 +119,21 @@ function PortfolioDetailForm() {
       }월 ${localDate.getDate()}일`;
   };
 
+  const isValidURL = (str: string) => {
+    var res = str.match(
+      /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+    );
+    return res !== null;
+  };
+
+  const handleGithubLinkClick = () => {
+    if (isValidURL(portfolio.portfolio_github)) {
+      window.open(`${portfolio.portfolio_github}`, '_blank');
+      return;
+    }
+    alert('해당 주소로 이동할 수 없습니다! 😥');
+  };
+
   return isLoading ? (
     <div className={styles.loadingContainer}>
       <div className={styles.loading}>
@@ -221,10 +236,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.link}>
-          <button
-            className={styles.linkButton}
-            onClick={() => window.open(`${portfolio.portfolio_github}`, '_blank')}
-          >
+          <button className={styles.linkButton} onClick={handleGithubLinkClick}>
             <BsGithub className={styles.logo} />
             <span>깃허브 링크</span>
           </button>
