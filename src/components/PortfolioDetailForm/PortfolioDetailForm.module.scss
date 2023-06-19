@@ -480,3 +480,41 @@ h2 {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    .leftContainer {
+      margin: 0;
+      margin-left: 10px;
+      margin-right: 10px;
+      .title {
+        width: 100%;
+      }
+      .summary {
+        width: 100%;
+      }
+      .stack {
+        margin: 40px 0;
+        width: 90%;
+        .logoLine {
+          width: 30%;
+        }
+      }
+      .mainText {
+        width: 100%;
+      }
+    }
+    .rightContainer {
+      //width: 80%;
+      margin: 0;
+      margin-top: 40px;
+    }
+  }
+}

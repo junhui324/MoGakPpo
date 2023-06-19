@@ -251,14 +251,15 @@ h2 {
 @media (max-width: 768px) {
   .container {
     display: grid;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin: 0;
     grid-template-areas:
       'title'
       'summary'
       'checkRadioBox'
       'introduce'
       'stack';
+
+    border: none;
   }
   .editorBox {
     width: 100%;
@@ -279,8 +280,8 @@ h2 {
     display: flex;
     width: 390px;
     flex-direction: column;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin: 0;
+    border: none;
   }
   .editorBox {
     width: 100%;
@@ -301,8 +302,8 @@ h2 {
     display: flex;
     width: 320px;
     flex-direction: column;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin: 0;
+    border: none;
   }
   .editorBox {
     width: 100%;
