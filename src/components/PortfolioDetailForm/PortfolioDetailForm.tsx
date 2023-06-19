@@ -50,7 +50,6 @@ function PortfolioDetailForm() {
     user_introduction: '',
     user_img: '',
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -68,7 +67,6 @@ function PortfolioDetailForm() {
   const now: Date = new Date();
 
   const getPortfolio = useCallback(async () => {
-    setIsLoading(true);
     try {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
@@ -92,8 +90,6 @@ function PortfolioDetailForm() {
         }
       }
       navigate(ROUTES.MAIN);
-    } finally {
-      setIsLoading(false);
     }
   }, [setPortfolio, id]);
 
@@ -154,20 +150,7 @@ function PortfolioDetailForm() {
     alert('해당 주소로 이동할 수 없습니다! 😥');
   };
 
-  return isLoading ? (
-    <div className={styles.loadingContainer}>
-      <div className={styles.loading}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-  ) : (
+  return (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
