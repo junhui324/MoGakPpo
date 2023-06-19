@@ -33,11 +33,22 @@ const editorImgOptions = {
 };
 
 function ProjectPreview() {
-  const project = useRecoilValue(projectState);
-  const classification = useRecoilValue(classificationState);
+  // const project = useRecoilValue(projectState);
+  // const classification = useRecoilValue(classificationState);
   const projectId = useRecoilValue(projectIdState);
   const setModifyButtonClick = useSetRecoilState(modifyButtonClickState);
-  const resetProject = useResetRecoilState(projectState);
+  // const resetProject = useResetRecoilState(projectState);
+  const [savedPost, setSavedPost] = useState<ProjectType.TypeProjectPost>({
+    project_type: '',
+    project_title: '',
+    project_summary: '',
+    project_recruitment_roles: { roleList: [] },
+    project_goal: '',
+    project_participation_time: '',
+    project_introduction: '',
+    project_required_stacks: { stackList: [] },
+    project_img: undefined,
+  });
 
   const [titleData, setTitleData] = useState<ProjectType.TypeProjectTitle | null>(null);
   const [bodyData, setBodyData] = useState<ProjectType.TypeProjectBody | null>(null);
@@ -52,11 +63,23 @@ function ProjectPreview() {
       alert('로그인이 필요합니다.');
       navigate(ROUTES.LOGIN);
     }
+    const previewPost = localStorage.getItem('previewPost');
+    const parsePost = JSON.parse(previewPost!);
+    setSavedPost((prevPost) => ({
+      ...prevPost,
+      project_type: parsePost.type,
+      project_title: parsePost.title,
+      project_summary: parsePost.summary,
+      project_recruitment_roles: parsePost.recruitmentRoles,
+      project_goal: parsePost.goal,
+      project_participation_time: parsePost.participationTime,
+      project_introduction: parsePost.introduction,
+    }));
     setTitleData(() => {
       return {
-        project_type: project.project_type,
+        project_type: parsePost.type,
         project_recruitment_status: 'RECRUITING',
-        project_title: project.project_title,
+        project_title: parsePost.title,
         project_created_at: '0',
         project_comments_count: 0,
         project_views_count: 0,
@@ -64,12 +87,12 @@ function ProjectPreview() {
     });
     setBodyData(() => {
       return {
-        project_summary: project.project_summary,
-        project_recruitment_roles: project.project_recruitment_roles,
-        project_required_stacks: project.project_required_stacks,
-        project_goal: project.project_goal,
-        project_participation_time: project.project_participation_time,
-        project_introduction: project.project_introduction,
+        project_summary: parsePost.summary,
+        project_recruitment_roles: parsePost.recruitmentRoles,
+        project_required_stacks: parsePost.stackList,
+        project_goal: parsePost.goal,
+        project_participation_time: parsePost.participationTime,
+        project_introduction: parsePost.introduction,
       };
     });
   }, []);
@@ -78,9 +101,9 @@ function ProjectPreview() {
     // 게시글 작성 페이지로 다시 돌아갈 수 있도록 주소 저장
     let pType = '';
     if (classification === 'create') {
-      if (project.project_type === 'PROJECT') {
+      if (savedPost.project_type === 'PROJECT') {
         pType = 'project';
-      } else if (project.project_type === 'STUDY') {
+      } else if (savedPost.project_type === 'STUDY') {
         pType = 'study';
       }
       setModifyButtonClick(true);
@@ -106,7 +129,7 @@ function ProjectPreview() {
     try {
       // 에디터 이미지 파일로 변환
       const imgFiles = base64sToFiles(
-        findBase64(project.project_introduction),
+        findBase64(savedPost.project_introduction),
         `${new Date().getTime()}`
       );
 
@@ -114,7 +137,7 @@ function ProjectPreview() {
       const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
 
       // base64 => 에디터 이미지 서버 경로로 대체
-      const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
+      const newIntroduction = base64imgSrcParser(savedPost.project_introduction, urls);
 
       // 에디터 이미지를 Blob으로 압축
       const compressingEditorImgsBlob =
@@ -143,19 +166,19 @@ function ProjectPreview() {
 
       const formData = new FormData();
 
-      formData.append('project_type', project.project_type);
-      formData.append('project_title', project.project_title);
-      formData.append('project_summary', project.project_summary);
+      formData.append('project_type', savedPost.project_type);
+      formData.append('project_title', savedPost.project_title);
+      formData.append('project_summary', savedPost.project_summary);
       formData.append(
         'project_recruitment_roles',
-        JSON.stringify(project.project_recruitment_roles.roleList)
+        JSON.stringify(savedPost.project_recruitment_roles.roleList)
       );
       formData.append(
         'project_required_stacks',
-        JSON.stringify(project.project_required_stacks.stackList)
+        JSON.stringify(savedPost.project_required_stacks.stackList)
       );
-      formData.append('project_goal', project.project_goal);
-      formData.append('project_participation_time', project.project_participation_time);
+      formData.append('project_goal', savedPost.project_goal);
+      formData.append('project_participation_time', savedPost.project_participation_time);
       formData.append('project_introduction', newIntroduction);
       convertedEditorFiles.length > 0 &&
         convertedEditorFiles.forEach((file) => formData.append('project_img', file as File));
@@ -189,11 +212,11 @@ function ProjectPreview() {
   const patchProject = async () => {
     try {
       const imgFiles = base64sToFiles(
-        findBase64(project.project_introduction),
+        findBase64(savedPost.project_introduction),
         `${new Date().getTime()}`
       );
       const urls = imgFiles.map((file) => `${IMG_DOMAIN}/static/project/${file.name}`);
-      const newIntroduction = base64imgSrcParser(project.project_introduction, urls);
+      const newIntroduction = base64imgSrcParser(savedPost.project_introduction, urls);
 
       // 에디터 이미지를 Blob으로 압축
       const compressingEditorImgsBlob =
@@ -222,19 +245,19 @@ function ProjectPreview() {
 
       const formData = new FormData();
 
-      formData.append('project_type', project.project_type);
-      formData.append('project_title', project.project_title);
-      formData.append('project_summary', project.project_summary);
+      formData.append('project_type', savedPost.project_type);
+      formData.append('project_title', savedPost.project_title);
+      formData.append('project_summary', savedPost.project_summary);
       formData.append(
         'project_recruitment_roles',
-        JSON.stringify(project.project_recruitment_roles.roleList)
+        JSON.stringify(savedPost.project_recruitment_roles.roleList)
       );
       formData.append(
         'project_required_stacks',
-        JSON.stringify(project.project_required_stacks.stackList)
+        JSON.stringify(savedPost.project_required_stacks.stackList)
       );
-      formData.append('project_goal', project.project_goal);
-      formData.append('project_participation_time', project.project_participation_time);
+      formData.append('project_goal', savedPost.project_goal);
+      formData.append('project_participation_time', savedPost.project_participation_time);
       formData.append('project_introduction', newIntroduction);
       convertedEditorFiles.length > 0 &&
         convertedEditorFiles.forEach((file) => formData.append('project_img', file as File));
@@ -264,6 +287,8 @@ function ProjectPreview() {
     }
   };
 
+  console.log(savedPost);
+
   return (
     <>
       <div className={styles.container}>
@@ -287,7 +312,7 @@ function ProjectPreview() {
             className={`${styles.modify} ${classification === 'modify' ? styles.modifyTrue : ''}`}
             onClick={handleModifyButton}
           >
-            {classification === 'project' || project.project_type === 'PROJECT'
+            {classification === 'project' || savedPost.project_type === 'PROJECT'
               ? '프로젝트 편집'
               : '스터디 편집'}
           </button>

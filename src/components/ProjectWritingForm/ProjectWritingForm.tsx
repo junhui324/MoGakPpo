@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import styles from './ProjectWritingForm.module.scss';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -25,153 +25,65 @@ import '../Editor/editor.css';
 
 import * as Token from '../../apis/Token';
 
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import {
-  projectState,
-  stackListState,
-  classificationState,
-  projectIdState,
-  modifyButtonClickState,
-  editorIntroductionState,
-} from '../../recoil/projectState';
+import { useRecoilState } from 'recoil';
 import { loginAtom } from '../../recoil/loginState';
+import { TypeProjectPost } from '../../interfaces/Project.interface';
 
-function ProjectWritingForm() {
-  const [project, setProject] = useRecoilState(projectState);
-  const [modifyButtonClick, setModifyButtonClick] = useRecoilState(modifyButtonClickState);
-  const [stackList, setStackList] = useRecoilState(stackListState);
-  const [description, setDescription] = useRecoilState(editorIntroductionState);
-  const classification = useRecoilValue(classificationState);
-  const projectId = useRecoilValue(projectIdState);
-  const resetStackList = useResetRecoilState(stackListState);
-  const resetDescription = useResetRecoilState(editorIntroductionState);
-  const resetProject = useResetRecoilState(projectState);
+interface ProjectWritingType {
+  editMode?: boolean;
+  publishedPostData?: TypeProjectPost;
+}
+
+function ProjectWritingForm({ editMode, publishedPostData }: ProjectWritingType) {
+  const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState('');
+  const [recruitmentRoles, setRecruitmentRoles] = useState<string[]>([]);
+  const [stackList, setStackList] = useState<string[]>([]);
+  const [goal, setGoal] = useState('');
+  const [participationTime, setParticipationTime] = useState('');
+  const [introduction, setIntroduction] = useState('');
+  //const [img, setImg] = useState(undefined);
 
   const [buttonClick, setButtonClick] = useState(false);
   const [isValidate, setIsValidate] = useState(false);
+
   const [maxLengthValidate, setMaxLengthValidate] = useState(false);
-  const { type } = useParams();
+
   const navigate = useNavigate();
 
-  // 로컬 스토리지에 있는 user 정보 가져오기
+  const location = useLocation();
+  const [path, setPath] = useState('');
+  const [type, setType] = useState('');
+
+  // 로컬 스토리지에 저장되어 있는 user 정보 가져오기
   const LoginData = useRecoilState(loginAtom);
   const userId = LoginData[0];
 
-  // 수정하기 버튼 클릭 시, 백엔드에서 데이터 받아오기
-  const getProjectData = async () => {
-    try {
-      const data = await Fetcher.getProject(projectId);
-      setProject({
-        ...project,
-        project_type: data.project_type,
-        project_title: data.project_title,
-        project_summary: data.project_summary,
-        project_recruitment_roles: { roleList: [...data.project_recruitment_roles.roleList] },
-        project_required_stacks: { stackList: [...data.project_required_stacks.stackList] },
-        project_goal: data.project_goal,
-        project_participation_time: data.project_participation_time,
-        project_introduction: data.project_introduction,
-        project_img: undefined,
-      });
-      setDescription(data.project_introduction);
-      setStackList(data.project_required_stacks.stackList);
-    } catch (error) {
-      if (error instanceof Error && typeof error.message === 'string') {
-        switch (error.message) {
-          case '400':
-            navigate('/notfound');
-            break;
-          case '401':
-            alert(`${error}: 토큰이 만료되었습니다.`);
-            Token.removeToken();
-            break;
-          case '404':
-            navigate('/notfound');
-            break;
-          default:
-            alert(`${error}: 예기치 못한 서버 오류입니다.`);
-        }
-      }
-      navigate(ROUTES.MAIN);
-    }
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setPath(location.pathname.split('/')[1]);
+    setType(location.pathname.split('/')[2].toUpperCase());
+  }, []);
 
   useEffect(() => {
     if (!userId.user_id) {
       alert('로그인이 필요합니다.');
       navigate(ROUTES.LOGIN);
     }
-  }, []);
+  }, [navigate, userId.user_id]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    if (classification === 'create') {
-      if (modifyButtonClick) {
-        setModifyButtonClick(false);
-      } else {
-        resetProject();
-        resetDescription();
-        resetStackList();
+  // 제목 textarea
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { value } = event.target;
+    setTitle(value);
+  };
 
-        const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
-        const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
-        if (projectTypeValue && key) {
-          setProject((prevProject) => ({
-            ...prevProject,
-            project_type: key,
-          }));
-        }
-      }
-    } else if (classification === 'modify') {
-      getProjectData();
-      setDescription(project.project_introduction);
-      setStackList(project.project_required_stacks.stackList);
-    }
-  }, [classification, type]);
-
-  //프로젝트 타입 추출 및 저장
-  useEffect(() => {
-    const projectTypeValue = PROJECT_TYPE_STRING.get(type!);
-    const key = Object.keys(PROJECT_TYPE).find((key) => PROJECT_TYPE[key] === projectTypeValue);
-    if (projectTypeValue && key) {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_type: key,
-      }));
-    }
-  }, [type, setProject]);
-
-  useEffect(() => {
-    if (stackList.length === 0) {
-      setStackList(['미정']);
-    } else if (stackList[0] === '미정' && stackList.length === 2) {
-      const newStackList = [...stackList];
-      newStackList.shift();
-      setStackList(newStackList);
-    }
-    setProject((prevProject) => ({
-      ...prevProject,
-      project_required_stacks: {
-        stackList: stackList,
-      },
-    }));
-  }, [stackList, setProject, setStackList]);
-
-  useEffect(() => {
-    setProject({
-      ...project,
-      project_introduction: description,
-    });
-  }, [description]);
-
-  const handleProjectChange = (
+  // 요약 textarea
+  const handleSummaryChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = event.target;
-    setProject((prevProject) => ({
-      ...prevProject,
-      [name]: value,
-    }));
+    const { value } = event.target;
+    setSummary(value);
   };
 
   //목표 라디오 버튼
@@ -179,10 +91,7 @@ function ProjectWritingForm() {
     const value = event.target.value;
     const key = Object.keys(PROJECT_GOAL).find((key) => key === value);
     if (key) {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_goal: key,
-      }));
+      setGoal(key);
     }
   };
 
@@ -191,109 +100,65 @@ function ProjectWritingForm() {
     const value = event.target.value;
     const key = Object.keys(PROJECT_PARTICIPATION_TIME).find((key) => key === value);
     if (key) {
-      setProject((prevProject) => ({
-        ...prevProject,
-        project_participation_time: key,
-      }));
+      setParticipationTime(key);
     }
   };
 
   //모집 역할 체크박스
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.id;
-    setProject((prevProject) => {
-      const isSelected = prevProject.project_recruitment_roles.roleList.includes(value);
-
+    setRecruitmentRoles((prevRoles) => {
+      const isSelected = prevRoles.includes(value);
       if (isSelected) {
-        return {
-          ...prevProject,
-          project_recruitment_roles: {
-            ...prevProject.project_recruitment_roles,
-            roleList: prevProject.project_recruitment_roles.roleList.filter(
-              (role) => role !== value
-            ),
-          },
-        };
+        return prevRoles.filter((role) => role !== value);
       } else {
-        return {
-          ...prevProject,
-          project_recruitment_roles: {
-            ...prevProject.project_recruitment_roles,
-            roleList: [...prevProject.project_recruitment_roles.roleList, value],
-          },
-        };
+        return [...prevRoles, value];
       }
     });
   };
 
   // 유효성 검사
-  const getMissingFields = () => {
-    const requiredFields: string[] = [
-      'project_title',
-      'project_summary',
-      'project_recruitment_roles',
-      'project_goal',
-      'project_participation_time',
-      'project_introduction',
-    ];
-
-    const missingFields: string[] = [];
-    requiredFields.forEach((field) => {
-      if (field === 'project_recruitment_roles') {
-        const isEmpty = project.project_recruitment_roles.roleList.length;
-        if (isEmpty === 0) {
-          missingFields.push(field);
-        }
-      } else if (!project[field as keyof typeof project]) {
-        missingFields.push(field);
-      } else if (description === '<p><br></p>') {
-        missingFields.push(field);
-      }
-    });
-
-    return missingFields;
-  };
-
-  // 유효성 검사 실패한 폼으로 이동
-  const goToInvalidField = () => {
-    const missingFields = getMissingFields();
-    if (missingFields.length > 0) {
-      const firstMissingField = missingFields[0];
-      const inputElement = document.getElementsByName(firstMissingField)[0] as HTMLInputElement;
-      if (inputElement) {
-        inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        window.scrollTo({ top: window.scrollY - 200, behavior: 'smooth' });
-      }
+  const validation = () => {
+    if (!title || !summary || !recruitmentRoles || !goal || !participationTime || !introduction) {
+      return false;
+    } else if (introduction === '<p><br></p>') {
+      return false;
     }
+    return true;
   };
 
-  //전송 버튼을 누르면 미리보기 페이지로 이동
+  // 작성 완료 버튼 클릭
   const handleSubmitButton = (e: React.FormEvent) => {
     e.preventDefault();
     setButtonClick(true);
-    const missingFields = getMissingFields();
-    if (missingFields.length > 0) {
-      setIsValidate(true);
-      goToInvalidField();
+
+    const isOk = validation();
+    console.log(isOk);
+    if (!isOk) {
+      setIsValidate(false);
       return;
     }
-    if (
-      project.project_title.length > MAX_NUMBER.TITLE ||
-      project.project_summary.length > MAX_NUMBER.SUMMARY
-    ) {
-      setMaxLengthValidate(true);
-      setIsValidate(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    setIsValidate(false);
+    setIsValidate(true);
+
+    localStorage.setItem(
+      'previewPost',
+      JSON.stringify({
+        type,
+        title,
+        summary,
+        recruitmentRoles,
+        stackList,
+        goal,
+        participationTime,
+        introduction,
+      })
+    );
 
     navigate(`${ROUTES.PREVIEW_PROJECT}`);
   };
 
   const handleEditorChange = (content: string) => {
-    setDescription(content);
+    setIntroduction(content);
   };
 
   const handleSetStackList = (stacks: string[]) => {
@@ -306,20 +171,20 @@ function ProjectWritingForm() {
     <div className={styles.container}>
       <div className={styles.title}>
         <div className={styles.type}>
-          <p>{PROJECT_TYPE[project.project_type]}</p>
+          <p>{PROJECT_TYPE[type]}</p>
         </div>
         <TextareaAutosize
           className={styles.titleTextarea}
           name="project_title"
-          value={project.project_title}
-          onChange={handleProjectChange}
+          value={title}
+          onChange={handleTitleChange}
           placeholder={PLACEHOLDER_STRING.TITLE}
           maxLength={MAX_NUMBER.TITLE}
         />
       </div>
       <div
         className={`${styles.titleHelpBox}  ${
-          project.project_title.length >= MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
+          title.length >= MAX_NUMBER.TITLE ? styles.maxLengthTitle : ''
         }`}
       >
         <p>제목은 프로젝트를 직관적으로 알 수 있게 작성해주세요. (50자 이내)</p>
@@ -334,8 +199,8 @@ function ProjectWritingForm() {
             className={styles.summaryTextarea}
             minRows={7}
             name="project_summary"
-            value={project.project_summary}
-            onChange={handleProjectChange}
+            value={summary}
+            onChange={handleSummaryChange}
             placeholder={PLACEHOLDER_STRING.SUMMARY}
             maxLength={MAX_NUMBER.SUMMARY}
           />
@@ -343,7 +208,7 @@ function ProjectWritingForm() {
       </div>
       <div
         className={`${styles.summaryHelpBox}  ${
-          project.project_summary.length >= MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
+          summary.length >= MAX_NUMBER.SUMMARY ? styles.maxLengthSummary : ''
         }`}
       >
         <p>어떤 프로젝트인지 이해하기 쉽도록 명확하고 간결하게 요약해주세요. (150자 이내)</p>
@@ -355,14 +220,16 @@ function ProjectWritingForm() {
             모집 역할<span className={styles.essential}>*</span>
           </h2>
           <div className={styles.checkbox}>
-            {Object.keys(PROJECT_RECRUITMENT_ROLES).map((role) => (
+            {Object.keys(PROJECT_RECRUITMENT_ROLES).map((roleData) => (
               <Checkbox
-                key={role}
-                id={role}
+                key={roleData}
+                id={roleData}
                 name="project_recruitment_roles"
-                label={PROJECT_RECRUITMENT_ROLES[role as keyof typeof PROJECT_RECRUITMENT_ROLES]}
+                label={
+                  PROJECT_RECRUITMENT_ROLES[roleData as keyof typeof PROJECT_RECRUITMENT_ROLES]
+                }
                 onChange={handleCheckboxChange}
-                isChecked={project.project_recruitment_roles.roleList.includes(role)}
+                isChecked={recruitmentRoles.includes(roleData)}
               />
             ))}
           </div>
@@ -373,13 +240,13 @@ function ProjectWritingForm() {
             목적<span className={styles.essential}>*</span>
           </h2>
           <div className={styles.radioBox}>
-            {Object.keys(PROJECT_GOAL).map((goal) => (
+            {Object.keys(PROJECT_GOAL).map((goalData) => (
               <RadioButton
-                key={goal}
-                label={PROJECT_GOAL[goal as keyof typeof PROJECT_GOAL]}
-                value={goal}
+                key={goalData}
+                label={PROJECT_GOAL[goalData as keyof typeof PROJECT_GOAL]}
+                value={goalData}
                 name="project_goal"
-                checked={project.project_goal === goal}
+                checked={goal === goalData}
                 onChange={handleGoalRadioChange}
               />
             ))}
@@ -398,13 +265,15 @@ function ProjectWritingForm() {
           </div>
 
           <div className={styles.radioBox}>
-            {Object.keys(PROJECT_PARTICIPATION_TIME).map((time) => (
+            {Object.keys(PROJECT_PARTICIPATION_TIME).map((timeData) => (
               <RadioButton
-                key={time}
-                label={PROJECT_PARTICIPATION_TIME[time as keyof typeof PROJECT_PARTICIPATION_TIME]}
-                value={time}
+                key={timeData}
+                label={
+                  PROJECT_PARTICIPATION_TIME[timeData as keyof typeof PROJECT_PARTICIPATION_TIME]
+                }
+                value={timeData}
                 name="project_participation_time"
-                checked={project.project_participation_time === time}
+                checked={participationTime === timeData}
                 onChange={handleTimeRadioChange}
               />
             ))}
@@ -418,7 +287,7 @@ function ProjectWritingForm() {
           소개<span className={styles.essential}>*</span>
         </h2>
         <div className={styles.editorBox}>
-          <Editor value={description} onChange={handleEditorChange}></Editor>
+          <Editor value={introduction} onChange={handleEditorChange}></Editor>
         </div>
       </div>
       <div className={styles.introHelpBox}>
@@ -451,9 +320,9 @@ function ProjectWritingForm() {
 
       <div>
         <button className={styles.submitButton} onClick={handleSubmitButton}>
-          {classification === 'create' ? '작성 완료' : '수정 완료'}
+          {path === 'create' ? '작성 완료' : '수정 완료'}
         </button>
-        {isValidate && buttonClick && (
+        {!isValidate && buttonClick && (
           <ValidateModal maxLengthValidate={maxLengthValidate} setModalOpen={setButtonClick} />
         )}
       </div>
