@@ -120,3 +120,14 @@
     }
   }
 }
+
+@media screen and (max-width: 375px) {
+  .stickyButtonWrapper { 
+    .chatButton {
+      & > img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
