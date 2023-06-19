@@ -7,6 +7,7 @@ export const PROJECT_GOAL: Record<string, string> = {
   PORTFOLIO: '포트폴리오/직무 역량 강화',
   FOUNDED: '창업/수익 창출',
   FUN: '재미/네트워킹',
+  EMPLOYMENT: '취업/면접',
 };
 
 export const PROJECT_PARTICIPATION_TIME: Record<string, string> = {
