@@ -79,7 +79,12 @@ export default function Comment({ authorData }: TypeCommentProps) {
         onClickPage={setCurrPage}
         pageCount={Math.ceil(totalPageCount)}
       />
-      <CommentInput />
+      <CommentInput
+        postType={postType}
+        checkUpdate={checkUpdate}
+        setCurrPage={setCurrPage}
+        commentTotal={commentTotal}
+      />
     </div>
   );
 }

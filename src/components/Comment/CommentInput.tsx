@@ -1,4 +1,3 @@
-//새 댓글 post기능만 남기기
 import { useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -10,20 +9,28 @@ import DefaultUserImg from '../../assets/DefaultUser.png';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState } from 'recoil';
 
-export default function CommentInput() {
+type TypeCommentInputProps = {
+  postType: 'project' | 'portfolio';
+  checkUpdate: () => void;
+  setCurrPage: React.Dispatch<React.SetStateAction<number>>;
+  commentTotal: number;
+};
+
+export default function CommentInput({
+  postType,
+  checkUpdate,
+  setCurrPage,
+  commentTotal,
+}: TypeCommentInputProps) {
   const LoginData = useRecoilState(loginAtom);
   const user = LoginData[0];
   const [isInputClicked, setIsInputClicked] = useState(false);
-  const [isListUpdated, setIsListUpdated] = useState(false);
   const postTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   //라우팅관련
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const postId = Number(params.id) || 0;
-  const [postType, setPostType] = useState<'project' | 'portfolio'>('project');
-  const [commentTotal, setCommentTotal] = useState<number>(0);
-  const [currPage, setCurrPage] = useState<number>(0);
 
   //로그인 한 유저일 경우 렌더링되는 인풋영역
   const loggedInUserInput = () => {
@@ -64,7 +71,7 @@ export default function CommentInput() {
             });
             break;
         }
-        setIsListUpdated(!isListUpdated);
+        checkUpdate();
         setIsInputClicked(!isInputClicked);
         setCurrPage(() => Math.floor(commentTotal / 10));
       } catch (error) {
