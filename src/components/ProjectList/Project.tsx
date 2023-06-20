@@ -11,11 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../constants/Routes';
 import styles from './Project.module.scss';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { deleteProjectBookmark, postProjectBookmark } from '../../apis/Fetcher';
 import { getIsNew } from '../../utils/getIsNew';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { projectListAtom } from '../../recoil/projectListFilter';
+import { projectBookmarkAtom } from '../../recoil/projectBookmarkState';
 
 interface projectDataProps {
   projectData: TypeProjectList;
@@ -41,16 +42,23 @@ function Project({ projectData }: projectDataProps) {
     project_created_at: createdAt,
   } = projectData;
 
-  const [bookmark, setBookmark] = useState(isBookmarked);
+  const [bookmarks, setBookmarks] = useRecoilState(projectBookmarkAtom);
   const setProjectListState = useSetRecoilState(projectListAtom);
+
+  useEffect(() => {
+    isBookmarked && setBookmarks((prev) => [...prev, projectId]);
+  }, []);
 
   const handleBookmarkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     if (Token.getToken()) {
-      const updatedBookmark = !bookmark;
-      setBookmark(updatedBookmark);
+      !bookmarks.includes(projectId)
+        ? setBookmarks((prev) => [...prev, projectId])
+        : setBookmarks((prev) => {
+            return prev.filter((id) => id !== projectId);
+          });
       try {
-        updatedBookmark
+        !bookmarks.includes(projectId)
           ? await postProjectBookmark(projectId)
           : await deleteProjectBookmark(projectId);
       } catch (error) {
@@ -89,7 +97,7 @@ function Project({ projectData }: projectDataProps) {
             )}
             {isBookmarked !== undefined && (
               <button className={styles.bookmarkButton} onClick={(e) => handleBookmarkClick(e)}>
-                {bookmark ? <BsBookmarkFill /> : <BsBookmark />}
+                {bookmarks.includes(projectId) ? <BsBookmarkFill /> : <BsBookmark />}
               </button>
             )}
           </div>

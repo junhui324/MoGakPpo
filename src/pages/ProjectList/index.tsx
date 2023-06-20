@@ -18,7 +18,6 @@ function ProjectListMain() {
   const getProjectListData = useCallback(
     async (nextPage: number): Promise<void> => {
       const { projectList, selectedCategory, keywordValue, recruitingFilter } = projectListState;
-      console.log('next:', nextPage);
 
       try {
         const response = await getProjects(
@@ -27,7 +26,6 @@ function ProjectListMain() {
           keywordValue,
           nextPage
         );
-        console.log(response);
         const { pagenatedProjects, pageSize } = response.data;
         const updatedProjectList =
           nextPage > 1 ? [...projectList, ...pagenatedProjects] : pagenatedProjects;
