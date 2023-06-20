@@ -189,3 +189,116 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (max-width: 768px) {
+  .newPosts {
+    .titleContainer {
+      width: 100vw;
+      .titleTextWrapper {
+      }
+    }
+    .ButtonContainer {
+      width: 100vw;
+      .arrowButton {
+        display: none;
+      }
+    }
+    .slideArea {
+      width: 100vw;
+
+      .projectList {
+        //width: 50vw;
+
+        .link {
+          width: 50vw;
+          margin: 10px;
+        }
+      }
+
+      .projectContainer {
+        width: 50vw;
+
+        .project {
+          position: relative;
+          box-sizing: border-box;
+          height: 240px;
+          padding: 20px;
+          padding: 24px 24px 24px 24px;
+
+          .type {
+            margin-right: 8px;
+            padding: 4px 6px 4px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+          }
+
+          .goal {
+            padding: 4px 6px 4px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+          }
+
+          .summary {
+            margin: 1rem 0;
+            line-height: 1.3rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .role {
+            display: flex;
+            margin: 1rem 0;
+          }
+
+          .titleWrapper {
+            display: flex;
+            margin: 1.4rem 0;
+            font-size: 18px;
+
+            .title {
+              font-weight: 500;
+              line-height: 2rem;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .newTag {
+              font-size: 12px;
+              margin-left: 0.6rem;
+            }
+          }
+
+          .viewWrapper {
+            position: absolute;
+            bottom: 24px;
+
+            & > * {
+              font-size: 14px;
+            }
+
+            .count {
+              margin: 0 0.4rem;
+
+              &::after {
+                margin-left: 4px;
+                margin-right: 4px;
+                content: '·';
+              }
+              &:last-child::after {
+                content: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .noContent {
+    width: 100%;
+    line-height: 1.5rem;
+    font-size: 16px;
+  }
+}
