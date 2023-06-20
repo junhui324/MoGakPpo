@@ -5,6 +5,7 @@ import MemberSelectForm from './MemberSelectForm';
 import QuillEditor from '../Editor/Editor2';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
 import ThumbnailInput from './ThumbnailInput';
+import CompleteListModal from './CompleteListModal';
 import ROUTES from '../../constants/Routes';
 import styles from './PortfolioCreateWriting.module.scss';
 import * as Fetcher from '../../apis/Fetcher';
@@ -44,6 +45,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [thumbnailSrc, setThumbnailSrc] = useState<string>('');
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [gitHubUrl, setGitHubUrl] = useState('');
+  const [isCompletePost, setIsCompletePost] = useState(false);
 
   const quillRef = useRef<Quill | null>(null);
   const thumbnailRef = useRef<HTMLButtonElement>(null);
@@ -367,6 +369,11 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         <h1 className={styles.title}>프로젝트 자랑 작성</h1>
         <div className={styles.topContainer}>
           <div>
+            {/* 여기에 임의로 버튼을 추가했습니다 */}
+            <button onClick={() => {
+              setIsCompletePost(prev => !prev)
+            }}>버튼</button>
+            {isCompletePost && <CompleteListModal setModalOpen={setIsCompletePost}/>}
             <h3 className={styles.required}>썸네일</h3>
             <ThumbnailInput
               innerRef={thumbnailRef}
