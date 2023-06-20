@@ -363,17 +363,33 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
   };
 
+  const handleFocusEditor = () => {
+    const editorContainer = document.getElementById('editor-container');
+    editorContainer!.style.height = '75vh';
+  };
+
+  const handleBlurEditor = () => {
+    const editorContainer = document.getElementById('editor-container');
+    editorContainer!.style.height = '25vh';
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.mainFormContainer}>
-        <h1 className={styles.title}>프로젝트 자랑 작성</h1>
+        <div className={styles.headerContainer}>
+          <h1 className={styles.title}>프로젝트 자랑 작성</h1>
+          {/* 여기에 임의로 버튼을 추가했습니다 */}
+          <button
+            onClick={() => {
+              setIsCompletePost((prev) => !prev);
+            }}
+          >
+            관련 모집 글 선택
+          </button>
+        </div>
         <div className={styles.topContainer}>
           <div>
-            {/* 여기에 임의로 버튼을 추가했습니다 */}
-            <button onClick={() => {
-              setIsCompletePost(prev => !prev)
-            }}>버튼</button>
-            {isCompletePost && <CompleteListModal setModalOpen={setIsCompletePost}/>}
+            {isCompletePost && <CompleteListModal setModalOpen={setIsCompletePost} />}
             <h3 className={styles.required}>썸네일</h3>
             <ThumbnailInput
               innerRef={thumbnailRef}
@@ -409,7 +425,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         </div>
         <div>
           <h3 className={styles.required}>내용</h3>
-          <QuillEditor innerRef={quillRef} />
+          <QuillEditor innerRef={quillRef} onFocus={handleFocusEditor} onBlur={handleBlurEditor} />
         </div>
         <label className={styles.gitHubContainer}>
           <div className={styles.inputTop}>
