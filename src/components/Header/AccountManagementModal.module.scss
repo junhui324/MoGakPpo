@@ -1,0 +1,30 @@
+@use '/src/theme.scss' as *;
+@import '/src/variables.scss';
+.ulContainer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 250px;
+  height: 160px;
+  gap: 15px 18px;
+
+  p {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--color-text1);
+  }
+  li {
+    //display: flex;
+    //justify-content: space-between;
+    text-align: center;
+    padding: 18px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text1);
+    background-color: var(--color-bg1);
+    border: 1px solid $container-border-color;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}

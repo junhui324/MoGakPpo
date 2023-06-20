@@ -5,6 +5,7 @@ import MemberSelectForm from './MemberSelectForm';
 import QuillEditor from '../Editor/Editor2';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
 import ThumbnailInput from './ThumbnailInput';
+import CompleteListModal from './CompleteListModal';
 import ROUTES from '../../constants/Routes';
 import styles from './PortfolioCreateWriting.module.scss';
 import * as Fetcher from '../../apis/Fetcher';
@@ -21,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
+import { BsChevronRight } from 'react-icons/bs';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -44,6 +46,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const [thumbnailSrc, setThumbnailSrc] = useState<string>('');
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const [gitHubUrl, setGitHubUrl] = useState('');
+  const [isCompletePost, setIsCompletePost] = useState(false);
 
   const quillRef = useRef<Quill | null>(null);
   const thumbnailRef = useRef<HTMLButtonElement>(null);
@@ -361,12 +364,35 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
   };
 
+  const handleFocusEditor = () => {
+    const editorContainer = document.getElementById('editor-container');
+    editorContainer!.style.height = '75vh';
+  };
+
+  const handleBlurEditor = () => {
+    const editorContainer = document.getElementById('editor-container');
+    editorContainer!.style.height = '25vh';
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.mainFormContainer}>
-        <h1 className={styles.title}>프로젝트 자랑 작성</h1>
+        <div className={styles.headerContainer}>
+          <h1 className={styles.title}>프로젝트 자랑 작성</h1>
+          {/* 여기에 임의로 버튼을 추가했습니다 */}
+          <button
+            className={styles.selectPostButton}
+            onClick={() => {
+              setIsCompletePost((prev) => !prev);
+            }}
+          >
+            관련 모집 글 선택
+            <BsChevronRight />
+          </button>
+        </div>
         <div className={styles.topContainer}>
           <div>
+            {isCompletePost && <CompleteListModal setModalOpen={setIsCompletePost} />}
             <h3 className={styles.required}>썸네일</h3>
             <ThumbnailInput
               innerRef={thumbnailRef}
@@ -402,7 +428,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         </div>
         <div>
           <h3 className={styles.required}>내용</h3>
-          <QuillEditor innerRef={quillRef} />
+          <QuillEditor innerRef={quillRef} onFocus={handleFocusEditor} onBlur={handleBlurEditor} />
         </div>
         <label className={styles.gitHubContainer}>
           <div className={styles.inputTop}>

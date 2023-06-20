@@ -1,6 +1,5 @@
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect } from 'react';
 import { getProjects } from '../../apis/Fetcher';
-import { TypeProjectList } from '../../interfaces/Project.interface';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
 import ProjectPostButton from '../../components/common/ProjectPostButton';

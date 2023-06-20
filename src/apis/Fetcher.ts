@@ -400,3 +400,19 @@ export async function getKakaoLogin(code: string): Promise<AxiosResponse> {
 
   return response;
 }
+
+// 모집완료한 게시글 불러오기
+export async function getCompletedProject(): Promise<{
+  message: string;
+  data: {
+    listLength: number;
+    completedProjects: ProjectType.TypeCompleteProjects[];
+  }
+}> {
+  // api 연결용
+  // const params = `user`;
+  // const query = `status=complete`;
+  // return await Api.get(API_KEY, params, true, query);
+  const params = `completedProject.json`;
+  return await Api.get(domain, params);
+}
