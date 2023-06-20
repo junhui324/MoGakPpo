@@ -8,3 +8,17 @@
     color: var(--color-text1);
   }
 }
+
+.mobileContainer {
+  text-align: right;
+  select {
+    position: relative;
+    text-align: center;
+    font-size: 16px;
+
+    option {
+      position: absolute;
+      top: 0;
+    }
+  }
+}

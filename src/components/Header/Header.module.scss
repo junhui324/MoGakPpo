@@ -131,10 +131,11 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: var(--color-bg1);
   .logo {
     margin-left: 8px;
-    width: 110px;
-    height: fit-content;
+    width: 26vw;
+    height: auto;
   }
   .hamburgerButton {
     border: none;
@@ -143,33 +144,6 @@
     svg {
       color: var(--color-text1);
       font-size: 24px;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    .contentsContainer {
-      .leftContainer {
-        a {
-          span {
-            font-size: 12px;
-          }
-        }
-      }
-      .rightContainer {
-        p {
-          display: none;
-        }
-        .notLoggedIn {
-          button {
-            font-size: 12px;
-          }
-        }
-        button {
-          font-size: 12px;
-        }
-      }
     }
   }
 }

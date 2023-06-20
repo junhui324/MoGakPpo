@@ -8,6 +8,9 @@
   background-color: var(--color-bg2);
   width: 85vw;
   height: 100vh;
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,8 +21,7 @@
     justify-content: space-between;
     .logo {
       padding: 4px;
-      width: 110px;
-      height: fit-content;
+      height: 10vw;
     }
     button {
       background-color: unset;
@@ -38,7 +40,7 @@
       display: flex;
       align-items: center;
       height: 60px;
-      padding: 12px 24px;
+      padding: 8px 18px;
       border-bottom: 1px solid var(--color-text3);
       a {
         width: 100%;
@@ -88,7 +90,7 @@
 }
 .overlay {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   display: block;
   width: 100vw;

@@ -10,8 +10,11 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import { projectListAtom } from '../../recoil/projectListFilter';
+import { useMediaQuery } from 'react-responsive';
 
 function ProjectListMain() {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
+
   const [projectListState, setProjectListState] = useRecoilState(projectListAtom);
   const setClassification = useSetRecoilState(classificationState);
 
@@ -141,14 +144,17 @@ function ProjectListMain() {
   };
 
   return (
-    <div className={styles.container} style={{ maxWidth: 1024, margin: '0 auto' }}>
+    <div
+      className={!isMobile ? `${styles.container}` : `${styles.mobileContainer}`}
+      style={{ maxWidth: 1024, margin: '0 auto' }}
+    >
       <div className={styles.leftContainer}>
         <div className={styles.leftContentContainer}>
           <Category
             selectedCategory={projectListState.selectedCategory}
             handleClick={handleCategoryClick}
           />
-          <ProjectPostButton />
+          {!isMobile && <ProjectPostButton />}
         </div>
       </div>
       <div className={styles.rightContainer}>
@@ -166,6 +172,7 @@ function ProjectListMain() {
           innerRef={target}
         />
       </div>
+      {isMobile && <ProjectPostButton />}
     </div>
   );
 }

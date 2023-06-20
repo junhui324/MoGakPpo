@@ -60,9 +60,9 @@
   }
   .secondContainer {
     width: 100%;
-    font-size: 20px;
+    font-size: 1.3rem;
     font-weight: 550;
-    line-height: 2.2rem;
+    line-height: 2rem;
     .status.recruiting {
       color: var(--color-green);
     }
@@ -169,9 +169,21 @@
   box-shadow: 0 0 15px var(--color-border);
 }
 
-@media (max-width: 768px) {
+.mobileListContainer {
+  padding: 14px;
+  gap: 0.8rem;
+  margin-bottom: 20px;
+
+  .secondContainer {
+    font-size: 1rem;
+    font-weight: 550;
+    line-height: 1.6em;
+  }
+  .summary {
+    font-size: 14px;
+    line-height: 1.5em;
+  }
   .topContainer {
-    flex-direction: column;
     div:nth-child(1) {
       text-align: center;
       .type {
@@ -182,6 +194,12 @@
         margin-top: 6px;
         display: inline-block;
       }
+    }
+  }
+
+  .roleContainer {
+    li {
+      font-size: 13px;
     }
   }
 }

@@ -15,8 +15,15 @@
   display: none;
 }
 
-@media (max-width: 768px) {
-  .postButton {
-    align-self: auto;
+.mobileContainer {
+  position: fixed;
+  z-index: 999;
+  bottom: 7.5rem;
+  right: 2rem;
+  button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0px 2px 15px #e9ebec2b;
   }
 }

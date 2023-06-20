@@ -7,8 +7,10 @@ import { classificationState } from '../../../recoil/projectState';
 import { userTokenState } from '../../../recoil/userState';
 import { getToken } from '../../../apis/Token';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 function ProjectPostButton() {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
   const [buttonClick, setButtonClick] = useState(false);
   const classification = useRecoilValue(classificationState);
   const [userToken, setUserToken] = useRecoilState(userTokenState);
@@ -31,20 +33,17 @@ function ProjectPostButton() {
     }
   };
   return (
-    <>
+    <div className={isMobile ? `${styles.mobileContainer}` : undefined}>
       <button
         className={`${styles.postButton} ${
           classification === 'modify' ? styles.nonePostButton : ''
         }`}
-        // onClick={() => {
-        //   navigate(`${ROUTES.CREATE}study`);
-        // }}
         onClick={handleButtonClick}
       >
-        ✏️ 모집글 작성하기
+        {isMobile ? '✏️' : '✏️ 모집글 작성하기'}
       </button>
       {buttonClick && <PostTypeSelectModal setModalOpen={setButtonClick} />}
-    </>
+    </div>
   );
 }
 export default ProjectPostButton;
