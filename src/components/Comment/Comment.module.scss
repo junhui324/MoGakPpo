@@ -39,6 +39,7 @@
   position: relative;
   margin: 0 calc((100vw - 100%) * -0.5);
 }
+
 .commentCount {
   margin: 24px auto 40px;
   max-width: 686px;
@@ -76,7 +77,32 @@
     }
   }
 }
+.reply {
+  .commentList {
+    .comment {
+      background-color: var(--color-bg1);
+      position: relative;
+      right: 0;
+      margin-bottom: 0;
+      .header {
+        margin-left: 40px;
+      }
+      .replyMention {
+        display: flex;
+        flex-direction: column;
+        margin-left: 40px;
+        h3 {
+          color: var(--color-pink);
+        }
+      }
+      .content {
+        background-color: var(--color-bg1);
+      }
+    }
+  }
+}
 .commentList {
+  position: relative;
   margin: 0 auto;
   padding: 0;
   max-width: 686px;
@@ -86,7 +112,7 @@
     border-radius: 8px;
     list-style: none;
     padding: 20px 32px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     .header {
       display: flex;
       align-items: center;

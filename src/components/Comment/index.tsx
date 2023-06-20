@@ -68,6 +68,7 @@ export default function Comment({ authorData }: TypeCommentProps) {
         </div>
       ) : (
         <CommentItem
+          initComments={comments}
           comments={comments}
           authorData={authorData}
           postType={postType}

@@ -1,5 +1,5 @@
 //패키지
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
@@ -12,16 +12,20 @@ import CommentModal from './CommentModal';
 import styles from './Comment.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { RxCornerBottomLeft } from 'react-icons/rx';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState } from 'recoil';
 
 type TypeCommentItemProps = {
+  initComments: TypeComment[];
   comments: TypeComment[];
   authorData: { user_id: number } | null;
   postType: 'project' | 'portfolio';
   checkUpdate: () => void;
 };
+
 export default function CommentItem({
+  initComments,
   comments,
   authorData,
   postType,
@@ -33,6 +37,20 @@ export default function CommentItem({
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const editTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const findRef = (refId: number): TypeComment | undefined => {
+    const parent = initComments.find((comment) => comment.comment_id === refId);
+    return parent;
+  };
+  //댓글 수정 시 value의 초깃값을 기존 댓글 내용으로 설정함
+  useEffect(() => {
+    const comment = comments?.find((comment) => comment.comment_id === editingCommentId);
+    if (editTextareaRef.current) {
+      editTextareaRef.current.value = comment?.comment_content || '';
+      editTextareaRef.current.focus();
+    }
+  }, [comments, editingCommentId]);
+
   return (
     <ul className={styles.commentList}>
       {comments.map((comment) => {
@@ -85,18 +103,14 @@ export default function CommentItem({
         };
         // 코멘트리스트 렌더링
         return (
-          <li key={comment.comment_id} className={styles.comment}>
-            <div className={styles.header}>
-              <Link
-                to={
-                  comment.user_id === Number(user?.user_id)
-                    ? '/user/mypage'
-                    : `/user/${comment.user_id}`
-                }
-              >
-                <img src={comment.user_img || DefaultUserImg} alt="profile" />
-              </Link>
-              <div className={styles.subHeader}>
+          <>
+            <li key={comment.comment_id} className={styles.comment}>
+              {comment.ref_id && (
+                <div className={styles.replyIcon}>
+                  <RxCornerBottomLeft />
+                </div>
+              )}
+              <div className={styles.header}>
                 <Link
                   to={
                     comment.user_id === Number(user?.user_id)
@@ -104,51 +118,66 @@ export default function CommentItem({
                       : `/user/${comment.user_id}`
                   }
                 >
-                  <h3>{comment.user_name}</h3>
-                  {comment.user_id === authorData?.user_id && <span>작성자</span>}
+                  <img src={comment.user_img || DefaultUserImg} alt="profile" />
                 </Link>
-                <p>{getDateFormat(comment.comment_created_at)}</p>
+                <div className={styles.subHeader}>
+                  <Link
+                    to={
+                      comment.user_id === Number(user?.user_id)
+                        ? '/user/mypage'
+                        : `/user/${comment.user_id}`
+                    }
+                  >
+                    <h3>{comment.user_name}</h3>
+                    {comment.user_id === authorData?.user_id && <span>작성자</span>}
+                  </Link>
+                  <p>{getDateFormat(comment.comment_created_at)}</p>
+                </div>
+                <div className={styles.dotButton}>
+                  <BsThreeDotsVertical
+                    onClick={() => {
+                      setSelectedCommentId(comment.comment_id);
+                      setModalOpen(true);
+                    }}
+                  />
+                  <CommentModal
+                    modalOpen={modalOpen && selectedCommentId === comment.comment_id}
+                    setModalOpen={setModalOpen}
+                    isMyComment={comment.user_id === Number(user?.user_id)}
+                    onClickEdit={handleEditButtonClick}
+                    onClickDelete={handleDeleteButtonClick}
+                    onClickCopy={handleCopyButtonClick}
+                  />
+                </div>
               </div>
-              <div className={styles.dotButton}>
-                <BsThreeDotsVertical
-                  onClick={() => {
-                    setSelectedCommentId(comment.comment_id);
-                    setModalOpen(true);
-                  }}
-                />
-                <CommentModal
-                  modalOpen={modalOpen && selectedCommentId === comment.comment_id}
-                  setModalOpen={setModalOpen}
-                  isMyComment={comment.user_id === Number(user?.user_id)}
-                  onClickEdit={handleEditButtonClick}
-                  onClickDelete={handleDeleteButtonClick}
-                  onClickCopy={handleCopyButtonClick}
-                />
-              </div>
-            </div>
-            {isEditing ? (
-              <TextareaAutosize minRows={3} ref={editTextareaRef} maxLength={150} />
-            ) : (
-              <TextareaAutosize
-                readOnly
-                className={styles.content}
-                value={comment.isDeleted ? '삭제된 댓글입니다.' : comment.comment_content}
-              />
-            )}
-            {isEditing && (
-              <div className={styles.buttonContainer}>
-                <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
-                  등록
-                </button>
-                <button className={styles.lineButton} onClick={() => setEditingCommentId(null)}>
-                  취소
-                </button>
-              </div>
-            )}
+              {isEditing ? (
+                <TextareaAutosize minRows={3} ref={editTextareaRef} maxLength={150} />
+              ) : (
+                <div className={styles.replyMention}>
+                  {comment.ref_id && <h3>@{findRef(comment.ref_id)?.user_name}</h3>}
+                  <TextareaAutosize
+                    readOnly
+                    className={styles.content}
+                    value={comment.isDeleted ? '삭제된 댓글입니다.' : comment.comment_content}
+                  />
+                </div>
+              )}
+              {isEditing && (
+                <div className={styles.buttonContainer}>
+                  <button className={styles.defaultButton} onClick={handleEditSubmitButtonClick}>
+                    등록
+                  </button>
+                  <button className={styles.lineButton} onClick={() => setEditingCommentId(null)}>
+                    취소
+                  </button>
+                </div>
+              )}
+            </li>
             {/* 대댓글 렌더링 */}
             <div className={styles.reply}>
               {comment.replies && comment.replies.length > 0 && (
                 <CommentItem
+                  initComments={comments}
                   comments={comment.replies}
                   authorData={authorData}
                   postType={postType}
@@ -156,7 +185,7 @@ export default function CommentItem({
                 />
               )}
             </div>
-          </li>
+          </>
         );
       })}
     </ul>

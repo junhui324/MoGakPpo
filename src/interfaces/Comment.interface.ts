@@ -7,6 +7,7 @@ interface Comment {
   comment_created_at: string;
   isDeleted: boolean;
   replies: Comment[];
+  ref_id: number | null;
 }
 
 export interface ProjectComment extends Comment {
@@ -34,6 +35,7 @@ export type TypeComment = Pick<
   | 'comment_created_at'
   | 'isDeleted'
   | 'replies'
+  | 'ref_id'
 >;
 
 export type TypeMypageProjectComment = Pick<
