@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
+import { BsChevronRight } from 'react-icons/bs';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -380,11 +381,13 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
           <h1 className={styles.title}>프로젝트 자랑 작성</h1>
           {/* 여기에 임의로 버튼을 추가했습니다 */}
           <button
+            className={styles.selectPostButton}
             onClick={() => {
               setIsCompletePost((prev) => !prev);
             }}
           >
             관련 모집 글 선택
+            <BsChevronRight />
           </button>
         </div>
         <div className={styles.topContainer}>
