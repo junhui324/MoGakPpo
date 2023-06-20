@@ -85,6 +85,10 @@ function DeleteAccount() {
       border-color: ${darkMode ? '#d4a4f9' : '#e8e8e8'};
       box-shadow: 0 0 0 2px #d4a4f9;
     }
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   `;
 
   const optionStyles = css`
