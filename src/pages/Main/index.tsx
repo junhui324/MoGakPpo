@@ -4,19 +4,37 @@ import NewPosts from '../../components/Home/NewPosts';
 import BestStacks from '../../components/Home/BestStacks';
 import Footer from '../../components/Footer';
 import { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Main() {
+  const isPc = useMediaQuery({
+    query : "(min-width:376px)"
+  });
+  const isMobile = useMediaQuery({
+    query : "(max-width:375px)"
+  }); 
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <div>
       <Banner />
-      <div style={{ maxWidth: 1024, margin: '0 auto' }}>
-        <NewPosts />
-        <HotPortfolio />
-        <BestStacks />
-      </div>
+      {isPc && 
+        <div style={{ maxWidth: 1024, margin: '0 auto' }}>
+          <NewPosts />
+          <HotPortfolio />
+          <BestStacks />
+        </div>
+      }
+      {isMobile && 
+        <div style={{ maxWidth: 375, margin: '0 auto' }}>
+          <NewPosts />
+          <HotPortfolio />
+          <BestStacks />
+        </div>
+      }
       <Footer />
     </div>
   );
