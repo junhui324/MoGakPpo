@@ -1,16 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
-import { getComment, getProject, getPortfolio } from '../../apis/Fetcher';
+import { getComment } from '../../apis/Fetcher';
 import Pagination from '../../components/Pagination';
 import styles from './Comment.module.scss';
 import NoContentImage from '../../assets/NoContent.png';
 import CommentItem from './CommentItem';
 import CommentInput from './CommentInput';
-//@ts-ignore
-export default function Comment({ authorData }) {
+
+type TypeCommentProps = {
+  authorData: { user_id: number } | null;
+};
+
+export default function Comment({ authorData }: TypeCommentProps) {
   const [comments, setComments] = useState<TypeComment[]>([]);
   const [isListUpdated, setIsListUpdated] = useState(false);
+  const checkUpdate = () => {
+    setIsListUpdated(!isListUpdated);
+  };
 
   //라우팅관련
   const params = useParams();
@@ -20,6 +27,15 @@ export default function Comment({ authorData }) {
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
 
+  const [postType, setPostType] = useState<'project' | 'portfolio'>('project');
+  useEffect(() => {
+    if (location.pathname.split('/')[1] === 'projects') {
+      setPostType('project');
+    }
+    if (location.pathname.split('/')[1] === 'portfolios') {
+      setPostType('portfolio');
+    }
+  }, [location.pathname]);
   //코멘트 data get요청
   const getCommentData = useCallback(async () => {
     try {
@@ -51,9 +67,12 @@ export default function Comment({ authorData }) {
           </p>
         </div>
       ) : (
-        <ul className={styles.commentList}>
-          <CommentItem comments={comments} authorData={authorData} />
-        </ul>
+        <CommentItem
+          comments={comments}
+          authorData={authorData}
+          postType={postType}
+          checkUpdate={checkUpdate}
+        />
       )}
       <Pagination
         currPage={currPage}
