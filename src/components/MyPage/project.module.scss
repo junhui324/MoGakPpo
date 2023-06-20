@@ -103,3 +103,111 @@
   color: var(--color-text2);
   font-weight: 100;
 }
+
+@media (max-width: 768px) {
+  .listContainer {
+    display: flex;
+    margin-bottom: 32px;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 24px 24px 24px 24px;
+
+    .topContainer {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .secondContainer {
+      width: 100%;
+      font-size: 16px;
+      font-weight: 550;
+      line-height: 2.2rem;
+      .title {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        width: 480px;
+      }
+      .newTag {
+        margin-left: 8px;
+        align-self: center;
+        font-size: 12px;
+        color: var(--color-blue);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .listContainer {
+    display: flex;
+    margin-bottom: 32px;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 24px 24px 24px 24px;
+
+    .topContainer {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      div:nth-child(1) {
+        .type {
+          margin-right: 8px;
+          padding: 3px 4px 3px 4px;
+          font-size: 11px;
+        }
+        .goal {
+          display: none;
+        }
+      }
+      div:nth-child(2) {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        .participationTime {
+          font-size: 12px;
+          align-self: c;
+          color: var(--color-text3);
+        }
+        .bookmarkButton {
+          display: flex;
+          border: none;
+          padding: 6px 8px;
+          background-color: unset;
+          cursor: pointer;
+          svg {
+            font-size: 14px;
+            color: var(--color-pink);
+          }
+        }
+      }
+    }
+    .secondContainer {
+      width: 100%;
+      font-size: 16px;
+      font-weight: 550;
+      line-height: 2.2rem;
+      .title {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        width: 250px;
+      }
+      .newTag {
+        margin-left: 8px;
+        align-self: center;
+        font-size: 12px;
+        color: var(--color-blue);
+      }
+    }
+  }
+  .createdAt {
+    font-size: 14px;
+  }
+}

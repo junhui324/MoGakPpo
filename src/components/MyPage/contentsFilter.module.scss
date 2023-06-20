@@ -10,3 +10,9 @@
     cursor: pointer;
   }
 }
+
+@media (max-width: 768px) {
+  select {
+    margin-right: 10px;
+  }
+}
