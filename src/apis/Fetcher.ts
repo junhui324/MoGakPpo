@@ -145,7 +145,6 @@ export async function getProjects(
   const params = `projects`;
   const newKeyword = keyword === '' ? 'false' : keyword;
   const query = `cate=${cate}&recruiting=${recruiting}&keyword=${newKeyword}&page=${page}`;
-  console.log(query);
   return await Api.get(API_KEY, params, true, query);
 }
 

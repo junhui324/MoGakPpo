@@ -59,6 +59,44 @@
 //     [selectedCategory, recruitingFilter, keywordValue, pageCount, pageSize]
 //   );
 
+//   useEffect(() => {
+//     // 이전 상태값 저장
+//     const saveState = () => {
+//       const stateToSave = {
+//         selectedCategory,
+//         keywordValue,
+//         recruitingFilter,
+//         pageCount,
+//         projectList,
+//       };
+//       sessionStorage.setItem('projectListState', JSON.stringify(stateToSave));
+//     };
+
+//     // 이전 상태값 복원
+//     const restoreState = () => {
+//       const savedState = sessionStorage.getItem('projectListState');
+//       if (savedState) {
+//         const parsedState = JSON.parse(savedState);
+//         setSelectedCategory(parsedState.selectedCategory);
+//         setKeywordValue(parsedState.keywordValue);
+//         setRecruitingFilter(parsedState.recruitingFilter);
+//         setPageCount(parsedState.pageCount);
+//         setProjectList(parsedState.projectList);
+//       }
+//     };
+
+//     // 이전 상태값 저장
+//     saveState();
+
+//     // 뒤로가기 이벤트 리스너 등록
+//     window.addEventListener('popstate', restoreState);
+
+//     return () => {
+//       // 뒤로가기 이벤트 리스너 해제
+//       window.removeEventListener('popstate', restoreState);
+//     };
+//   }, []);
+
 //   const target: RefObject<HTMLElement | HTMLLIElement> = useInfiniteScroll(
 //     async (entry, observer) => {
 //       //토탈 페이지 수의 페이지까지만 다음 페이지 데이터 업데이트하기
@@ -121,12 +159,8 @@
 //       </div>
 //       <div className={styles.rightContainer}>
 //         <div className={styles.searchContainer}>
-//           <ProjectSearch
-//             handleChange={handleSearchChange}
-//             value={keywordValue}
-//             isSearched={isSearched}
-//           />
-//           <RecruitingProjectFilter onChange={handleRecruitingSelect} />
+//           <ProjectSearch handleChange={handleSearchChange} value={keywordValue} />
+//           <RecruitingProjectFilter value={recruitingFilter} onChange={handleRecruitingSelect} />
 //         </div>
 //         <ProjectList
 //           projectList={projectList}

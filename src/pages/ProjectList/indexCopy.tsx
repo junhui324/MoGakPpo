@@ -8,11 +8,13 @@ import ProjectSearch from '../../components/ProjectList/ProjectSearch';
 import styles from './ProjectListMain.module.scss';
 import RecruitingProjectFilter from '../../components/ProjectList/RecruitingProjectFilter';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { classificationState } from '../../recoil/projectState';
 import { projectListAtom } from '../../recoil/projectListFilter';
 
 function ProjectListMain() {
+  const resetProjectListAtom = useResetRecoilState(projectListAtom);
+
   const [projectListState, setProjectListState] = useRecoilState(projectListAtom);
   const setClassification = useSetRecoilState(classificationState);
 
@@ -90,6 +92,9 @@ function ProjectListMain() {
       }));
       getProjectListData(1);
     }
+    // return () => {
+    //   resetProjectListAtom();
+    // };
   }, []);
 
   useEffect(() => {
