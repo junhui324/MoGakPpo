@@ -10,7 +10,6 @@ import * as Token from '../../apis/Token';
 
 //recoil
 import { useRecoilState } from 'recoil';
-import { portfolioState } from '../../recoil/portfolioState';
 import { loginAtom } from '../../recoil/loginState';
 
 import DetailShareButton from './DetailShareButton';
@@ -20,6 +19,7 @@ import PortfolioModifyBlock from './PortfolioModifyBlock';
 import { StackIcon } from '../Project/ProjectBodyLogo';
 
 import ROUTES from '../../constants/Routes';
+import { TypePortfolio } from '../../interfaces/Portfolio.interface';
 
 import DefaultUserImage from '../../assets/DefaultUser.png';
 
@@ -29,8 +29,27 @@ const WEEK_DAY = 7;
 const MONTH_ADJUSTMENT = 1;
 
 function PortfolioDetailForm() {
-  const [portfolio, setPortfolio] = useRecoilState(portfolioState);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [portfolio, setPortfolio] = useState<TypePortfolio>({
+    is_bookmarked: false,
+    portfolio_id: 0,
+    portfolio_title: '',
+    portfolio_summary: '',
+    portfolio_thumbnail: '',
+    portfolio_github: '',
+    portfolio_stacks: { stackList: [] as string[] },
+    participated_members: [],
+    portfolio_description: '',
+    portfolio_img: '',
+    portfolio_bookmark_count: 0,
+    portfolio_comments_count: 0,
+    portfolio_views_count: 0,
+    portfolio_created_at: '',
+    portfolio_bookmark_users: [],
+    user_id: 0,
+    user_name: '',
+    user_introduction: '',
+    user_img: '',
+  });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -48,7 +67,6 @@ function PortfolioDetailForm() {
   const now: Date = new Date();
 
   const getPortfolio = useCallback(async () => {
-    setIsLoading(true);
     try {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
@@ -72,8 +90,6 @@ function PortfolioDetailForm() {
         }
       }
       navigate(ROUTES.MAIN);
-    } finally {
-      setIsLoading(false);
     }
   }, [setPortfolio, id]);
 
@@ -119,20 +135,22 @@ function PortfolioDetailForm() {
       }월 ${localDate.getDate()}일`;
   };
 
-  return isLoading ? (
-    <div className={styles.loadingContainer}>
-      <div className={styles.loading}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-  ) : (
+  const isValidURL = (str: string) => {
+    var res = str.match(
+      /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+    );
+    return res !== null;
+  };
+
+  const handleGithubLinkClick = () => {
+    if (isValidURL(portfolio.portfolio_github)) {
+      window.open(`${portfolio.portfolio_github}`, '_blank');
+      return;
+    }
+    alert('해당 주소로 이동할 수 없습니다! 😥');
+  };
+
+  return (
     <div className={styles.container}>
       <div className={styles.leftContainer}>
         <div className={styles.title}>
@@ -221,10 +239,7 @@ function PortfolioDetailForm() {
         </div>
 
         <div className={styles.link}>
-          <button
-            className={styles.linkButton}
-            onClick={() => window.open(`${portfolio.portfolio_github}`, '_blank')}
-          >
+          <button className={styles.linkButton} onClick={handleGithubLinkClick}>
             <BsGithub className={styles.logo} />
             <span>깃허브 링크</span>
           </button>

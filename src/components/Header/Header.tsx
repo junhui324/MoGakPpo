@@ -43,6 +43,7 @@ function Header() {
       <div className={styles.contentsContainer}>
         <div className={styles.leftContainer}>
           <img
+            alt="로고"
             className={styles.logo}
             src={Logo}
             onClick={handleLogoClick}
