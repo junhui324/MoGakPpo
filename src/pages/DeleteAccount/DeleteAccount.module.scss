@@ -20,7 +20,7 @@
 
   .introBox {
     width: 60%;
-    height: 90px;
+    height: 100px;
     border: 1px solid var(--color-bg2);
     border-radius: 10px;
     background-color: var(--color-bg2);
@@ -35,7 +35,7 @@
 
   .notice {
     width: 60%;
-    height: 90px;
+    height: 100px;
     border: 1px solid var(--color-red);
     border-radius: 10px;
     display: flex;
@@ -64,6 +64,25 @@
       border: 1px solid var(--color-bg2);
       background-color: var(--color-bg2);
       color: var(--color-text1);
+    }
+  }
+
+  .password {
+    margin-top: 10px;
+
+    input {
+      width: 200px;
+      margin-right: 5px;
+      margin-left: 20px;
+      background-color: var(--color-bg1);
+      border: 1px solid var(--color-pink2);
+      color: var(--color-text1);
+    }
+
+    .icon {
+      border: none;
+      border-radius: 5px;
+      background-color: var(--color-pink2);
     }
   }
 

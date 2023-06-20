@@ -89,7 +89,10 @@ export default function ChangePassword() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.title}>비밀번호 수정</div>
+        <div className={styles.title}>비밀번호 변경</div>
+        <div className={styles.info}>
+          <span>⛔ 카카오 로그인 유저</span> 는 비밀번호 변경이 불가능합니다.
+        </div>
         <div className={styles.main}>
           <form
             onSubmit={(e) => {
