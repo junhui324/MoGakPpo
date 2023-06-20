@@ -11,7 +11,7 @@ function PortfolioDetail() {
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <PortfolioDetailForm />
-      <Comment />
+      {/* <Comment authorData={35} /> */}
     </Suspense>
   );
 }
