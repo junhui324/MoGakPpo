@@ -1,6 +1,6 @@
 import { getPortfolioList } from '../../../apis/Fetcher';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './HotPortfolio.module.scss';
 import { TypePortfolioList } from '../../../interfaces/Portfolio.interface';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -39,6 +39,7 @@ export default function HotPortfolio() {
   }, []);
   const [currentId, setCurrentId] = useState(0);
   const [move, setMove] = useState<React.CSSProperties>();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMove(() => ({ transform: `translateX(${currentId * -100}%)` }));
@@ -53,6 +54,37 @@ export default function HotPortfolio() {
   const handleNext = () => {
     setCurrentId((curr) => (curr === totalItems - 1 ? 0 : curr + 1));
   };
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      const handleScroll = () => {
+        const container = scrollRef.current;
+
+        if (container) {
+          const scrollWidth = container.scrollWidth;
+          const containerWidth = container.clientWidth;
+          const maxScrollLeft = scrollWidth - containerWidth;
+          const scrollPercentage = container.scrollLeft / maxScrollLeft;
+          setCurrentId(Math.round(scrollPercentage * (totalItems - 1)));
+        }
+      };
+
+      scrollRef.current.addEventListener('scroll', handleScroll);
+
+      return () => {
+        if (scrollRef.current) {
+          scrollRef.current.removeEventListener('scroll', handleScroll);
+        }
+      };
+    }
+  }, [totalItems]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = (currentId / (totalItems - 1)) * (scrollRef.current.scrollWidth - scrollRef.current.clientWidth);
+    }
+  }, [currentId, totalItems]);
+
 
   return (
     <div>
@@ -141,17 +173,7 @@ export default function HotPortfolio() {
               <p>인기 프로젝트 자랑글을 확인해보세요!</p>
             </div>
           </div>
-          <div className={styles.ButtonContainer}>
-          <div className={styles.arrowButton}>
-            <button onClick={handleBack} disabled={currentId === 0 ? true : false}>
-              <BsArrowLeft />
-            </button>
-            <button onClick={handleNext} disabled={currentId === totalItems - 1 ? true : false}>
-              <BsArrowRight />
-            </button>
-          </div>
-        </div>
-          <div className={styles.slideArea}>
+          <div className={styles.slideArea} ref={scrollRef}>
           <div className={styles.portfolioList} style={move}>
             {portfolioList && portfolioList.length > 0 ? (
               portfolioList.map((portfolio) => (

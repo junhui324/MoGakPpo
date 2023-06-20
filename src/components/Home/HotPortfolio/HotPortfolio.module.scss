@@ -206,34 +206,31 @@
         }
       }
     }
-    .ButtonContainer {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      gap: 4px;
-      .arrowButton {
-        flex: 1;
-        button {
-          border: none;
-          background-color: transparent;
-          font-size: 16px;
-          cursor: pointer;
-          color: var(--color-text1);
-          &:disabled {
-            color: var(--color-text3);
-          }
-        }
-      }
-    }
 
     .slideArea {
       width: 336px;
-      padding-right: 2rem;
 
       .portfolioList {
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+    
+        &::-webkit-scrollbar-thumb {
+          height: 30%;
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+        }
+    
+        &::-webkit-scrollbar-track {
+          background-color: var(--color-bg2);
+          border-radius: 8px;
+        }
 
         .portfolioContainer {
           width: calc(336px / 2);
+          margin-bottom: 1rem;
 
           .portfolio {
             height: 150px;
