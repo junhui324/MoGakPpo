@@ -21,18 +21,40 @@
   }
   
   .titleContainer {
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
+    max-height: 300px;
+    overflow-y: auto;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
     padding: 0.4rem 0;
     margin-top: 1.4rem;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      height: 30%;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--color-bg2);
+      border-radius: 8px;
+    }
+  
+    .titleList {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
   
     .title {
+      max-width: 480px;
       color: var(--color-text1);
       line-height: 1.2rem;
       padding: 0.4rem 0;
+      margin-right: 0.8rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

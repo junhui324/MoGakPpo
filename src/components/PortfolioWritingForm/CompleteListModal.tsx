@@ -41,18 +41,20 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
         {count > 0 && <div className={styles.desc}>작성하고 싶은 게시글 제목을 클릭해주세요</div>}
         {count > 0 && projects &&
           <div className={styles.titleContainer}>
-            {projects.map((project, id) => {
-              const title = project.project_title;
-              return (
-                <div 
-                  className={styles.title}
-                  key={`${title}-${id}`}
-                  onClick={() => handleClickTitle(title)}
-                >
-                  {title}
-                </div>
-              )
-            })}
+            <div className={styles.titleList}>
+              {projects.map((project, id) => {
+                const title = project.project_title;
+                return (
+                  <div
+                    className={styles.title}
+                    key={`${title}-${id}`}
+                    onClick={() => handleClickTitle(title)}
+                  >
+                    {project.project_id}. {title}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         }
       </div>

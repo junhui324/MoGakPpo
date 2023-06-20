@@ -1,15 +1,51 @@
 {
   "message": "포트폴리오 게시 글 작성자가 작성한 모집 완료 모집 글 목록 조회 성공",
   "data": {
-    "listLength": 2,
+    "listLength": 11,
     "completedProjects": [
       {
         "project_id": 67,
-        "project_title": "제목 1"
+        "project_title": "굿즈 소개 사이트 미니프로젝트로 하실 분 구합니다!"
       },
       {
         "project_id": 66,
-        "project_title": "제목 2"
+        "project_title": "매년 50% 성장 반려식물 시장🌿에서 마케팅, 브랜딩 해보실 분 모집합니다."
+      },
+      {
+        "project_id": 65,
+        "project_title": "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"
+      },
+      {
+        "project_id": 64,
+        "project_title": "🎉🎉🎉축 우수팀 선정🎉🎉🎉"
+      },
+      {
+        "project_id": 63,
+        "project_title": "딥뽀 스터디원 모집"
+      },
+      {
+        "project_id": 62,
+        "project_title": "모감코 스터디원 추가모집"
+      },
+      {
+        "project_id": 61,
+        "project_title": "알고리즘 스터디 인원 구합니다."
+      },
+      {
+        "project_id": 60,
+        "project_title": "[고구마깡] 알고리즘 스터디원 구합니다"
+      },
+      {
+        "project_id": 59,
+        "project_title": "[팀프로젝트 크루원 모집] (포트폴리오 + 블로그) 플랫폼 프로젝트 진행 중"
+      },
+      {
+        "project_id": 58,
+        "project_title": "K-digital 해커톤 같이 하실 프론트 , Ai 엔지니어 모집합니다."
+      },
+      {
+        "project_id": 57,
+        "project_title": "react 상태관리 스터디 모집합니다!"
       }
     ]
   }
