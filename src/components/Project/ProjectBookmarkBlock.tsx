@@ -9,6 +9,7 @@ import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
 // 스타일
 import styles from './ProjectBookmarkBlock.module.scss';
 import DefaultUser from '../../assets/DefaultUser.png';
+import { RxTriangleDown, RxTriangleUp } from 'react-icons/rx';
 
 // 상수
 import { PROJECT_TYPE } from '../../constants/project';
@@ -40,9 +41,32 @@ function BookmarkListModal({
   isOn: boolean;
 }) {
   const navigate = useNavigate();
+  const [isUpLogo, setIsUpLogo] = useState<boolean>(false);
+  const [isDownLogo, setIsDownLogo] = useState<boolean>(true);
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    if (event.currentTarget.scrollTop === 0) {
+      setIsUpLogo(false);
+    } else if (
+      event.currentTarget.scrollHeight - event.currentTarget.clientHeight <=
+      event.currentTarget.scrollTop
+    ) {
+      setIsDownLogo(false);
+    } else {
+      setIsUpLogo(true);
+      setIsDownLogo(true);
+    }
+  };
 
   return (
-    <div className={isOn ? styles.modalContainerOn : styles.modalContainerNot}>
+    <div
+      className={isOn ? styles.modalContainerOn : styles.modalContainerNot}
+      onScroll={handleScroll}
+    >
+      <div className={styles.arrowContainer}>
+        {isUpLogo && <RxTriangleUp className={styles.upLogo} />}
+        {isDownLogo && <RxTriangleDown className={styles.downLogo} />}
+      </div>
       {[...bookmarksData?.project_bookmark_users].reverse().map((user) => {
         return (
           <div
