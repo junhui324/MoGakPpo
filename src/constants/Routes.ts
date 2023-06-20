@@ -16,6 +16,7 @@ export const ROUTES = {
   PORTFOLIO_DETAIL: '/portfolios/',
   PORTFOLIO_LIST: '/portfolios',
   PORTFOLIO_MODIFY: '/portfolios/modify/',
+  DELETE_ACCOUNT: '/delete',
 };
 
 export default ROUTES;

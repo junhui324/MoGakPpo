@@ -9,6 +9,8 @@ function Register() {
   const emailRef = useRef<any>(null);
   const nameRef = useRef<any>(null);
   const passwordRef = useRef<any>(null);
+  const passwordConfirmRef = useRef<any>(null);
+
   const allRef = useRef<any>(null);
   const useInfoRef = useRef<any>(null);
   const ageRef = useRef<any>(null);
@@ -18,6 +20,7 @@ function Register() {
   const [isEmail, setIsEmail] = useState(false);
   const [isName, setIsName] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+  const [passwordConfirm, setPasswordConfirm] = useState(false);
   const navigate = useNavigate();
 
   const CheckEmail = (str: any) => {
@@ -82,6 +85,17 @@ function Register() {
       return true;
     } else {
       setIsPassword(false);
+
+      return false;
+    }
+  };
+  const isPasswordConfirmBlank = () => {
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      setPasswordConfirm(true);
+
+      return true;
+    } else {
+      setPasswordConfirm(false);
 
       return false;
     }
@@ -155,10 +169,9 @@ function Register() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.mainTitle}>요즘 개발자 커뮤니티</div>
+        <div className={styles.mainTitle}>모두의 프로젝트</div>
         <div className={styles.subTitle}>지금 모프에 가입하세요</div>
         <div className={styles.part}>
-          <div className={styles.partTitle}>이메일로 시작하기</div>
           <div className={styles.partMain}>
             <form onSubmit={(e) => register(e)}>
               <div className={styles.inputContainer}>
@@ -167,7 +180,7 @@ function Register() {
                   <input
                     type="text"
                     className={styles.inputMethod}
-                    placeholder="프로필 이름"
+                    placeholder="이름을 입력해주세요"
                     onBlur={isNameBlank}
                     ref={nameRef}
                   ></input>
@@ -200,6 +213,23 @@ function Register() {
                 </div>
               </div>
               {isPassword && <div className={styles.emptyWarning}>비밀번호를 확인해주세요.</div>}
+
+              <div className={styles.inputContainer}>
+                <div className={styles.desc}>비밀번호 확인</div>
+                <div className={styles.input}>
+                  <input
+                    type="password"
+                    ref={passwordConfirmRef}
+                    placeholder="비밀번호를 한 번 더 입력해주세요"
+                    className={styles.inputMethod}
+                    onBlur={isPasswordConfirmBlank}
+                  ></input>
+                </div>
+              </div>
+              {passwordConfirm && (
+                <div className={styles.emptyWarning}>비밀번호가 일치하지 않습니다.</div>
+              )}
+
               <div className={styles.checkContainer}>
                 <div className={styles.allCheck}>
                   <input

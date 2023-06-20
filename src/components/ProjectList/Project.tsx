@@ -14,6 +14,8 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import React, { useState } from 'react';
 import { deleteProjectBookmark, postProjectBookmark } from '../../apis/Fetcher';
 import { getIsNew } from '../../utils/getIsNew';
+import { useSetRecoilState } from 'recoil';
+import { projectListAtom } from '../../recoil/projectListFilter';
 
 interface projectDataProps {
   projectData: TypeProjectList;
@@ -40,6 +42,7 @@ function Project({ projectData }: projectDataProps) {
   } = projectData;
 
   const [bookmark, setBookmark] = useState(isBookmarked);
+  const setProjectListState = useSetRecoilState(projectListAtom);
 
   const handleBookmarkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
@@ -65,6 +68,10 @@ function Project({ projectData }: projectDataProps) {
       key={projectId}
       className={styles.listContainer}
       onClick={() => {
+        setProjectListState((prevState) => ({
+          ...prevState,
+          isRefetch: true,
+        }));
         navigate(`${ROUTES.PROJECT}${projectId}`);
       }}
     >

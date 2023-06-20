@@ -81,3 +81,27 @@
     }
   }
 }
+
+@media screen and (max-width: 375px) {
+  .container {
+    .contentCount {
+      font-size: 0.8rem;
+    }
+  }
+
+  .comments {
+    padding: 1.4rem;
+    .commentWrapper {
+      margin: 1.4rem 0;
+      .title {
+        font-size: 0.8rem;
+      }
+      .comment {
+        font-size: 0.9rem;
+      }
+      .createdAt {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

@@ -36,16 +36,21 @@
     margin-top: 20rem;
 
     .title {
-      padding: 2rem 0;
+      padding: 2rem;
       font-size: 24px;
+      line-height: 1.4rem;
       font-weight: 800;
       color: var(--color-pink);
+      text-align: center;
+      word-break: keep-all;
     }
   
     .description {
       font-size: 20px;
       line-height: 2rem;
+      padding: 2rem;
       text-align: center;
+      word-break: keep-all;
     }
   
     .button {
@@ -99,4 +104,31 @@
 			0% 100%
 		);
 	}
+}
+
+@media screen and (max-width: 375px) {
+  .container { 
+    .statusContainer {
+      .status {
+        margin-top: 10rem;
+        font-size: 4rem;
+      }
+    }
+
+    .contentContainer { 
+      margin-top: 16rem;
+
+      .title {
+        font-size: 1.2rem;
+      }
+
+      .description {
+        font-size: 1rem;
+      }
+
+      .button {
+        font-size: 1rem;
+      }
+    }
+  }
 }

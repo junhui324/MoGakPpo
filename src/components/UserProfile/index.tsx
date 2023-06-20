@@ -14,8 +14,7 @@ function Profile() {
   const navigate = useNavigate();
   const getUserData = async () => {
     try {
-      const { message, data } = await getUserProfileById(userId);
-      console.log(message, data);
+      const { data } = await getUserProfileById(userId);
       setUser(data);
     } catch (error: any) {
       if (error.message === '404' || error.message === '400') {

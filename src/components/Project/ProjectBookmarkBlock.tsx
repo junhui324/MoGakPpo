@@ -32,6 +32,35 @@ function BookmarkLogo({ className }: { className: string }) {
   );
 }
 
+function BookmarkListModal({
+  bookmarksData,
+  isOn,
+}: {
+  bookmarksData: TypeProjectBookmarks;
+  isOn: boolean;
+}) {
+  const navigate = useNavigate();
+
+  return (
+    <div className={isOn ? styles.modalContainerOn : styles.modalContainerNot}>
+      {[...bookmarksData?.project_bookmark_users].reverse().map((user) => {
+        return (
+          <div
+            key={user.user_id}
+            className={styles.userContainer}
+            onClick={() => {
+              navigate(`${ROUTES.USER_PAGE}${user.user_id}`);
+            }}
+          >
+            <img src={user.user_img ?? DefaultUser} alt={`${user.user_name}의 이미지`} />
+            <span>{user.user_name}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function ProjectBookmarkBlock({
   bookmarksData,
   fetchData,
@@ -43,6 +72,7 @@ export default function ProjectBookmarkBlock({
   const [isBookmark, setIsBookmark] = useState<boolean>(false);
   const [bookmarksCount, setBookmarksCount] = useState<number>(0);
   const [userImages, setUserImages] = useState<string[]>([]);
+  const [isBookmarkList, setIsBookmarkList] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
   const bookmarkType = location.pathname.split('/')[1];
@@ -155,28 +185,41 @@ export default function ProjectBookmarkBlock({
           </>
         )}
       </button>
-      <div className={styles.bookmarkUserBox}>
-        <div className={styles.bookmarkUserImages} style={{ width: (userImages.length + 1) * 10 }}>
-          {userImages.map((image, index) => {
-            return (
-              <div
-                className={styles.bookmarkUserImageCircle}
-                style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
-                key={index}
-              >
-                <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
-              </div>
-            );
-          })}
-        </div>
-        <p className={styles.bookmarkText}>
-          {bookmarksCount > 0
-            ? bookmarkType === 'projects'
-              ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
-              : `${bookmarksCount}명이 북마크한 포트폴리오`
-            : ''}
-        </p>
-      </div>
+      {bookmarksData.project_bookmark_users.length > 0 && (
+        <>
+          <div
+            className={styles.bookmarkUserBox}
+            onClick={() => {
+              setIsBookmarkList((prev) => !prev);
+            }}
+          >
+            <div
+              className={styles.bookmarkUserImages}
+              style={{ width: (userImages.length + 1) * 10 }}
+            >
+              {userImages.map((image, index) => {
+                return (
+                  <div
+                    className={styles.bookmarkUserImageCircle}
+                    style={{ left: index * LEFT_POSITION, zIndex: 3 - index }}
+                    key={index}
+                  >
+                    <img className={styles.bookmarkUserImage} src={image ? image : DefaultUser} />
+                  </div>
+                );
+              })}
+            </div>
+            <p className={styles.bookmarkText}>
+              {bookmarksCount > 0
+                ? bookmarkType === 'projects'
+                  ? `${bookmarksCount}명이 북마크한 ${PROJECT_TYPE[bookmarksData.project_type]}`
+                  : `${bookmarksCount}명이 북마크한 포트폴리오`
+                : ''}
+            </p>
+          </div>
+          <BookmarkListModal bookmarksData={bookmarksData} isOn={isBookmarkList} />
+        </>
+      )}
     </div>
   );
 }

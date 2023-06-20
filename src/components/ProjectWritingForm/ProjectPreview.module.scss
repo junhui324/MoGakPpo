@@ -91,10 +91,9 @@
 @media (max-width: 768px) {
   .container {
     display: flex;
-    margin-top: 20px;
-    margin-left: 30px;
-    margin-right: 30px;
     flex-direction: column-reverse;
+    width: 90vw;
+    border: none;
 
     .leftContainer {
       .help {

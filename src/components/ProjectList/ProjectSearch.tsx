@@ -1,12 +1,12 @@
+import { AiFillCloseCircle } from 'react-icons/ai';
 import styles from './ProjectSearch.module.scss';
 
 interface ProjectSearchProps {
   handleChange: (keyword: string) => void;
   value: string;
-  isSearched: boolean;
 }
 
-function ProjectSearch({ handleChange, value, isSearched }: ProjectSearchProps) {
+function ProjectSearch({ handleChange, value }: ProjectSearchProps) {
   return (
     <div className={styles.container}>
       <div>
@@ -17,6 +17,11 @@ function ProjectSearch({ handleChange, value, isSearched }: ProjectSearchProps) 
           onChange={(e) => handleChange(e.target.value)}
           value={value}
         ></input>
+        {value.length > 0 && (
+          <button onClick={() => handleChange('')}>
+            <AiFillCloseCircle />
+          </button>
+        )}
       </div>
       {value.length > 0 && (
         <div className={styles.resultContainer}>
