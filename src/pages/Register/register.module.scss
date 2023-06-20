@@ -15,7 +15,6 @@
 
 .mainTitle {
   height: 48px;
-  margin-bottom: 8px;
   font-size: 28px;
   font-weight: 700;
   text-align: center;
@@ -38,18 +37,10 @@
   border-radius: 16px;
 }
 
-.partTitle {
-  width: 352px;
-  height: 30px;
-  padding: 12px;
-  text-align: center;
-  color: #64748b;
-  margin-top: 1rem;
-}
-
 .partMain {
   width: 352px;
   padding: 12px;
+  margin-top: 16px;
 }
 
 .desc {
@@ -142,5 +133,6 @@
 }
 
 .loginLink {
-  color: orange;
+  font-weight: 600;
+  color: var(--color-pink);
 }

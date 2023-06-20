@@ -1,10 +1,7 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './change.password.module.scss';
-import { useRecoilValue } from 'recoil';
-import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { patchPasswordReset } from '../../apis/Fetcher';
 import { useNavigate } from 'react-router-dom';
-import MyPage from '../MyPage';
 import ROUTES from '../../constants/Routes';
 import { getToken } from '../../apis/Token';
 
@@ -15,14 +12,12 @@ export default function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState(false);
   const [newPassword, setNewPassword] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
-  const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
-  const API_KEY = process.env.REACT_APP_API_KEY;
   const accessToken = getToken();
 
-  useEffect(() =>{
-    if(!accessToken){
-      navigate("/");
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/');
     }
   }, []);
 
@@ -36,7 +31,7 @@ export default function ChangePassword() {
 
       return false;
     }
-  }
+  };
 
   const isNewPasswordBlank = () => {
     if (newPasswordRef.current.value === '') {
@@ -48,7 +43,7 @@ export default function ChangePassword() {
 
       return false;
     }
-  }
+  };
 
   const isPasswordConfirmBlank = () => {
     if (newPasswordRef.current.value !== passwordConfirmRef.current.value) {
@@ -60,7 +55,7 @@ export default function ChangePassword() {
 
       return false;
     }
-  }
+  };
 
   const changePassword = async (e: any) => {
     e.preventDefault();
@@ -79,7 +74,6 @@ export default function ChangePassword() {
         alert('비밀번호 변경이 완료되었습니다.');
         navigate(`${ROUTES.MY_PAGE}`);
       }
-      
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
         switch (error.message) {
