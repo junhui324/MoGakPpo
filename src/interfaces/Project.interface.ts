@@ -105,3 +105,8 @@ export type TypeProjectPost = Pick<
 
 export type TypeUserProjectPosts = TypeProjectList[];
 
+export type TypeCompleteProjects = Pick<
+  Project,
+  | 'project_id'
+  | 'project_title'
+>;
