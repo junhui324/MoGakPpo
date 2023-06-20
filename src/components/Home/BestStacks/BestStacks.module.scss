@@ -82,3 +82,28 @@
   align-items: center;
   justify-content: center;
 }
+
+@media screen and (max-width: 375px) {
+  .container {
+    padding: 0 2rem;
+    .titleTextWrapper {
+      & > h1 {
+        font-size: 1rem;
+      }
+      & > p {
+        font-size: 0.8rem;
+      }
+    }
+    .stackList {
+      .stackContainer {
+        flex: 1;
+        .stackRank {
+          font-size: 1rem;
+        }
+        .stackName {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

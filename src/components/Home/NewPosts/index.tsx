@@ -36,7 +36,6 @@ export default function NewPosts() {
   const [currentId, setCurrentId] = useState(0);
   const [move, setMove] = useState<React.CSSProperties>();
   const scrollRef = useRef<HTMLDivElement>(null);
-  
 
   useEffect(() => {
     setMove(() => ({ transform: `translateX(${currentId * -100}%)` }));
