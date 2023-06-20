@@ -136,3 +136,148 @@
   font-weight: 600;
   color: var(--color-pink);
 }
+
+@media (max-width: 768px) {
+  .container {
+    min-height: 100vh;
+    width: 300px;
+    padding-top: 30px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 24px;
+  }
+
+  .mainTitle {
+    height: 48px;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .subTitle {
+    height: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .part {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    width: 300px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+  }
+
+  .partMain {
+    width: 300px;
+    padding: 12px;
+    margin-top: 16px;
+  }
+
+  .desc {
+    height: 21px;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  .input {
+    width: 240px;
+    margin-right: 20px;
+  }
+
+  .allCheck {
+    margin: 1rem 0;
+  }
+
+  .inputMethod {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    padding: 11px;
+    background-color: var(--color-bg1);
+    color: var(--color-text1);
+    outline: none;
+
+    &:focus {
+      border: 2px solid var(--color-input-focus);
+      outline-style: none;
+    }
+
+    &::placeholder {
+      font-weight: 300;
+    }
+  }
+
+  .checkContainer {
+    .allCheck {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+  }
+
+  .checkLabel {
+    padding-left: 10px;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  .registerButtonContainer {
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+    height: 50px;
+    padding-right: 5px;
+    margin-top: 50px;
+  }
+
+  .registerButton {
+    color: white;
+    font-weight: 400;
+    font-size: medium;
+    background-color: #6636da;
+    width: 90%;
+    height: 100%;
+    border: 0px;
+    border-radius: 5px;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: rgba(#6636da, 0.8);
+      cursor: pointer;
+    }
+  }
+
+  .emptyWarning {
+    height: 20px;
+    color: red;
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 30px;
+  }
+
+  .loginContainer {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .loginDesc {
+    padding-right: 8px;
+  }
+}

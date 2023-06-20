@@ -85,7 +85,11 @@ export default function NewPosts() {
         <div className={styles.projectList} style={move}>
           {projectList && projectList.length > 0 ? (
             projectList.map((project) => (
-              <Link to={`/projects/${project.project_id}`} key={project.project_id}>
+              <Link
+                className={styles.link}
+                to={`/projects/${project.project_id}`}
+                key={project.project_id}
+              >
                 <div className={styles.projectContainer}>
                   <div className={styles.project}>
                     <span className={styles.type}>{project.project_type}</span>

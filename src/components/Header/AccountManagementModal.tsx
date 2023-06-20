@@ -27,7 +27,7 @@ export function AccountManagementModal({ setAccountManagementModalOpen }: ModalB
               setAccountManagementModalOpen(false);
             }}
           >
-            회원 탈퇴 💔
+            회원 탈퇴 😭
           </li>
         </ul>
       </div>
