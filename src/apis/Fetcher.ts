@@ -99,9 +99,11 @@ export async function getComment(
     pagenatedComments: CommentType.TypeComment[];
   };
 }> {
-  const params = `${postType}/${projectId}/comments`;
+  const params = `${postType}/${projectId}/comments.json`;
+  // const params = `${postType}/${projectId}/comments`;
   const query = `page=${pageNumber}`;
-  return await Api.get(API_KEY, params, false, query);
+  return await Api.get(domain, params, false, query);
+  // return await Api.get(API_KEY, params, false, query);
 }
 export async function postComment<T extends 'project' | 'portfolio'>(
   postType: T,
