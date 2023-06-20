@@ -1,18 +1,29 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './DeleteAccount.module.scss';
 import { css } from '@emotion/react';
 import ROUTES from '../../constants/Routes';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { themeAtom } from '../../recoil/themeState';
+import { loginAtom } from '../../recoil/loginState';
 
 function DeleteAccount() {
   const [reason, setReason] = useState('');
   const [otherReason, setOtherReason] = useState('');
   const navigate = useNavigate();
   const darkMode = useRecoilValue(themeAtom);
+
+  const LoginData = useRecoilState(loginAtom);
+  const userId = LoginData[0];
+
+  useEffect(() => {
+    if (!userId.user_id) {
+      alert('로그인이 필요합니다.');
+      navigate(ROUTES.LOGIN);
+    }
+  }, []);
 
   const handleReasonChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedReason = event.target.value;
@@ -27,6 +38,7 @@ function DeleteAccount() {
   };
 
   const handleDeleteAccount = () => {
+    alert('회원탈퇴가 완료되었습니다.');
     navigate(ROUTES.MAIN);
 
     //유저 정보 삭제 api
@@ -48,7 +60,7 @@ function DeleteAccount() {
     &:focus {
       outline: none;
       border-color: ${darkMode ? '#d4a4f9' : '#e8e8e8'};
-      box-shadow: 0 0 0 2px rgba(0, 0, 255, 0.3);
+      box-shadow: 0 0 0 2px #d4a4f9;
     }
   `;
 
@@ -75,11 +87,13 @@ function DeleteAccount() {
         <p>고객님께서 회원 탈퇴를 원하신다니 저희 모프 서비스가 부족하고 미흡했나 봅니다.</p>
         <p>불편사항을 알려주시면 적극 반영해서 고객님의 불편함을 해결해 드리도록 노력하겠습니다.</p>
       </div>
-      <h2>탈퇴 전 유의사항</h2>
+
+      <h2 className={styles.sub}>📌 탈퇴 전 유의사항</h2>
       <div className={styles.notice}>
         <p>탈퇴 시 계정의 모든 정보는 삭제되어 재가입 시에도 복구되지 않습니다.</p>
       </div>
-      <h2>탈퇴사유</h2>
+
+      <h2 className={styles.sub}>탈퇴사유</h2>
       <div className={styles.selectBox}>
         <select css={selectBoxStyles} value={reason} onChange={handleReasonChange}>
           <option value="" css={optionStyle}>
@@ -113,6 +127,7 @@ function DeleteAccount() {
           />
         )}
       </div>
+
       <div className={styles.buttonBox}>
         <button
           className={styles.cancelButton}
