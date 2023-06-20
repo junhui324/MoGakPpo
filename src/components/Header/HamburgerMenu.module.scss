@@ -73,11 +73,16 @@
         color: var(--color-text1);
       }
     }
-    .notLoggedIn button {
-      background-color: unset;
-      border: none;
-      font-size: 18px;
-      color: var(--color-text2);
+    .notLoggedIn {
+      button {
+        background-color: unset;
+        border: none;
+        font-size: 18px;
+        color: var(--color-text1);
+      }
+      span {
+        color: var(--color-text1);
+      }
     }
   }
 }

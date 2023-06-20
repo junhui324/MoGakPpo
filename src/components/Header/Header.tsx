@@ -41,6 +41,12 @@ function Header() {
   const handleNavLinkClick = () => {
     setClassification('/');
   };
+  const handleLoginClick = () => {
+    navigate(ROUTES.LOGIN);
+  };
+  const handleSigninClick = () => {
+    navigate(ROUTES.REGISTER);
+  };
   const darkMode = useRecoilValue(themeAtom);
 
   return (
@@ -99,7 +105,7 @@ function Header() {
                 <div className={styles.notLoggedIn}>
                   <button
                     onClick={() => {
-                      navigate(ROUTES.LOGIN);
+                      handleLoginClick();
                     }}
                   >
                     로그인
@@ -107,7 +113,7 @@ function Header() {
                   <span>|</span>
                   <button
                     onClick={() => {
-                      navigate(ROUTES.REGISTER);
+                      handleSigninClick();
                     }}
                   >
                     회원가입
@@ -131,6 +137,9 @@ function Header() {
               handleNavLinkClick={handleNavLinkClick}
               loginData={loginData}
               setHamburgerOpen={setHamburgerOpen}
+              onClickLogout={onClickLogout}
+              handleSigninClick={handleSigninClick}
+              handleLoginClick={handleLoginClick}
             />
           )}
         </div>

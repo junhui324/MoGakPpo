@@ -17,11 +17,17 @@ interface HamburgerMenuProps {
   handleNavLinkClick: () => void;
   loginData: any;
   setHamburgerOpen: (value: boolean) => void;
+  onClickLogout: () => void;
+  handleLoginClick: () => void;
+  handleSigninClick: () => void;
 }
 export default function HamburgerMenu({
   handleNavLinkClick,
   loginData,
   setHamburgerOpen,
+  onClickLogout,
+  handleLoginClick,
+  handleSigninClick,
 }: HamburgerMenuProps) {
   const darkMode = useRecoilValue(themeAtom);
   const hamburgerRef = useRef<HTMLDivElement>(null);
@@ -90,6 +96,20 @@ export default function HamburgerMenu({
               </NavLink>
             </li>
           )}
+          {Token.getToken() && (
+            <li>
+              <NavLink
+                to={`${ROUTES.MY_PAGE}`}
+                className={({ isActive }) => (isActive ? styles.active : '')}
+                onClick={() => {
+                  handleNavLinkClick();
+                  onClickLogout();
+                }}
+              >
+                <span>로그아웃</span>
+              </NavLink>
+            </li>
+          )}
         </ul>
         <div className={styles.bottomContainer}>
           {Token.getToken() ? (
@@ -101,9 +121,23 @@ export default function HamburgerMenu({
             </div>
           ) : (
             <div className={styles.notLoggedIn}>
-              <button>로그인</button>
+              <button
+                onClick={() => {
+                  handleLoginClick();
+                  setHamburgerOpen(false);
+                }}
+              >
+                로그인
+              </button>
               <span>|</span>
-              <button>회원가입</button>
+              <button
+                onClick={() => {
+                  handleSigninClick();
+                  setHamburgerOpen(false);
+                }}
+              >
+                회원가입
+              </button>
             </div>
           )}
           <ToggleDarkModeButton />
