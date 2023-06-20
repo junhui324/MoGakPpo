@@ -2,7 +2,7 @@ import './reset.css';
 import { useEffect } from 'react';
 import ROUTES from './constants/Routes';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProjectListMain from './pages/ProjectList/indexCopy';
+import ProjectListMain from './pages/ProjectList';
 import Header from './components/Header/Header';
 import Error from './components/common/Error';
 import ChatBot from './components/ChatBot';

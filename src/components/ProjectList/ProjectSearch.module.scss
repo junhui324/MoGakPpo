@@ -33,6 +33,14 @@
     input:focus {
       outline: none;
     }
+    button {
+      background-color: unset;
+      border: none;
+      font-size: 24px;
+      padding: 0;
+      color: var(--color-text3);
+      cursor: pointer;
+    }
   }
   .resultContainer {
     margin-top: 1.2rem;
