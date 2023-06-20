@@ -5,7 +5,6 @@
   "proxy": "http://localhost:5500",
   "dependencies": {
     "@babel/preset-env": "^7.22.5",
-    "@tanstack/react-query": "^4.29.14",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
