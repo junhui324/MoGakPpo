@@ -35,7 +35,6 @@ function App() {
       resetLogin();
     };
   }, []);
-
   return (
     <BrowserRouter>
       <Header />

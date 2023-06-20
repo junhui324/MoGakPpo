@@ -12,8 +12,10 @@ import ToggleDarkModeButton from '../common/DarkMode/ToggleDarkMode';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import Logo from '../../assets/Logo.png';
 import { themeAtom } from '../../recoil/themeState';
+import { projectListAtom } from '../../recoil/projectListFilter';
 
 function Header() {
+  const resetProjectListAtom = useResetRecoilState(projectListAtom);
   const loginData = useRecoilValue(loginAtom);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
@@ -49,7 +51,12 @@ function Header() {
           <NavLink
             to={`${ROUTES.PROJECT_LIST}`}
             className={({ isActive }) => (isActive ? styles.active : '')}
-            onClick={handleNavLinkClick}
+            onClick={() => {
+              handleNavLinkClick();
+              if (window.location.pathname !== ROUTES.PROJECT_LIST) {
+                resetProjectListAtom();
+              }
+            }}
           >
             <span>멤버 모집</span>
           </NavLink>
