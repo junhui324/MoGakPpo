@@ -1,7 +1,9 @@
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
 import ModalBasic from '../common/Modal/ModalBasic';
+import { AccountManagementModal } from './AccountManagementModal';
 import styles from './MyPageModal.module.scss';
+import { useState } from 'react';
 
 interface ModalBasicProps {
   setModalOpen: (value: boolean) => void;
@@ -10,6 +12,12 @@ interface ModalBasicProps {
 }
 export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBasicProps) {
   const navigate = useNavigate();
+  const [accountManagementModalOpen, setAccountManagementModalOpen] = useState(false);
+
+  const handleAccountManagement = () => {
+    setAccountManagementModalOpen(true);
+    //setModalOpen(false);
+  };
   return (
     <div>
       {modalOpen && (
@@ -23,14 +31,7 @@ export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBas
             >
               내 프로필
             </li>
-            <li
-              onClick={() => {
-                navigate(ROUTES.EDIT_PASSWORD);
-                setModalOpen(false);
-              }}
-            >
-              비밀번호 변경
-            </li>
+            <li onClick={handleAccountManagement}>계정 관리</li>
             <li
               onClick={() => {
                 onClickLogout();
@@ -41,6 +42,11 @@ export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBas
             </li>
           </ul>
         </ModalBasic>
+      )}
+      {accountManagementModalOpen && (
+        <AccountManagementModal
+          setAccountManagementModalOpen={setAccountManagementModalOpen}
+        ></AccountManagementModal>
       )}
     </div>
   );
