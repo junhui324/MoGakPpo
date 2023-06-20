@@ -81,3 +81,38 @@
     }
   }
 }
+
+@media screen and (max-width: 375px) {
+  .bannerContainer {
+    .slideArea {
+      width: 100%;
+      
+      .bannerList {
+        margin-bottom: 1.5rem;
+        .bannerItem {
+          width: 100%;
+
+          img {
+            display: none;
+          }
+
+          .bannerText {
+            padding: 2rem;
+
+            .tag {
+              font-size: 0.7rem;
+            }
+
+            .mainTitle {
+              font-size: 1rem;
+            }
+
+            .subTitle {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
