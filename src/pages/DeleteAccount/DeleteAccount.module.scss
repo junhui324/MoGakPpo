@@ -134,22 +134,3 @@
     }
   }
 }
-
-@media (max-width: 768px) {
-  .selectBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    input {
-      margin-top: 10px;
-      width: 60%;
-      height: 50px;
-      font-size: 16px;
-      border: 1px solid var(--color-bg2);
-      background-color: var(--color-bg2);
-      color: var(--color-text1);
-    }
-  }
-}
