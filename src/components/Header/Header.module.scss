@@ -65,6 +65,7 @@
       flex-direction: row;
       align-items: center;
       color: var(--color-text1);
+
       .notLoggedIn {
         display: flex;
         flex-direction: row;
@@ -120,6 +121,32 @@
   }
 }
 
+.mobileContentsContainer {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .logo {
+    margin-left: 8px;
+    width: 110px;
+    height: fit-content;
+  }
+  .hamburgerButton {
+    border: none;
+    background-color: unset;
+    margin-right: 8px;
+    svg {
+      color: var(--color-text1);
+      font-size: 24px;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     .contentsContainer {
@@ -132,7 +159,7 @@
       }
       .rightContainer {
         p {
-          font-size: 12px;
+          display: none;
         }
         .notLoggedIn {
           button {
