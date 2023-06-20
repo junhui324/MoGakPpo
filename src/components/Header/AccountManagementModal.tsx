@@ -23,7 +23,7 @@ export function AccountManagementModal({ setAccountManagementModalOpen }: ModalB
           </li>
           <li
             onClick={() => {
-              navigate(ROUTES.MY_PAGE);
+              navigate(ROUTES.DELETE_ACCOUNT);
               setAccountManagementModalOpen(false);
             }}
           >

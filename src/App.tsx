@@ -22,6 +22,7 @@ import PortfolioDetail from './pages/PortfolioDetail';
 import Main from './pages/Main';
 import PortfolioList from './pages/PortfolioList';
 import PortfolioModify from './pages/PortfolioModify';
+import DeleteAccount from './pages/DeleteAccount';
 import { loginAtom } from './recoil/loginState';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { themeAtom } from './recoil/themeState';
@@ -58,6 +59,7 @@ function App() {
           <Route path={`${ROUTES.PORTFOLIO_MODIFY}:id`} element={<PortfolioModify />} />
           <Route path={`${ROUTES.PORTFOLIO_DETAIL}:id`} element={<PortfolioDetail />} />
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
+          <Route path={ROUTES.DELETE_ACCOUNT} element={<DeleteAccount />} />
         </Routes>
         <ChatBot />
       </div>
