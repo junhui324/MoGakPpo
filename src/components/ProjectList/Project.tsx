@@ -17,12 +17,15 @@ import { getIsNew } from '../../utils/getIsNew';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { projectListAtom } from '../../recoil/projectListFilter';
 import { projectBookmarkAtom } from '../../recoil/projectBookmarkState';
+import { useMediaQuery } from 'react-responsive';
 
 interface projectDataProps {
   projectData: TypeProjectList;
 }
 
 function Project({ projectData }: projectDataProps) {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
+
   const navigate = useNavigate();
 
   const {
@@ -74,7 +77,11 @@ function Project({ projectData }: projectDataProps) {
   return (
     <li
       key={projectId}
-      className={styles.listContainer}
+      className={
+        !isMobile
+          ? `${styles.listContainer}`
+          : `${styles.listContainer} ${styles.mobileListContainer}`
+      }
       onClick={() => {
         setProjectListState((prevState) => ({
           ...prevState,
@@ -90,7 +97,7 @@ function Project({ projectData }: projectDataProps) {
             <span className={styles.goal}>{PROJECT_GOAL[goal]}</span>
           </div>
           <div>
-            {participationTime && (
+            {participationTime && !isMobile && (
               <span className={styles.participationTime}>
                 {PROJECT_PARTICIPATION_TIME[participationTime]}
               </span>
@@ -118,7 +125,7 @@ function Project({ projectData }: projectDataProps) {
         <p className={styles.title}>{title}</p>
         {getIsNew(createdAt) && <span className={styles.newTag}>NEW</span>}
       </div>
-      {summary && <p className={styles.summary}>{summary}</p>}{' '}
+      {summary && !isMobile && <p className={styles.summary}>{summary}</p>}{' '}
       {recruitmentRoles && (
         <ul className={styles.roleContainer}>
           {recruitmentRoles.roleList &&

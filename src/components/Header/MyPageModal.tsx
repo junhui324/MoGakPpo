@@ -16,7 +16,6 @@ export function MyPageModal({ modalOpen, setModalOpen, onClickLogout }: ModalBas
 
   const handleAccountManagement = () => {
     setAccountManagementModalOpen(true);
-    //setModalOpen(false);
   };
   return (
     <div>

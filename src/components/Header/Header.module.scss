@@ -65,6 +65,7 @@
       flex-direction: row;
       align-items: center;
       color: var(--color-text1);
+
       .notLoggedIn {
         display: flex;
         flex-direction: row;
@@ -120,29 +121,29 @@
   }
 }
 
-@media (max-width: 768px) {
-  .container {
-    .contentsContainer {
-      .leftContainer {
-        a {
-          span {
-            font-size: 12px;
-          }
-        }
-      }
-      .rightContainer {
-        p {
-          font-size: 12px;
-        }
-        .notLoggedIn {
-          button {
-            font-size: 12px;
-          }
-        }
-        button {
-          font-size: 12px;
-        }
-      }
+.mobileContentsContainer {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-bg1);
+  .logo {
+    margin-left: 8px;
+    width: 26vw;
+    height: auto;
+  }
+  .hamburgerButton {
+    border: none;
+    background-color: unset;
+    margin-right: 8px;
+    svg {
+      color: var(--color-text1);
+      font-size: 24px;
     }
   }
 }

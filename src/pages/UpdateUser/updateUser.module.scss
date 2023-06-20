@@ -1,5 +1,4 @@
 @use '/src/theme.scss' as *;
-@import '/src/variables.scss';
 
 .container {
   margin-top: 2rem;
@@ -50,7 +49,7 @@
 
         &::after {
           content: '*';
-          color: red;
+          color: var(--color-red);
           margin-left: 3px;
         }
       }

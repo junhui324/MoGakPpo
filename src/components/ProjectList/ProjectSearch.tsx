@@ -1,5 +1,7 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
 import styles from './ProjectSearch.module.scss';
+import { useMediaQuery } from 'react-responsive';
+import { useState } from 'react';
 
 interface ProjectSearchProps {
   handleChange: (keyword: string) => void;
@@ -7,9 +9,15 @@ interface ProjectSearchProps {
 }
 
 function ProjectSearch({ handleChange, value }: ProjectSearchProps) {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
+
   return (
-    <div className={styles.container}>
-      <div>
+    <div
+      className={
+        !isMobile ? `${styles.container}` : `${styles.container} ${styles.mobileContainer}`
+      }
+    >
+      <div className={styles.searchContainer}>
         <span>🔍</span>
         <input
           type="text"

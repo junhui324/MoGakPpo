@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './chatBot.module.scss';
 import { IoIosClose } from 'react-icons/io';
@@ -89,19 +89,15 @@ function ChatBot() {
           <div className={styles.body}>
             <div className={styles.question}>{chatData[0].question}</div>
             <div className={styles.questionWrapper}>
-              {chatData.map((v, i) => {
-                if (i >= 1) {
-                  return (
-                    <div
-                      className={styles.questionButton}
-                      key={i}
-                      onClick={() => handleQuestionClick(v.question)}
-                    >
-                      {v.question}
-                    </div>
-                  );
-                }
-              })}
+            {chatData.filter((v, i) => i >= 1).map((v, i) => (
+              <div
+                className={styles.questionButton}
+                key={i}
+                onClick={() => handleQuestionClick(v.question)}
+              >
+                {v.question}
+              </div>
+            ))}
             </div>
             {selectedQuestion ? (
               <div>
@@ -122,7 +118,7 @@ function ChatBot() {
         </div>
       ) : (
         <button className={styles.chatButton} onClick={handleClick}>
-          <img src={Logo} />
+          <img src={Logo} alt='logo'/>
         </button>
       )}
     </div>
