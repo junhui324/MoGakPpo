@@ -12,7 +12,7 @@
         "comment_content": "멋지다 7팀~ 😎",
         "comment_created_at": "2023-06-18T22:23:06.000Z",
         "ref_id": null,
-        "reply": [
+        "replies": [
           {
             "comment_id": 105,
             "user_id": 34,
@@ -21,7 +21,7 @@
             "comment_content": "대댓글 예시",
             "comment_created_at": "2023-06-19T17:18:03.000Z",
             "ref_id": 100,
-            "reply": [
+            "replies": [
               {
                 "comment_id": 106,
                 "user_id": 34,
@@ -30,7 +30,7 @@
                 "comment_content": "대댓글의 대댓글 예시",
                 "comment_created_at": "2023-06-19T17:18:03.000Z",
                 "ref_id": 105,
-                "reply": [],
+                "replies": [],
                 "isDeleted": false
               }
             ],
@@ -44,7 +44,7 @@
             "comment_content": "대댓글 예시222",
             "comment_created_at": "2023-06-18T23:17:44.000Z",
             "ref_id": 100,
-            "reply": [],
+            "replies": [],
             "isDeleted": false
           }
         ],
@@ -58,7 +58,7 @@
         "comment_content": "😘😘😘😘😘",
         "comment_created_at": "2023-06-18T22:29:17.000Z",
         "ref_id": null,
-        "reply": [],
+        "replies": [],
         "isDeleted": false
       },
       {
@@ -70,7 +70,7 @@
         "comment_created_at": "2023-06-18T23:54:32.000Z",
         "ref_id": null,
         "isDeleted": true,
-        "reply": [
+        "replies": [
           {
             "comment_id": 107,
             "user_id": 34,
@@ -79,7 +79,7 @@
             "comment_content": "삭제된 댓글의 대댓글 예시",
             "comment_created_at": "2023-06-19T17:18:03.000Z",
             "ref_id": 103,
-            "reply": [],
+            "replies": [],
             "isDeleted": false
           }
         ]
