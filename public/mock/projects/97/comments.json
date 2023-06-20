@@ -1,7 +1,7 @@
 {
   "message": "모집 글 별 댓글 목록 조회 성공",
   "data": {
-    "listLength": 6,
+    "listLength": 7,
     "pageSize": 1,
     "pagenatedComments": [
       {

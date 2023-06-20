@@ -1,47 +1,22 @@
-//
-//패키지
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import TextareaAutosize from 'react-textarea-autosize';
-//Type, Api
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TypeComment } from '../../interfaces/Comment.interface';
-import {
-  getComment,
-  postComment,
-  putComment,
-  deleteComment,
-  getProject,
-  getPortfolio,
-} from '../../apis/Fetcher';
-//util,모듈,컴포넌트
-import getDateFormat from '../../utils/getDateFormat';
-import CommentModal from './CommentModal';
+import { getComment, getProject, getPortfolio } from '../../apis/Fetcher';
 import Pagination from '../../components/Pagination';
-//이미지,아이콘,CSS
 import styles from './Comment.module.scss';
-import DefaultUserImg from '../../assets/DefaultUser.png';
 import NoContentImage from '../../assets/NoContent.png';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { loginAtom } from '../../recoil/loginState';
-import { useRecoilState } from 'recoil';
 import CommentItem from './CommentItem';
+import CommentInput from './CommentInput';
 
 export default function Comment() {
-  const LoginData = useRecoilState(loginAtom);
-  const user = LoginData[0];
   const [comments, setComments] = useState<TypeComment[]>([]);
-  const [isInputClicked, setIsInputClicked] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
-  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
   const [isListUpdated, setIsListUpdated] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const postTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const editTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [authorId, setAuthorId] = useState<number>(0);
   //라우팅관련
   const params = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
   const postId = Number(params.id) || 0;
   const [postType, setPostType] = useState<'project' | 'portfolio'>('project');
   const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -101,102 +76,6 @@ export default function Comment() {
     }
   }, [comments, editingCommentId]);
 
-  //로그인 한 유저일 경우 렌더링되는 인풋영역
-  const loggedInUserInput = () => {
-    return (
-      <>
-        <div className={styles.loggedInInput}>
-          <img src={user?.user_img || DefaultUserImg} alt="profile" />
-          <input
-            type="text"
-            placeholder={`${user?.user_name}님, 댓글을 작성해보세요.`}
-            readOnly
-            onClick={() => setIsInputClicked(!isInputClicked)}
-          />
-        </div>
-      </>
-    );
-  };
-  //로그인 한 유저가 인풋 클릭한 경우 에디터로 변경
-  const loggedInUserInputClicked = () => {
-    const handleSubmitButtonClick = async () => {
-      if (!postTextareaRef.current?.value) {
-        alert('댓글을 입력해주세요.');
-        return;
-      }
-      //신규 댓글 등록
-      try {
-        switch (postType) {
-          case 'project':
-            await postComment(postType, {
-              project_id: postId,
-              comment_content: postTextareaRef.current?.value || '',
-            });
-            break;
-          case 'portfolio':
-            await postComment(postType, {
-              portfolio_id: postId,
-              comment_content: postTextareaRef.current?.value || '',
-            });
-            break;
-        }
-        setIsListUpdated(!isListUpdated);
-        setIsInputClicked(!isInputClicked);
-        setCurrPage(() => Math.floor(commentTotal / 10));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    return (
-      <div className={styles.commentInputArea}>
-        <TextareaAutosize
-          autoFocus
-          minRows={3}
-          placeholder="댓글을 작성해보세요."
-          ref={postTextareaRef}
-          maxLength={150}
-        />
-        <div className={styles.buttonContainer}>
-          <button className={styles.defaultButton} type="submit" onClick={handleSubmitButtonClick}>
-            등록
-          </button>
-          <button
-            className={styles.lineButton}
-            onClick={() => {
-              if (postTextareaRef.current) postTextareaRef.current.value = '';
-              setIsInputClicked(!isInputClicked);
-            }}
-          >
-            취소
-          </button>
-        </div>
-      </div>
-    );
-  };
-  //로그인 하지 않은 유저일 경우 인풋영역->로그인페이지로 연결됨
-  const loggedOutUserInput = () => {
-    return (
-      <>
-        <input
-          className={styles.loggedOutInput}
-          type="text"
-          placeholder="댓글을 작성해보세요."
-          readOnly
-          onClick={() => navigate('/login', { state: { returnPath: location.pathname } })}
-        />
-      </>
-    );
-  };
-
-  let inputComponent;
-  if (!user.user_id) {
-    inputComponent = loggedOutUserInput();
-  } else if (user.user_id && !isInputClicked) {
-    inputComponent = loggedInUserInput();
-  } else if (user.user_id && isInputClicked) {
-    inputComponent = loggedInUserInputClicked();
-  }
-
   return (
     <div className={styles.commentContainer}>
       <h3 className={styles.commentCount}>
@@ -223,7 +102,7 @@ export default function Comment() {
         onClickPage={setCurrPage}
         pageCount={Math.ceil(totalPageCount)}
       />
-      <div className={styles.inputArea}>{inputComponent}</div>
+      <CommentInput />
     </div>
   );
 }

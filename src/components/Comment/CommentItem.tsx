@@ -1,7 +1,7 @@
 //pagenatedComments배열 관련 로직만 남기기
 
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import getDateFormat from '../../utils/getDateFormat';
@@ -11,6 +11,7 @@ import DefaultUserImg from '../../assets/DefaultUser.png';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState } from 'recoil';
+import Reply from './Reply';
 //@ts-ignore
 export default function CommentItem({ comments }) {
   const LoginData = useRecoilState(loginAtom);
@@ -69,8 +70,11 @@ export default function CommentItem({ comments }) {
                 <TextareaAutosize
                   readOnly
                   className={styles.content}
-                  value={comment.comment_content}
+                  value={comment.isDeleted ? '삭제된 댓글입니다.' : comment.comment_content}
                 />
+                {comment.replies && comment.replies.length > 0 && (
+                  <Reply replies={comment.replies} />
+                )}
               </li>
             ))}
         </ul>
