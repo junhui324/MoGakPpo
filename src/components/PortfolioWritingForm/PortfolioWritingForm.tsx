@@ -140,8 +140,9 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     //로컬스토리지에 postData가 있으면 savedPost 상태 저장
     const savedPostData = localStorage.getItem('savedPortfolioPost');
     savedPostData && setIsPostSaved(true);
+    window.scrollTo(0, 0);
 
-    titleRef.current?.focus();
+    !isMobile && titleRef.current?.focus();
   }, []);
 
   // post패치
