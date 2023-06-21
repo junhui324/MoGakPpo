@@ -190,9 +190,9 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 768px) {
   .HotPortfolio {
-    width: 100%;
+    width: 100vw;
     padding: 0 2rem;
     .titleContainer {
       .titleTextWrapper {
@@ -208,7 +208,7 @@
     }
 
     .slideArea {
-      width: 336px;
+      width: 100vw;
 
       .portfolioList {
         overflow-x: scroll;
