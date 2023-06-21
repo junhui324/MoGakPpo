@@ -113,11 +113,12 @@ export default function HamburgerMenu({
           {Token.getToken() && (
             <li>
               <NavLink
-                to={`${ROUTES.MY_PAGE}`}
+                to={`${ROUTES.MAIN}`}
                 className={({ isActive }) => (isActive ? styles.active : '')}
                 onClick={() => {
                   handleNavLinkClick();
                   onClickLogout();
+                  setHamburgerOpen(false);
                 }}
               >
                 <span>로그아웃</span>
