@@ -1,7 +1,6 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
 import styles from './ProjectSearch.module.scss';
 import { useMediaQuery } from 'react-responsive';
-import { useState } from 'react';
 
 interface ProjectSearchProps {
   handleChange: (keyword: string) => void;

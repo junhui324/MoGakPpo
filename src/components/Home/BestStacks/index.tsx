@@ -1,16 +1,16 @@
 import styles from './BestStacks.module.scss';
 import { getStackList } from '../../../apis/Fetcher';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RxBorderDotted } from 'react-icons/rx';
 import { useMediaQuery } from 'react-responsive';
 
 export default function BestStacks() {
   const isPc = useMediaQuery({
-    query : "(min-width:769px)"
+    query: '(min-width:769px)',
   });
   const isMobile = useMediaQuery({
-    query : "(max-width:768px)"
-  }); 
+    query: '(max-width:768px)',
+  });
 
   const [bestStacks, setBestStacks] = useState([]);
 
@@ -34,27 +34,29 @@ export default function BestStacks() {
 
   return (
     <div>
-      {isPc && <div id='BestStack'>
-        <div className={styles.titleTextWrapper}>
-          <h1>인기 기술 스택 순위</h1>
-          <p>모프에서 가장 인기있는 기술스택이예요!</p>
+      {isPc && (
+        <div id="BestStack">
+          <div className={styles.titleTextWrapper}>
+            <h1>인기 기술 스택 순위</h1>
+            <p>모프에서 가장 인기있는 기술스택이예요!</p>
+          </div>
+          <div className={styles.stackList}>
+            {bestStacks && bestStacks.length > 0 ? (
+              bestStacks.map((stack, index) => (
+                <div key={`${stack}-${index}`} className={styles.stackContainer}>
+                  <span className={styles.stackRank}>
+                    {index + 1}
+                    <RxBorderDotted />
+                  </span>
+                  <span className={styles.stackName}>{stack}</span>
+                </div>
+              ))
+            ) : (
+              <p className={styles.noContent}>아직 인기 순위를 집계하고 있어요:)</p>
+            )}
+          </div>
         </div>
-        <div className={styles.stackList}>
-          {bestStacks && bestStacks.length > 0 ? (
-            bestStacks.map((stack, index) => (
-              <div key={`${stack}-${index}`} className={styles.stackContainer}>
-                <span className={styles.stackRank}>
-                  {index + 1}
-                  <RxBorderDotted />
-                </span>
-                <span className={styles.stackName}>{stack}</span>
-              </div>
-            ))
-          ) : (
-            <p className={styles.noContent}>아직 인기 순위를 집계하고 있어요:)</p>
-          )}
-        </div>
-      </div>}
+      )}
       {isMobile && (
         <div className={styles.container}>
           <div className={styles.titleTextWrapper}>
@@ -75,9 +77,9 @@ export default function BestStacks() {
             ) : (
               <p className={styles.noContent}>아직 인기 순위를 집계하고 있어요:)</p>
             )}
-        </div>
+          </div>
         </div>
       )}
-    </div> 
+    </div>
   );
 }

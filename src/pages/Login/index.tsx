@@ -3,7 +3,7 @@ import styles from './login.module.scss';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 import cookie from 'react-cookies';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { isLoginAtom, loginAtom } from '../../recoil/loginState';
 import { TailSpin } from 'react-loader-spinner';
 import { getKakaoLogin } from '../../apis/Fetcher';
@@ -23,7 +23,6 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const setLoginData = useSetRecoilState(loginAtom);
-  const user = useRecoilValue(loginAtom);
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
 
   useEffect(() => {

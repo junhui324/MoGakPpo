@@ -1,4 +1,3 @@
-//import React from 'react';
 // 아이콘
 import { RiComputerLine, RiCodeView } from 'react-icons/ri';
 import { FiServer } from 'react-icons/fi';
