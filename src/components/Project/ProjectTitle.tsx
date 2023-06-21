@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { TypeProjectTitle } from '../../interfaces/Project.interface';
 import { getIsNew } from '../../utils/getIsNew';
 
@@ -11,10 +10,6 @@ import ShareButton from '../common/Share/ShareButton';
 import { useLocation } from 'react-router-dom';
 
 // 날짜 계산 상수
-const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
-const ONE_HOUR_TIME = 60 * 60 * 1000;
-const ONE_MINUTE_TIME = 60 * 1000;
-const TODAY = 0;
 const ONE_DAY = 1;
 const WEEK_DAY = 7;
 const MONTH_ADJUSTMENT = 1;
