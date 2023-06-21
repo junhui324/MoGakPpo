@@ -114,6 +114,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   useEffect(() => {
     if (publishedPostData) {
       const {
+        // project_id,
         portfolio_title,
         portfolio_summary,
         portfolio_stacks,
@@ -122,6 +123,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         portfolio_github,
         portfolio_thumbnail,
       } = publishedPostData;
+      // setSelectedProject(project_id);
       setTitle(portfolio_title);
       setSummary(portfolio_summary);
       setStacks(portfolio_stacks.stackList);
