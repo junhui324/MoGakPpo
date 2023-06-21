@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CgShare } from 'react-icons/cg';
+import { useMediaQuery } from 'react-responsive';
 
 // 스타일
 import styles from './ShareButton.module.scss';
@@ -111,7 +112,7 @@ ${title}
           </button>
         </div>
       </div>
-      {isCopy && (
+      {true && (
         <div className={styles.urlTextBox}>
           <span>Ctrl + C로 복사해주세요 !</span>
           <textarea ref={urlTextRef} value={url} readOnly />

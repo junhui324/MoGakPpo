@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Comment from '../../components/Comment';
 import * as Token from '../../apis/Token';
+import { useMediaQuery } from 'react-responsive';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -31,6 +32,9 @@ function Project() {
   // 라우터 관련
   const params: { [key: string]: string | undefined } = useParams();
   const navigate = useNavigate();
+
+  // 반응형 레이아웃 관련
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
 
   // 게시글 데이터
   const projectId: number = params.id ? Number(params.id) : 0;
@@ -161,7 +165,10 @@ function Project() {
 
   return projectData ? (
     <>
-      <div className={styles.container} style={{ maxWidth: 1024, margin: '76px auto' }}>
+      <div
+        className={styles.container}
+        style={isMobile ? { margin: '20px auto' } : { maxWidth: 1024, margin: '76px auto' }}
+      >
         <div className={styles.leftContainer}>
           <ProjectTitle titleData={titleData} />
           <ProjectBody bodyData={bodyData} />
