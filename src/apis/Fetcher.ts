@@ -411,3 +411,10 @@ export async function getCompletedProject(): Promise<{
   const query = `status=COMPLETE`;
   return await Api.get(API_KEY, params, true, query);
 }
+
+// 회원탈퇴
+export async function deleteAccount(password: object): Promise<{ message: string; data: object }> {
+  const params = `users/withdrawal`;
+  const data = password;
+  return await Api.delete(`http://localhost:5500/api/v1`, params, data, true);
+}
