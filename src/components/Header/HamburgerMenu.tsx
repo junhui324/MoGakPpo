@@ -11,8 +11,7 @@ import ReactDOM from 'react-dom';
 import { MdClose } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import { themeAtom } from '../../recoil/themeState';
-import { useEffect, useRef, useState } from 'react';
-import { AccountManagementModal } from './AccountManagementModal';
+import { useEffect, useRef } from 'react';
 
 interface HamburgerMenuProps {
   handleNavLinkClick: () => void;
@@ -32,7 +31,6 @@ export default function HamburgerMenu({
 }: HamburgerMenuProps) {
   const darkMode = useRecoilValue(themeAtom);
   const hamburgerRef = useRef<HTMLDivElement>(null);
-  const [accountManagementModalOpen, setAccountManagementModalOpen] = useState(false);
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
@@ -48,10 +46,6 @@ export default function HamburgerMenu({
       document.removeEventListener('mousedown', (event) => handler(event));
     };
   });
-
-  const handleAccountManagement = () => {
-    setAccountManagementModalOpen(true);
-  };
 
   return ReactDOM.createPortal(
     <div className={`${darkMode ? `${styles.darkMode}` : ''}`}>
@@ -102,16 +96,6 @@ export default function HamburgerMenu({
               </NavLink>
             </li>
           )}
-          {/* {Token.getToken() && (
-            <li>
-              <span onClick={handleAccountManagement}>계정 관리</span>
-              {accountManagementModalOpen && (
-                <AccountManagementModal
-                  setAccountManagementModalOpen={setAccountManagementModalOpen}
-                ></AccountManagementModal>
-              )}
-            </li>
-          )} */}
           {Token.getToken() && (
             <li>
               <NavLink
