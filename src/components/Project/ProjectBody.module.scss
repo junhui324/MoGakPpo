@@ -69,6 +69,7 @@ $middle-font-size: 16px;
       }
 
       ul {
+        word-break: break-all;
         display: block;
         list-style-type: disc;
         margin-block-start: 1em;
@@ -117,6 +118,9 @@ $middle-font-size: 16px;
         background-color: var(--color-pink2);
         color: black;
         overflow: visible;
+
+        word-break: break-all;
+        white-space: pre-wrap;
       }
     }
   }
