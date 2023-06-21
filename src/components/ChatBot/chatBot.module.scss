@@ -51,6 +51,7 @@
         color: var(--color-text1);
         background-color: var(--color-bg1);
         margin: 1rem;
+        line-height: 1.4rem;
       }
 
       .questionWrapper {
@@ -137,14 +138,14 @@
       border-radius: 0;
 
       .header {
-        height: 5%;
+        height: 8%;
         border-radius: 0;
 
         & > div {
           color: white;
           font-weight: 600;
           margin-left: 1rem;
-          font-size: 0.8rem;
+          font-size: 0.9rem;
         }
   
         & > svg {
@@ -158,6 +159,7 @@
       .body {
         height: 90%;
         overflow: auto;
+        font-size: 0.9rem;
 
         &::-webkit-scrollbar {
           width: 4px;
