@@ -15,6 +15,7 @@
     gap: 32px;
     .title {
       width: fit-content;
+      height: fit-content;
       background-color: rgb(255, 119, 0);
       padding: 10px 16px;
       font-size: 12px;
@@ -25,16 +26,23 @@
     .headerContainer {
       display: flex;
       justify-content: space-between;
-      .selectPostButton {
-        padding: 6px;
-        text-align: center;
-        background-color: unset;
-        color: var(--color-pink);
-        border: none;
-        border-bottom: 1px solid var(--color-pink);
-        cursor: pointer;
-        svg {
-          margin-left: 6px;
+      div {
+        text-align: right;
+        .selectPostButton {
+          margin-bottom: 8px;
+          padding: 6px;
+          text-align: center;
+          background-color: unset;
+          color: var(--color-pink);
+          border: none;
+          border-bottom: 1px solid var(--color-pink);
+          cursor: pointer;
+          svg {
+            margin-left: 6px;
+          }
+        }
+        p {
+          font-size: 12px;
         }
       }
     }

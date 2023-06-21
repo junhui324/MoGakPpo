@@ -15,10 +15,10 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
   const [projects, setProjects] = useState<TypeCompleteProjects[]>();
   const setSelectedTitle = useSetRecoilState(selectedPostTitleState);
 
-  const handleClickTitle = (title: string) => {
-    setSelectedTitle(title);
+  const handleClickTitle = (id: number, title: string) => {
+    setSelectedTitle(() => ({ id, title }));
     setModalOpen(false);
-  }
+  };
 
   useEffect(() => {
     const getCompletedProjectList = async () => {
@@ -29,7 +29,7 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
     getCompletedProjectList();
   }, []);
@@ -37,9 +37,11 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
   return (
     <ModalFullScreen setModalOpen={setModalOpen} closeButton={false}>
       <div className={styles.container}>
-        <div className={styles.countText}>모집 완료한 게시글이 <span className={styles.count}>{count}</span>개 있네요!</div>
+        <div className={styles.countText}>
+          모집 완료한 게시글이 <span className={styles.count}>{count}</span>개 있네요!
+        </div>
         {count > 0 && <div className={styles.desc}>작성하고 싶은 게시글 제목을 클릭해주세요</div>}
-        {count > 0 && projects &&
+        {count > 0 && projects && (
           <div className={styles.titleContainer}>
             <div className={styles.titleList}>
               {projects.map((project, id) => {
@@ -48,18 +50,18 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
                   <div
                     className={styles.title}
                     key={`${title}-${id}`}
-                    onClick={() => handleClickTitle(title)}
+                    onClick={() => handleClickTitle(id, title)}
                   >
                     {project.project_id}. {title}
                   </div>
-                )
+                );
               })}
             </div>
           </div>
-        }
+        )}
       </div>
     </ModalFullScreen>
-  )
+  );
 }
 
 export default CompleteListModal;

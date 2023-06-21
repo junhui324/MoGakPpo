@@ -16,13 +16,14 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { TypeTeamProjectUser } from '../../interfaces/User.interface';
 import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base64Utils';
 import { loginAtom } from '../../recoil/loginState';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { HighlightModules } from '../Editor/Highlight';
 import { useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
 import { BsChevronRight } from 'react-icons/bs';
+import { selectedPostTitleState } from '../../recoil/portfolioState';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -38,6 +39,8 @@ interface PortfolioWritingProps {
 function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps) {
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
+  const [selectedProject, setSelectedProject] = useRecoilState(selectedPostTitleState);
+
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [stacks, setStacks] = useState<string[]>([]);
@@ -53,6 +56,16 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const titleRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLInputElement>(null);
   const githubRef = useRef<HTMLInputElement>(null);
+
+  // 작성 들어오면 선택한 모집글 초기화
+  useEffect(() => {
+    setSelectedProject({ id: 0, title: '' });
+  }, []);
+
+  // 모집글 선택 시 타이틀 채우기
+  useEffect(() => {
+    title.length === 0 && setTitle(selectedProject.title);
+  }, [selectedProject]);
 
   // 로그인 여부 확인
   useEffect(() => {
@@ -284,6 +297,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     convertedEditorFiles.length > 0 &&
       convertedEditorFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
+    // formData.append('projectId', selectedProject.id && null);
 
     const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
       if (targetRef.current) {
@@ -332,6 +346,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
 
     const form = {
+      selectedProject,
       thumbnailSrc,
       title,
       summary,
@@ -352,6 +367,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     );
 
     if (confirm) {
+      setSelectedProject(postData.selectedProject);
       setThumbnailSrc(postData.thumbnailSrc);
       setThumbnailFile(null);
       setTitle(postData.title);
@@ -379,16 +395,18 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       <div className={styles.mainFormContainer}>
         <div className={styles.headerContainer}>
           <h1 className={styles.title}>프로젝트 자랑 작성</h1>
-          {/* 여기에 임의로 버튼을 추가했습니다 */}
-          <button
-            className={styles.selectPostButton}
-            onClick={() => {
-              setIsCompletePost((prev) => !prev);
-            }}
-          >
-            관련 모집 글 선택
-            <BsChevronRight />
-          </button>
+          <div>
+            <button
+              className={styles.selectPostButton}
+              onClick={() => {
+                setIsCompletePost((prev) => !prev);
+              }}
+            >
+              관련 모집 글 선택
+              <BsChevronRight />
+            </button>
+            {selectedProject && <p>{selectedProject.title}</p>}
+          </div>
         </div>
         <div className={styles.topContainer}>
           <div>

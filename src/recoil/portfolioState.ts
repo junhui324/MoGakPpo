@@ -28,5 +28,8 @@ export const portfolioState = atom<TypePortfolio>({
 
 export const selectedPostTitleState = atom({
   key: 'selectedPostTitleState',
-  default: ''
+  default: {
+    id: 0,
+    title: '',
+  },
 });
