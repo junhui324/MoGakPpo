@@ -53,9 +53,11 @@
         line-height: 2.2rem;
 
         .title {
+          display: block;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          word-break: break-all;
         }
         .newTag {
           margin-left: 8px;
@@ -70,6 +72,7 @@
         display: flex;
         border: none;
         padding: 6px 8px;
+        margin-left: 1rem;
         background-color: unset;
         cursor: pointer;
         svg {
@@ -111,24 +114,12 @@
     }
 
     .topContainer {
-      width: 300px;
-      height: 160px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 16px 0 0 16px;
-
-      & > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-        background-color: white;
-      }
+      display: none;
     }
 
     .contentContainer {
       padding: 24px;
-      width: 500px;
+      width: 86%;
       display: flex;
       flex-direction: column;
 
@@ -139,7 +130,6 @@
         font-weight: 550;
 
         .titleWrapper {
-          width: 80%;
           display: flex;
           flex-direction: row;
           line-height: 2.2rem;
@@ -177,7 +167,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         padding: 0.5rem 0;
-        width: 480px;
       }
 
       .createdAt {
@@ -217,13 +206,12 @@
 
     .contentContainer {
       padding: 24px;
-      //width: 500px;
       display: flex;
       flex-direction: column;
 
       .titleContainer {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
 
         font-size: 1rem;
         font-weight: 550;
@@ -267,7 +255,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         padding: 0.5rem 0;
-        width: 250px;
+        width: 80%;
       }
 
       .createdAt {
