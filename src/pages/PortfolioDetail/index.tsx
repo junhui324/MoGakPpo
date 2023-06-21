@@ -1,7 +1,6 @@
-//import PortfolioDetailForm from '../../components/PortfolioDetailForm/PortfolioDetailForm';
-//import Comment from '../../components/Comment';
 import LoadingSpinner from '../../components/common/Loading/LoadingSpinner';
 import React, { Suspense, useState } from 'react';
+import styles from './PortfolioDetail.module.scss';
 const PortfolioDetailForm = React.lazy(
   () => import('../../components/PortfolioDetailForm/PortfolioDetailForm')
 );
@@ -19,10 +18,12 @@ function PortfolioDetail() {
   };
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <PortfolioDetailForm authorForComment={authorForComment} />
-      <Comment authorData={authorData} />
-    </Suspense>
+    <div className={styles.container}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <PortfolioDetailForm authorForComment={authorForComment} />
+        <Comment authorData={authorData} />
+      </Suspense>
+    </div>
   );
 }
 

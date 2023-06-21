@@ -117,6 +117,14 @@ $middle-font-size: 16px;
         background-color: var(--color-pink2);
         color: black;
         overflow: visible;
+        white-space: pre-wrap;
+        max-width: 100%;
+        word-break: break-all;
+        span {
+          max-width: 100%;
+          word-break: break-all;
+          white-space: pre-wrap;
+        }
       }
     }
   }

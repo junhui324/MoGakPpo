@@ -60,6 +60,12 @@
     background-color: var(--color-pink2) !important;
     color: black !important;
     overflow: visible !important;
+
+    span {
+      white-space: pre-wrap;
+      max-width: 90%;
+      word-break: break-all;
+    }
   }
 }
 
