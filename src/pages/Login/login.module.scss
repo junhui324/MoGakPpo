@@ -260,7 +260,7 @@ input[type='email'] {
 
 @media (max-width: 768px) {
   .container {
-    width: 768px;
+    width: 100%;
     overflow-y: hidden;
 
     .component {
@@ -271,7 +271,7 @@ input[type='email'] {
 
     .title {
       margin-top: 20px;
-      height: 48px;
+      height: 10px;
       text-align: center;
       font-size: 28px;
     }

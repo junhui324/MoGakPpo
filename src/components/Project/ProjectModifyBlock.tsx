@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as Fetcher from '../../apis/Fetcher';
 import { useNavigate } from 'react-router-dom';
 
 // 컴포넌트
 import ModalFullScreen from '../common/Modal/ModalFullScreen';
 // 타입
-import { TypeProjectModify, TypeProject } from '../../interfaces/Project.interface';
+import { TypeProjectModify } from '../../interfaces/Project.interface';
 import { AxiosResponse } from 'axios';
 // 스타일
 import styles from './ProjectModifyBlock.module.scss';
