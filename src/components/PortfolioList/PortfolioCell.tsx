@@ -22,7 +22,7 @@ function PortfolioCell({
   const navigate = useNavigate();
   // 상태
   const [isBookmarked, setIsBookmarked] = useState<boolean | null>(
-    portfolio ? portfolio.is_bookmarked : null
+    portfolio && (portfolio.is_bookmarked ?? null)
   );
   const [bookmarkCount, setBookmarkCount] = useState<number | null>(
     portfolio ? portfolio.portfolio_bookmark_count : null
@@ -83,7 +83,7 @@ function PortfolioCell({
   return (
     <div className={styles.container}>
       <button className={styles.bookmarkButton} onClick={handleBookmark}>
-        {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
+        {isBookmarked === null ? <></> : isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
       </button>
       {portfolio.portfolio_thumbnail ? (
         <img

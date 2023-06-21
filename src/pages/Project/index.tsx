@@ -188,7 +188,6 @@ function Project() {
               portfolio_comments_count: 10,
               portfolio_views_count: 48,
               portfolio_created_at: '2023-06-14T19:25:17.000Z',
-              is_bookmarked: false,
             }}
           />
         </div>
