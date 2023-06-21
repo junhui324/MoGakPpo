@@ -43,14 +43,17 @@ function BookmarkListModal({
   const navigate = useNavigate();
   const [isUpLogo, setIsUpLogo] = useState<boolean>(false);
   const [isDownLogo, setIsDownLogo] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     if (event.currentTarget.scrollTop === 0) {
       setIsUpLogo(false);
+      setIsDownLogo(true);
     } else if (
       event.currentTarget.scrollHeight - event.currentTarget.clientHeight <=
       event.currentTarget.scrollTop
     ) {
+      setIsUpLogo(true);
       setIsDownLogo(false);
     } else {
       setIsUpLogo(true);
@@ -60,11 +63,14 @@ function BookmarkListModal({
 
   // 북마크한 유저 3명 이상이면 다운 스크롤 로고 활성화
   useEffect(() => {
-    bookmarksData.project_bookmark_users.length > 2 ? setIsDownLogo(true) : setIsDownLogo(false);
-  }, [bookmarksData]);
+    if (modalRef.current) {
+      modalRef.current.dispatchEvent(new Event('scroll'));
+    }
+  }, [modalRef, bookmarksData]);
 
   return (
     <div
+      ref={modalRef}
       className={isOn ? styles.modalContainerOn : styles.modalContainerNot}
       onScroll={handleScroll}
     >
