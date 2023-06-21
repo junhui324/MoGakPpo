@@ -13,14 +13,14 @@ type TypeCommentInputProps = {
   postType: 'project' | 'portfolio';
   checkUpdate: () => void;
   setCurrPage: React.Dispatch<React.SetStateAction<number>>;
-  commentTotal: number;
+  originCommentTotal: number;
 };
 
 export default function CommentInput({
   postType,
   checkUpdate,
   setCurrPage,
-  commentTotal,
+  originCommentTotal,
 }: TypeCommentInputProps) {
   const LoginData = useRecoilState(loginAtom);
   const user = LoginData[0];
@@ -75,7 +75,7 @@ export default function CommentInput({
         }
         checkUpdate();
         setIsInputClicked(!isInputClicked);
-        setCurrPage(() => Math.floor(commentTotal / 10));
+        setCurrPage(() => Math.ceil(originCommentTotal / 10) + 1);
       } catch (error) {
         console.log(error);
       }

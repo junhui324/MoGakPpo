@@ -24,6 +24,7 @@ export default function Comment({ authorData }: TypeCommentProps) {
   const location = useLocation();
   const postId = Number(params.id) || 0;
   const [commentTotal, setCommentTotal] = useState<number>(0);
+  const [originCommentTotal, setOriginCommentTotal] = useState<number>(0);
   const [currPage, setCurrPage] = useState<number>(0);
   const [totalPageCount, setTotalPageCount] = useState<number>(0);
 
@@ -41,8 +42,10 @@ export default function Comment({ authorData }: TypeCommentProps) {
     try {
       const PostType = location.pathname.split('/')[1];
       const response = await getComment(PostType, postId, currPage + 1);
+      const OriginCommentCount = comments.filter((comment) => comment.replies.length === 0).length;
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
+      setOriginCommentTotal(OriginCommentCount);
       setTotalPageCount(response.data.pageSize);
     } catch (error) {
       console.log(error);
@@ -86,7 +89,7 @@ export default function Comment({ authorData }: TypeCommentProps) {
         postType={postType}
         checkUpdate={checkUpdate}
         setCurrPage={setCurrPage}
-        commentTotal={commentTotal}
+        originCommentTotal={originCommentTotal}
       />
     </div>
   );
