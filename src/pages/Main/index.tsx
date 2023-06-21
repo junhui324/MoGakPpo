@@ -5,6 +5,7 @@ import BestStacks from '../../components/Home/BestStacks';
 import Footer from '../../components/Footer';
 import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import styles from './main.module.scss';
 
 export default function Main() {
   const isPc = useMediaQuery({
@@ -22,14 +23,14 @@ export default function Main() {
     <div>
       <Banner />
       {isPc && 
-        <div style={{ maxWidth: 1024, margin: '0 auto' }}>
+        <div className={styles.container}>
           <NewPosts />
           <HotPortfolio />
           <BestStacks />
         </div>
       }
       {isMobile && 
-        <div style={{ maxWidth: 768, margin: '0 auto' }}>
+        <div className={styles.container}>
           <NewPosts />
           <HotPortfolio />
           <BestStacks />
