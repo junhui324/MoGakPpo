@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './CompleteListModal.module.scss';
 import ModalFullScreen from '../common/Modal/ModalFullScreen';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { completeListState, selectedPostTitleState } from '../../recoil/portfolioState';
+import { useSetRecoilState } from 'recoil';
+import { selectedPostTitleState } from '../../recoil/portfolioState';
 import { getCompletedProject } from '../../apis/Fetcher';
+import { TypeCompleteProjects } from '../../interfaces/Project.interface';
 
 interface CompleteListModalProps {
   setModalOpen: (value: boolean) => void;
@@ -11,7 +12,7 @@ interface CompleteListModalProps {
 
 function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
   const [count, setCount] = useState(0);
-  const [projects, setProjects] = useRecoilState(completeListState);
+  const [projects, setProjects] = useState<TypeCompleteProjects[]>();
   const setSelectedTitle = useSetRecoilState(selectedPostTitleState);
 
   const handleClickTitle = (id: number, title: string) => {

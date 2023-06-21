@@ -18,12 +18,12 @@ import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { HighlightModules } from '../Editor/Highlight';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
 import { BsChevronRight } from 'react-icons/bs';
-import { completeListState, selectedPostTitleState } from '../../recoil/portfolioState';
+import { selectedPostTitleState } from '../../recoil/portfolioState';
 import { useMediaQuery } from 'react-responsive';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
@@ -43,7 +43,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
   const [selectedProject, setSelectedProject] = useRecoilState(selectedPostTitleState);
-  const [completeProjectList, setCompleteProjectList] = useRecoilState(completeListState);
 
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
