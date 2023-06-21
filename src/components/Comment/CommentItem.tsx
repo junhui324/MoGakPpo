@@ -1,5 +1,5 @@
 //패키지
-import { SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
@@ -12,7 +12,7 @@ import CommentModal from './CommentModal';
 import styles from './Comment.module.scss';
 import DefaultUserImg from '../../assets/DefaultUser.png';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { RxCornerBottomLeft } from 'react-icons/rx';
+import { TbCornerDownRight } from 'react-icons/tb';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState } from 'recoil';
 import ReplyInput from './ReplyInput';
@@ -107,12 +107,12 @@ export default function CommentItem({
         return (
           <>
             <li key={comment.comment_id} className={styles.comment}>
-              {comment.parent_id && (
-                <div className={styles.replyIcon}>
-                  <RxCornerBottomLeft />
-                </div>
-              )}
               <div className={styles.header}>
+                {comment.parent_id && (
+                  <div className={styles.replyIcon}>
+                    <TbCornerDownRight />
+                  </div>
+                )}
                 <Link
                   to={
                     comment.user_id === Number(user?.user_id)
@@ -169,7 +169,7 @@ export default function CommentItem({
                   <TextareaAutosize
                     readOnly
                     className={styles.content}
-                    value={comment.isDeleted ? '삭제된 댓글입니다.' : comment.comment_content}
+                    value={comment.comment_content}
                   />
                   {isReplyClicked && selectedCommentId === comment.comment_id && (
                     <ReplyInput

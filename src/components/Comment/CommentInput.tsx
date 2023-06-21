@@ -113,7 +113,7 @@ export default function CommentInput({
         <input
           className={styles.loggedOutInput}
           type="text"
-          placeholder="댓글을 작성해보세요."
+          placeholder="로그인 후 댓글을 작성해보세요."
           readOnly
           onClick={() => navigate('/login', { state: { returnPath: location.pathname } })}
         />
