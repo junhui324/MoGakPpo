@@ -410,6 +410,6 @@ export async function getCompletedProject(): Promise<{
   }
 }> {
   const params = `projects/recruitment`;
-  const query = `status=complete`;
+  const query = `status=COMPLETE`;
   return await Api.get(API_KEY, params, true, query);
 }
