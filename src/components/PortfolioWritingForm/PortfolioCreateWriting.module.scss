@@ -43,7 +43,23 @@
         }
       }
       p {
+        padding: 4px 8px 4px 12px;
+        border-radius: 4px;
+        background-color: var(--color-bg2);
         font-size: 12px;
+        display: flex;
+        align-items: center;
+        button {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          background-color: unset;
+          border: none;
+          svg {
+            font-size: 20px;
+            color: var(--color-text2);
+          }
+        }
       }
     }
 

@@ -337,14 +337,12 @@ export async function getPortfolio(id: string): Promise<any> {
 }
 // 포트폴리오 수정
 export async function patchPortfolio(id: string, data: FormData): Promise<any> {
-  console.log(data);
   const params = `portfolios/posts/${id}`;
   return await Api.patch(API_KEY, params, data, true, true);
 }
 
 // 포트폴리오 포스팅
 export async function postPortfolio(data: FormData): Promise<any> {
-  console.log(data);
   const params = `portfolios/posts`;
   return await Api.post(API_KEY, params, data, true, true);
 }
@@ -407,7 +405,7 @@ export async function getCompletedProject(): Promise<{
   data: {
     listLength: number;
     completedProjects: ProjectType.TypeCompleteProjects[];
-  }
+  };
 }> {
   const params = `projects/recruitment`;
   const query = `status=complete`;

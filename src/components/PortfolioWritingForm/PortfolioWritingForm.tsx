@@ -25,6 +25,7 @@ import imageCompression from 'browser-image-compression';
 import { BsChevronRight } from 'react-icons/bs';
 import { selectedPostTitleState } from '../../recoil/portfolioState';
 import { useMediaQuery } from 'react-responsive';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -63,11 +64,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   useEffect(() => {
     setSelectedProject({ id: 0, title: '' });
   }, []);
-
-  // 모집글 선택 시 타이틀 채우기
-  useEffect(() => {
-    title.length === 0 && setTitle(selectedProject.title);
-  }, [selectedProject]);
 
   // 로그인 여부 확인
   useEffect(() => {
@@ -300,7 +296,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     convertedEditorFiles.length > 0 &&
       convertedEditorFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
-    // formData.append('projectId', selectedProject.id && null);
+    formData.append('project_id', selectedProject.id.toString());
 
     const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
       if (targetRef.current) {
@@ -414,7 +410,14 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
               관련 모집 글 선택
               <BsChevronRight />
             </button>
-            {selectedProject && <p>{selectedProject.title}</p>}
+            {selectedProject.id !== 0 && (
+              <p>
+                {selectedProject.title}
+                <button onClick={() => setSelectedProject(() => ({ id: 0, title: '' }))}>
+                  <AiFillCloseCircle />
+                </button>
+              </p>
+            )}
           </div>
         </div>
         <div className={styles.topContainer}>
