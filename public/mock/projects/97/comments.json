@@ -11,7 +11,7 @@
         "user_img": "http://34.64.242.119:5000/api/v1/static/user/myDrawing.png",
         "comment_content": "멋지다 7팀~ 😎",
         "comment_created_at": "2023-06-18T22:23:06.000Z",
-        "ref_id": null,
+        "parent_id": null,
         "replies": [
           {
             "comment_id": 105,
@@ -20,7 +20,7 @@
             "user_img": null,
             "comment_content": "대댓글 예시",
             "comment_created_at": "2023-06-19T17:18:03.000Z",
-            "ref_id": 100,
+            "parent_id": 100,
             "replies": [
               {
                 "comment_id": 106,
@@ -29,7 +29,7 @@
                 "user_img": null,
                 "comment_content": "대댓글의 대댓글 예시",
                 "comment_created_at": "2023-06-19T17:18:03.000Z",
-                "ref_id": 105,
+                "parent_id": 105,
                 "replies": [],
                 "isDeleted": false
               }
@@ -43,7 +43,7 @@
             "user_img": null,
             "comment_content": "대댓글 예시222",
             "comment_created_at": "2023-06-18T23:17:44.000Z",
-            "ref_id": 100,
+            "parent_id": 100,
             "replies": [],
             "isDeleted": false
           }
@@ -57,7 +57,7 @@
         "user_img": null,
         "comment_content": "😘😘😘😘😘",
         "comment_created_at": "2023-06-18T22:29:17.000Z",
-        "ref_id": null,
+        "parent_id": null,
         "replies": [],
         "isDeleted": false
       },
@@ -68,7 +68,7 @@
         "user_img": null,
         "comment_content": "진짜 우윳빛깔 박 지 원 ",
         "comment_created_at": "2023-06-18T23:54:32.000Z",
-        "ref_id": null,
+        "parent_id": null,
         "isDeleted": true,
         "replies": [
           {
@@ -78,7 +78,7 @@
             "user_img": null,
             "comment_content": "삭제된 댓글의 대댓글 예시",
             "comment_created_at": "2023-06-19T17:18:03.000Z",
-            "ref_id": 103,
+            "parent_id": 103,
             "replies": [],
             "isDeleted": false
           }

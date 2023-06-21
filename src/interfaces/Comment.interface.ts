@@ -7,7 +7,7 @@ interface Comment {
   comment_created_at: string;
   isDeleted: boolean;
   replies: Comment[];
-  ref_id: number | null;
+  parent_id: number | null;
 }
 
 export interface ProjectComment extends Comment {
@@ -35,7 +35,7 @@ export type TypeComment = Pick<
   | 'comment_created_at'
   | 'isDeleted'
   | 'replies'
-  | 'ref_id'
+  | 'parent_id'
 >;
 
 export type TypeMypageProjectComment = Pick<
@@ -47,8 +47,14 @@ export type TypeMypagePortfolioComment = Pick<
   'comment_id' | 'portfolio_id' | 'portfolio_title' | 'comment_content' | 'comment_created_at'
 >;
 
-export type TypeProjectCommentPost = Pick<ProjectComment, 'project_id' | 'comment_content'>;
-export type TypePortfolioCommentPost = Pick<PortfolioComment, 'portfolio_id' | 'comment_content'>;
+export type TypeProjectCommentPost = Pick<
+  ProjectComment,
+  'project_id' | 'comment_content' | 'parent_id'
+>;
+export type TypePortfolioCommentPost = Pick<
+  PortfolioComment,
+  'portfolio_id' | 'comment_content' | 'parent_id'
+>;
 export type TypeCommentPut = Pick<Comment, 'comment_content'>;
 
 export type TypeMypageProjectComments = TypeMypageProjectComment[];

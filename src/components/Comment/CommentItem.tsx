@@ -1,5 +1,5 @@
 //패키지
-import { useEffect, useRef, useState } from 'react';
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 //Type, Api
@@ -15,6 +15,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { RxCornerBottomLeft } from 'react-icons/rx';
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState } from 'recoil';
+import ReplyInput from './ReplyInput';
 
 type TypeCommentItemProps = {
   initComments: TypeComment[];
@@ -35,6 +36,7 @@ export default function CommentItem({
   const user = LoginData[0];
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
+  const [isReplyClicked, setIsReplyClicked] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const editTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -105,7 +107,7 @@ export default function CommentItem({
         return (
           <>
             <li key={comment.comment_id} className={styles.comment}>
-              {comment.ref_id && (
+              {comment.parent_id && (
                 <div className={styles.replyIcon}>
                   <RxCornerBottomLeft />
                 </div>
@@ -133,7 +135,15 @@ export default function CommentItem({
                   </Link>
                   <p>{getDateFormat(comment.comment_created_at)}</p>
                 </div>
-                <button className={styles.replyButton}>답글</button>
+                <button
+                  onClick={() => {
+                    setSelectedCommentId(comment.comment_id);
+                    setIsReplyClicked(!isReplyClicked);
+                  }}
+                  className={styles.replyButton}
+                >
+                  답글
+                </button>
                 <div className={styles.dotButton}>
                   <BsThreeDotsVertical
                     onClick={() => {
@@ -155,12 +165,20 @@ export default function CommentItem({
                 <TextareaAutosize minRows={3} ref={editTextareaRef} maxLength={150} />
               ) : (
                 <div className={styles.replyMention}>
-                  {comment.ref_id && <h3>@{findRef(comment.ref_id)?.user_name}</h3>}
+                  {comment.parent_id && <h3>@{findRef(comment.parent_id)?.user_name}</h3>}
                   <TextareaAutosize
                     readOnly
                     className={styles.content}
                     value={comment.isDeleted ? '삭제된 댓글입니다.' : comment.comment_content}
                   />
+                  {isReplyClicked && selectedCommentId === comment.comment_id && (
+                    <ReplyInput
+                      postType={postType}
+                      checkUpdate={checkUpdate}
+                      parentId={comment.parent_id}
+                      setIsReplyClicked={setIsReplyClicked}
+                    />
+                  )}
                 </div>
               )}
               {isEditing && (
