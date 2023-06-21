@@ -69,6 +69,7 @@ $middle-font-size: 16px;
       }
 
       ul {
+        word-break: break-all;
         display: block;
         list-style-type: disc;
         margin-block-start: 1em;
