@@ -6,10 +6,10 @@ import { useMediaQuery } from 'react-responsive';
 
 export default function BestStacks() {
   const isPc = useMediaQuery({
-    query : "(min-width:376px)"
+    query : "(min-width:769px)"
   });
   const isMobile = useMediaQuery({
-    query : "(max-width:375px)"
+    query : "(max-width:768px)"
   }); 
 
   const [bestStacks, setBestStacks] = useState([]);

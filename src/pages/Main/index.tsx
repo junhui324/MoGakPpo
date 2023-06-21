@@ -8,10 +8,10 @@ import { useMediaQuery } from 'react-responsive';
 
 export default function Main() {
   const isPc = useMediaQuery({
-    query : "(min-width:376px)"
+    query : "(min-width:769px)"
   });
   const isMobile = useMediaQuery({
-    query : "(max-width:375px)"
+    query : "(max-width:768px)"
   }); 
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Main() {
         </div>
       }
       {isMobile && 
-        <div style={{ maxWidth: 375, margin: '0 auto' }}>
+        <div style={{ maxWidth: 768, margin: '0 auto' }}>
           <NewPosts />
           <HotPortfolio />
           <BestStacks />
