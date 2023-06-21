@@ -5,6 +5,7 @@ import styles from './MemberSelectForm.module.scss';
 import UserProfileList from '../common/User/UserProfileList';
 import LengthCheck from '../ProjectWritingForm/LengthCheck';
 import { MAX_MEMBERS_LENGTH } from './PortfolioWritingForm';
+import { useMediaQuery } from 'react-responsive';
 
 interface MemberSelectFormProps {
   selectedUserList: TypeTeamProjectUser[];
@@ -17,6 +18,7 @@ function MemberSelectForm({
   onMemberSelect,
   onMemberUnselect,
 }: MemberSelectFormProps) {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
   const [userList, setUserList] = useState<TypeTeamProjectUser[]>([]);
   const [showSelectBox, setShowSelectBox] = useState(false);
 
@@ -37,7 +39,11 @@ function MemberSelectForm({
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={
+        !isMobile ? `${styles.container}` : `${styles.container} ${styles.mobileContainer}`
+      }
+    >
       <h4>프로젝트에 참여한 멤버를 선택해 주세요</h4>
       <div className={styles.secondContainer}>
         <div className={styles.searchUserListContainer}>

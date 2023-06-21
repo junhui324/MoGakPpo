@@ -15,6 +15,7 @@
     gap: 32px;
     .title {
       width: fit-content;
+      height: fit-content;
       background-color: rgb(255, 119, 0);
       padding: 10px 16px;
       font-size: 12px;
@@ -25,7 +26,11 @@
     .headerContainer {
       display: flex;
       justify-content: space-between;
+      .selectedProject {
+        text-align: right;
+      }
       .selectPostButton {
+        margin-bottom: 8px;
         padding: 6px;
         text-align: center;
         background-color: unset;
@@ -36,6 +41,9 @@
         svg {
           margin-left: 6px;
         }
+      }
+      p {
+        font-size: 12px;
       }
     }
 
@@ -162,5 +170,35 @@
     background-color: var(--color-bg1);
     color: var(--color-text1);
     font-weight: 400;
+  }
+}
+
+.mobileContainer {
+  flex-direction: column;
+  .headerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .mobileSelectedProject {
+      text-align: left;
+    }
+  }
+  .topContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .mainFormContainer {
+    .gitHubContainer {
+      width: 100%;
+    }
+  }
+  .buttonsContainer {
+    padding: 12px 32px;
+    .submitButton {
+      width: fit-content;
+    }
+    .importButton {
+      font-size: 14px;
+    }
   }
 }

@@ -407,10 +407,7 @@ export async function getCompletedProject(): Promise<{
     completedProjects: ProjectType.TypeCompleteProjects[];
   }
 }> {
-  // api 연결용
-  // const params = `user`;
-  // const query = `status=complete`;
-  // return await Api.get(API_KEY, params, true, query);
-  const params = `completedProject.json`;
-  return await Api.get(domain, params);
+  const params = `projects/recruitment`;
+  const query = `status=complete`;
+  return await Api.get(API_KEY, params, true, query);
 }

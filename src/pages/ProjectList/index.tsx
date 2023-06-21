@@ -144,10 +144,7 @@ function ProjectListMain() {
   };
 
   return (
-    <div
-      className={!isMobile ? `${styles.container}` : `${styles.mobileContainer}`}
-      style={{ maxWidth: 1024, margin: '0 auto' }}
-    >
+    <div className={!isMobile ? `${styles.container}` : `${styles.mobileContainer}`}>
       <div className={styles.leftContainer}>
         <div className={styles.leftContentContainer}>
           <Category

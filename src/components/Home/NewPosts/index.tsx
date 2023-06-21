@@ -11,11 +11,11 @@ import { useMediaQuery } from 'react-responsive';
 
 export default function NewPosts() {
   const isPc = useMediaQuery({
-    query: '(min-width:376px)',
+    query : "(min-width:769px)"
   });
   const isMobile = useMediaQuery({
-    query: '(max-width:375px)',
-  });
+    query : "(max-width:768px)"
+  }); 
 
   const navigate = useNavigate();
   const [projectList, setProjectList] = useState<TypeProjectList[]>([]);

@@ -26,8 +26,10 @@ import DeleteAccount from './pages/DeleteAccount';
 import { loginAtom } from './recoil/loginState';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { themeAtom } from './recoil/themeState';
+import { useMediaQuery } from 'react-responsive';
 
 function App() {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
   const darkMode = useRecoilValue(themeAtom);
 
   const resetLogin = useResetRecoilState(loginAtom);
@@ -39,7 +41,15 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className={`${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`}>
+      <div
+        className={
+          !isMobile
+            ? `${styles.container} ${darkMode ? `${styles.darkMode}` : ''}`
+            : `${styles.container} ${styles.mobileContainer} ${
+                darkMode ? `${styles.darkMode}` : ''
+              }`
+        }
+      >
         <Routes>
           <Route path="*" element={<Error />} />
           <Route path="/" element={<Main />} />

@@ -82,3 +82,17 @@
     }
   }
 }
+
+.mobileContainer {
+  .secondContainer {
+    display: flex;
+    flex-direction: column;
+    .searchUserListContainer {
+      width: 100%;
+    }
+    .selectedUsersContainer {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
