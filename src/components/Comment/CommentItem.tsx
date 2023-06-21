@@ -52,7 +52,7 @@ export default function CommentItem({
   }, [comments, editingCommentId]);
 
   return (
-    <ul className={styles.commentList}>
+    <>
       {comments.map((comment) => {
         //수정, 삭제버튼 이벤트 처리
         const isEditing = editingCommentId === comment.comment_id;
@@ -133,6 +133,7 @@ export default function CommentItem({
                   </Link>
                   <p>{getDateFormat(comment.comment_created_at)}</p>
                 </div>
+                <button className={styles.replyButton}>답글</button>
                 <div className={styles.dotButton}>
                   <BsThreeDotsVertical
                     onClick={() => {
@@ -188,6 +189,6 @@ export default function CommentItem({
           </>
         );
       })}
-    </ul>
+    </>
   );
 }

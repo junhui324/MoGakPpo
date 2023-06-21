@@ -78,32 +78,28 @@
   }
 }
 .reply {
-  .commentList {
-    .comment {
+  .comment {
+    background-color: var(--color-bg1);
+    right: 0;
+    margin-bottom: 0;
+    .header {
+      margin-left: 40px;
+    }
+    .replyMention {
+      display: flex;
+      flex-direction: column;
+      margin-left: 40px;
+      h3 {
+        color: var(--color-pink);
+        font-weight: 500;
+      }
+    }
+    .content {
       background-color: var(--color-bg1);
-      position: relative;
-      right: 0;
-      margin-bottom: 0;
-      .header {
-        margin-left: 40px;
-      }
-      .replyMention {
-        display: flex;
-        flex-direction: column;
-        margin-left: 40px;
-        h3 {
-          color: var(--color-pink);
-          font-weight: 500;
-        }
-      }
-      .content {
-        background-color: var(--color-bg1);
-      }
     }
   }
 }
 .commentList {
-  position: relative;
   margin: 0 auto;
   padding: 0;
   max-width: 686px;
@@ -113,7 +109,7 @@
     border-radius: 8px;
     list-style: none;
     padding: 20px 32px;
-    margin-bottom: 0px;
+    margin-bottom: 4px;
     .header {
       display: flex;
       align-items: center;
@@ -155,6 +151,13 @@
             color: var(--color-pink);
           }
         }
+      }
+      .replyButton {
+        align-self: flex-end;
+        border: 0;
+        background-color: transparent;
+        font-size: 14px;
+        padding: 0;
       }
       .dotButton {
         color: var(--color-text3);

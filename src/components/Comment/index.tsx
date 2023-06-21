@@ -67,13 +67,15 @@ export default function Comment({ authorData }: TypeCommentProps) {
           </p>
         </div>
       ) : (
-        <CommentItem
-          initComments={comments}
-          comments={comments}
-          authorData={authorData}
-          postType={postType}
-          checkUpdate={checkUpdate}
-        />
+        <ul className={styles.commentList}>
+          <CommentItem
+            initComments={comments}
+            comments={comments}
+            authorData={authorData}
+            postType={postType}
+            checkUpdate={checkUpdate}
+          />
+        </ul>
       )}
       <Pagination
         currPage={currPage}
