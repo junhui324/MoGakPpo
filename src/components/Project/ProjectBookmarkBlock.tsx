@@ -46,7 +46,10 @@ function BookmarkListModal({
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    if (event.currentTarget.scrollTop === 0) {
+    if (bookmarksData.project_bookmark_users.length <= 2) {
+      setIsUpLogo(false);
+      setIsDownLogo(false);
+    } else if (event.currentTarget.scrollTop === 0) {
       setIsUpLogo(false);
       setIsDownLogo(true);
     } else if (
