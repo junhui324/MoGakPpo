@@ -102,7 +102,7 @@ export default function HamburgerMenu({
               </NavLink>
             </li>
           )}
-          {Token.getToken() && (
+          {/* {Token.getToken() && (
             <li>
               <span onClick={handleAccountManagement}>계정 관리</span>
               {accountManagementModalOpen && (
@@ -110,6 +110,20 @@ export default function HamburgerMenu({
                   setAccountManagementModalOpen={setAccountManagementModalOpen}
                 ></AccountManagementModal>
               )}
+            </li>
+          )} */}
+          {Token.getToken() && (
+            <li>
+              <NavLink
+                to={`${ROUTES.EDIT_PASSWORD}`}
+                className={({ isActive }) => (isActive ? styles.active : '')}
+                onClick={() => {
+                  handleNavLinkClick();
+                  setHamburgerOpen(false);
+                }}
+              >
+                <span>비밀번호 변경</span>
+              </NavLink>
             </li>
           )}
           {Token.getToken() && (
@@ -123,6 +137,20 @@ export default function HamburgerMenu({
                 }}
               >
                 <span>로그아웃</span>
+              </NavLink>
+            </li>
+          )}
+          {Token.getToken() && (
+            <li>
+              <NavLink
+                to={`${ROUTES.DELETE_ACCOUNT}`}
+                className={({ isActive }) => (isActive ? styles.active : '')}
+                onClick={() => {
+                  handleNavLinkClick();
+                  setHamburgerOpen(false);
+                }}
+              >
+                <span>회원탈퇴</span>
               </NavLink>
             </li>
           )}
