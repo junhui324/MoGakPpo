@@ -26,24 +26,24 @@
     .headerContainer {
       display: flex;
       justify-content: space-between;
-      div {
+      .selectedProject {
         text-align: right;
-        .selectPostButton {
-          margin-bottom: 8px;
-          padding: 6px;
-          text-align: center;
-          background-color: unset;
-          color: var(--color-pink);
-          border: none;
-          border-bottom: 1px solid var(--color-pink);
-          cursor: pointer;
-          svg {
-            margin-left: 6px;
-          }
+      }
+      .selectPostButton {
+        margin-bottom: 8px;
+        padding: 6px;
+        text-align: center;
+        background-color: unset;
+        color: var(--color-pink);
+        border: none;
+        border-bottom: 1px solid var(--color-pink);
+        cursor: pointer;
+        svg {
+          margin-left: 6px;
         }
-        p {
-          font-size: 12px;
-        }
+      }
+      p {
+        font-size: 12px;
       }
     }
 
@@ -170,5 +170,35 @@
     background-color: var(--color-bg1);
     color: var(--color-text1);
     font-weight: 400;
+  }
+}
+
+.mobileContainer {
+  flex-direction: column;
+  .headerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .mobileSelectedProject {
+      text-align: left;
+    }
+  }
+  .topContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .mainFormContainer {
+    .gitHubContainer {
+      width: 100%;
+    }
+  }
+  .buttonsContainer {
+    padding: 12px 32px;
+    .submitButton {
+      width: fit-content;
+    }
+    .importButton {
+      font-size: 14px;
+    }
   }
 }

@@ -24,6 +24,7 @@ import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
 import { BsChevronRight } from 'react-icons/bs';
 import { selectedPostTitleState } from '../../recoil/portfolioState';
+import { useMediaQuery } from 'react-responsive';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -37,6 +38,7 @@ interface PortfolioWritingProps {
 }
 
 function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps) {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
   const [selectedProject, setSelectedProject] = useRecoilState(selectedPostTitleState);
@@ -391,11 +393,17 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={
+        !isMobile ? `${styles.container}` : `${styles.container} ${styles.mobileContainer}`
+      }
+    >
       <div className={styles.mainFormContainer}>
         <div className={styles.headerContainer}>
           <h1 className={styles.title}>프로젝트 자랑 작성</h1>
-          <div>
+          <div
+            className={!isMobile ? `${styles.selectedProject}` : `${styles.mobileSelectedProject}`}
+          >
             <button
               className={styles.selectPostButton}
               onClick={() => {
@@ -481,7 +489,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       <div className={styles.buttonsContainer}>
         {isPostSaved && (
           <button className={styles.importButton} onClick={handleImportSavedPost}>
-            임시저장 글 불러오기
+            {!isMobile ? '임시저장 글 불러오기' : `저장 \n 글 불러오기`}
           </button>
         )}
         <div>
