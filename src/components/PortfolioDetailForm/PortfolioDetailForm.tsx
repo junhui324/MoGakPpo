@@ -28,7 +28,11 @@ const ONE_DAY = 1;
 const WEEK_DAY = 7;
 const MONTH_ADJUSTMENT = 1;
 
-function PortfolioDetailForm() {
+type TypePortfolioDetailFormProps = {
+  authorForComment: (user_id: number) => void;
+};
+
+function PortfolioDetailForm({ authorForComment }: TypePortfolioDetailFormProps) {
   const [portfolio, setPortfolio] = useState<TypePortfolio>({
     is_bookmarked: false,
     portfolio_id: 0,
@@ -71,6 +75,7 @@ function PortfolioDetailForm() {
       if (id) {
         const data = await Fetcher.getPortfolio(id);
         setPortfolio(data.data);
+        authorForComment(data.data.user_id);
       }
     } catch (error) {
       if (error instanceof Error && typeof error.message === 'string') {
@@ -95,6 +100,7 @@ function PortfolioDetailForm() {
 
   useEffect(() => {
     getPortfolio();
+
     window.scrollTo(0, 0);
   }, []);
 

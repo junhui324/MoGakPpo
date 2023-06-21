@@ -174,7 +174,7 @@ function Project() {
           )}
         </div>
       </div>
-      <Comment />
+      <Comment authorData={authorData} />
     </>
   ) : (
     <>

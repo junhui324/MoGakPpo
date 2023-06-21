@@ -1,4 +1,3 @@
-// 1차 댓글 인터페이스 - 없어질 예정
 interface Comment {
   comment_id: number;
   user_id: number;
@@ -6,6 +5,9 @@ interface Comment {
   user_img: string;
   comment_content: string;
   comment_created_at: string;
+  isDeleted: boolean;
+  replies: Comment[];
+  ref_id: number | null;
 }
 
 export interface ProjectComment extends Comment {
@@ -25,7 +27,15 @@ interface MyPagePortfolioComment extends PortfolioComment {
 
 export type TypeComment = Pick<
   Comment,
-  'comment_id' | 'user_id' | 'user_name' | 'user_img' | 'comment_content' | 'comment_created_at'
+  | 'comment_id'
+  | 'user_id'
+  | 'user_name'
+  | 'user_img'
+  | 'comment_content'
+  | 'comment_created_at'
+  | 'isDeleted'
+  | 'replies'
+  | 'ref_id'
 >;
 
 export type TypeMypageProjectComment = Pick<
