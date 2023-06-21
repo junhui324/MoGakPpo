@@ -67,6 +67,7 @@
       display: flex;
       align-items: center;
       button {
+        position: relative;
         border-radius: 50%;
         border: none;
         background-color: white;
@@ -74,8 +75,13 @@
         width: 60px;
         height: 60px;
         img {
-          width: 44px;
-          height: 44px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 50%;
         }
       }
       p {
