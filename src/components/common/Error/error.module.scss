@@ -106,8 +106,9 @@
 	}
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 768px) {
   .container { 
+    height: calc(100vh - $mobile-header-height);
     .statusContainer {
       .status {
         margin-top: 10rem;
