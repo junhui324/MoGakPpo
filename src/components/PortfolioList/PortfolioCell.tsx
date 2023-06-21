@@ -82,9 +82,11 @@ function PortfolioCell({
 
   return (
     <div className={styles.container}>
-      <button className={styles.bookmarkButton} onClick={handleBookmark}>
-        {isBookmarked === null ? <></> : isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
-      </button>
+      {isBookmarked !== null && (
+        <button className={styles.bookmarkButton} onClick={handleBookmark}>
+          {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
+        </button>
+      )}
       {portfolio.portfolio_thumbnail ? (
         <img
           className={styles.image}
