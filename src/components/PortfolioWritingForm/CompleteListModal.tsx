@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './CompleteListModal.module.scss';
 import ModalFullScreen from '../common/Modal/ModalFullScreen';
 import { useSetRecoilState } from 'recoil';
 import { selectedPostTitleState } from '../../recoil/portfolioState';
 import { getCompletedProject } from '../../apis/Fetcher';
 import { TypeCompleteProjects } from '../../interfaces/Project.interface';
-
+import * as Token from '../../apis/Token';
+import ROUTES from '../../constants/Routes';
 interface CompleteListModalProps {
   setModalOpen: (value: boolean) => void;
 }
 
 function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
+  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [projects, setProjects] = useState<TypeCompleteProjects[]>();
   const setSelectedTitle = useSetRecoilState(selectedPostTitleState);
@@ -27,7 +30,18 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
         setCount(data.listLength);
         setProjects(data.completedProjects);
       } catch (error) {
-        console.error(error);
+        if (error instanceof Error && typeof error.message === 'string') {
+          switch (error.message) {
+            case '401':
+              alert(`로그인 후 다시 이용해주세요.`);
+              Token.removeToken();
+              navigate(ROUTES.LOGIN);
+              break;
+            default:
+              alert(`${error}: 예기치 못한 서버 오류입니다.`);
+              navigate(ROUTES.MAIN);
+          }
+        }
       }
     };
 
