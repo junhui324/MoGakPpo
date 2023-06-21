@@ -235,3 +235,11 @@
     }
   }
 }
+@media (max-width: 768px) {
+  .commentCount {
+    margin: 24px 32px 40px;
+  }
+  .comment {
+    border-radius: 0 !important;
+  }
+}
