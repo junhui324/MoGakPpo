@@ -2,15 +2,15 @@
 @import '/src/variables.scss';
 
 .container {
-  position: absolute;
+  position: fixed;
   z-index: 99999;
   right: 0;
   background-color: var(--color-bg2);
   width: 85vw;
   height: 100vh;
-  @supports (-webkit-touch-callout: none) {
-    height: -webkit-fill-available;
-  }
+  // @supports (-webkit-touch-callout: none) {
+  //   height: -webkit-fill-available;
+  // }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -55,6 +55,7 @@
     display: flex;
     justify-content: space-between;
     padding: 16px;
+    margin-bottom: 80px;
     .loggedIn {
       display: flex;
       align-items: center;
@@ -89,7 +90,7 @@
   }
 }
 .overlay {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   display: block;
