@@ -130,3 +130,6 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px var(--color-bg1) inset;
   -webkit-text-fill-color: var(--color-text1);
 }
+a {
+  text-decoration: none;
+}
