@@ -327,6 +327,7 @@
 
       .submitButton {
         @extend .button;
+        width: 80%;
       }
 
       .disabledButton {
@@ -338,6 +339,7 @@
         @extend .button;
         background-color: var(--color-text3);
         margin-bottom: 2rem;
+        width: 80%;
       }
     }
   }
