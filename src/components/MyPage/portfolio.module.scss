@@ -225,7 +225,8 @@
 
       .titleContainer {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
+
         font-size: 18px;
         font-weight: 550;
 
@@ -239,7 +240,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 250px;
+            width: 280px;
           }
           .newTag {
             margin-left: 8px;
