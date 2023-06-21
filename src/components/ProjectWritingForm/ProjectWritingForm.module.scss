@@ -261,6 +261,22 @@ h2 {
 
     border: none;
   }
+  .checkbox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    div {
+      display: inline;
+      padding-right: 15px;
+      padding-bottom: 10px;
+      label {
+        padding-left: 4px;
+      }
+    }
+    input,
+    progress {
+      accent-color: var(--color-main);
+    }
+  }
   .editorBox {
     width: 100%;
   }
@@ -283,6 +299,35 @@ h2 {
     margin: 0;
     border: none;
   }
+  .checkbox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    div {
+      display: block;
+      padding-right: 15px;
+      margin-bottom: 8px;
+      label {
+        padding-left: 4px;
+      }
+    }
+    input,
+    progress {
+      accent-color: var(--color-main);
+    }
+  }
+  .radioBox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    label {
+      display: block;
+      padding-right: 15px;
+      margin-bottom: 10px;
+    }
+    input,
+    progress {
+      accent-color: var(--color-main);
+    }
+  }
   .editorBox {
     width: 100%;
   }
@@ -304,6 +349,35 @@ h2 {
     flex-direction: column;
     margin: 0;
     border: none;
+  }
+  .checkbox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    div {
+      display: block;
+      padding-right: 15px;
+      margin-bottom: 8px;
+      label {
+        padding-left: 4px;
+      }
+    }
+    input,
+    progress {
+      accent-color: var(--color-main);
+    }
+  }
+  .radioBox {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    label {
+      display: block;
+      padding-right: 15px;
+      margin-bottom: 8px;
+    }
+    input,
+    progress {
+      accent-color: var(--color-main);
+    }
   }
   .editorBox {
     width: 100%;

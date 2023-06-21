@@ -41,8 +41,9 @@ export type TypePortfolioList = Pick<
   | 'portfolio_comments_count'
   | 'portfolio_views_count'
   | 'portfolio_created_at'
-  | 'is_bookmarked'
->;
+> & {
+  is_bookmarked?: boolean;
+};
 
 export type TypePortfolioDetail = Pick<
   Portfolio,

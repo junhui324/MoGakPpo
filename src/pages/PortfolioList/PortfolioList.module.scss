@@ -4,3 +4,17 @@
   margin: $header-height 0;
   width: 1024px;
 }
+
+@media (max-width: 768px) {
+  .container {
+    margin: $header-height 0;
+    width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: $header-height 0;
+    width: 330px;
+  }
+}

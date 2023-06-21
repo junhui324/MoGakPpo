@@ -10,6 +10,7 @@ import ProjectAuthorProfile from '../../components/Project/ProjectAuthorProfile'
 import ProjectBookmarkBlock from '../../components/Project/ProjectBookmarkBlock';
 import ProjectModifyBlock from '../../components/Project/ProjectModifyBlock';
 import Loading from '../../components/common/Loading/Loading';
+import ProjectRelatedPortfolioBlock from '../../components/Project/ProjectRelatedPortfolioBlock';
 
 // data
 import * as Fetcher from '../../apis/Fetcher';
@@ -172,9 +173,26 @@ function Project() {
           {isAuthor() && (
             <ProjectModifyBlock modifyData={modifyData} fetchData={() => setIsUpdate(true)} />
           )}
+          <ProjectRelatedPortfolioBlock
+            portfolio={{
+              portfolio_id: 48,
+              portfolio_title: "우리 모두의 프로젝트 '모프'",
+              portfolio_summary:
+                '프로젝트/스터디 인원을 모집하고 프로젝트를 자랑할 수 있는 플랫폼 입니다.',
+              portfolio_thumbnail:
+                'http://34.64.242.119:5000/api/v1/static/portfolio/thumbnail-33-1687261967223-0.png',
+              portfolio_stacks: {
+                stackList: ['React', 'TypeScript', 'Sass', 'Git', 'Node.js', 'Express', 'MySQL'],
+              },
+              portfolio_bookmark_count: 20,
+              portfolio_comments_count: 10,
+              portfolio_views_count: 48,
+              portfolio_created_at: '2023-06-14T19:25:17.000Z',
+            }}
+          />
         </div>
       </div>
-      <Comment />
+      <Comment authorData={authorData} />
     </>
   ) : (
     <>

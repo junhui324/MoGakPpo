@@ -66,3 +66,23 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 60vw;
+    padding: 1rem;
+    .countText {
+      font-size: 1rem;
+      word-break: keep-all;
+    }
+    .desc {
+      font-size: 0.8rem;
+      word-break: keep-all;
+    }
+    .titleContainer {
+      .title {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

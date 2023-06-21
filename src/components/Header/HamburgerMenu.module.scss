@@ -49,6 +49,13 @@
         font-size: 18px;
         cursor: pointer;
       }
+      span {
+        width: 100%;
+        color: var(--color-text1);
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+      }
     }
   }
   .bottomContainer {
@@ -60,6 +67,7 @@
       display: flex;
       align-items: center;
       button {
+        position: relative;
         border-radius: 50%;
         border: none;
         background-color: white;
@@ -67,8 +75,13 @@
         width: 60px;
         height: 60px;
         img {
-          width: 44px;
-          height: 44px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 50%;
         }
       }
       p {
@@ -91,7 +104,7 @@
 }
 .overlay {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   display: block;
   width: 100vw;

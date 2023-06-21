@@ -9,6 +9,7 @@ import { TypeProjectBookmarks } from '../../interfaces/Project.interface';
 // 스타일
 import styles from './ProjectBookmarkBlock.module.scss';
 import DefaultUser from '../../assets/DefaultUser.png';
+import { RxTriangleDown, RxTriangleUp } from 'react-icons/rx';
 
 // 상수
 import { PROJECT_TYPE } from '../../constants/project';
@@ -40,9 +41,46 @@ function BookmarkListModal({
   isOn: boolean;
 }) {
   const navigate = useNavigate();
+  const [isUpLogo, setIsUpLogo] = useState<boolean>(false);
+  const [isDownLogo, setIsDownLogo] = useState<boolean>(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    if (bookmarksData.project_bookmark_users.length <= 2) {
+      setIsUpLogo(false);
+      setIsDownLogo(false);
+    } else if (event.currentTarget.scrollTop === 0) {
+      setIsUpLogo(false);
+      setIsDownLogo(true);
+    } else if (
+      event.currentTarget.scrollHeight - event.currentTarget.clientHeight <=
+      event.currentTarget.scrollTop
+    ) {
+      setIsUpLogo(true);
+      setIsDownLogo(false);
+    } else {
+      setIsUpLogo(true);
+      setIsDownLogo(true);
+    }
+  };
+
+  // 북마크한 유저 3명 이상이면 다운 스크롤 로고 활성화
+  useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.dispatchEvent(new Event('scroll'));
+    }
+  }, [modalRef, bookmarksData]);
 
   return (
-    <div className={isOn ? styles.modalContainerOn : styles.modalContainerNot}>
+    <div
+      ref={modalRef}
+      className={isOn ? styles.modalContainerOn : styles.modalContainerNot}
+      onScroll={handleScroll}
+    >
+      <div className={styles.arrowContainer}>
+        {isUpLogo && <RxTriangleUp className={styles.upLogo} />}
+        {isDownLogo && <RxTriangleDown className={styles.downLogo} />}
+      </div>
       {[...bookmarksData?.project_bookmark_users].reverse().map((user) => {
         return (
           <div

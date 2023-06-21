@@ -65,7 +65,7 @@ async function request<T>({
           const accessToken = resData.newAccessToken;
 
           // 3. 현재 쿠키에 저장돼있는 엑세스 지우기
-          Token.removeToken();
+          Token.removeAccessToken();
 
           // 4. 새로운 엑세스 쿠키에 넣기
           Token.setToken(accessToken);

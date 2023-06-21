@@ -2,15 +2,60 @@
 @import '/src/variables.scss';
 
 .modalContainer {
-  width: 100%;
+  width: 99%;
   height: 160px;
   border-radius: 6px;
   border: 2px solid var(--color-border);
   background-color: var(--color-bg1);
 
-  margin: 10px 0;
+  margin-top: 10px;
 
   overflow-y: overlay;
+
+  /* WebKit 기반 브라우저용 스크롤바 숨김 */
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background-color: transparent;
+  }
+
+  /* Firefox 용 스크롤바 숨김 */
+  scrollbar-width: none;
+  -moz-appearance: none;
+
+  /* IE 및 엣지 브라우저용 스크롤바 숨김 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  .arrowContainer {
+    position: sticky;
+    top: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    pointer-events: none;
+
+    margin-top: -160px;
+    margin-left: calc(100% - 25px);
+    text-align: right;
+    width: 100%;
+    height: 100%;
+
+    .upLogo {
+      width: 25px;
+      height: 25px;
+
+      color: var(--color-border);
+    }
+    .downLogo {
+      width: 25px;
+      height: 25px;
+      margin-top: auto;
+
+      color: var(--color-border);
+    }
+  }
 
   .userContainer {
     display: flex;
@@ -91,7 +136,7 @@
     display: flex;
     align-items: center;
 
-    margin: 10px 0;
+    margin-top: 10px;
     height: 20px;
 
     cursor: pointer;

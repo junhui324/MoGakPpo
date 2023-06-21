@@ -17,10 +17,6 @@ function Profile({ onError }: ProfileProps) {
   const navigate = useNavigate();
 
   const getUserData = useCallback(async () => {
-    if (loginUser.user_id) {
-      return;
-    }
-
     try {
       const { data } = await getUserProfile();
 
@@ -54,7 +50,7 @@ function Profile({ onError }: ProfileProps) {
 
   useEffect(() => {
     getUserData();
-  }, [getUserData]);
+  }, []);
 
   return (
     <div className={styles.profileContainer}> 

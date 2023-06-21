@@ -1,5 +1,6 @@
 import { RefObject, useRef, useState } from 'react';
 import styles from './ThumbnailInput.module.scss';
+import { useMediaQuery } from 'react-responsive';
 
 interface ThumbnailInputProps {
   onInputChange: (file: File) => void;
@@ -8,6 +9,7 @@ interface ThumbnailInputProps {
   innerRef?: RefObject<HTMLButtonElement>;
 }
 function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc, innerRef }: ThumbnailInputProps) {
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [buttonShow, setButtonShow] = useState(true);
 
@@ -20,7 +22,12 @@ function ThumbnailInput({ onInputChange, imgFile, thumbnailSrc, innerRef }: Thum
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={
+        !isMobile ? `${styles.container}` : `${styles.container} ${styles.mobileContainer}`
+      }
+    >
+      {' '}
       <div onMouseEnter={() => onMouseHandler()} onMouseLeave={() => leaveMouseHandler()}>
         <input
           ref={fileInputRef}

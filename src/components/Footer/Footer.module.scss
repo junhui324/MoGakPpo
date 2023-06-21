@@ -13,8 +13,15 @@
   margin: 0 auto 40px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--color-text3);
+  display: flex;
+  justify-content: space-between;
   img {
     filter: grayscale(100%) brightness(100%);
+  }
+  div {
+    svg {
+      cursor: pointer;
+    }
   }
 }
 .footerMain {
@@ -99,6 +106,9 @@
     img {
       filter: grayscale(100%) brightness(100%);
     }
+    svg {
+      cursor: pointer;
+    }
   }
   .footerMain {
     width: 100%;
@@ -109,6 +119,7 @@
       width: 20rem;
     }
     .menuList {
+      display: flex;
       width: 12rem;
       margin-top: 10px;
       margin-bottom: 5px;
@@ -127,6 +138,7 @@
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 10px;
+      margin-right: 10px;
     }
     h2 {
       font-size: 22px;
@@ -147,21 +159,6 @@
     }
   }
   .footerBottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    width: 100%;
-    margin: 40px auto 0;
-    .teamInfo {
-      p {
-        font-size: 11px;
-        margin-bottom: 8px;
-      }
-    }
-    div {
-      svg {
-        cursor: pointer;
-      }
-    }
+    display: none;
   }
 }

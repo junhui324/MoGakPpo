@@ -96,9 +96,17 @@
     border: none;
 
     .leftContainer {
+      .main {
+        width: 90%;
+      }
       .help {
         margin: 0;
         margin-bottom: 20px;
+        margin-top: 10px;
+        width: 100%;
+        p {
+          font-size: 15px;
+        }
       }
     }
     .rightContainer {
@@ -109,13 +117,16 @@
       .help {
         margin: 0;
         margin-right: 10px;
+        font-size: 14px;
       }
       .modify {
         width: 140px;
         margin-right: 10px;
+        font-size: 14px;
       }
       .submit {
         width: 140px;
+        font-size: 14px;
       }
     }
   }

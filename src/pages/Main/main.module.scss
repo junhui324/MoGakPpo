@@ -1,0 +1,15 @@
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .container {
+    width: 90vw;
+  }
+}

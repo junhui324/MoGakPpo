@@ -141,15 +141,15 @@
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 480px) {
   .container {
-    width: 320px;
+    width: 300px;
     margin: 0;
     .stackContainer {
-      width: 100%;
+      width: 90%;
     }
     .inputContainer {
-      width: 100%;
+      width: 90%;
       .input {
         margin-right: 0;
         padding-right: 0;
