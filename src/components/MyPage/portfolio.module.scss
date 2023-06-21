@@ -137,7 +137,7 @@
       .titleContainer {
         display: flex;
         justify-content: space-between;
-        font-size: 18px;
+        font-size: 1rem;
         font-weight: 550;
 
         .titleWrapper {
@@ -174,7 +174,7 @@
         }
       }
       .summary {
-        font-size: 16px;
+        font-size: 0.9rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -227,7 +227,7 @@
         display: flex;
         justify-content: flex-start;
 
-        font-size: 18px;
+        font-size: 1rem;
         font-weight: 550;
 
         .titleWrapper {
@@ -264,7 +264,7 @@
         }
       }
       .summary {
-        font-size: 16px;
+        font-size: 0.9rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

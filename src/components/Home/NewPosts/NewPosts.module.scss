@@ -208,6 +208,7 @@
     }
   }
   .slideArea {
+    width: 100% !important;
     .projectList {
       width: calc(90vw - 1.6rem);
       overflow-x: scroll;
@@ -242,7 +243,7 @@
         .project {
           height: 150px;
           padding: 0 0.8rem;
-  
+
           .summary {
             font-size: 0.8rem;
           }
