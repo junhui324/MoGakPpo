@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
 import { TypePortfolio } from '../interfaces/Portfolio.interface';
+import { TypeCompleteProjects } from '../interfaces/Project.interface';
 
 export const portfolioState = atom<TypePortfolio>({
   key: 'portfolioState',
@@ -32,4 +33,9 @@ export const selectedPostTitleState = atom({
     id: 0,
     title: '',
   },
+});
+
+export const completeListState = atom<TypeCompleteProjects[]>({
+  key: 'completeListState',
+  default: [],
 });

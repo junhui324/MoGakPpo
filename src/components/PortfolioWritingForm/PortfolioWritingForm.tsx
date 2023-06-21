@@ -18,12 +18,12 @@ import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { HighlightModules } from '../Editor/Highlight';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
 import { BsChevronRight } from 'react-icons/bs';
-import { selectedPostTitleState } from '../../recoil/portfolioState';
+import { completeListState, selectedPostTitleState } from '../../recoil/portfolioState';
 import { useMediaQuery } from 'react-responsive';
 import { AiFillCloseCircle } from 'react-icons/ai';
 
@@ -43,6 +43,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const navigate = useNavigate();
   const loginData = useRecoilValue(loginAtom);
   const [selectedProject, setSelectedProject] = useRecoilState(selectedPostTitleState);
+  const [completeProjectList, setCompleteProjectList] = useRecoilState(completeListState);
 
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
@@ -59,11 +60,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const titleRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLInputElement>(null);
   const githubRef = useRef<HTMLInputElement>(null);
-
-  // 작성 들어오면 선택한 모집글 초기화
-  useEffect(() => {
-    setSelectedProject({ id: 0, title: '' });
-  }, []);
 
   // 로그인 여부 확인
   useEffect(() => {
@@ -134,6 +130,10 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
   }, [publishedPostData]);
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const paramValue = searchParams.get('selectedProject');
+
   useEffect(() => {
     //로컬스토리지에 postData가 있으면 savedPost 상태 저장
     const savedPostData = localStorage.getItem('savedPortfolioPost');
@@ -141,6 +141,34 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     window.scrollTo(0, 0);
 
     !isMobile && titleRef.current?.focus();
+
+    // 작성 들어오면 선택한 모집글 초기화
+    setSelectedProject({ id: 0, title: '' });
+
+    // 파라미터가 있는 경우
+    if (paramValue) {
+      const getCompletedProjectList = async () => {
+        try {
+          const { data } = await Fetcher.getCompletedProject();
+          const userSelectedProject = data.completedProjects.filter(
+            (project) => project.project_id.toString() === paramValue
+          )[0];
+          if (userSelectedProject) {
+            setSelectedProject({
+              id: userSelectedProject.project_id,
+              title: userSelectedProject.project_title,
+            });
+          } else {
+            alert('권한이 없는 경로입니다.');
+            navigate(ROUTES.PORTFOLIO_CREATE);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getCompletedProjectList();
+    }
   }, []);
 
   // post패치
