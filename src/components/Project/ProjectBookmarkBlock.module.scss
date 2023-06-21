@@ -2,7 +2,7 @@
 @import '/src/variables.scss';
 
 .modalContainer {
-  width: 100%;
+  width: 99%;
   height: 160px;
   border-radius: 6px;
   border: 2px solid var(--color-border);
@@ -136,7 +136,7 @@
     display: flex;
     align-items: center;
 
-    margin: 10px 0;
+    margin-top: 10px;
     height: 20px;
 
     cursor: pointer;
