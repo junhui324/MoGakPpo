@@ -14,6 +14,16 @@ export default function Footer() {
     <div className={styles.footerContainer}>
       <div className={styles.footerTop}>
         <img src={Logo} onClick={handleLogoClick} style={{ width: 120 }} alt="logo" />
+        <div
+          onClick={() => {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
+          }}
+        >
+          <SlArrowUpCircle size={40} />
+        </div>
       </div>
       <div className={styles.footerMain}>
         <div className={styles.contact}>
@@ -61,16 +71,6 @@ export default function Footer() {
           <p>이새미 | 박지원 | 신혜지 | 이주영 | 장준희 | 김차미 | 송현수</p>
           <br />
           <p>© 2023 Team ICE, Elice SW4</p>
-        </div>
-        <div
-          onClick={() => {
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth',
-            });
-          }}
-        >
-          <SlArrowUpCircle size={40} />
         </div>
       </div>
     </div>
