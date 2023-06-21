@@ -1,7 +1,6 @@
 import { AiFillCloseCircle } from 'react-icons/ai';
 import styles from './ProjectSearch.module.scss';
 import { useMediaQuery } from 'react-responsive';
-import { useState } from 'react';
 
 interface ProjectSearchProps {
   handleChange: (keyword: string) => void;
@@ -31,7 +30,7 @@ function ProjectSearch({ handleChange, value }: ProjectSearchProps) {
           </button>
         )}
       </div>
-      {value.length > 0 && (
+      {value.length > 0 && !isMobile && (
         <div className={styles.resultContainer}>
           <p>"{value}"(으)로 검색한 결과</p>
         </div>

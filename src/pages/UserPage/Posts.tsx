@@ -7,7 +7,7 @@ import { getUserProjectPostsById, getUserPortfolioPostsById } from '../../apis/F
 import Pagination from '../../components/Pagination';
 import Project from './Project';
 import PortFolio from './Portfolio';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ContentsFilter from './ContentsFilter';
 
 interface PostsProps {

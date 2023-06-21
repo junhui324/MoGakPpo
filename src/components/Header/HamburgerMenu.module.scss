@@ -49,6 +49,13 @@
         font-size: 18px;
         cursor: pointer;
       }
+      span {
+        width: 100%;
+        color: var(--color-text1);
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+      }
     }
   }
   .bottomContainer {
@@ -97,7 +104,7 @@
 }
 .overlay {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   display: block;
   width: 100vw;

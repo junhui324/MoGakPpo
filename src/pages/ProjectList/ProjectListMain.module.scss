@@ -47,24 +47,33 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  position: sticky;
+
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
   }
   .leftContainer {
     width: 100vw;
-    position: sticky;
+    position: fixed;
+    background-color: var(--color-bg1);
 
     .leftContentContainer {
       width: 100%;
+      border-bottom: 1px solid var(--color-border);
     }
   }
   .rightContainer {
-    margin: 0px 16px;
+    margin: 48px 0px;
     .searchContainer {
-      margin: 8px 0;
+      padding: 16px;
+      background-color: var(--color-bg1);
+      position: fixed;
+      width: 100%;
+      box-sizing: border-box;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 12px;
+      border-bottom: 1px solid var(--color-border);
     }
   }
 }

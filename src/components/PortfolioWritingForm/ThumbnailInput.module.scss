@@ -22,7 +22,7 @@
   .buttonContainer {
     position: absolute;
     z-index: 2;
-    background-color: var(--color-border);
+    background-color: #00000053;
     .thumbnailButton {
       cursor: pointer;
       position: absolute;
@@ -34,5 +34,11 @@
       font-size: 16px;
       border-radius: 30px;
     }
+  }
+}
+
+.mobileContainer {
+  div {
+    width: 100%;
   }
 }

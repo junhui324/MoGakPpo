@@ -1,4 +1,4 @@
-import { RefObject, useCallback, useEffect } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { getProjects } from '../../apis/Fetcher';
 import Category from '../../components/ProjectList/Category';
 import ProjectList from '../../components/ProjectList/ProjectList';
@@ -17,6 +17,30 @@ function ProjectListMain() {
 
   const [projectListState, setProjectListState] = useRecoilState(projectListAtom);
   const setClassification = useSetRecoilState(classificationState);
+
+  const [showSearchComponent, setShowSearchComponent] = useState(true);
+
+  // 검색 스크롤
+  // const scrollTimerRef = useRef<any>(null);
+
+  // // 스크롤을 내리면 상태 false
+  // // 스크롤을 멈추면 상태 true
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setShowSearchComponent(false);
+  //     clearTimeout(scrollTimerRef.current);
+  //     scrollTimerRef.current = setTimeout(() => {
+  //       setShowSearchComponent(true);
+  //     }, 500);
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll);
+
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
 
   const getProjectListData = useCallback(
     async (nextPage: number): Promise<void> => {
@@ -155,7 +179,10 @@ function ProjectListMain() {
         </div>
       </div>
       <div className={styles.rightContainer}>
-        <div className={styles.searchContainer}>
+        <div
+          className={styles.searchContainer}
+          style={(isMobile && !showSearchComponent && { display: 'none' }) || { display: '' }}
+        >
           <ProjectSearch handleChange={handleSearchChange} value={projectListState.keywordValue} />
           <RecruitingProjectFilter
             value={projectListState.recruitingFilter}

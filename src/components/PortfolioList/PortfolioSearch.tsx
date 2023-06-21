@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ROUTES from '../../constants/Routes';
 import { useNavigate } from 'react-router-dom';
 import * as Token from '../../apis/Token';

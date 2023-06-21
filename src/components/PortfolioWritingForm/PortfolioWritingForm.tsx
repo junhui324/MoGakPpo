@@ -18,13 +18,14 @@ import { base64imgSrcParser, base64sToFiles, findBase64 } from '../../utils/base
 import { loginAtom } from '../../recoil/loginState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { HighlightModules } from '../Editor/Highlight';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TypePortfolioDetail } from '../../interfaces/Portfolio.interface';
 import Quill from 'quill';
 import imageCompression from 'browser-image-compression';
 import { BsChevronRight } from 'react-icons/bs';
 import { selectedPostTitleState } from '../../recoil/portfolioState';
 import { useMediaQuery } from 'react-responsive';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 const IMG_DOMAIN = process.env.REACT_APP_DOMAIN;
 const MAX_TITLE_LENGTH = 50;
@@ -58,16 +59,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   const titleRef = useRef<HTMLInputElement>(null);
   const summaryRef = useRef<HTMLInputElement>(null);
   const githubRef = useRef<HTMLInputElement>(null);
-
-  // 작성 들어오면 선택한 모집글 초기화
-  useEffect(() => {
-    setSelectedProject({ id: 0, title: '' });
-  }, []);
-
-  // 모집글 선택 시 타이틀 채우기
-  useEffect(() => {
-    title.length === 0 && setTitle(selectedProject.title);
-  }, [selectedProject]);
 
   // 로그인 여부 확인
   useEffect(() => {
@@ -118,6 +109,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   useEffect(() => {
     if (publishedPostData) {
       const {
+        // project_id,
         portfolio_title,
         portfolio_summary,
         portfolio_stacks,
@@ -126,6 +118,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         portfolio_github,
         portfolio_thumbnail,
       } = publishedPostData;
+      // setSelectedProject(project_id);
       setTitle(portfolio_title);
       setSummary(portfolio_summary);
       setStacks(portfolio_stacks.stackList);
@@ -136,12 +129,45 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     }
   }, [publishedPostData]);
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const paramValue = searchParams.get('selectedProject');
+
   useEffect(() => {
     //로컬스토리지에 postData가 있으면 savedPost 상태 저장
     const savedPostData = localStorage.getItem('savedPortfolioPost');
     savedPostData && setIsPostSaved(true);
+    window.scrollTo(0, 0);
 
-    titleRef.current?.focus();
+    !isMobile && titleRef.current?.focus();
+
+    // 작성 들어오면 선택한 모집글 초기화
+    setSelectedProject({ id: 0, title: '' });
+
+    // 파라미터가 있는 경우
+    if (paramValue) {
+      const getCompletedProjectList = async () => {
+        try {
+          const { data } = await Fetcher.getCompletedProject();
+          const userSelectedProject = data.completedProjects.filter(
+            (project) => project.project_id.toString() === paramValue
+          )[0];
+          if (userSelectedProject) {
+            setSelectedProject({
+              id: userSelectedProject.project_id,
+              title: userSelectedProject.project_title,
+            });
+          } else {
+            alert('권한이 없는 경로입니다.');
+            navigate(ROUTES.PORTFOLIO_CREATE);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getCompletedProjectList();
+    }
   }, []);
 
   // post패치
@@ -299,7 +325,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     convertedEditorFiles.length > 0 &&
       convertedEditorFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
-    // formData.append('projectId', selectedProject.id && null);
+    formData.append('project_id', selectedProject.id.toString());
 
     const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
       if (targetRef.current) {
@@ -413,7 +439,14 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
               관련 모집 글 선택
               <BsChevronRight />
             </button>
-            {selectedProject && <p>{selectedProject.title}</p>}
+            {selectedProject.id !== 0 && (
+              <p>
+                {selectedProject.title}
+                <button onClick={() => setSelectedProject(() => ({ id: 0, title: '' }))}>
+                  <AiFillCloseCircle />
+                </button>
+              </p>
+            )}
           </div>
         </div>
         <div className={styles.topContainer}>
