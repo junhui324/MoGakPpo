@@ -32,8 +32,15 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
   const month = today.getMonth() + 1;
   const date = today.getDate();
 
+  const timestamp = titleData && new Date(titleData.project_created_at);
+  const localDate = timestamp && new Date(timestamp.getTime());
+  // 게시글 생성 시간에 대한 정리를 합니다.
+  const now: Date = new Date();
+
   // 7일전까지는 글로 나타내고, 그 이후엔 날짜를 반환합니다.
   const projectDate = useCallback(() => {
+    if (!localDate) return;
+
     // 지금과 같은 날인지 확인합니다.
     if (now.getDate() === localDate.getDate()) {
       // 지금과 같은 시간인지 확인합니다.
@@ -58,14 +65,9 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
         : `${localDate.getFullYear()}년 ${
             localDate.getMonth() + MONTH_ADJUSTMENT
           }월 ${localDate.getDate()}일`;
-  }, [isMobile]);
+  }, [localDate, isMobile]);
 
   if (!titleData) return <></>;
-
-  const timestamp = new Date(titleData.project_created_at);
-  const localDate = new Date(timestamp.getTime());
-  // 게시글 생성 시간에 대한 정리를 합니다.
-  const now: Date = new Date();
 
   // 기타 값
   const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[titleData.project_recruitment_status];
