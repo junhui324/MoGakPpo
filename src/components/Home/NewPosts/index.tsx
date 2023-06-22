@@ -8,6 +8,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import ROUTES from '../../../constants/Routes';
 import { useMediaQuery } from 'react-responsive';
+import { PROJECT_GOAL, PROJECT_TYPE, PROJECT_RECRUITMENT_ROLES } from '../../../constants/project';
 
 export default function NewPosts() {
   const isPc = useMediaQuery({
@@ -82,25 +83,7 @@ export default function NewPosts() {
   const handleNext = () => {
     setCurrentId((curr) => (curr === totalItems - 1 ? 0 : curr + 1));
   };
-  const changeRoleName = (role: string) => {
-    switch (role) {
-      case 'BACK': {
-        return '백엔드';
-      }
-      case 'FRONT': {
-        return '프론트엔드';
-      }
-      case 'PM': {
-        return '기획';
-      }
-      case 'DESIGN': {
-        return '디자인';
-      }
-      case 'ROLE_ETC': {
-        return '기타';
-      }
-    }
-  };
+
   return (
     <div>
       {isPc && (
@@ -131,8 +114,8 @@ export default function NewPosts() {
                   <Link to={`/projects/${project.project_id}`} key={project.project_id}>
                     <div className={styles.projectContainer}>
                       <div className={styles.project}>
-                        <span className={styles.type}>{project.project_type}</span>
-                        <span className={styles.goal}>{project.project_goal}</span>
+                        <span className={styles.type}>{PROJECT_TYPE[project.project_type]}</span>
+                        <span className={styles.goal}>{PROJECT_GOAL[project.project_goal]}</span>
                         <div className={styles.titleWrapper}>
                           <h1 className={styles.title}>{project.project_title}</h1>
                           {getIsNew(project.project_created_at) && (
@@ -142,7 +125,7 @@ export default function NewPosts() {
                         <h3 className={styles.summary}>{project.project_summary}</h3>
                         <div className={styles.role}>
                           {project.project_recruitment_roles?.roleList?.map((role, index) => (
-                            <p key={`${role}-${index}`}>{changeRoleName(role)}</p>
+                            <p key={`${role}-${index}`}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
                           ))}
                         </div>
                         <div className={styles.viewWrapper}>
@@ -188,7 +171,7 @@ export default function NewPosts() {
                         <h3 className={styles.summary}>{project.project_summary}</h3>
                         <div className={styles.role}>
                           {project.project_recruitment_roles?.roleList?.map((role, index) => (
-                            <p key={`${role}-${index}`}>{changeRoleName(role)}</p>
+                            <p key={`${role}-${index}`}>{PROJECT_RECRUITMENT_ROLES[role]}</p>
                           ))}
                         </div>
                       </div>
