@@ -95,6 +95,7 @@ export async function getComment(
   message: string;
   data: {
     listLength: number;
+    originListLength: number;
     pageSize: number;
     pagenatedComments: CommentType.TypeComment[];
   };
