@@ -1,5 +1,6 @@
 import { TypeProjectTitle } from '../../interfaces/Project.interface';
 import { getIsNew } from '../../utils/getIsNew';
+import { useMediaQuery } from 'react-responsive';
 
 //스타일
 import styles from './ProjectTitle.module.scss';
@@ -8,6 +9,7 @@ import styles from './ProjectTitle.module.scss';
 import { PROJECT_TYPE, PROJECT_RECRUITMENT_STATUS } from '../../constants/project';
 import ShareButton from '../common/Share/ShareButton';
 import { useLocation } from 'react-router-dom';
+import { useCallback } from 'react';
 
 // 날짜 계산 상수
 const ONE_DAY = 1;
@@ -22,24 +24,23 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
   const location = useLocation();
   const currentLocation = location.pathname.split('/')[1];
 
+  // 반응형 레이아웃 관련
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
+
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const date = today.getDate();
 
-  if (!titleData) return <></>;
-
-  const timestamp = new Date(titleData.project_created_at);
-  const localDate = new Date(timestamp.getTime());
+  const timestamp = titleData && new Date(titleData.project_created_at);
+  const localDate = timestamp && new Date(timestamp.getTime());
   // 게시글 생성 시간에 대한 정리를 합니다.
   const now: Date = new Date();
 
-  // 기타 값
-  const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[titleData.project_recruitment_status];
-  const commentsCount: number = titleData.project_comments_count;
-
   // 7일전까지는 글로 나타내고, 그 이후엔 날짜를 반환합니다.
-  const projectDate = () => {
+  const projectDate = useCallback(() => {
+    if (!localDate) return;
+
     // 지금과 같은 날인지 확인합니다.
     if (now.getDate() === localDate.getDate()) {
       // 지금과 같은 시간인지 확인합니다.
@@ -57,10 +58,20 @@ export default function ProjectTitle({ titleData }: { titleData: TypeProjectTitl
     else if (now.getDate() - localDate.getDate() <= WEEK_DAY)
       return `${now.getDate() - localDate.getDate()}일 전`;
     else
-      return `${localDate.getFullYear()}년 ${
-        localDate.getMonth() + MONTH_ADJUSTMENT
-      }월 ${localDate.getDate()}일`;
-  };
+      return isMobile
+        ? `${localDate.getFullYear()}-${
+            localDate.getMonth() + MONTH_ADJUSTMENT
+          }-${localDate.getDate()}`
+        : `${localDate.getFullYear()}년 ${
+            localDate.getMonth() + MONTH_ADJUSTMENT
+          }월 ${localDate.getDate()}일`;
+  }, [localDate, isMobile]);
+
+  if (!titleData) return <></>;
+
+  // 기타 값
+  const recruitmentStatus = PROJECT_RECRUITMENT_STATUS[titleData.project_recruitment_status];
+  const commentsCount: number = titleData.project_comments_count;
 
   return (
     <div className={styles.container}>

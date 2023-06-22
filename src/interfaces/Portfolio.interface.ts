@@ -1,4 +1,5 @@
 interface Portfolio {
+  project_id?: number;
   portfolio_id: number;
   portfolio_title: string;
   portfolio_summary: string;
@@ -66,5 +67,6 @@ export type TypePortfolioDetail = Pick<
   | 'user_introduction'
   | 'user_name'
   | 'participated_members'
+  | 'project_id'
 >;
 export type TypeUserPortfolioPosts = TypePortfolioList[];

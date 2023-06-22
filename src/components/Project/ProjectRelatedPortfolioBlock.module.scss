@@ -6,7 +6,6 @@
   align-items: center;
 
   width: 100%;
-
   .announcement {
     font-size: 20px;
     font-weight: 500;
@@ -21,6 +20,7 @@
   }
 
   .portfolio {
+    width: 100%;
     margin: 25px 0;
 
     animation: emphasis 0.3s ease 0s 1;
