@@ -55,6 +55,7 @@ export default function ReplyInput({
             break;
         }
         checkUpdate();
+        setIsReplyClicked((prev) => !prev);
       } catch (error) {
         console.log(error);
       }

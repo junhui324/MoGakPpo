@@ -105,8 +105,8 @@ export default function CommentItem({
         };
         // 코멘트리스트 렌더링
         return (
-          <>
-            <li key={comment.comment_id} className={styles.comment}>
+          <div key={comment.comment_id}>
+            <li className={styles.comment}>
               <div className={styles.header}>
                 {comment.parent_id && (
                   <div className={styles.replyIcon}>
@@ -175,7 +175,7 @@ export default function CommentItem({
                     <ReplyInput
                       postType={postType}
                       checkUpdate={checkUpdate}
-                      parentId={comment.parent_id}
+                      parentId={comment.comment_id}
                       setIsReplyClicked={setIsReplyClicked}
                     />
                   )}
@@ -204,7 +204,7 @@ export default function CommentItem({
                 />
               )}
             </div>
-          </>
+          </div>
         );
       })}
     </>
