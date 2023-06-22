@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Comment from '../../components/Comment';
 import * as Token from '../../apis/Token';
+import { useMediaQuery } from 'react-responsive';
 
 // component
 import ProjectTitle from '../../components/Project/ProjectTitle';
@@ -31,6 +32,9 @@ function Project() {
   // 라우터 관련
   const params: { [key: string]: string | undefined } = useParams();
   const navigate = useNavigate();
+
+  // 반응형 레이아웃 관련
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
 
   // 게시글 데이터
   const projectId: number = params.id ? Number(params.id) : 0;
@@ -161,7 +165,10 @@ function Project() {
 
   return projectData ? (
     <>
-      <div className={styles.container} style={{ maxWidth: 1024, margin: '76px auto' }}>
+      <div
+        className={styles.container}
+        style={isMobile ? { margin: '20px auto' } : { maxWidth: 1024, margin: '76px auto' }}
+      >
         <div className={styles.leftContainer}>
           <ProjectTitle titleData={titleData} />
           <ProjectBody bodyData={bodyData} />
@@ -173,23 +180,7 @@ function Project() {
           {isAuthor() && (
             <ProjectModifyBlock modifyData={modifyData} fetchData={() => setIsUpdate(true)} />
           )}
-          <ProjectRelatedPortfolioBlock
-            portfolio={{
-              portfolio_id: 48,
-              portfolio_title: "우리 모두의 프로젝트 '모프'",
-              portfolio_summary:
-                '프로젝트/스터디 인원을 모집하고 프로젝트를 자랑할 수 있는 플랫폼 입니다.',
-              portfolio_thumbnail:
-                'http://34.64.242.119:5000/api/v1/static/portfolio/thumbnail-33-1687261967223-0.png',
-              portfolio_stacks: {
-                stackList: ['React', 'TypeScript', 'Sass', 'Git', 'Node.js', 'Express', 'MySQL'],
-              },
-              portfolio_bookmark_count: 20,
-              portfolio_comments_count: 10,
-              portfolio_views_count: 48,
-              portfolio_created_at: '2023-06-14T19:25:17.000Z',
-            }}
-          />
+          <ProjectRelatedPortfolioBlock portfolio={projectData.related_portfolio} />
         </div>
       </div>
       <Comment authorData={authorData} />

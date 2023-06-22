@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CgShare } from 'react-icons/cg';
+import { useMediaQuery } from 'react-responsive';
 
 // 스타일
 import styles from './ShareButton.module.scss';
