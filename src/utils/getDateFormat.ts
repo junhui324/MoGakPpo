@@ -25,15 +25,20 @@ const checkAmPm = (hour: number) => {
 };
 
 const getDateFormat = (createdAt: string) => {
-  const newDate = new Date(createdAt);
+  try {
+    const newDate = new Date(createdAt);
 
-  return `
-    ${newDate.getFullYear()}년 
-    ${Number(newDate.getMonth()) + 1}월 
-    ${newDate.getDate()}일
-    ${getKorDay(newDate.getDay())}
-    ${checkAmPm(newDate.getHours())}:${newDate.getMinutes()}:${newDate.getSeconds()}
-  `;
+    return `
+      ${newDate.getFullYear()}년 
+      ${Number(newDate.getMonth()) + 1}월 
+      ${newDate.getDate()}일
+      ${getKorDay(newDate.getDay())}
+      ${checkAmPm(newDate.getHours())}:${newDate.getMinutes()}:${newDate.getSeconds()}
+    `;
+  } catch (error) {
+    console.error(error);
+    return '유효한 날짜가 아닙니다.';
+  }
 };
 
 export default getDateFormat;
