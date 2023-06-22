@@ -75,7 +75,7 @@ export default function CommentInput({
         }
         checkUpdate();
         setIsInputClicked(!isInputClicked);
-        setCurrPage(() => Math.ceil(originCommentTotal / 10) + 1);
+        setCurrPage(() => Math.floor(originCommentTotal / 10));
       } catch (error) {
         console.log(error);
       }
