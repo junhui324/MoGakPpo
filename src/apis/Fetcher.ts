@@ -416,5 +416,5 @@ export async function getCompletedProject(): Promise<{
 export async function deleteAccount(password: object): Promise<{ message: string; data: object }> {
   const params = `users/withdrawal`;
   const data = password;
-  return await Api.delete(`http://localhost:5500/api/v1`, params, data, true);
+  return await Api.delete(API_KEY, params, data, true);
 }
