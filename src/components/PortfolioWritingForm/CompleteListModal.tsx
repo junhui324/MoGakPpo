@@ -58,13 +58,13 @@ function CompleteListModal({ setModalOpen }: CompleteListModalProps) {
         {count > 0 && projects && (
           <div className={styles.titleContainer}>
             <div className={styles.titleList}>
-              {projects.map((project, id) => {
+              {projects.map((project) => {
                 const title = project.project_title;
                 return (
                   <div
                     className={styles.title}
-                    key={`${title}-${id}`}
-                    onClick={() => handleClickTitle(id, title)}
+                    key={`${title}-${project.project_id}`}
+                    onClick={() => handleClickTitle(project.project_id, title)}
                   >
                     {project.project_id}. {title}
                   </div>

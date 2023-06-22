@@ -325,7 +325,8 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     convertedEditorFiles.length > 0 &&
       convertedEditorFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
-    formData.append('project_id', selectedProject.id.toString());
+    formData.append('project_id', JSON.stringify(selectedProject.id));
+    console.log(selectedProject);
 
     const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
       if (targetRef.current) {
