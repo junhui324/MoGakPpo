@@ -39,7 +39,7 @@ function App() {
     return () => {
       resetLogin();
     };
-  }, []);
+  }, [resetLogin]);
   return (
     <BrowserRouter>
       <Header />

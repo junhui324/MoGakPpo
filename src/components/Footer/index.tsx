@@ -49,7 +49,7 @@ export default function Footer() {
         </div>
         <div className={styles.menuList}>
           <Link
-            to="https://www.notion.so/elice/7-ICE-d58d132073614f2b8e2a425ee5325e0c?pvs=4"
+            to="https://www.notion.so/moppe/65736633f09d48a7a68be563e0e1dd0c?pvs=4"
             className={styles.linkMenu}
           >
             ICE팀의 여정
