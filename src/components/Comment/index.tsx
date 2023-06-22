@@ -42,10 +42,9 @@ export default function Comment({ authorData }: TypeCommentProps) {
     try {
       const PostType = location.pathname.split('/')[1];
       const response = await getComment(PostType, postId, currPage + 1);
-      const OriginCommentCount = comments.filter((comment) => comment.replies.length === 0).length;
       setComments(response.data.pagenatedComments);
       setCommentTotal(response.data.listLength);
-      setOriginCommentTotal(OriginCommentCount);
+      setOriginCommentTotal(response.data.originListLength);
       setTotalPageCount(response.data.pageSize);
     } catch (error) {
       console.log(error);
@@ -54,7 +53,8 @@ export default function Comment({ authorData }: TypeCommentProps) {
   useEffect(() => {
     getCommentData();
   }, [getCommentData, isListUpdated]);
-
+  console.log('index', totalPageCount);
+  console.log('current', currPage);
   return (
     <div className={styles.commentContainer}>
       <h3 className={styles.commentCount}>
