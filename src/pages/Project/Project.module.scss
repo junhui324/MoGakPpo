@@ -1,3 +1,4 @@
+@use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
 .container {
@@ -20,13 +21,16 @@
 
 @media (max-width: 768px) {
   .container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
     .leftContainer {
-      width: 80%;
+      padding: 32px 10px;
+      width: 90vw;
     }
     .rightContainer {
-      width: 80%;
+      border-top: 1px solid var(--color-border);
+      padding: 40px 20px;
+      width: 90vw;
     }
   }
 }

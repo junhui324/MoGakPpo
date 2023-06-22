@@ -163,3 +163,81 @@
     padding-bottom: 2px;
   }
 }
+
+@media (max-width: 768px) {
+  @mixin logo-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .modalContainer {
+    width: 80vw;
+    height: unset;
+    margin: 10px 0;
+
+    transition: all 0.5;
+
+    .modalText {
+      padding-bottom: 25px;
+      width: 100%;
+    }
+
+    .modalButtonBox {
+      margin-top: 25px;
+      .kakaoLogoCircle {
+        @include logo-circle;
+
+        margin: 0 6px;
+
+        .logo {
+          font-size: 40px;
+        }
+        p {
+          display: none;
+        }
+      }
+      .facebookLogoCircle {
+        @include logo-circle;
+
+        margin: 0 6px;
+
+        .logo {
+          font-size: 40px;
+        }
+        p {
+          display: none;
+        }
+      }
+      .twitterLogoCircle {
+        @include logo-circle;
+
+        margin: 0 6px;
+
+        .logo {
+          font-size: 40px;
+        }
+        p {
+          display: none;
+        }
+      }
+      .linkLogoCircle {
+        @include logo-circle;
+
+        margin: 0 6px;
+
+        .logo {
+          font-size: 40px;
+        }
+        p {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .urlTextBox {
+    textarea {
+      width: 70vw;
+    }
+  }
+}

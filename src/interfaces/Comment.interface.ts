@@ -5,7 +5,6 @@ interface Comment {
   user_img: string;
   comment_content: string;
   comment_created_at: string;
-  isDeleted: boolean;
   replies: Comment[];
   parent_id: number | null;
 }
@@ -33,7 +32,6 @@ export type TypeComment = Pick<
   | 'user_img'
   | 'comment_content'
   | 'comment_created_at'
-  | 'isDeleted'
   | 'replies'
   | 'parent_id'
 >;

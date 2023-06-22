@@ -99,11 +99,9 @@ export async function getComment(
     pagenatedComments: CommentType.TypeComment[];
   };
 }> {
-  const params = `${postType}/${projectId}/comments.json`;
-  // const params = `${postType}/${projectId}/comments`;
+  const params = `${postType}/${projectId}/comments`;
   const query = `page=${pageNumber}`;
-  return await Api.get(domain, params, false, query);
-  // return await Api.get(API_KEY, params, false, query);
+  return await Api.get(API_KEY, params, false, query);
 }
 export async function postComment<T extends 'project' | 'portfolio'>(
   postType: T,
@@ -410,4 +408,11 @@ export async function getCompletedProject(): Promise<{
   const params = `projects/recruitment`;
   const query = `status=COMPLETE`;
   return await Api.get(API_KEY, params, true, query);
+}
+
+// 회원탈퇴
+export async function deleteAccount(password: object): Promise<{ message: string; data: object }> {
+  const params = `users/withdrawal`;
+  const data = password;
+  return await Api.delete(API_KEY, params, data, true);
 }

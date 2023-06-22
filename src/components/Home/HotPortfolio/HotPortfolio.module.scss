@@ -66,7 +66,6 @@
       display: flex;
       transition: transform 0.5s ease-in-out;
       a {
-        text-decoration: 0;
         color: var(--color-text1);
       }
 
@@ -208,6 +207,7 @@
     }
 
     .slideArea {
+      width: 100% !important;
       .portfolioList {
         width: calc(90vw - 1.6rem);
         overflow-x: scroll;
@@ -216,13 +216,13 @@
           width: 90%;
           height: 0.6rem;
         }
-    
+
         &::-webkit-scrollbar-thumb {
           height: 30%;
           background: rgba(0, 0, 0, 0.2);
           border-radius: 10px;
         }
-    
+
         &::-webkit-scrollbar-track {
           background-color: var(--color-bg2);
           border-radius: 8px;

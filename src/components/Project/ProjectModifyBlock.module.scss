@@ -230,4 +230,44 @@
 }
 
 @media (max-width: 768px) {
+  .modalContainer {
+    width: 70vw;
+    height: 100px;
+    margin: 20px;
+
+    .modalText {
+      color: var(--color-text1);
+      font-size: 22px;
+      color: var(--color-text1);
+    }
+    .modalWarningText {
+      margin-top: 12px;
+      color: #cc0000;
+      font-size: 12px;
+    }
+
+    .modalButtonBox {
+      display: flex;
+      margin-top: 30px;
+
+      .completeButton {
+        @include fill-button-style;
+
+        width: 125px;
+        margin: 0 10px;
+      }
+      .deleteButton {
+        @include red-button-style;
+
+        width: 125px;
+        margin: 0 10px;
+      }
+      .cancleButton {
+        @include border-button-style;
+
+        width: 125px;
+        margin: 0 10px;
+      }
+    }
+  }
 }

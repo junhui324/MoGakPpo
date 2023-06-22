@@ -32,6 +32,7 @@ function App() {
   const isMobile = useMediaQuery({ query: '(max-width:768px)' });
   const darkMode = useRecoilValue(themeAtom);
   const isPortfolioCreatePage = window.location.pathname === ROUTES.PORTFOLIO_CREATE;
+  const isPortfolioModifyPage = window.location.pathname === `${ROUTES.PORTFOLIO_MODIFY}:id`;
 
   const resetLogin = useResetRecoilState(loginAtom);
   useEffect(() => {
@@ -71,7 +72,9 @@ function App() {
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
           <Route path={ROUTES.DELETE_ACCOUNT} element={<DeleteAccount />} />
         </Routes>
-        {isPortfolioCreatePage && isMobile ? undefined : <ChatBot />}
+        {(isPortfolioCreatePage && isMobile) || (isPortfolioModifyPage && isMobile) ? null : (
+          <ChatBot />
+        )}
       </div>
     </BrowserRouter>
   );

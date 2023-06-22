@@ -5,9 +5,12 @@ import styles from './DeleteAccount.module.scss';
 import { css } from '@emotion/react';
 import ROUTES from '../../constants/Routes';
 
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { deleteAccount } from '../../apis/Fetcher';
+import * as Token from '../../apis/Token';
+
+import { useRecoilValue, useRecoilState, useResetRecoilState } from 'recoil';
 import { themeAtom } from '../../recoil/themeState';
-import { loginAtom } from '../../recoil/loginState';
+import { loginAtom, isLoginAtom } from '../../recoil/loginState';
 
 import { RiEye2Line, RiEyeCloseLine } from 'react-icons/ri';
 
@@ -21,6 +24,9 @@ function DeleteAccount() {
 
   const LoginData = useRecoilState(loginAtom);
   const userId = LoginData[0];
+
+  const resetLogin = useResetRecoilState(loginAtom);
+  const resetIsLogin = useResetRecoilState(isLoginAtom);
 
   // 비밀번호 보여주기 / 안보여주기
   const inputType = showPassword ? 'text' : 'password';
@@ -56,15 +62,35 @@ function DeleteAccount() {
 
   const handleDeleteAccount = async () => {
     try {
-      const res = '';
+      const passwd = { user_password: password };
+      const res = await deleteAccount(passwd);
       if (password.length === 0) {
         alert('비밀번호를 입력해주세요!');
         return;
       }
-      alert('회원탈퇴가 완료되었습니다.');
-      navigate(ROUTES.MAIN);
+      if (res.message === '회원 탈퇴 성공') {
+        Token.removeToken();
+        resetLogin();
+        resetIsLogin();
+        alert('회원탈퇴가 완료되었습니다.');
+        navigate(ROUTES.MAIN);
+      }
     } catch (error) {
-      alert('비밀번호가 다릅니다.');
+      if (error instanceof Error && typeof error.message === 'string') {
+        switch (error.message) {
+          case '400':
+            alert('비밀번호가 다릅니다.');
+            break;
+          case '401':
+            alert(`토큰이 만료되었습니다.`);
+            Token.removeToken();
+            navigate(ROUTES.LOGIN);
+            break;
+          default:
+            alert(`${error}: 예기치 못한 서버 오류입니다.`);
+            navigate(ROUTES.MAIN);
+        }
+      }
     }
   };
 

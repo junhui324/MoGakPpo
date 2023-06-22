@@ -5,15 +5,15 @@ import PortfolioCell from '../PortfolioList/PortfolioCell';
 import styles from './ProjectRelatedPortfolioBlock.module.scss';
 import { HiOutlineLightBulb } from 'react-icons/hi2';
 
-function ProjectRelatedPortfolioBlock({ portfolio }: { portfolio: TypePortfolioList | null }) {
-  if (!portfolio) return <></>;
+function ProjectRelatedPortfolioBlock({ portfolio }: { portfolio: TypePortfolioList[] | null }) {
+  if (!portfolio || portfolio.length < 1) return <></>;
 
   return (
     <div className={styles.container}>
       <HiOutlineLightBulb className={styles.bulbLogo} />
       <p className={styles.announcement}>관련 프로젝트가 있어요 !</p>
       <div className={styles.portfolio}>
-        <PortfolioCell portfolio={portfolio} />
+        <PortfolioCell portfolio={portfolio[0]} />
       </div>
     </div>
   );

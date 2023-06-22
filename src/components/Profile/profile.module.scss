@@ -104,36 +104,19 @@
 
 @media screen and (max-width: 768px) {
   .profileContainer {
-    padding: 2rem;
+    padding: 2rem 2rem 0 2rem;
 
     .imageWrapper { 
 
-      .image {
-        width: 100px;
-        height: 100px;
-      }
-
-      .updateButton {
-        width: 56px;
-        height: 40px;
-        font-size: 14px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .profileContainer {
-    .imageWrapper {
       .image {
         width: 80px;
         height: 80px;
       }
 
       .updateButton {
-        width: 42px;
-        height: 30px;
-        font-size: 14px;
+        width: fit-content;
+        height: fit-content;
+        font-size: 1rem;
       }
     }
 
@@ -151,12 +134,16 @@
       }
 
       .career {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         line-height: 1rem;
       }
 
       .emptyCareer {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+      }
+
+      .emptyStack {
+        font-size: 0.9rem;
       }
 
       .stacks {

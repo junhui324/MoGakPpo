@@ -1,3 +1,5 @@
+import { TypePortfolioList } from './Portfolio.interface';
+
 interface Project {
   is_bookmarked: boolean;
   project_id: number;
@@ -24,6 +26,7 @@ interface Project {
   user_name: string;
   user_introduction: string;
   user_img: string;
+  related_portfolio: TypePortfolioList[];
 }
 
 export type TypeProject = Project;
@@ -105,8 +108,4 @@ export type TypeProjectPost = Pick<
 
 export type TypeUserProjectPosts = TypeProjectList[];
 
-export type TypeCompleteProjects = Pick<
-  Project,
-  | 'project_id'
-  | 'project_title'
->;
+export type TypeCompleteProjects = Pick<Project, 'project_id' | 'project_title'>;

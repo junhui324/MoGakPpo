@@ -89,3 +89,57 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .profileContainer {
+    width: 90%;
+    padding: 2rem 2rem 0 2rem;
+
+    .imageWrapper { 
+
+      .image {
+        width: 80px;
+        height: 80px;
+      }
+
+      .updateButton {
+        width: fit-content;
+        height: fit-content;
+        font-size: 1rem;
+      }
+    }
+
+    .introWrapper {
+      margin-top: 1rem;
+
+      .name {
+        font-size: 1rem;
+        line-height: 1rem;
+      }
+
+      .intro {
+        font-size: 1rem;
+        line-height: 1rem;
+      }
+
+      .career {
+        font-size: 0.9rem;
+        line-height: 1rem;
+      }
+
+      .emptyCareer {
+        font-size: 0.9rem;
+      }
+
+      .emptyStack {
+        font-size: 0.9rem;
+      }
+
+      .stacks {
+        .stack {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
