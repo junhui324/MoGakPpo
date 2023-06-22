@@ -53,8 +53,6 @@ export default function Comment({ authorData }: TypeCommentProps) {
   useEffect(() => {
     getCommentData();
   }, [getCommentData, isListUpdated]);
-  console.log('index', totalPageCount);
-  console.log('current', currPage);
   return (
     <div className={styles.commentContainer}>
       <h3 className={styles.commentCount}>
