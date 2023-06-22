@@ -109,7 +109,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
   useEffect(() => {
     if (publishedPostData) {
       const {
-        // project_id,
+        project_id,
         portfolio_title,
         portfolio_summary,
         portfolio_stacks,
@@ -118,7 +118,7 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
         portfolio_github,
         portfolio_thumbnail,
       } = publishedPostData;
-      // setSelectedProject(project_id);
+      setSelectedProject({ id: project_id || 0, title: `${project_id}번째 모집 글` });
       setTitle(portfolio_title);
       setSummary(portfolio_summary);
       setStacks(portfolio_stacks.stackList);
@@ -142,7 +142,8 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
     !isMobile && titleRef.current?.focus();
 
     // 작성 들어오면 선택한 모집글 초기화
-    setSelectedProject({ id: 0, title: '' });
+    const isModifyPath = location.pathname.includes('modify');
+    !isModifyPath && setSelectedProject({ id: 0, title: '' });
 
     // 파라미터가 있는 경우
     if (paramValue) {
@@ -326,7 +327,6 @@ function PortfolioWriting({ editMode, publishedPostData }: PortfolioWritingProps
       convertedEditorFiles.forEach((file) => formData.append('portfolio_img', file as File));
     formData.append('memberIds', JSON.stringify(members.map((info) => info.user_id) || []));
     formData.append('project_id', JSON.stringify(selectedProject.id));
-    console.log(selectedProject);
 
     const refFocusAndScroll = (targetRef: RefObject<HTMLElement | Quill>) => {
       if (targetRef.current) {
