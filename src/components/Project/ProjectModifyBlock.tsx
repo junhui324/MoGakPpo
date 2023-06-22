@@ -56,17 +56,19 @@ const DeleteModal = ({ onClick }: { onClick: (isOk: boolean) => void }) => {
 
 function RecruitmentCompleteButton({
   recruitmentStatus,
-  onClick,
+  onRecruitmentClick,
+  onShowOffClick,
 }: {
   recruitmentStatus: string;
-  onClick: () => void;
+  onRecruitmentClick: () => void;
+  onShowOffClick: () => void;
 }) {
   return recruitmentStatus === RECRUITING ? (
-    <button className={styles.recruitingButton} onClick={onClick}>
+    <button className={styles.recruitingButton} onClick={onRecruitmentClick}>
       모집 완료 하기
     </button>
   ) : recruitmentStatus === COMPLETE ? (
-    <button disabled={true} className={styles.showOffButton}>
+    <button className={styles.showOffButton} onClick={onShowOffClick}>
       프로젝트 자랑 하러 가기
     </button>
   ) : (
@@ -167,7 +169,7 @@ export default function ProjectModifyBlock({
   };
 
   const handleModifyClick = () => {
-    navigate(`/modify`);
+    navigate(`${ROUTES.MODIFY_PROJECT}`);
   };
 
   const handleDeleteClick = () => {
@@ -183,7 +185,13 @@ export default function ProjectModifyBlock({
       <div className={styles.container}>
         <RecruitmentCompleteButton
           recruitmentStatus={recruitmentStatus}
-          onClick={() => setIsCompleteModalOpen(true)}
+          onRecruitmentClick={() => setIsCompleteModalOpen(true)}
+          onShowOffClick={() => {
+            const originRoute = `${ROUTES.PORTFOLIO_CREATE}`;
+            const targetRoute =
+              originRoute.slice(0, -1) + `?selectedProject=${modifyData.project_id}`;
+            navigate(targetRoute);
+          }}
         />
         <div className={styles.modifyContainer}>
           <ModifyAndDeleteButton

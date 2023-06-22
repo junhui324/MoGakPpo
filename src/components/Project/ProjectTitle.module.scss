@@ -1,6 +1,8 @@
 @use '/src/theme.scss' as *;
 @import '/src/variables.scss';
 
+$mobile-margin-size: 16px;
+
 .container {
   div:nth-child(1) {
     margin-bottom: 20px;
@@ -55,55 +57,32 @@
 @media (max-width: 768px) {
   .container {
     div:nth-child(1) {
-      margin-bottom: 20px;
+      margin-bottom: $mobile-margin-size;
 
       .category {
-        margin-right: 8px;
-        padding: 2px 6px 2px 6px;
-        color: var(--color-text3);
-        font-size: 16px;
+        font-size: 12px;
         border-radius: 4px;
-        background-color: var(--color-bg2);
       }
     }
 
     div:nth-child(2) {
-      margin-bottom: 20px;
+      margin-bottom: $mobile-margin-size;
 
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 22px;
 
-      .statusRecruiting {
-        color: var(--color-green);
-      }
-      .statusDone {
-        color: var(--color-text3);
-      }
       .after {
-        margin-left: 8px;
-        margin-right: 8px;
-        font-weight: 400;
-        color: var(--color-text2);
+        line-height: 22px;
+        margin-left: 4px;
+        margin-right: 4px;
       }
 
       .title {
-        line-height: 36px;
+        font-size: 22px;
+        line-height: 32px;
         max-width: 90%;
         word-break: break-all;
         white-space: pre-wrap;
       }
-      .new {
-        display: inline-block;
-        margin: 0 6px;
-
-        color: var(--color-blue);
-        font-size: 18px;
-      }
-    }
-
-    div:nth-child(3) {
-      display: flex;
-      color: var(--color-text3);
     }
   }
 }
