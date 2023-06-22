@@ -72,7 +72,7 @@ function App() {
           <Route path={ROUTES.PORTFOLIO_LIST} element={<PortfolioList />} />
           <Route path={ROUTES.DELETE_ACCOUNT} element={<DeleteAccount />} />
         </Routes>
-        {(isPortfolioCreatePage && isMobile) || (isPortfolioModifyPage && isMobile) ? null : (
+        {(isPortfolioCreatePage && isMobile) || (isPortfolioModifyPage && isMobile) ? undefined : (
           <ChatBot />
         )}
       </div>
