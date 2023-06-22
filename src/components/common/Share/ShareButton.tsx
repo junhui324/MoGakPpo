@@ -112,7 +112,7 @@ ${title}
           </button>
         </div>
       </div>
-      {true && (
+      {isCopy && (
         <div className={styles.urlTextBox}>
           <span>Ctrl + C로 복사해주세요 !</span>
           <textarea ref={urlTextRef} value={url} readOnly />
