@@ -37,6 +37,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "win_build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -60,6 +61,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@jest/globals": "^29.5.0",
