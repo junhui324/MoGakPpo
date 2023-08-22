@@ -92,7 +92,8 @@
 
 ## 💜 기술스택
 
-![image](/uploads/08cbf3ec37a90f1bd57c1dd5311c9d8e/image.png)
+![image](https://github.com/junhui324/MoGakPpo/assets/122953242/3fea0aff-46da-4a23-974c-5ee2e1ea36f6)
+
 
 ## 💜 API 문서
 
