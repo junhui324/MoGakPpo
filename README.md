@@ -2,9 +2,7 @@
 
 ## 💜 데모사이트
 
-![image](/uploads/22c167075cc97d3baa7d5e1014f76722/image.png)
-
-💡 http://kdt-sw-4-team07.elicecoding.com/
+💡 [모프 : 모두의 프로젝트 (moppe.co.kr)](https://moppe.co.kr/)
 
 **테스트 계정**
   - 아이디 : admin@gmail.com
